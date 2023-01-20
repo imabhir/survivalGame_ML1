@@ -1,0 +1,7 @@
+{
+  "__type__": "cc.TextAsset",
+  "_name": "walls",
+  "_objFlags": 0,
+  "_native": "",
+  "text": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<tileset version=\"1.5\" tiledversion=\"1.7.2\" name=\"walls\" tilewidth=\"532\" tileheight=\"480\" tilecount=\"3\" columns=\"0\">\n <grid orientation=\"orthogonal\" width=\"1\" height=\"1\"/>\n <tile id=\"4\">\n  <image width=\"485\" height=\"475\" source=\"right wall.png\"/>\n </tile>\n <tile id=\"7\">\n  <image width=\"293\" height=\"359\" source=\"left wall back.png\"/>\n </tile>\n <tile id=\"8\">\n  <image width=\"532\" height=\"480\" source=\"left wall front.png\"/>\n </tile>\n</tileset>\n"
+}

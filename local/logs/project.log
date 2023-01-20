@@ -1,0 +1,472 @@
+2023-01-20T10:37:10.935Z - log: [Package] menu@1.0.0 enable
+2023-01-20T10:37:10.936Z - log: [Package] profile@1.0.0 enable
+2023-01-20T10:37:10.940Z - log: [Package] project@1.0.2 enable
+2023-01-20T10:37:10.942Z - log: [Package] messages@1.0.0 enable
+2023-01-20T10:37:10.944Z - log: [Package] program@1.0.0 enable
+2023-01-20T10:37:10.946Z - log: [Package] tester@1.0.0 enable
+2023-01-20T10:37:10.948Z - log: [Package] preferences@1.0.0 enable
+2023-01-20T10:37:12.808Z - log: Load engine in /Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/resources/3d/engine
+2023-01-20T10:37:13.049Z - log: Profile changed: engine (modules.includeModules: 2d,animation,audio,base,dragon-bones,gfx-webgl,gfx-webgl2,intersection-2d,marionette,particle-2d,physics-2d-box2d,profiler,skeletal-animation,spine,tiled-map,tween,ui,video,webview,xr)
+2023-01-20T10:37:13.054Z - log: Register native engine in /Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/resources/3d/engine/native
+2023-01-20T10:37:13.056Z - log: [Package] engine@1.0.6 enable
+2023-01-20T10:37:13.724Z - log: [Package] programming@1.0.0 enable
+2023-01-20T10:37:13.755Z - warn: 
+2023-01-20T10:37:13.775Z - warn: 
+2023-01-20T10:37:13.985Z - log: [Package] device@1.0.1 enable
+2023-01-20T10:37:14.014Z - log: [Package] ui-kit@1.0.1 enable
+2023-01-20T10:37:14.039Z - log: [Package] engine-extends@1.0.0 enable
+2023-01-20T10:37:14.084Z - log: [Package] asset-db@1.0.0 enable
+2023-01-20T10:37:14.084Z - warn: 
+2023-01-20T10:37:14.116Z - log: [Package] scene@1.0.0 enable
+2023-01-20T10:37:14.215Z - log: [Package] server@1.0.0 enable
+2023-01-20T10:37:14.241Z - log: [Package] utils@1.0.0 enable
+2023-01-20T10:37:14.670Z - warn: Browserslist: caniuse-lite is outdated. Please run:
+npx browserslist@latest --update-db
+
+Why you should do it regularly:
+https://github.com/browserslist/browserslist#browsers-data-updating
+2023-01-20T10:37:16.414Z - warn: 
+2023-01-20T10:37:16.414Z - warn: 
+2023-01-20T10:37:16.414Z - warn: 
+2023-01-20T10:37:16.423Z - warn: 
+2023-01-20T10:37:16.423Z - warn: 
+2023-01-20T10:37:16.423Z - warn: 
+2023-01-20T10:37:17.201Z - warn: 
+2023-01-20T10:37:17.235Z - log: [Package] preview@1.0.1 enable
+2023-01-20T10:37:17.264Z - log: [Package] animator@1.0.0 enable
+2023-01-20T10:37:17.298Z - log: pluginManager init: 0.084ms
+2023-01-20T10:37:17.260Z - warn: [Programming] Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme[Programming] Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme  
+at Logger.record (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/node_modules/@base/electron-logger/lib/renderer.ccc:1:458)  
+at console.warn (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/node_modules/@base/electron-logger/lib/renderer.ccc:1:1260)  
+at Object.oldDataWarning (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/node_modules/@cocos/creator-programming-mod-lo/node_modules/browserslist/node.js:386:15)  
+at browserslist (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/node_modules/@cocos/creator-programming-mod-lo/node_modules/browserslist/index.js:394:7)  
+at resolveTargets (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/node_modules/@cocos/creator-programming-mod-lo/node_modules/@babel/helper-compilation-targets/lib/index.js:165:20)  
+at getTargets (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/node_modules/@cocos/creator-programming-mod-lo/node_modules/@babel/helper-compilation-targets/lib/index.js:210:27)  
+at getLocalTargets (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/node_modules/@cocos/creator-programming-mod-lo/node_modules/@babel/preset-env/lib/index.js:227:48)  
+at /Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/node_modules/@cocos/creator-programming-mod-lo/node_modules/@babel/preset-env/lib/index.js:288:15
+2023-01-20T10:37:17.400Z - warn: 
+2023-01-20T10:37:17.400Z - warn: 
+2023-01-20T10:37:17.400Z - warn: 
+2023-01-20T10:37:17.975Z - log: [Package] builder@1.3.3 enable
+2023-01-20T10:37:18.002Z - log: [Package] shortcuts@1.0.1 enable
+2023-01-20T10:37:18.028Z - log: [Package] animation-graph@1.0.0 enable
+2023-01-20T10:37:18.055Z - log: [Package] about@1.0.0 enable
+2023-01-20T10:37:18.083Z - log: [Package] assets@1.0.0 enable
+2023-01-20T10:37:18.110Z - log: [Package] console@1.0.0 enable
+2023-01-20T10:37:18.220Z - log: [Package] extension@3.0.16 enable
+2023-01-20T10:37:18.247Z - log: [Package] hierarchy@1.0.0 enable
+2023-01-20T10:37:18.275Z - log: [Package] inspector@1.0.0 enable
+2023-01-20T10:37:18.302Z - log: [Package] lightmap@1.0.4 enable
+2023-01-20T10:37:18.543Z - log: [Package] localization-editor@1.0.0 enable
+2023-01-20T10:37:18.549Z - log: [Build-plugin] register pkg localization-editor: 4.432ms
+2023-01-20T10:37:18.575Z - log: [Package] node-library@1.0.1 enable
+2023-01-20T10:37:18.601Z - log: [Package] package-asset@1.0.0 enable
+2023-01-20T10:37:18.626Z - log: [Package] process@1.0.0 enable
+2023-01-20T10:37:18.653Z - log: [Package] reference-image@1.0.0 enable
+2023-01-20T10:37:18.678Z - log: [Package] alipay-mini-game@1.0.1 enable
+2023-01-20T10:37:18.680Z - log: [Build-plugin] register pkg alipay-mini-game: 0.969ms
+2023-01-20T10:37:18.702Z - log: [Package] android@1.0.1 enable
+2023-01-20T10:37:18.705Z - log: [Build-plugin] register pkg android: 2.79ms
+2023-01-20T10:37:18.729Z - log: [Package] baidu-mini-game@1.0.1 enable
+2023-01-20T10:37:18.731Z - log: [Build-plugin] register pkg baidu-mini-game: 1.707ms
+2023-01-20T10:37:18.775Z - log: [Package] bytedance-mini-game@1.0.2 enable
+2023-01-20T10:37:18.776Z - log: [Build-plugin] register pkg bytedance-mini-game: 1.165ms
+2023-01-20T10:37:18.800Z - log: [Package] certificate@1.0.0 enable
+2023-01-20T10:37:18.826Z - log: [Package] channel-upload-tools@1.0.0 enable
+2023-01-20T10:37:18.852Z - log: [Package] cocos-play@1.0.1 enable
+2023-01-20T10:37:18.855Z - log: [Build-plugin] register pkg cocos-play: 2.028ms
+2023-01-20T10:37:18.880Z - log: [Package] huawei-agc@1.0.0 enable
+2023-01-20T10:37:18.882Z - log: [Build-plugin] register pkg huawei-agc: 1.824ms
+2023-01-20T10:37:18.908Z - log: [Package] huawei-quick-game@1.0.1 enable
+2023-01-20T10:37:18.910Z - log: [Build-plugin] register pkg huawei-quick-game: 2.167ms
+2023-01-20T10:37:19.093Z - warn: ios:Developer team information not found
+2023-01-20T10:37:19.093Z - warn: Command failed: xcrun security find-identity -v -p codesigning
+xcrun: error: invalid active developer path (/Library/Developer/CommandLineTools), missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun
+Error: Command failed: xcrun security find-identity -v -p codesigning
+xcrun: error: invalid active developer path (/Library/Developer/CommandLineTools), missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun
+
+    at checkExecSyncError (child_process.js:625:11)
+    at Object.execSync (child_process.js:661:15)
+    at Object.execSync (electron/js2c/asar_bundle.js:5:12288)
+    at Object.findSignIdentify (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/modules/platform-extensions/extensions/ios/dist/builder/utils.ccc:1:4162)
+    at Object.queryTeamInfo (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/modules/platform-extensions/extensions/ios/dist/browser/index.ccc:1:331)
+    at Package.load (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/modules/platform-extensions/extensions/ios/dist/browser/index.ccc:1:235)
+    at Package.execLifeFunc (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/node_modules/@editor/package/dist/browser/package.ccc:1:1181)
+    at Package.enable (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/node_modules/@editor/package/dist/browser/package.ccc:1:3339)
+    at PackageManager.enable (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/node_modules/@editor/package/dist/browser/index.js:1:1743)
+    at Object.<anonymous> (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/node_modules/@editor/creator/dist/package/browser/index.ccc:1:7461)
+2023-01-20T10:37:19.096Z - log: [Package] ios@1.0.0 enable
+2023-01-20T10:37:19.099Z - log: [Build-plugin] register pkg ios: 3.322ms
+2023-01-20T10:37:19.124Z - log: [Package] linux@1.0.0 enable
+2023-01-20T10:37:19.125Z - log: [Build-plugin] register pkg linux: 0.573ms
+2023-01-20T10:37:19.150Z - log: [Package] mac@1.0.0 enable
+2023-01-20T10:37:19.153Z - log: [Build-plugin] register pkg mac: 2.325ms
+2023-01-20T10:37:19.219Z - log: [Package] native@1.0.2 enable
+2023-01-20T10:37:19.223Z - log: [Build-plugin] register pkg native: 3.915ms
+2023-01-20T10:37:19.247Z - log: [Package] ohos@1.0.0 enable
+2023-01-20T10:37:19.249Z - log: [Build-plugin] register pkg ohos: 1.803ms
+2023-01-20T10:37:19.274Z - log: [Package] open-harmonyos@1.0.0 enable
+2023-01-20T10:37:19.275Z - log: [Build-plugin] register pkg open-harmonyos: 0.493ms
+2023-01-20T10:37:19.301Z - log: [Package] oppo-mini-game@1.0.1 enable
+2023-01-20T10:37:19.303Z - log: [Build-plugin] register pkg oppo-mini-game: 1.94ms
+2023-01-20T10:37:19.329Z - log: [Package] runtime-dev-tools@1.0.0 enable
+2023-01-20T10:37:19.354Z - log: [Package] vivo-mini-game@1.0.1 enable
+2023-01-20T10:37:19.356Z - log: [Build-plugin] register pkg vivo-mini-game: 2.112ms
+2023-01-20T10:37:19.391Z - log: [Package] web-desktop@1.0.1 enable
+2023-01-20T10:37:19.393Z - log: [Build-plugin] register pkg web-desktop: 1.704ms
+2023-01-20T10:37:19.420Z - log: [Package] web-mobile@1.0.1 enable
+2023-01-20T10:37:19.422Z - log: [Build-plugin] register pkg web-mobile: 1.713ms
+2023-01-20T10:37:19.447Z - log: [Package] wechatgame@1.0.2 enable
+2023-01-20T10:37:19.450Z - log: [Build-plugin] register pkg wechatgame: 2.521ms
+2023-01-20T10:37:19.474Z - log: [Package] windows@1.0.1 enable
+2023-01-20T10:37:19.476Z - log: [Build-plugin] register pkg windows: 1.549ms
+2023-01-20T10:37:19.502Z - log: [Package] xiaomi-quick-game@1.0.1 enable
+2023-01-20T10:37:19.504Z - log: [Build-plugin] register pkg xiaomi-quick-game: 2.102ms
+2023-01-20T10:37:19.645Z - log: [Package] cocos-service@3.0.4 enable
+2023-01-20T10:37:19.646Z - log: [Build-plugin] register pkg cocos-service: 1.04ms
+2023-01-20T10:37:19.805Z - log: [Im-plugin] Check im-plugin version.
+2023-01-20T10:37:19.808Z - log: [Package] im-plugin@3.0.9 enable
+2023-01-20T10:37:20.241Z - error: get session failed
+2023-01-20T10:37:20.241Z - error: {
+  err: Error: write EPROTO 5352712184:error:1000042e:SSL routines:OPENSSL_internal:TLSV1_ALERT_PROTOCOL_VERSION:../../third_party/boringssl/src/ssl/tls_record.cc:594:SSL alert number 70
+  
+      at WriteWrap.onWriteComplete [as oncomplete] (internal/stream_base_commons.js:94:16) {
+    errno: -100,
+    code: 'EPROTO',
+    syscall: 'write'
+  }
+}
+2023-01-20T10:37:20.636Z - error: getImSetting failed
+2023-01-20T10:37:20.636Z - log: [Im-plugin] No online info of im-plugin.
+2023-01-20T10:37:20.979Z - error: getImSetting failed
+2023-01-20T10:37:21.855Z - log: [Scene] Please specifiy a default value for "cc.EditorExtendable.__editorExtras__" property at its declaration:
+
+ 
+// Before:
+@property(...)
+myProp;
+// After:
+@property(...)
+myProp = 0;
+2023-01-20T10:37:21.872Z - log: [Scene] Please specifiy a default value for "CCPropertyOverrideInfo.value" property at its declaration:
+
+ 
+// Before:
+@property(...)
+myProp;
+// After:
+@property(...)
+myProp = 0;
+2023-01-20T10:37:21.872Z - log: [Scene] Please specifiy a default value for "cc.PrefabInfo.asset" property at its declaration:
+
+ 
+// Before:
+@property(...)
+myProp;
+// After:
+@property(...)
+myProp = 0;
+2023-01-20T10:37:21.872Z - log: [Scene] Please specifiy a default value for "cc.PrefabInfo.nestedPrefabInstanceRoots" property at its declaration:
+
+ 
+// Before:
+@property(...)
+myProp;
+// After:
+@property(...)
+myProp = 0;
+2023-01-20T10:37:21.876Z - log: [Scene] The 'default' attribute of 'ColorDesc.beginAccesses' must be an array
+2023-01-20T10:37:21.877Z - log: [Scene] The 'default' attribute of 'ColorDesc.endAccesses' must be an array
+2023-01-20T10:37:21.884Z - log: [Scene] Please specifiy a default value for "cc.animation.TrackBinding.proxy" property at its declaration:
+
+ 
+// Before:
+@property(...)
+myProp;
+// After:
+@property(...)
+myProp = 0;
+2023-01-20T10:37:21.885Z - log: [Scene] Please specifiy a default value for "cc.animation.Channel._curve" property at its declaration:
+
+ 
+// Before:
+@property(...)
+myProp;
+// After:
+@property(...)
+myProp = 0;
+2023-01-20T10:37:21.885Z - log: [Scene] Please specifiy a default value for "cc.animation.SingleChannelTrack._channel" property at its declaration:
+
+ 
+// Before:
+@property(...)
+myProp;
+// After:
+@property(...)
+myProp = 0;
+2023-01-20T10:37:21.885Z - log: [Scene] Please specifiy a default value for "cc.animation.VectorTrack._channels" property at its declaration:
+
+ 
+// Before:
+@property(...)
+myProp;
+// After:
+@property(...)
+myProp = 0;
+2023-01-20T10:37:21.886Z - log: [Scene] Please specifiy a default value for "cc.animation.ColorTrack._channels" property at its declaration:
+
+ 
+// Before:
+@property(...)
+myProp;
+// After:
+@property(...)
+myProp = 0;
+2023-01-20T10:37:21.886Z - log: [Scene] Please specifiy a default value for "cc.animation.SizeTrack._channels" property at its declaration:
+
+ 
+// Before:
+@property(...)
+myProp;
+// After:
+@property(...)
+myProp = 0;
+2023-01-20T10:37:21.886Z - log: [Scene] Please specifiy a default value for "cc.animation.Transition.from" property at its declaration:
+
+ 
+// Before:
+@property(...)
+myProp;
+// After:
+@property(...)
+myProp = 0;
+2023-01-20T10:37:21.886Z - log: [Scene] Please specifiy a default value for "cc.animation.Transition.to" property at its declaration:
+
+ 
+// Before:
+@property(...)
+myProp;
+// After:
+@property(...)
+myProp = 0;
+2023-01-20T10:37:21.886Z - log: [Scene] Please specifiy a default value for "cc.animation.StateMachine._entryState" property at its declaration:
+
+ 
+// Before:
+@property(...)
+myProp;
+// After:
+@property(...)
+myProp = 0;
+2023-01-20T10:37:21.886Z - log: [Scene] Please specifiy a default value for "cc.animation.StateMachine._exitState" property at its declaration:
+
+ 
+// Before:
+@property(...)
+myProp;
+// After:
+@property(...)
+myProp = 0;
+2023-01-20T10:37:21.886Z - log: [Scene] Please specifiy a default value for "cc.animation.StateMachine._anyState" property at its declaration:
+
+ 
+// Before:
+@property(...)
+myProp;
+// After:
+@property(...)
+myProp = 0;
+2023-01-20T10:37:21.886Z - log: [Scene] Please specifiy a default value for "cc.animation.Layer._stateMachine" property at its declaration:
+
+ 
+// Before:
+@property(...)
+myProp;
+// After:
+@property(...)
+myProp = 0;
+2023-01-20T10:37:21.887Z - log: [Scene] Please specifiy a default value for "cc.animation.ExoticVectorLikeTrackValues._values" property at its declaration:
+
+ 
+// Before:
+@property(...)
+myProp;
+// After:
+@property(...)
+myProp = 0;
+2023-01-20T10:37:21.887Z - log: [Scene] Please specifiy a default value for "cc.animation.ExoticVectorLikeTrackValues._isQuantized" property at its declaration:
+
+ 
+// Before:
+@property(...)
+myProp;
+// After:
+@property(...)
+myProp = 0;
+2023-01-20T10:37:21.887Z - log: [Scene] Please specifiy a default value for "cc.animation.ExoticTrack.times" property at its declaration:
+
+ 
+// Before:
+@property(...)
+myProp;
+// After:
+@property(...)
+myProp = 0;
+2023-01-20T10:37:21.887Z - log: [Scene] Please specifiy a default value for "cc.animation.ExoticTrack.values" property at its declaration:
+
+ 
+// Before:
+@property(...)
+myProp;
+// After:
+@property(...)
+myProp = 0;
+2023-01-20T10:37:21.887Z - log: [Scene] Please specifiy a default value for "cc.animation.QuantizedFloatArray.originalPrecision" property at its declaration:
+
+ 
+// Before:
+@property(...)
+myProp;
+// After:
+@property(...)
+myProp = 0;
+2023-01-20T10:37:21.887Z - log: [Scene] Please specifiy a default value for "cc.animation.QuantizedFloatArray.min" property at its declaration:
+
+ 
+// Before:
+@property(...)
+myProp;
+// After:
+@property(...)
+myProp = 0;
+2023-01-20T10:37:21.887Z - log: [Scene] Please specifiy a default value for "cc.animation.QuantizedFloatArray.extent" property at its declaration:
+
+ 
+// Before:
+@property(...)
+myProp;
+// After:
+@property(...)
+myProp = 0;
+2023-01-20T10:37:21.887Z - log: [Scene] Please specifiy a default value for "cc.animation.QuantizedFloatArray.values" property at its declaration:
+
+ 
+// Before:
+@property(...)
+myProp;
+// After:
+@property(...)
+myProp = 0;
+2023-01-20T10:37:21.913Z - log: [Scene] 'cc.ParticleSystem2D.color' hides inherited property 'cc.UIRenderer.color'. To make the current property override that implementation, add the `override: true` attribute please.
+2023-01-20T10:37:21.944Z - log: [Scene] No needs to indicate the 'cc.Boolean' attribute for "cc.Terrain._receiveShadow", which its default value is type of Boolean.
+2023-01-20T10:37:21.944Z - log: [Scene] No needs to indicate the 'cc.Boolean' attribute for "cc.Terrain._useNormalmap", which its default value is type of Boolean.
+2023-01-20T10:37:21.944Z - log: [Scene] No needs to indicate the 'cc.Boolean' attribute for "cc.Terrain._usePBR", which its default value is type of Boolean.
+2023-01-20T10:37:21.944Z - log: [Scene] No needs to indicate the 'cc.Boolean' attribute for "cc.Terrain._lodEnable", which its default value is type of Boolean.
+2023-01-20T10:37:22.014Z - info: [Scene] [Physics][Bullet]: Using asmjs Bullet libs.
+2023-01-20T10:37:22.022Z - info: [Scene] [PHYSICS]: using builtin.
+2023-01-20T10:37:22.135Z - log: [Scene] Cocos Creator v3.6.1
+2023-01-20T10:37:22.135Z - info: [Scene] Forward render pipeline initialized.
+2023-01-20T10:37:22.950Z - log: [Scene] cocos2d: TMXFormat: Unsupported TMX version: 1.5
+2023-01-20T11:03:09.547Z - log: [Scene] cocos2d: TMXFormat: Unsupported TMX version: 1.5
+2023-01-20T11:03:09.574Z - log: [Window] Deprecated as of 10.7.0. highlight(lang, code, ...args) has been deprecated.
+2023-01-20T11:03:09.574Z - log: [Window] Deprecated as of 10.7.0. Please use highlight(code, options) instead.
+https://github.com/highlightjs/highlight.js/issues/2277
+2023-01-20T11:06:19.437Z - warn: Please set the application in Preferences -> External Programs -> Default Script Editor to better open the script
+2023-01-20T11:10:26.526Z - error: [Scene] {hidden(::SceneExecutorImportExceptionHandler::)} Error: SyntaxError: /file:/Users/abhishekrawat/tiledMap2/assets/Script/PlayerMovement.ts: Missing semicolon. (21:10)
+
+  19 |     update(deltaTime: number) {}
+  20 | }
+> 21 | touchEnd() {
+     |           ^
+  22 |     this.stopPlayer = false;
+  23 |     console.log("end");
+  24 |     this.joyStickBall.setPosition(0, 0, 0);
+    at Object.execute (file:///Users/abhishekrawat/tiledMap2/temp/programming/packer-driver/targets/editor/chunks/c2/data:text/javascript,%0A%2F%2F%20This%20module%20is%20auto-generated%20to%20report%20error%20emitted%20when%20try%20to%20load%20module%20file%3A%2F%2F%2FUsers%2Fabhishekrawat%2FtiledMap2%2Fassets%2FScript%2FPlayerMovement.ts%20at%20runtime.%0Athrow%20new%20Error(%60SyntaxError%3A%20%2Ffile%3A%2FUsers%2Fabhishekrawat%2FtiledMap2%2Fassets%2FScript%2FPlayerMovement.ts%3A%20Missing%20semicolon.%20(21%3A10)%0A%0A%20%2019%20%7C%20%20%20%20%20update(deltaTime%3A%20number)%20%7B%7D%0A%20%2020%20%7C%20%7D%0A%3E%2021%20%7C%20touchEnd()%20%7B%0A%20%20%20%20%20%7C%20%20%20%20%20%20%20%20%20%20%20%5E%0A%20%2022%20%7C%20%20%20%20%20this.stopPlayer%20%3D%20false%3B%0A%20%2023%20%7C%20%20%20%20%20console.log(%22end%22)%3B%0A%20%2024%20%7C%20%20%20%20%20this.joyStickBall.setPosition(0%2C%200%2C%200)%3B%60)%3B%0A%20%20%20%20%20%20%20%20:3:7)
+    at doExec (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/node_modules/@editor/lib-programming/static/executor/systemjs-bridge/out/index.js:517:30)
+    at postOrderExec (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/node_modules/@editor/lib-programming/static/executor/systemjs-bridge/out/index.js:508:21)
+    at /Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/node_modules/@editor/lib-programming/static/executor/systemjs-bridge/out/index.js:440:12
+    at file:///Users/abhishekrawat/tiledMap2/temp/programming/packer-driver/targets/editor/chunks/48/cce:/internal/x/prerequisite-imports:8:13
+    at Object.execute (file:///Users/abhishekrawat/tiledMap2/temp/programming/packer-driver/targets/editor/chunks/48/cce:/internal/x/prerequisite-imports:4:1)
+    at Executor._importPrerequisiteModules (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/node_modules/@editor/lib-programming/src/executor/index.ts:263:13)
+    at Executor.reload (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/node_modules/@editor/lib-programming/src/executor/index.ts:151:9)
+    at GlobalEnv.record (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/builtin/scene/dist/script/3d/manager/scripts.ccc:1:1847)Error: [Scene] {hidden(::SceneExecutorImportExceptionHandler::)} Error: SyntaxError: /file:/Users/abhishekrawat/tiledMap2/assets/Script/PlayerMovement.ts: Missing semicolon. (21:10)
+
+  19 |     update(deltaTime: number) {}
+  20 | }
+> 21 | touchEnd() {
+  24 |     this.joyStickBall.setPosition(0, 0, 0);
+    at Object.execute (file:///Users/abhishekrawat/tiledMap2/temp/programming/packer-driver/targets/editor/chunks/c2/data:text/javascript,%0A%2F%2F%20This%20module%20is%20auto-generated%20to%20report%20error%20emitted%20when%20try%20to%20load%20module%20file%3A%2F%2F%2FUsers%2Fabhishekrawat%2FtiledMap2%2Fassets%2FScript%2FPlayerMovement.ts%20at%20runtime.%0Athrow%20new%20Error(%60SyntaxError%3A%20%2Ffile%3A%2FUsers%2Fabhishekrawat%2FtiledMap2%2Fassets%2FScript%2FPlayerMovement.ts%3A%20Missing%20semicolon.%20(21%3A10)%0A%0A%20%2019%20%7C%20%20%20%20%20update(deltaTime%3A%20number)%20%7B%7D%0A%20%2020%20%7C%20%7D%0A%3E%2021%20%7C%20touchEnd()%20%7B%0A%20%20%20%20%20%7C%20%20%20%20%20%20%20%20%20%20%20%5E%0A%20%2022%20%7C%20%20%20%20%20this.stopPlayer%20%3D%20false%3B%0A%20%2023%20%7C%20%20%20%20%20console.log(%22end%22)%3B%0A%20%2024%20%7C%20%20%20%20%20this.joyStickBall.setPosition(0%2C%200%2C%200)%3B%60)%3B%0A%20%20%20%20%20%20%20%20:3:7)
+    at doExec (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/node_modules/@editor/lib-programming/static/executor/systemjs-bridge/out/index.js:517:30)
+    at postOrderExec (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/node_modules/@editor/lib-programming/static/executor/systemjs-bridge/out/index.js:508:21)
+    at /Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/node_modules/@editor/lib-programming/static/executor/systemjs-bridge/out/index.js:440:12
+    at file:///Users/abhishekrawat/tiledMap2/temp/programming/packer-driver/targets/editor/chunks/48/cce:/internal/x/prerequisite-imports:8:13
+    at Object.execute (file:///Users/abhishekrawat/tiledMap2/temp/programming/packer-driver/targets/editor/chunks/48/cce:/internal/x/prerequisite-imports:4:1)
+    at Executor._importPrerequisiteModules (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/node_modules/@editor/lib-programming/src/executor/index.ts:263:13)
+    at Executor.reload (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/node_modules/@editor/lib-programming/src/executor/index.ts:151:9)
+    at GlobalEnv.record (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/builtin/scene/dist/script/3d/manager/scripts.ccc:1:1847)
+    at Logger._logHandler (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/builtin/scene/dist/script/3d/manager/startup/log.ccc:1:318)
+    at Logger.record (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/node_modules/@base/electron-logger/lib/renderer.ccc:1:458)
+    at console.error (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/node_modules/@base/electron-logger/lib/renderer.ccc:1:1414)
+    at ScriptManager._handleImportException (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/builtin/scene/dist/script/3d/manager/scripts.ccc:1:5375)
+    at Executor.importExceptionHandler [as _importExceptionHandler] (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/builtin/scene/dist/script/3d/manager/scripts.ccc:1:3367)
+    at Executor._onModuleLoaded (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/node_modules/@editor/lib-programming/src/executor/index.ts:312:22)
+    at SystemJS.onload (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/node_modules/@editor/lib-programming/src/executor/index.ts:73:18)
+    at triggerOnload (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/node_modules/@editor/lib-programming/static/executor/systemjs-bridge/out/index.js:270:10)
+    at doExec (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/node_modules/@editor/lib-programming/static/executor/systemjs-bridge/out/index.js:538:7)
+    at postOrderExec (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/node_modules/@editor/lib-programming/static/executor/systemjs-bridge/out/index.js:508:21)
+2023-01-20T11:10:26.529Z - warn: [Scene] Missing class: 64b1bMaJVBI2Y02IyMS+ys1Error: [Scene] Missing class: 64b1bMaJVBI2Y02IyMS+ys1
+    at Object.classFinder (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/builtin/engine/dist/editor-extends/missing-reporter/missing-class-reporter.ccc:1:2131)
+    at _Deserializer.classFinder [as _classFinder] (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/resources/3d/engine/bin/.cache/dev/editor/bundled/index.js:93437:34)
+    at _Deserializer._deserializeTypeTaggedObject (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/resources/3d/engine/bin/.cache/dev/editor/bundled/index.js:112348:30)
+    at _Deserializer._deserializeObject (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/resources/3d/engine/bin/.cache/dev/editor/bundled/index.js:112289:29)
+    at _Deserializer._deserializeAndAssignField (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/resources/3d/engine/bin/.cache/dev/editor/bundled/index.js:112497:38)
+    at _Deserializer._deserializeArray (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/resources/3d/engine/bin/.cache/dev/editor/bundled/index.js:112323:40)
+    at _Deserializer._deserializeObject (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/resources/3d/engine/bin/.cache/dev/editor/bundled/index.js:112295:29)
+2023-01-20T11:10:26.555Z - error: [Scene] Script "64b1bMaJVBI2Y02IyMS+ys1" attached to "Controler" is missing or invalid. Detailed information:
+Node path: "Canvas/Controler"
+Script UUID: "64b1b31a-2550-48d9-8d36-232312fb2b35"
+Class ID: "64b1bMaJVBI2Y02IyMS+ys1"
+Error: [Scene] Script "64b1bMaJVBI2Y02IyMS+ys1" attached to "Controler" is missing or invalid. Detailed information:
+Node path: "Canvas/Controler"
+Script UUID: "64b1b31a-2550-48d9-8d36-232312fb2b35"
+Class ID: "64b1bMaJVBI2Y02IyMS+ys1"
+
+    at report (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/builtin/engine/dist/editor-extends/missing-reporter/missing-class-reporter.ccc:1:1156)
+    at reportByWalker (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/builtin/engine/dist/editor-extends/missing-reporter/missing-class-reporter.ccc:1:1252)
+    at /Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/builtin/engine/dist/editor-extends/missing-reporter/missing-class-reporter.ccc:1:1893
+    at ObjectWalkerBehavior.walk (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/builtin/engine/dist/editor-extends/missing-reporter/object-walker.ccc:1:2365)
+    at ObjectWalkerBehavior.forEach (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/builtin/engine/dist/editor-extends/missing-reporter/object-walker.ccc:1:825)
+    at ObjectWalkerBehavior.parseObject (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/builtin/engine/dist/editor-extends/missing-reporter/object-walker.ccc:1:306)
+    at doWalkProperties (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/builtin/engine/dist/editor-extends/missing-reporter/object-walker.ccc:1:2158)
+2023-01-20T11:10:26.564Z - log: [Scene] cocos2d: TMXFormat: Unsupported TMX version: 1.5
+2023-01-20T11:11:11.296Z - error: [Scene] Can't add component 'dragonBones.ArmatureDisplay' to Player because it conflicts with the existing 'cc.Sprite' derived component.Error: Can't add component 'dragonBones.ArmatureDisplay' to Player because it conflicts with the existing 'cc.Sprite' derived component.
+    at Node.eval [as _checkMultipleComp] (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/resources/3d/engine/bin/.cache/dev/editor/bundled/index.js:145751:19)
+    at Node.addComponent (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/resources/3d/engine/bin/.cache/dev/editor/bundled/index.js:146970:18)
+    at NodeManager.createComponent (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/builtin/scene/dist/script/3d/manager/node/index.ccc:1:10723)
+    at GeneralSceneFacade.createComponent (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/builtin/scene/dist/script/3d/facade/general-scene-facade.ccc:1:9875)
+    at SceneFacadeManager.createComponent (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/builtin/scene/dist/script/3d/facade/scene-facade-manager.ccc:1:13453)
+    at step (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/builtin/scene/dist/script/3d/manager/ipc/web/ipc.ccc:1:720)
+    at /Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/builtin/scene/dist/script/3d/manager/ipc/web/ipc.ccc:1:1613
+    at new Promise (<anonymous>)
+    at /Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/builtin/scene/dist/script/3d/manager/ipc/web/ipc.ccc:1:1550
+    at EventEmitter.<anonymous> (/Applications/CocosCreator/Creator/3.6.1/CocosCreator.app/Contents/Resources/app.asar/builtin/scene/dist/script/3d/manager/ipc/web/webview.ccc:1:1059)
+2023-01-20T11:13:21.438Z - log: [Scene] cocos2d: TMXFormat: Unsupported TMX version: 1.5
+2023-01-20T11:16:17.633Z - log: [Scene] cocos2d: TMXFormat: Unsupported TMX version: 1.5
+2023-01-20T11:17:36.863Z - log: [Scene] cocos2d: TMXFormat: Unsupported TMX version: 1.5
+2023-01-20T11:20:09.598Z - log: [Scene] cocos2d: TMXFormat: Unsupported TMX version: 1.5
+2023-01-20T11:21:01.552Z - log: [Scene] cocos2d: TMXFormat: Unsupported TMX version: 1.5
+2023-01-20T11:28:34.936Z - log: [Scene] cocos2d: TMXFormat: Unsupported TMX version: 1.5
+2023-01-20T11:29:21.137Z - log: [Scene] cocos2d: TMXFormat: Unsupported TMX version: 1.5
+2023-01-20T11:52:26.700Z - log: [Scene] cocos2d: TMXFormat: Unsupported TMX version: 1.5
+2023-01-20T11:54:12.596Z - log: [Scene] cocos2d: TMXFormat: Unsupported TMX version: 1.5
+2023-01-20T11:54:18.048Z - log: [Scene] cocos2d: TMXFormat: Unsupported TMX version: 1.5
+2023-01-20T11:54:26.778Z - log: [Scene] cocos2d: TMXFormat: Unsupported TMX version: 1.5
+2023-01-20T11:56:01.356Z - log: [Scene] cocos2d: TMXFormat: Unsupported TMX version: 1.5
+2023-01-20T12:06:04.059Z - log: [Scene] cocos2d: TMXFormat: Unsupported TMX version: 1.5
+2023-01-20T12:07:31.071Z - log: [Scene] cocos2d: TMXFormat: Unsupported TMX version: 1.5
+2023-01-20T12:14:26.915Z - log: [Scene] cocos2d: TMXFormat: Unsupported TMX version: 1.5
+2023-01-20T12:18:23.231Z - log: [Scene] cocos2d: TMXFormat: Unsupported TMX version: 1.5

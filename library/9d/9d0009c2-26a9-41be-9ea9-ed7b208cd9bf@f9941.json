@@ -1,0 +1,90 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "roomMan",
+    "atlas": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "width": 36,
+      "height": 85
+    },
+    "offset": {
+      "x": 0,
+      "y": 0
+    },
+    "originalSize": {
+      "width": 36,
+      "height": 85
+    },
+    "rotated": false,
+    "capInsets": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "vertices": {
+      "rawPosition": [
+        -18,
+        -42.5,
+        0,
+        18,
+        -42.5,
+        0,
+        -18,
+        42.5,
+        0,
+        18,
+        42.5,
+        0
+      ],
+      "indexes": [
+        0,
+        1,
+        2,
+        2,
+        1,
+        3
+      ],
+      "uv": [
+        0,
+        85,
+        36,
+        85,
+        0,
+        0,
+        36,
+        0
+      ],
+      "nuv": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        1,
+        1,
+        1
+      ],
+      "minPos": {
+        "x": -18,
+        "y": -42.5,
+        "z": 0
+      },
+      "maxPos": {
+        "x": 18,
+        "y": 42.5,
+        "z": 0
+      }
+    },
+    "texture": "9d0009c2-26a9-41be-9ea9-ed7b208cd9bf@6c48a",
+    "packable": true,
+    "pixelsToUnit": 100,
+    "pivot": {
+      "x": 0.5,
+      "y": 0.5
+    },
+    "meshType": 0
+  }
+}
