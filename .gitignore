@@ -1,3 +1,9 @@
-./temp
-./profiles/v2/packages
-./build
+
+
+
+library/
+temp/
+local/
+build/
+profiles/
+native
