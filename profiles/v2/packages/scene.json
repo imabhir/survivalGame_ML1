@@ -1,21 +1,23 @@
 {
+  "__version__": "1.0.0",
+  "builder": {},
   "gizmos-infos": {
     "is2D": true,
     "is3DIcon": false,
     "iconSize": 2,
     "gridVisible": true,
     "gridColor": [
-      150,
-      150,
-      150,
+      166,
+      166,
+      166,
       255
     ],
     "isIconGizmo3D": false,
     "iconGizmoSize": 2,
     "isGridVisible": true
   },
-  "scene": {
-    "native": false
+  "": {
+    "sculpt_brush_rotate": 0
   },
   "camera": {
     "fov": 45,
@@ -38,8 +40,8 @@
   "camera-infos": {
     "c77ecaa8-c936-46c4-a5b0-98692673ed87": {
       "position": {
-        "x": 406.3196824602904,
-        "y": 444.90590294276325,
+        "x": 512,
+        "y": 512,
         "z": 5000
       },
       "rotation": {
@@ -56,8 +58,44 @@
     },
     "573a695d-7f20-40cd-bfdc-d8239a9a413f": {
       "position": {
-        "x": 671.3397953936314,
-        "y": 342.3499474469982,
+        "x": 520.4678232580204,
+        "y": 273.5192136549384,
+        "z": 5000
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "viewCenter": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    "fc217d1f-1edf-4e9d-9756-baaec88658d1": {
+      "position": {
+        "x": 554.8112057317927,
+        "y": 513.1326639734244,
+        "z": 5000
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "viewCenter": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    "eeac7a92-bfc4-4395-953b-0b8c719e5407": {
+      "position": {
+        "x": 654.7103121165308,
+        "y": 515.71626155234,
         "z": 5000
       },
       "rotation": {
@@ -74,19 +112,6 @@
     }
   },
   "camera-uuids": [
-    "573a695d-7f20-40cd-bfdc-d8239a9a413f"
-  ],
-  "float-window": {
-    "position": {
-      "cc": {
-        "Camera": {
-          "dock": false,
-          "top": null,
-          "bottom": 10,
-          "left": null,
-          "right": 10
-        }
-      }
-    }
-  }
+    "fc217d1f-1edf-4e9d-9756-baaec88658d1"
+  ]
 }
