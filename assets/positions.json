@@ -1,0 +1,52 @@
+[
+    {
+        "obj": {
+            "x": -360.573,
+            "y": -2.026,
+            "z": 0
+        },
+        "isFixed": true,
+        "itemType": 3,
+        "angle": 45
+    },
+    {
+        "obj": {
+            "x": -188.389,
+            "y": 0,
+            "z": 0
+        },
+        "isFixed": false,
+        "itemType": 1,
+        "angle": 90
+    },
+    {
+        "obj": {
+            "x": 14.18,
+            "y": 0,
+            "z": 0
+        },
+        "isFixed": false,
+        "itemType": 1,
+        "angle": 90
+    },
+    {
+        "obj": {
+            "x": 216.749,
+            "y": 0,
+            "z": 0
+        },
+        "isFixed": false,
+        "itemType": 2,
+        "angle": 90
+    },
+    {
+        "obj": {
+            "x": 390.958,
+            "y": 0,
+            "z": 0
+        },
+        "isFixed": true,
+        "itemType": 4,
+        "angle": 45
+    }
+]

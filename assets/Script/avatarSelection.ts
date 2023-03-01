@@ -20,7 +20,6 @@ export class avatarSelection extends Component {
             const avatar = instantiate(this.avatar);
             this.pageView.content.addChild(avatar);
             avatar.getChildByName("Name").getComponent(Label).string = this.names[i]
-            
         }
     }
 
@@ -32,11 +31,7 @@ export class avatarSelection extends Component {
     changeAvatarBackWard(){
         let currentIndex = this.pageView.getCurrentPageIndex();
         console.log(currentIndex);
-        if(currentIndex == 0){
-            // this.pageView.bo = 2;
-        }
         this.pageView.setCurrentPageIndex(currentIndex-1)
-        
     }
 
 

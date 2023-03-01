@@ -7,5 +7,8 @@
   },
   "dependencies": {
     "touch": "^3.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.14.2"
   }
 }
