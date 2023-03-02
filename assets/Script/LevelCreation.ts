@@ -5,7 +5,6 @@ const { ccclass, property } = _decorator;
 
 @ccclass('LevelCreation')
 export class LevelCreation extends Component {
-    
     Mainarray = []
     onLoad(){
         let array = this.node.children;
@@ -17,6 +16,7 @@ export class LevelCreation extends Component {
             let itemObj = {obj, "isFixed": isfixed, "itemType": itemType, "angle": element.angle}
             this.Mainarray.push(itemObj)
         })
+        console.log(this.Mainarray);
     }
 
     start() {

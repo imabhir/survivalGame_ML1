@@ -1,0 +1,32 @@
+[
+  {
+    "obj": {
+      "x": 303.283,
+      "y": 0,
+      "z": 0
+    },
+    "isFixed": true,
+    "itemType": 4,
+    "angle": 0
+  },
+  {
+    "obj": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "isFixed": false,
+    "itemType": 1,
+    "angle": 0
+  },
+  {
+    "obj": {
+      "x": -199.326,
+      "y": 0,
+      "z": 0
+    },
+    "isFixed": true,
+    "itemType": 3,
+    "angle": 0
+  }
+]

@@ -16,60 +16,26 @@ export class MiniGame1 extends Component {
     @property({type: JsonAsset})
     positions: JsonAsset = null;
 
-   
-    numberSticks = 3;
-    numberThunder = 2;
-    numberBulb = this.numberThunder;
-    angle = [0, 90, 0]
+    @property({type: JsonAsset})
+    get levelData(){
+     return this.positions
+    }
+    set levelData(value){
+        this.positions = value;
+        this.node.destroyAllChildren()
+        // this.updateLevel(this.positions.json)
+    }
+
+    
+    notFixed = 0;
     onLoad(){
+        this.node.parent.getChildByName("completed").active = false;
+        this.updateLevel(this.positions.json)
         // this.node.addChild(this.thunder);
         // this.thunder.setPosition(this.positions.json[0].obj.x, this.positions.json[0].obj.y)
         // this.thunder.angle = this.positions.json[0].angle;
         // this.node.parent.getChildByName("completed").active = false;
-        // // this.sticks();
-        // this.setThunder();
-        // this.setSticks();
-
-
-        let itemsInfo:itemDataType[] = [];
-        itemsInfo = this.positions.json;
-        console.log(itemsInfo);
-        
-        itemsInfo.forEach(element => {
-
-            let item:Node=null;
-            switch(element.itemType){
-                case ITEM_TYPE.BEGIN:{
-                    item = instantiate(this.stick);
-                }break;
-                case ITEM_TYPE.END:{
-                    item = instantiate(this.stick);
-                }break
-                case ITEM_TYPE.L_SHAPED:{
-                    item = instantiate(this.stick);
-                }break
-                case ITEM_TYPE.STRAIGHT:{
-                    item = instantiate(this.stick);
-                }break
-            }
-
-            if(item){
-                console.log("Item Added");
-                
-                console.log(element);
-                
-                item.setPosition(new Vec3(element.obj.x,element.obj.y,element.obj.z));
-                item.setPosition(Vec3.ZERO);
-                item.angle = element.angle;
-                
-                item.getComponent(levelItem).isFixed = element.isFixed;
-                this.node.addChild(item);
-            }
-        });
-    }
-
-    setItems = () => {
-        
+        // this.sticks();
     }
 
     // sticks = () => {
@@ -106,10 +72,97 @@ export class MiniGame1 extends Component {
     //         }
     //     })
     // }
+    len = 0;
+    updateLevel = (itemsInfo:itemDataType[]) => {
+        // let itemsInfo:itemDataType[] = [];
+        // itemsInfo = this.positions.json
+        console.log(itemsInfo);
+
+        itemsInfo.forEach(element => {
+            if(!element.isFixed){
+                this.notFixed++;
+            }
+        })
+        
+
+        /**
+         * Iterating the json file and checking each asset's types and creating the instance according to the type
+         */
+        itemsInfo.forEach(element => {
+            let item:Node=null;
+            switch(element.itemType){
+                case ITEM_TYPE.BEGIN:{
+                    console.log("Thunder");
+                    
+                    item = instantiate(this.thunder);
+                }break;
+                case ITEM_TYPE.END:{
+                    console.log("Bulb");
+                    
+                    item = instantiate(this.bulb);
+                }break;
+                case ITEM_TYPE.L_SHAPED:{
+                    console.log("stickL");
+                    item = instantiate(this.stick);
+                    
+                }break;
+                case ITEM_TYPE.STRAIGHT:{
+                    console.log("stickS");
+                    item = instantiate(this.stick);
+                    
+                }break;
+            }
+            // Setting the properties
+            if(item){
+                // console.log("Item Added");
+                
+                // console.log(element);
+                
+                item.setPosition(new Vec3(element.obj.x,element.obj.y,element.obj.z));
+                // item.setPosition(Vec3.ZERO);
+                item.getComponent(levelItem).resultantAngle = element.angle;
+                // console.log(item.getComponent(levelItem).resultantAngle);
+                
+                item.getComponent(levelItem).isFixed = element.isFixed;
+                if(!element.isFixed){
+                    item.angle = randomRangeInt(0,2)*90;
+                    if(item.angle == item.getComponent(levelItem).resultantAngle){
+                        this.len++;
+                    }
+                    if(this.len == this.notFixed){
+                        console.log("Completed");
+                    }
+                    
+                    // Touch event on items which are not fixed
+                    item.on(Input.EventType.TOUCH_START, this.checkPos)
+                }else{
+                    item.angle = element.angle;
+                }
+                this.node.addChild(item);
+            }
+        });
+        
+    }
+    
+    checkPos = (event) => {
+        if(event.target.angle == 0){
+            event.target.angle = 90;
+        }else{
+            event.target.angle = 0;
+        }
+
+        if(event.target.angle == event.target.getComponent(levelItem).resultantAngle){
+            this.len++;
+            if(this.len == this.notFixed){
+                console.log("Completed");
+                this.node.parent.getChildByName("completed").active = true;
+            }
+        }
+    }
 
 
     start() {
-
+        
     }
 
     update(deltaTime: number) {

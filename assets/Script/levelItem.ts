@@ -28,6 +28,8 @@ export class levelItem extends Component {
     @property({type: Boolean})
     isFixed: Boolean = false
 
+    resultantAngle:number;
+
     start() {
 
     }
