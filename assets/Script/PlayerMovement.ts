@@ -32,12 +32,12 @@ export class PlayerMovement extends Component {
     }
     touchEnd() {
         this.stopPlayer = false;
-        console.log("end");
+        //console.log("end");
         this.joyStickBall.setPosition(0, 0, 0);
     }
     touchStart() {
         this.joyStickBall.setPosition(0, 0, 0);
-        console.log("start");
+        //console.log("start");
     }
     touchMove(e) {
         this.stopPlayer = true;
@@ -46,7 +46,7 @@ export class PlayerMovement extends Component {
             .convertToNodeSpaceAR(new Vec3(e.getUILocation().x, e.getUILocation().y, e.getUILocation().z));
         // var finalPosBall: Vec3;
         var len = this.intialPos.length();
-        console.log("len", len);
+        //console.log("len", len);
         var joyStickBallBaseWidth = this.joyStickBall.parent.getComponent(UITransform).getBoundingBox().width / 2;
         if (len > joyStickBallBaseWidth) {
             this.intialPos.x = (this.intialPos.x * joyStickBallBaseWidth) / len;
@@ -57,7 +57,7 @@ export class PlayerMovement extends Component {
         var dx = this.intialPos.x;
         var angleRad = Math.atan2(dy, dx);
         var angleDeg = (angleRad * 180) / Math.PI;
-        console.log("angle ", angleDeg, angleRad);
+        //console.log("angle ", angleDeg, angleRad);
         this.getDirection(angleDeg);
         this.joyStickBall.setPosition(this.intialPos);
     }
@@ -84,55 +84,55 @@ export class PlayerMovement extends Component {
         switch (walkDirection) {
             case "North":
                 {
-                    console.log(walkDirection);
+                    //console.log(walkDirection);
                     this.node.getComponent(Animation)?.play("north");
                 }
                 break;
             case "East":
                 {
-                    console.log(walkDirection);
+                    //console.log(walkDirection);
                     this.node.getComponent(Animation)?.play("east");
                 }
                 break;
             case "South":
                 {
-                    console.log(walkDirection);
+                    //console.log(walkDirection);
                     this.node.getComponent(Animation)?.play("south");
                 }
                 break;
             case "West":
                 {
-                    console.log(walkDirection);
+                    //console.log(walkDirection);
                     this.node.getComponent(Animation)?.play("west");
                 }
                 break;
             case "North_East":
                 {
-                    console.log(walkDirection);
+                    //console.log(walkDirection);
                     this.node.getComponent(Animation)?.play("northEast");
                 }
                 break;
             case "North_West":
                 {
-                    console.log(walkDirection);
+                    //console.log(walkDirection);
                     this.node.getComponent(Animation)?.play("northWest");
                 }
                 break;
             case "South_East":
                 {
-                    console.log(walkDirection);
+                    //console.log(walkDirection);
                     this.node.getComponent(Animation)?.play("southEast");
                 }
                 break;
             case "South_West":
                 {
-                    console.log(walkDirection);
+                    //console.log(walkDirection);
                     this.node.getComponent(Animation)?.play("southWest");
                 }
                 break;
         }
     }
-    changeSprite() {}
+    changeSprite() { }
     update(deltaTime: number) {
         if (this.stopPlayer) {
             this.pos = new Vec2(this.startPos.x - this.intialPos.x, this.startPos.y - this.intialPos.y);
