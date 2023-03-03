@@ -2,13 +2,12 @@
   "ver": "1.1.40",
   "importer": "prefab",
   "imported": true,
-  "uuid": "fd7cebc9-5574-45e8-8d6e-ce0e87319b3c",
+  "uuid": "d2f899c8-38a7-4d69-bd1a-13c695164abb",
   "files": [
     ".json"
   ],
   "subMetas": {},
   "userData": {
-    "syncNodeName": "Hero",
-    "persistent": true
+    "syncNodeName": "Gears"
   }
 }

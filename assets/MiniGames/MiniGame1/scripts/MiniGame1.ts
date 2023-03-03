@@ -26,8 +26,7 @@ export class MiniGame1 extends Component {
         // this.updateLevel(this.positions.json)
     }
 
-    
-    notFixed = 0;
+
     onLoad(){
         this.node.parent.getChildByName("completed").active = false;
         this.updateLevel(this.positions.json)
@@ -72,19 +71,8 @@ export class MiniGame1 extends Component {
     //         }
     //     })
     // }
-    len = 0;
+   
     updateLevel = (itemsInfo:itemDataType[]) => {
-        // let itemsInfo:itemDataType[] = [];
-        // itemsInfo = this.positions.json
-        console.log(itemsInfo);
-
-        itemsInfo.forEach(element => {
-            if(!element.isFixed){
-                this.notFixed++;
-            }
-        })
-        
-
         /**
          * Iterating the json file and checking each asset's types and creating the instance according to the type
          */
@@ -114,50 +102,55 @@ export class MiniGame1 extends Component {
             }
             // Setting the properties
             if(item){
-                // console.log("Item Added");
-                
-                // console.log(element);
-                
                 item.setPosition(new Vec3(element.obj.x,element.obj.y,element.obj.z));
                 // item.setPosition(Vec3.ZERO);
                 item.getComponent(levelItem).resultantAngle = element.angle;
-                // console.log(item.getComponent(levelItem).resultantAngle);
-                
                 item.getComponent(levelItem).isFixed = element.isFixed;
-                if(!element.isFixed){
-                    item.angle = randomRangeInt(0,2)*90;
-                    if(item.angle == item.getComponent(levelItem).resultantAngle){
-                        this.len++;
-                    }
-                    if(this.len == this.notFixed){
-                        console.log("Completed");
-                    }
-                    
-                    // Touch event on items which are not fixed
-                    item.on(Input.EventType.TOUCH_START, this.checkPos)
-                }else{
-                    item.angle = element.angle;
-                }
                 this.node.addChild(item);
             }
         });
-        
+        this.randomize();
+    }
+
+    randomize = () => {
+        do{
+            this.node.children.forEach((element, index) => {
+                if(!element.getComponent(levelItem).isFixed){
+                    element.angle = randomRangeInt(0,2)*90;    
+                     
+                    // Touch event on items which are not fixed
+                    element.on(Input.EventType.TOUCH_START, this.checkPos)
+                }
+                else{
+                    element.angle = this.positions.json[index].angle
+                }
+            })
+        }while(this.gameCompleted());
     }
     
     checkPos = (event) => {
         if(event.target.angle == 0){
             event.target.angle = 90;
-        }else{
+        }else if(event.target.angle == 90){
             event.target.angle = 0;
         }
 
-        if(event.target.angle == event.target.getComponent(levelItem).resultantAngle){
-            this.len++;
-            if(this.len == this.notFixed){
-                console.log("Completed");
-                this.node.parent.getChildByName("completed").active = true;
-            }
+        if(this.gameCompleted()){
+            this.node.parent.getChildByName("completed").active = true;
+        }else{
+            this.node.parent.getChildByName("completed").active = false;
         }
+    }
+
+    gameCompleted = () => {
+        let flag = true;
+        this.node.children.forEach(element => {
+            if(element.angle != element.getComponent(levelItem).resultantAngle){
+                flag = false;
+            }
+        })
+        console.log(flag);
+        return flag
     }
 
 
