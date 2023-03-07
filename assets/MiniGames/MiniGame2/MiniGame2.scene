@@ -570,12 +570,11 @@
       "__uuid__": "bb85ecec-5381-48ec-a91c-b1ef3837506f",
       "__expectedType__": "cc.Prefab"
     },
-    "levels": {
-      "__uuid__": "4fb4c951-5d85-4f5b-b7b5-f76c91c2f4ad",
-      "__expectedType__": "cc.JsonAsset"
-    },
     "transparentGears": {
       "__id__": 9
+    },
+    "NormalGears": {
+      "__id__": 7
     },
     "_id": "77Dj8O6ONDaowDMYbXTCLm"
   },

@@ -32,7 +32,7 @@ export class LevelCreation extends Component {
             }
         })
 
-        console.log(this.Mainarray1);
+        // console.log(this.Mainarray1);
     }
 
     gearsPositioning = () => {
@@ -49,7 +49,6 @@ export class LevelCreation extends Component {
         })
         this.Mainarray2.push(mainObj)
         console.log(this.Mainarray2);
-        
     }
 
     start() {
