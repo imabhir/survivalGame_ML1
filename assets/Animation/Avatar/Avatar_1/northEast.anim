@@ -3,6 +3,9 @@
     "__type__": "cc.AnimationClip",
     "_name": "northEast",
     "_objFlags": 0,
+    "__editorExtras__": {
+      "embeddedPlayerGroups": []
+    },
     "_native": "",
     "sample": 60,
     "speed": 0.1,
@@ -15,8 +18,9 @@
         "__id__": 1
       }
     ],
+    "_exoticAnimation": null,
     "_events": [],
-    "_exoticAnimation": null
+    "_embeddedPlayers": []
   },
   {
     "__type__": "cc.animation.ObjectTrack",
@@ -24,7 +28,8 @@
       "__type__": "cc.animation.TrackBinding",
       "path": {
         "__id__": 2
-      }
+      },
+      "proxy": null
     },
     "_channel": {
       "__id__": 4

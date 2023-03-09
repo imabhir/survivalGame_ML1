@@ -2,10 +2,10 @@
   "ver": "1.0.0",
   "importer": "*",
   "imported": true,
-  "uuid": "53706f4f-a016-4c60-92ac-02b04417acc1",
+  "uuid": "48160f41-9916-46de-a682-478979b6dfbe",
   "files": [
     ".json",
-    ".tiled-project"
+    ".tiled-session"
   ],
   "subMetas": {},
   "userData": {}
