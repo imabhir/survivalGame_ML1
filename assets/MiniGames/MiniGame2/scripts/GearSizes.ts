@@ -25,14 +25,19 @@ export class MiniGame2 extends Component {
     newGear;
     totalCount = 0;
     checkCount = 0;
-    taskCompleted = false;
+    taskCompleted: Boolean = false;
     onLoad(){
+        this.node.parent.getChildByName("taskCompleted").active = false;
         this.setGearSizes();
     }
 
+    /**
+     * This function is used for setting gears of different sizes which can be dragged and can be put in correct place
+     */
     setGearSizes = () => {
         this.GearSize.json.forEach((element, index) => {
             const gear = instantiate(this.gears);
+
             // Touch Event on gears
             gear.on(Input.EventType.TOUCH_START, this.createImage)
             gear.on(Input.EventType.TOUCH_MOVE, this.drag)
@@ -44,6 +49,8 @@ export class MiniGame2 extends Component {
             gear.getChildByName("Sprite").getComponent(UITransform).height = element.size.height
             gear.getChildByName("Sprite").getComponent(UITransform).width = element.size.width
             gear.getChildByName("Label").getComponent(Label).string = `${element.count}`;
+
+            // Regular expression for fetching numbers from a string expression
             this.totalCount+= Number(element.count.replace(/\D/g, ''))
             this.node.addChild(gear);
         })
@@ -51,7 +58,10 @@ export class MiniGame2 extends Component {
     }
 
 
-   
+   /**
+    * 
+    * @param event This is the event which is passed as touch start occurs
+    */
     createImage = (event) => {
         console.log(event.target.getChildByName("Label").getComponent(Label).string);
         
@@ -64,14 +74,16 @@ export class MiniGame2 extends Component {
 
             this.newGear.setPosition(this.startPos);
             this.node.addChild(this.newGear);
-            this.checkCount++;
             
         }else{
             this.newGear = null;
         }
     }
 
-
+    /**
+     * 
+     * @param event This is the event which is passed as touch move occurs
+     */
     drag = (event) => {
         if(this.newGear){
             this.newGear.setWorldPosition(event.getUILocation().x, event.getUILocation().y, 0)
@@ -79,7 +91,9 @@ export class MiniGame2 extends Component {
     }
 
     
-
+    /**
+     * This is the function which is executed when item is placed at invalid place
+     */
     dragToStart = () => {
         tween(this.newGear)
             .to(0.95, {position: new Vec3(this.startPos.x, this.startPos.y, this.startPos.z)})
@@ -95,8 +109,15 @@ export class MiniGame2 extends Component {
         this.NormalGears.children.forEach((element) => {
             tween(element).by(2, {angle: -360}).repeatForever().start()
         })
+        this.transparentGears.children.forEach((element) => {
+            tween(element).by(2, {angle: -360}).repeatForever().start()
+        })
     }
 
+    /**
+     * 
+     * @param event is the event which is passed as touch cancel occurs
+     */
     checkPosition = (event) => {
         let flag = true;
         if(this.newGear){
@@ -110,15 +131,34 @@ export class MiniGame2 extends Component {
 
                     
                     const elementBoundingBox = element.getComponent(UITransform).getBoundingBoxToWorld()
-                    
+
+                    // When item is placed at valid position
                     if(elementBoundingBox.contains(targetPosition)){
                         if(targetHeight == element.getComponent(UITransform).height && targetWidth == element.getComponent(UITransform).width){
-                            console.log("Completed");
+                            
+                            this.node.parent.getChildByName("taskCompleted").active = true;
+
                             this.newGear.setWorldPosition(new Vec3(elementPosition.x, elementPosition.y, elementPosition.z))
+                            
                             let currentCount = event.target.getChildByName("Label").getComponent(Label).string.replace(/\D/g, '')
                             event.target.getChildByName("Label").getComponent(Label).string = `X ${Number(currentCount)-1}`;
                             flag = false;
-                        }else{
+                            this.checkCount++;
+                            if(this.checkCount == this.totalCount && !this.taskCompleted){
+                                this.rotateSprites();
+                                this.node.parent.getChildByName("taskCompleted").active = true;
+                                this.taskCompleted = true
+                            }
+                            
+                            // Making correct mark disappear after 1 second if an item is placed at correct position
+                            if(!this.taskCompleted){
+                                setTimeout(() => {
+                                    this.node.parent.getChildByName("taskCompleted").active = false;
+                                }, 1000);
+                            }
+                        }
+                        // When an item is placed at invalid position
+                        else{
                             this.dragToStart()
                             flag = false;
                         }
@@ -129,10 +169,7 @@ export class MiniGame2 extends Component {
                 this.dragToStart();
             }
 
-            if(this.checkCount == this.totalCount && !this.taskCompleted){
-                this.rotateSprites();
-                this.taskCompleted = true
-            }
+            
         }
     }
     

@@ -19,6 +19,7 @@ export class subBackground extends Component {
     }
 
     gameInstantiation = () => {
+        // Setting of left gears which is of different sizes which can be dragged
         this.levels.json.forEach((element) => {
             let Gears = this.node.getChildByName("NormalGears")
             element.Gears.forEach((element) => {
@@ -30,6 +31,7 @@ export class subBackground extends Component {
                 Gears.addChild(gearSprite)
             })
 
+            // Setting of game gears on which item is to be placed
             let TransparentGears = this.node.getChildByName("TransparentGears")
             element.TransparentGears.forEach((element) => {
                 const transparentGear = instantiate(this.transparentGears);

@@ -14,8 +14,6 @@ export class LevelCreation extends Component {
 
     onLoad(){
         // this.getGearSize();
-        console.log("Onload");
-        
         this.gearsPositioning();
     }
 
@@ -31,10 +29,11 @@ export class LevelCreation extends Component {
                 this.Mainarray1.push(obj)
             }
         })
-
-        // console.log(this.Mainarray1);
     }
 
+    /**
+     * Positioning of gears which is fetched from json file
+     */
     gearsPositioning = () => {
         let gears = this.NormalGears.children
         let transparentGears = this.transparentGears.children
