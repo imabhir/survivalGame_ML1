@@ -6,23 +6,13 @@ export class MiniGame3 extends Component {
     onLoad(){
         // const g = this.node.getComponent(Graphics)
         // g.fillColor = Color.GREEN
-        // g.circle(50, 20, 100)
+        // // const pos = this.node.getPosition()
+        // g.circle(0, 0, 50)
         // g.stroke();
         // g.fill()
-        // // this.node.on(Input.EventType.TOUCH_START, this.fillReqColor)
     }
 
-    // fillReqColor = (event) => {
-    //     const newNodeG = this.node.parent.getChildByName("Node").getComponent(Graphics)
-    //     const reqColor = event.target.fillColor
-    //     newNodeG.circle(512,2,200)
-    //     newNodeG.fillColor = reqColor
-    //     newNodeG.stroke()
-    //     newNodeG.fill()
-    //     console.log(reqColor);
-    // }
-
-
+    
     start() {
 
     }

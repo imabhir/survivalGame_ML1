@@ -61,11 +61,10 @@ export class MiniGame2 extends Component {
     * @param event This is the event which is passed as touch start occurs
     */
     createImage = (event) => {
-        console.log(event.target.getChildByName("Label").getComponent(Label).string);
-        
         if(event.target.getChildByName("Label").getComponent(Label).string != "X 0"){
             this.newGear = instantiate(this.gearImage)
-            this.startPos = event.target.getPosition();
+            this.startPos = event.target.getPosition()
+            console.log(this.startPos);
             
             this.newGear.getComponent(UITransform).height = event.target.getChildByName("Sprite").getComponent(UITransform).height
             this.newGear.getComponent(UITransform).width = event.target.getChildByName("Sprite").getComponent(UITransform).width
@@ -121,6 +120,9 @@ export class MiniGame2 extends Component {
      * @param event is the event which is passed as touch cancel occurs
      */
     checkPosition = (event) => {
+        if(this.startPos == event.getUILocation()){
+            this.dragToStart();
+        }
         let flag = true;
         if(this.newGear){
             this.transparentGears.children.forEach((element) => {
