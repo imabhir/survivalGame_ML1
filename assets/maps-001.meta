@@ -2,7 +2,11 @@
   "ver": "1.1.0",
   "importer": "directory",
   "imported": true,
+<<<<<<<< HEAD:assets/AvatarSelection.meta
   "uuid": "c569e198-1a05-4688-beb4-8659bdbb1783",
+========
+  "uuid": "4de70e46-e0b4-477f-a25f-5b36abc663a1",
+>>>>>>>> ae70c3bf0a2d7f47f4f3917bc9c30036b6075fa2:assets/maps-001.meta
   "files": [],
   "subMetas": {},
   "userData": {

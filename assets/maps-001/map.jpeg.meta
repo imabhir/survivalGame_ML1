@@ -2,16 +2,25 @@
   "ver": "1.0.25",
   "importer": "image",
   "imported": true,
+<<<<<<<< HEAD:assets/resources/MiniGame2Sprites/gears.png.meta
   "uuid": "73faf571-0ad8-4b04-b28d-c0a6e6f2f242",
+========
+  "uuid": "e33c94da-28e2-44a3-89de-e21550c4496b",
+>>>>>>>> ae70c3bf0a2d7f47f4f3917bc9c30036b6075fa2:assets/maps-001/map.jpeg.meta
   "files": [
-    ".json",
-    ".png"
+    ".jpeg",
+    ".json"
   ],
   "subMetas": {
     "6c48a": {
       "importer": "texture",
+<<<<<<<< HEAD:assets/resources/MiniGame2Sprites/gears.png.meta
       "uuid": "73faf571-0ad8-4b04-b28d-c0a6e6f2f242@6c48a",
       "displayName": "gears",
+========
+      "uuid": "e33c94da-28e2-44a3-89de-e21550c4496b@6c48a",
+      "displayName": "map",
+>>>>>>>> ae70c3bf0a2d7f47f4f3917bc9c30036b6075fa2:assets/maps-001/map.jpeg.meta
       "id": "6c48a",
       "name": "texture",
       "userData": {
@@ -22,7 +31,11 @@
         "mipfilter": "none",
         "anisotropy": 0,
         "isUuid": true,
+<<<<<<<< HEAD:assets/resources/MiniGame2Sprites/gears.png.meta
         "imageUuidOrDatabaseUri": "73faf571-0ad8-4b04-b28d-c0a6e6f2f242",
+========
+        "imageUuidOrDatabaseUri": "e33c94da-28e2-44a3-89de-e21550c4496b",
+>>>>>>>> ae70c3bf0a2d7f47f4f3917bc9c30036b6075fa2:assets/maps-001/map.jpeg.meta
         "visible": false
       },
       "ver": "1.0.22",
@@ -34,8 +47,13 @@
     },
     "f9941": {
       "importer": "sprite-frame",
+<<<<<<<< HEAD:assets/resources/MiniGame2Sprites/gears.png.meta
       "uuid": "73faf571-0ad8-4b04-b28d-c0a6e6f2f242@f9941",
       "displayName": "gears",
+========
+      "uuid": "e33c94da-28e2-44a3-89de-e21550c4496b@f9941",
+      "displayName": "map",
+>>>>>>>> ae70c3bf0a2d7f47f4f3917bc9c30036b6075fa2:assets/maps-001/map.jpeg.meta
       "id": "f9941",
       "name": "spriteFrame",
       "userData": {
@@ -46,10 +64,17 @@
         "offsetY": 0,
         "trimX": 0,
         "trimY": 0,
+<<<<<<<< HEAD:assets/resources/MiniGame2Sprites/gears.png.meta
         "width": 500,
         "height": 500,
         "rawWidth": 500,
         "rawHeight": 500,
+========
+        "width": 544,
+        "height": 672,
+        "rawWidth": 544,
+        "rawHeight": 672,
+>>>>>>>> ae70c3bf0a2d7f47f4f3917bc9c30036b6075fa2:assets/maps-001/map.jpeg.meta
         "borderTop": 0,
         "borderBottom": 0,
         "borderLeft": 0,
@@ -61,6 +86,7 @@
         "meshType": 0,
         "vertices": {
           "rawPosition": [
+<<<<<<<< HEAD:assets/resources/MiniGame2Sprites/gears.png.meta
             -250,
             -250,
             0,
@@ -72,6 +98,19 @@
             0,
             250,
             250,
+========
+            -272,
+            -336,
+            0,
+            272,
+            -336,
+            0,
+            -272,
+            336,
+            0,
+            272,
+            336,
+>>>>>>>> ae70c3bf0a2d7f47f4f3917bc9c30036b6075fa2:assets/maps-001/map.jpeg.meta
             0
           ],
           "indexes": [
@@ -84,12 +123,21 @@
           ],
           "uv": [
             0,
+<<<<<<<< HEAD:assets/resources/MiniGame2Sprites/gears.png.meta
             500,
             500,
             500,
             0,
             0,
             500,
+========
+            672,
+            544,
+            672,
+            0,
+            0,
+            544,
+>>>>>>>> ae70c3bf0a2d7f47f4f3917bc9c30036b6075fa2:assets/maps-001/map.jpeg.meta
             0
           ],
           "nuv": [
@@ -103,6 +151,7 @@
             1
           ],
           "minPos": [
+<<<<<<<< HEAD:assets/resources/MiniGame2Sprites/gears.png.meta
             -250,
             -250,
             0
@@ -110,11 +159,24 @@
           "maxPos": [
             250,
             250,
+========
+            -272,
+            -336,
+            0
+          ],
+          "maxPos": [
+            272,
+            336,
+>>>>>>>> ae70c3bf0a2d7f47f4f3917bc9c30036b6075fa2:assets/maps-001/map.jpeg.meta
             0
           ]
         },
         "isUuid": true,
+<<<<<<<< HEAD:assets/resources/MiniGame2Sprites/gears.png.meta
         "imageUuidOrDatabaseUri": "73faf571-0ad8-4b04-b28d-c0a6e6f2f242@6c48a",
+========
+        "imageUuidOrDatabaseUri": "e33c94da-28e2-44a3-89de-e21550c4496b@6c48a",
+>>>>>>>> ae70c3bf0a2d7f47f4f3917bc9c30036b6075fa2:assets/maps-001/map.jpeg.meta
         "atlasUuid": ""
       },
       "ver": "1.0.11",
@@ -126,9 +188,15 @@
     }
   },
   "userData": {
+    "fixAlphaTransparencyArtifacts": true,
+    "hasAlpha": false,
     "type": "sprite-frame",
+<<<<<<<< HEAD:assets/resources/MiniGame2Sprites/gears.png.meta
     "fixAlphaTransparencyArtifacts": true,
     "hasAlpha": true,
     "redirect": "73faf571-0ad8-4b04-b28d-c0a6e6f2f242@f9941"
+========
+    "redirect": "e33c94da-28e2-44a3-89de-e21550c4496b@f9941"
+>>>>>>>> ae70c3bf0a2d7f47f4f3917bc9c30036b6075fa2:assets/maps-001/map.jpeg.meta
   }
 }

@@ -1,0 +1,209 @@
+{
+  "ver": "1.0.25",
+  "importer": "image",
+  "imported": true,
+<<<<<<<< HEAD:assets/resources/loadLoginSprites/loading icon- loader.png.meta
+  "uuid": "ee3dcf4b-3cce-40f7-b6db-1a91c233a91e",
+========
+  "uuid": "6f12c8c8-5857-4313-b0d8-0f43a26de8ef",
+>>>>>>>> ae70c3bf0a2d7f47f4f3917bc9c30036b6075fa2:assets/maps-001/Dungeon_Tileset.png.meta
+  "files": [
+    ".json",
+    ".png"
+  ],
+  "subMetas": {
+    "6c48a": {
+      "importer": "texture",
+<<<<<<<< HEAD:assets/resources/loadLoginSprites/loading icon- loader.png.meta
+      "uuid": "ee3dcf4b-3cce-40f7-b6db-1a91c233a91e@6c48a",
+      "displayName": "loading icon- loader",
+      "id": "6c48a",
+      "name": "texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "ee3dcf4b-3cce-40f7-b6db-1a91c233a91e",
+        "visible": false
+========
+      "uuid": "6f12c8c8-5857-4313-b0d8-0f43a26de8ef@6c48a",
+      "displayName": "Dungeon_Tileset",
+      "id": "6c48a",
+      "name": "texture",
+      "userData": {
+        "wrapModeS": "clamp-to-edge",
+        "wrapModeT": "clamp-to-edge",
+        "imageUuidOrDatabaseUri": "6f12c8c8-5857-4313-b0d8-0f43a26de8ef",
+        "isUuid": true,
+        "visible": false,
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0
+>>>>>>>> ae70c3bf0a2d7f47f4f3917bc9c30036b6075fa2:assets/maps-001/Dungeon_Tileset.png.meta
+      },
+      "ver": "1.0.22",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "f9941": {
+      "importer": "sprite-frame",
+<<<<<<<< HEAD:assets/resources/loadLoginSprites/loading icon- loader.png.meta
+      "uuid": "ee3dcf4b-3cce-40f7-b6db-1a91c233a91e@f9941",
+      "displayName": "loading icon- loader",
+========
+      "uuid": "6f12c8c8-5857-4313-b0d8-0f43a26de8ef@f9941",
+      "displayName": "Dungeon_Tileset",
+>>>>>>>> ae70c3bf0a2d7f47f4f3917bc9c30036b6075fa2:assets/maps-001/Dungeon_Tileset.png.meta
+      "id": "f9941",
+      "name": "spriteFrame",
+      "userData": {
+        "trimType": "auto",
+        "trimThreshold": 1,
+        "rotated": false,
+        "offsetX": 0,
+        "offsetY": 3,
+        "trimX": 0,
+        "trimY": 0,
+<<<<<<<< HEAD:assets/resources/loadLoginSprites/loading icon- loader.png.meta
+        "width": 228,
+        "height": 228,
+        "rawWidth": 228,
+        "rawHeight": 228,
+========
+        "width": 512,
+        "height": 634,
+        "rawWidth": 512,
+        "rawHeight": 640,
+>>>>>>>> ae70c3bf0a2d7f47f4f3917bc9c30036b6075fa2:assets/maps-001/Dungeon_Tileset.png.meta
+        "borderTop": 0,
+        "borderBottom": 0,
+        "borderLeft": 0,
+        "borderRight": 0,
+        "packable": true,
+        "pixelsToUnit": 100,
+        "pivotX": 0.5,
+        "pivotY": 0.5,
+        "meshType": 0,
+        "vertices": {
+          "rawPosition": [
+<<<<<<<< HEAD:assets/resources/loadLoginSprites/loading icon- loader.png.meta
+            -114,
+            -114,
+            0,
+            114,
+            -114,
+            0,
+            -114,
+            114,
+            0,
+            114,
+            114,
+========
+            -256,
+            -317,
+            0,
+            256,
+            -317,
+            0,
+            -256,
+            317,
+            0,
+            256,
+            317,
+>>>>>>>> ae70c3bf0a2d7f47f4f3917bc9c30036b6075fa2:assets/maps-001/Dungeon_Tileset.png.meta
+            0
+          ],
+          "indexes": [
+            0,
+            1,
+            2,
+            2,
+            1,
+            3
+          ],
+          "uv": [
+            0,
+<<<<<<<< HEAD:assets/resources/loadLoginSprites/loading icon- loader.png.meta
+            228,
+            228,
+            228,
+            0,
+            0,
+            228,
+            0
+========
+            640,
+            512,
+            640,
+            0,
+            6,
+            512,
+            6
+>>>>>>>> ae70c3bf0a2d7f47f4f3917bc9c30036b6075fa2:assets/maps-001/Dungeon_Tileset.png.meta
+          ],
+          "nuv": [
+            0,
+            0.009375,
+            1,
+            0.009375,
+            0,
+            1,
+            1,
+            1
+          ],
+          "minPos": [
+<<<<<<<< HEAD:assets/resources/loadLoginSprites/loading icon- loader.png.meta
+            -114,
+            -114,
+            0
+          ],
+          "maxPos": [
+            114,
+            114,
+========
+            -256,
+            -317,
+            0
+          ],
+          "maxPos": [
+            256,
+            317,
+>>>>>>>> ae70c3bf0a2d7f47f4f3917bc9c30036b6075fa2:assets/maps-001/Dungeon_Tileset.png.meta
+            0
+          ]
+        },
+        "isUuid": true,
+<<<<<<<< HEAD:assets/resources/loadLoginSprites/loading icon- loader.png.meta
+        "imageUuidOrDatabaseUri": "ee3dcf4b-3cce-40f7-b6db-1a91c233a91e@6c48a",
+========
+        "imageUuidOrDatabaseUri": "6f12c8c8-5857-4313-b0d8-0f43a26de8ef@6c48a",
+>>>>>>>> ae70c3bf0a2d7f47f4f3917bc9c30036b6075fa2:assets/maps-001/Dungeon_Tileset.png.meta
+        "atlasUuid": ""
+      },
+      "ver": "1.0.11",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "fixAlphaTransparencyArtifacts": true,
+    "hasAlpha": true,
+    "type": "sprite-frame",
+<<<<<<<< HEAD:assets/resources/loadLoginSprites/loading icon- loader.png.meta
+    "redirect": "ee3dcf4b-3cce-40f7-b6db-1a91c233a91e@f9941"
+========
+    "redirect": "6f12c8c8-5857-4313-b0d8-0f43a26de8ef@f9941"
+>>>>>>>> ae70c3bf0a2d7f47f4f3917bc9c30036b6075fa2:assets/maps-001/Dungeon_Tileset.png.meta
+  }
+}
