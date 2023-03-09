@@ -52,11 +52,9 @@ export class MiniGame2 extends Component {
 
             // Regular expression for fetching numbers from a string expression
             this.totalCount+= Number(element.count.replace(/\D/g, ''))
-            this.node.addChild(gear);
+            this.node.getChildByName("GearSizes").addChild(gear)
         })
-        
     }
-
 
    /**
     * 
@@ -109,9 +107,13 @@ export class MiniGame2 extends Component {
         this.NormalGears.children.forEach((element) => {
             tween(element).by(2, {angle: -360}).repeatForever().start()
         })
-        this.transparentGears.children.forEach((element) => {
-            tween(element).by(2, {angle: -360}).repeatForever().start()
+
+        this.node.children.forEach((element, index) => {
+            if(index != 0 && index != 1){
+                tween(element).by(2, {angle: -360}).repeatForever().start()
+            }
         })
+        
     }
 
     /**
@@ -135,6 +137,7 @@ export class MiniGame2 extends Component {
                     // When item is placed at valid position
                     if(elementBoundingBox.contains(targetPosition)){
                         if(targetHeight == element.getComponent(UITransform).height && targetWidth == element.getComponent(UITransform).width){
+                            element.active = false
                             
                             this.node.parent.getChildByName("taskCompleted").active = true;
 
