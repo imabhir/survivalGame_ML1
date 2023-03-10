@@ -21,13 +21,13 @@
     "_active": true,
     "_components": [],
     "_prefab": {
-      "__id__": 66
+      "__id__": 72
     },
     "autoReleaseAssets": false,
     "_globals": {
-      "__id__": 67
+      "__id__": 73
     },
-    "_id": "b1973de3-ded4-45de-aad2-a5ba6531ba0e"
+    "_id": "382fea8a-012a-44c4-914c-e8bf465780a5"
   },
   {
     "__type__": "cc.Node",
@@ -51,13 +51,13 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 63
+        "__id__": 69
       },
       {
-        "__id__": 64
+        "__id__": 70
       },
       {
-        "__id__": 65
+        "__id__": 71
       }
     ],
     "_prefab": null,
@@ -177,13 +177,13 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 60
+        "__id__": 66
       },
       {
-        "__id__": 61
+        "__id__": 67
       },
       {
-        "__id__": 62
+        "__id__": 68
       }
     ],
     "_prefab": null,
@@ -526,13 +526,13 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 57
+        "__id__": 63
       },
       {
-        "__id__": 58
+        "__id__": 64
       },
       {
-        "__id__": 59
+        "__id__": 65
       }
     ],
     "_prefab": null,
@@ -638,11 +638,26 @@
       },
       {
         "__id__": 55
+      },
+      {
+        "__id__": 56
+      },
+      {
+        "__id__": 58
+      },
+      {
+        "__id__": 59
+      },
+      {
+        "__id__": 60
       }
     ],
     "removedComponents": [
       {
-        "__id__": 56
+        "__id__": 61
+      },
+      {
+        "__id__": 62
       }
     ]
   },
@@ -1259,9 +1274,69 @@
     }
   },
   {
+    "__type__": "CCPropertyOverrideInfo",
+    "targetInfo": {
+      "__id__": 57
+    },
+    "propertyPath": [
+      "joystick"
+    ],
+    "value": {
+      "__id__": 40
+    }
+  },
+  {
+    "__type__": "cc.TargetInfo",
+    "localID": [
+      "acA2+QA1VC3aRQXqHsC7eZ"
+    ]
+  },
+  {
+    "__type__": "CCPropertyOverrideInfo",
+    "targetInfo": {
+      "__id__": 57
+    },
+    "propertyPath": [
+      "joyStickBall"
+    ],
+    "value": {
+      "__id__": 41
+    }
+  },
+  {
+    "__type__": "CCPropertyOverrideInfo",
+    "targetInfo": {
+      "__id__": 57
+    },
+    "propertyPath": [
+      "camera"
+    ],
+    "value": {
+      "__id__": 38
+    }
+  },
+  {
+    "__type__": "CCPropertyOverrideInfo",
+    "targetInfo": {
+      "__id__": 57
+    },
+    "propertyPath": [
+      "hud"
+    ],
+    "value": {
+      "__id__": 3
+    }
+  },
+  {
     "__type__": "cc.TargetInfo",
     "localID": [
       "aaqcqvXjBEJo8YunzvCuGr"
+    ]
+  },
+  {
+    "__type__": "cc.TargetInfo",
+    "localID": [
+      "bb3dWCjqRKpY5Ozpiia2uK"
     ]
   },
   {
@@ -1464,19 +1539,19 @@
   {
     "__type__": "cc.SceneGlobals",
     "ambient": {
-      "__id__": 68
+      "__id__": 74
     },
     "shadows": {
-      "__id__": 69
+      "__id__": 75
     },
     "_skybox": {
-      "__id__": 70
+      "__id__": 76
     },
     "fog": {
-      "__id__": 71
+      "__id__": 77
     },
     "octree": {
-      "__id__": 72
+      "__id__": 78
     }
   },
   {

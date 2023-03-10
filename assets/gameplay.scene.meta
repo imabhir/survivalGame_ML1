@@ -2,11 +2,7 @@
   "ver": "1.1.40",
   "importer": "scene",
   "imported": true,
-<<<<<<<< HEAD:assets/loadLogin/Scenes/Load.scene.meta
-  "uuid": "97285b32-af5d-476b-9148-9bf281451c8b",
-========
-  "uuid": "b1973de3-ded4-45de-aad2-a5ba6531ba0e",
->>>>>>>> 99edc0e (abbb):assets/gameplay.scene.meta
+  "uuid": "382fea8a-012a-44c4-914c-e8bf465780a5",
   "files": [
     ".json"
   ],
