@@ -1,6 +1,7 @@
 import { _decorator, Component, Node, Enum } from 'cc';
 const { ccclass, property } = _decorator;
 
+// Enum for stick type
 export enum ITEM_TYPE{
     NONE = 0,
     STRAIGHT = 1,
@@ -11,9 +12,9 @@ export enum ITEM_TYPE{
 
 export interface itemDataType{
     "obj": {
-        "x":number,
-        "y":number,
-        "z":number
+        "x": number,
+        "y": number,
+        "z": number
     },
     "isFixed": boolean,
     "itemType": ITEM_TYPE,

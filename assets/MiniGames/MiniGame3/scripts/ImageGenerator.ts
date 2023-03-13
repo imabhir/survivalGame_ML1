@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Prefab, instantiate, UITransform, Graphics } from 'cc';
+import { _decorator, Component, Node, Prefab, instantiate, UITransform, Graphics, JsonAsset } from 'cc';
 import { ColorPallete } from './ColorPallete';
 const { ccclass, property } = _decorator;
 
@@ -10,36 +10,37 @@ export class ImageGenerator extends Component {
     @property({type: Node})
     colorCodes: Node = null;
 
-    rows = 3;
+    @property({type: JsonAsset})
+    level: JsonAsset = null;
+
     index = 0;
     onLoad(){
-        this.generatePattern()
+        this.generateImage()
     }
 
-    generatePattern = () => {
+    /**
+     * This function is used to generate the image as per the level from the json file
+     */
+    generateImage = () => {
         let colors = this.colorCodes.getComponent(ColorPallete).colorCodes
-        console.log(colors);
-        
-        for(let i=0;i<this.rows;i++){
-            // for(let j=0;j<=i;j++){
-            const square = instantiate(this.square)
-            const squareHeight = square.getComponent(UITransform).height + 10
-            const squareWidth = square.getComponent(UITransform).width + 10
-            const squarePosition = square.getPosition();
-            // if(i != 0 && j == 0){
-            //     squarePosition.y+= squareHeight*i
-            // }else{
-            // }
-            const squareGraphics = square.getComponent(Graphics)
-            squareGraphics.rect(0, 0, 30, 30)
-            squareGraphics.fillColor.fromHEX(colors[this.index++])
-            squareGraphics.fill()
-            square.setPosition(squarePosition.x + squareWidth*i, squarePosition.y)
-            this.node.addChild(square)
-            // }
-        }
-        console.log(this.node.children.length);
-        
+        this.level.json.forEach((element) => {
+            const imageElements = element.imageBackground
+            imageElements.forEach((element) => {
+                const square = instantiate(this.square)
+                square.getComponent(UITransform).height = element.height
+                square.getComponent(UITransform).width = element.width
+
+                const squareGraphics = square.getComponent(Graphics)
+                squareGraphics.rect(0, 0, 30, 30)
+                squareGraphics.fillColor.fromHEX(colors[this.index++])
+                squareGraphics.fill()
+                square.setPosition(element.x, element.y)
+                this.node.addChild(square)
+                if(this.index == colors.length){
+                    this.index = 0
+                }
+            })
+        })
     }
 
     start() {

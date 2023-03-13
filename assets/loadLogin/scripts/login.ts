@@ -11,13 +11,24 @@ export class login extends Component {
 
 
     onLoad(){
+        // Preloading avatar scene
         director.preloadScene("Avatar")
-        console.log("Onload Started");
-        tween(this.Rotate).by(2, {angle: -360}).repeatForever().start()
 
+        /**
+         * Function which handles loading
+         */
+        this.load()
+        
+        /**
+         * This setimeout function accepts a callback which changes scene after 2 seconds
+         */
         setTimeout(() => {
             this.changeScene();
         }, 2000);   
+    }
+
+    load = () => {
+        tween(this.Rotate).by(2, {angle: -360}).repeatForever().start()
     }
 
     changeScene = () => {

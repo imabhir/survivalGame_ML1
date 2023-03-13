@@ -1,7 +1,7 @@
 [
   {
     "__type__": "cc.Prefab",
-    "_name": "square",
+    "_name": "whiteSquare",
     "_objFlags": 0,
     "_native": "",
     "data": {
@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "square",
+    "_name": "whiteSquare",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": null,
@@ -32,8 +32,8 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -87.619,
-      "y": 53.155,
+      "x": -103.466,
+      "y": 112.27,
       "z": 0
     },
     "_lrot": {
@@ -71,8 +71,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 30,
-      "height": 30
+      "width": 40,
+      "height": 40
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -83,10 +83,10 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "e26KyLkANAr6p3czJ9dQgH"
+    "fileId": "beQFMV2OhAq49kqB47Ezzr"
   },
   {
-    "__type__": "cc.Graphics",
+    "__type__": "cc.Sprite",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -106,29 +106,28 @@
       "b": 255,
       "a": 255
     },
-    "_lineWidth": 1,
-    "_strokeColor": {
-      "__type__": "cc.Color",
-      "r": 0,
-      "g": 0,
-      "b": 0,
-      "a": 255
+    "_spriteFrame": {
+      "__uuid__": "6b146555-9057-4bf5-a61c-e95706c393db@f9941",
+      "__expectedType__": "cc.SpriteFrame"
     },
-    "_lineJoin": 2,
-    "_lineCap": 0,
-    "_fillColor": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
+    "_type": 0,
+    "_fillType": 0,
+    "_sizeMode": 0,
+    "_fillCenter": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
     },
-    "_miterLimit": 10,
+    "_fillStart": 0,
+    "_fillRange": 0,
+    "_isTrimmedMode": true,
+    "_useGrayscale": false,
+    "_atlas": null,
     "_id": ""
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "bec9obARpC6LX4rB54SfUN"
+    "fileId": "5d52sJyCRDoayK6aSDHiMh"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -138,6 +137,6 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "f6hO0YMpZDpax3UWjLaVKz"
+    "fileId": "b7dYAEbd5FxrxDahXdRzEY"
   }
 ]

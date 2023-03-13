@@ -112,6 +112,10 @@ export class MiniGame1 extends Component {
         this.randomize();
     }
 
+
+    /**
+     * Randomly placing the sticks either through an angle 0 or 90
+     */
     randomize = () => {
         do{
             this.node.children.forEach((element, index) => {
@@ -120,14 +124,18 @@ export class MiniGame1 extends Component {
                      
                     // Touch event on items which are not fixed
                     element.on(Input.EventType.TOUCH_START, this.checkPos)
-                }
-                else{
+                }else{
                     element.angle = this.positions.json[index].angle
                 }
             })
         }while(this.gameCompleted());
     }
     
+    /**
+     * 
+     * @param event Touch event on sticks
+     * This function rotates the stick either through 0 or 90
+     */
     checkPos = (event) => {
         if(event.target.angle == 0){
             event.target.angle = 90;
@@ -142,6 +150,10 @@ export class MiniGame1 extends Component {
         }
     }
 
+    /**
+     * 
+     * @returns a boolean variable indicating whether our game is over
+     */
     gameCompleted = () => {
         let flag = true;
         this.node.children.forEach(element => {
@@ -149,7 +161,7 @@ export class MiniGame1 extends Component {
                 flag = false;
             }
         })
-        console.log(flag);
+        // console.log(flag);
         return flag
     }
 

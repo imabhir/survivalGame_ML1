@@ -15,6 +15,9 @@ export class avatarSelection extends Component {
         this.addAvatar();
     }
 
+    /**
+     * This function is used for adding avatars
+     */
     addAvatar = () => {
         for(let i=0;i<4;i++){
             const avatar = instantiate(this.avatar);
@@ -23,11 +26,17 @@ export class avatarSelection extends Component {
         }
     }
 
+    /**
+     * This function is used for sliding the avatar forward
+     */
     changeAvatarForward(){
         let currentIndex = this.pageView.getCurrentPageIndex();
         this.pageView.setCurrentPageIndex(currentIndex+1)
     }
 
+    /**
+     * This function is used for sliding the avatar backward
+     */
     changeAvatarBackWard(){
         let currentIndex = this.pageView.getCurrentPageIndex();
         console.log(currentIndex);
