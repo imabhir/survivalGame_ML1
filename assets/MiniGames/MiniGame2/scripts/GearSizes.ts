@@ -132,7 +132,7 @@ export class MiniGame2 extends Component {
      * @param event is the event which is passed as touch cancel occurs
      */
     checkIfValid = (event) => {
-        // console.log(this.newGear.getPosition());    
+        // console.log(this.newGear.getPosition());~    
         let flag = true;
         if(this.newGear){
             this.transparentGears.children.forEach((element) => {
