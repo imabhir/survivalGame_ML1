@@ -764,8 +764,8 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 340.078,
-      "y": 395.827,
+      "x": 358.497,
+      "y": 408.106,
       "z": 0
     },
     "_lrot": {
@@ -953,7 +953,7 @@
     "__prefab": {
       "__id__": 41
     },
-    "_opacity": 150,
+    "_opacity": 0,
     "_id": ""
   },
   {
@@ -975,7 +975,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "01cF8VlfJDCoDfCVZ9fcRh"
+    "fileId": "a4uETQ2lNGkYRgfglPKLGe"
   },
   {
     "__type__": "cc.PrefabInfo",

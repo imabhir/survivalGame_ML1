@@ -11,13 +11,14 @@ export class Audio extends Component {
     MusicSound: AudioSource = null;
 
     onLoad(){
+        // Fetching singleton class instance
         let audioInstance = audioManager.getInstance();
         audioInstance.init(this.MusicSound.getComponent(AudioSource))
         audioInstance.initSoundEffectAS(this.SoundEffect.getComponent(AudioSource))
     }
 
     start() {
-
+        
     }
 
     update(deltaTime: number) {

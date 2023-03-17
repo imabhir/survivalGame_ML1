@@ -3,18 +3,21 @@
         {
             "index": 1,
             "modeName": "standard",
+            "noOfPlayers": 5,
             "gameObjective": "The mode of the game will be standard where a match would begin with 5 players and 1 on random will be chosen as zombies and others would be auto selected as survivors. Zombies are required to stop survivors either by killing all survivors or converting them to zombies and wasting time till the match timer ends. Survivors are required to complete mini games as their objectives before the match timer ends.Zombies can convert survivors to zombies only twice per match in this mode."
         },
 
         {
             "index": 2,
             "modeName": "Rush Royale",
+            "noOfPlayers": 10,
             "gameObjective": "The mode of the game will be Rush Royale where a match would begin with 10 players and 5 on random will be chosen as zombies and others would be auto selected as survivors. Zombies are required to stop survivors either by killing all survivors or converting them to zombies and wasting time till the match timer ends. Survivors are required to complete mini games as their objectives before the match timer ends.Zombies cannot convert survivors to zombies.Zombies can only kill survivors."
         },
 
         {
             "index": 3,
             "modeName": "Hide and Seek",
+            "noOfPlayers": 10,
             "gameObjective": "The mode of the game will be Hide & Seek where a match would begin with 10 players and 3 on random will be chosen as zombies and others would be auto selected as survivors. Zombies are required to kill all survivors before the match timer ends. Survivors are required to avoid getting killed by zombies till the match-end countdown timer ends.Zombies cannot convert survivors to zombies.Zombies can only kill survivors.This mode has no objectives for the survivors to complete"
         }
     
