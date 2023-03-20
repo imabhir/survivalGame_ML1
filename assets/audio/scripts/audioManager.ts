@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, AudioSource, AudioClip } from 'cc';
+import { _decorator, Component, Node, AudioSource, AudioClip, sys } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('audioManager')
@@ -6,6 +6,8 @@ export class audioManager {
     private static _instance: audioManager = null;
     private _audioSource: AudioSource = null;
     private _SoundEffectAudioSource: AudioSource = null;
+    private MusicSliderProgress = 0
+    private SoundSliderProgress = 0
 
     private canPlayMusic = true;
     private canPlaySound = true;
@@ -70,6 +72,24 @@ export class audioManager {
 
     stopSoundEffect() {
         this._SoundEffectAudioSource.stop();
+    }
+
+    adjustMusicSound(progress){
+        this.MusicSliderProgress = progress
+        this._audioSource.volume = progress
+    }
+
+    getMusicSliderProgress(){
+        return this.MusicSliderProgress
+    }
+
+    getSoundSliderProgress(){
+        return this.SoundSliderProgress
+    }
+
+    adjustSoundEffectSound(progress){
+        this.SoundSliderProgress = progress
+        this._SoundEffectAudioSource.volume = progress
     }
 }
 

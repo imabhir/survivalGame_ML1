@@ -1,6 +1,8 @@
-import { _decorator, Component, Node, Prefab, instantiate, PageView, Input, Label, AudioClip, director, tween, Vec3 } from 'cc';
+import { _decorator, Component, Node, Prefab, instantiate, PageView, Input, Label, AudioClip, director, tween, Vec3, Slider, sys } from 'cc';
 import { audioManager } from '../../audio/scripts/audioManager';
-import { resourceManager } from '../../resourceManager';
+import { resourceManager } from '../../singleton/resourceManager';
+// import { resourceManager } from '../../singleton/resourceManager';
+// import { resourceManager } from '../../resourceManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('avatarSelection')
@@ -28,25 +30,49 @@ export class avatarSelection extends Component {
     onLoad(){
         this.addAvatar();
         this.applyMusic();
-        
+        this.addSettings();
+        this.resourceInstance.loadAvatarSprites()
+       
+        this.resourceInstance.loadPrefabs();
+        this.resourceInstance.loadMusic();
         this.CharacterSelected.active = false;
         this.startButton.on(Input.EventType.TOUCH_START, this.goToModes)
         this.SelectAvatarButton.on(Input.EventType.TOUCH_START, this.selectAvatar)
     }
 
     /**
+     * Adding settings icon to avatar selection scene
+     */
+
+    addSettings = () => {
+        this.scheduleOnce(() => {
+            const setting = instantiate(this.resourceInstance.getSettingsPrefab("Settings"))
+            setting.on(Input.EventType.TOUCH_START, this.openSettings)
+            this.node.addChild(setting)
+        }, 1)
+    }
+
+    /**
+     * Opening of settings
+     */
+
+    openSettings = () => {
+        const settingsControls = instantiate(this.resourceInstance.getSettingsControlsPrefab("SettingsControls"))
+        this.node.addChild(settingsControls)
+    }
+    
+
+    /**
      * This functions applies the audio to the scene
      */
 
     applyMusic = () => {
-        // 
         this.scheduleOnce(() => {
-            this.resourceInstance.loadMusicPrefab();
             const music = instantiate(this.resourceInstance.getMusicPrefab("Music"))
             this.node.addChild(music)
         }, 1)
         
-        this.resourceInstance.loadMusic();
+        
         this.scheduleOnce(()=>{
             const clip = this.resourceInstance.getMusicFile("audio1") 
             this.audioInstance.playMusicClip(clip, true)
@@ -93,6 +119,10 @@ export class avatarSelection extends Component {
         director.loadScene("Modes")
     }
 
+
+    /**
+     * Selection of avatar
+     */
     selectAvatar = () => {
         let getAvatar: Node;
         this.pageView.content.children.forEach((element, index) => {
@@ -100,8 +130,6 @@ export class avatarSelection extends Component {
                 getAvatar = element
             }
         })
-        console.log(getAvatar);
-        
 
         tween(getAvatar).to(0.3, {scale: new Vec3(1.5, 1.5)}).start()
         this.node.getChildByName("Arrows").active = false;

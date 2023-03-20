@@ -1,5 +1,6 @@
 import { _decorator, Component, Node, Prefab, instantiate, UITransform, Input, director } from 'cc';
-import { gameData } from '../../gameData';
+import { gameData } from '../../singleton/gameData';
+// import { gameData } from '../../gameData';
 const { ccclass, property } = _decorator;
 
 @ccclass('map')

@@ -1,8 +1,10 @@
 import { _decorator, Component, Node, PageView, Input, SpriteFrame, Sprite, UIOpacity, Vec3, Prefab, instantiate, UITransform, Label,JsonAsset, director, tween } from 'cc';
 import { audioManager } from '../../audio/scripts/audioManager';
-import { gameData } from '../../gameData';
+// import { gameData } from '../../gameData';
 import { players } from '../../playersLobby/scripts/players';
-import { resourceManager } from '../../resourceManager';
+import { gameData } from '../../singleton/gameData';
+import { resourceManager } from '../../singleton/resourceManager';
+// import { resourceManager } from '../../resourceManager';
 import { ModeEnum, MODE_NAME } from './ModeEnum';
 const { ccclass, property } = _decorator;
 
@@ -37,6 +39,8 @@ export class modes extends Component {
         this.rotater.active = false;
         this.text.active = true;
         this.applyMusic();
+        this.resourceInstance.loadPrefabs();
+        this.resourceInstance.loadMusic();
         this.node.getComponent(PageView).content.children.forEach((element) => {
             this.addOverlay(element)
         })   
@@ -44,12 +48,11 @@ export class modes extends Component {
 
     applyMusic = () => {
         this.scheduleOnce(() => {
-            this.resourceInstance.loadMusicPrefab();
             const music = instantiate(this.resourceInstance.getMusicPrefab("Music"))
             this.node.addChild(music)
         }, 1)
         
-        this.resourceInstance.loadMusic();
+        
         this.scheduleOnce(()=>{
             const clip = this.resourceInstance.getMusicFile("audio1") 
             this.audioInstance.playMusicClip(clip, true)
