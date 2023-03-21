@@ -21,6 +21,9 @@ export class MiniGame2 extends Component {
     @property({type: Node})
     taskOver: Node = null;
 
+    @property({type: Node})
+    closeButton: Node = null;
+
     // Used for holding starting position of draggable item
     startPos:Vec3
 
@@ -34,7 +37,14 @@ export class MiniGame2 extends Component {
     checkCount = 0;
     taskCompleted: Boolean = false;
     onLoad(){
-        this.node.parent.getChildByName("taskCompleted").active = false;
+        this.taskOver.active = false;
+        this.closeButton.on(Input.EventType.TOUCH_START, () => {
+            setTimeout(() => {
+                this.node.destroy()
+                this.taskOver.destroy()
+                this.closeButton.destroy()
+            });
+        })
         this.setGearSizes();
     }
 

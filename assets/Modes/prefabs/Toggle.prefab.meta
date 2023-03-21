@@ -2,12 +2,12 @@
   "ver": "1.1.40",
   "importer": "prefab",
   "imported": true,
-  "uuid": "77259ddf-c211-421f-9722-890e832428df",
+  "uuid": "bfbbfe61-f237-47c5-9f7f-29b9a9713190",
   "files": [
     ".json"
   ],
   "subMetas": {},
   "userData": {
-    "syncNodeName": "overlay"
+    "syncNodeName": "Toggle"
   }
 }

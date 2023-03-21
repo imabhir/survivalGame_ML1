@@ -1,5 +1,6 @@
 import { _decorator, Component, Node, Slider, sys, Input } from 'cc';
-import { audioManager } from './audio/scripts/audioManager';
+import { audioManager } from '../audio/scripts/audioManager';
+// import { audioManager } from './audio/scripts/audioManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('VolumeAdjustment')

@@ -16,6 +16,12 @@ export class MiniGame1 extends Component {
     @property({type: JsonAsset})
     positions: JsonAsset = null;
 
+    @property({type: Node})
+    closebutton: Node = null;
+
+    @property({type: Node})
+    taskCompleted: Node = null;
+
     @property({type: JsonAsset})
     get levelData(){
      return this.positions
@@ -28,13 +34,23 @@ export class MiniGame1 extends Component {
 
 
     onLoad(){
-        this.node.parent.getChildByName("completed").active = false;
+        this.taskCompleted.active = false;
+        this.closebutton.on(Input.EventType.TOUCH_START, this.closeGame)
         this.updateLevel(this.positions.json)
         // this.node.addChild(this.thunder);
         // this.thunder.setPosition(this.positions.json[0].obj.x, this.positions.json[0].obj.y)
         // this.thunder.angle = this.positions.json[0].angle;
         // this.node.parent.getChildByName("completed").active = false;
         // this.sticks();
+    }
+
+    closeGame = () => {
+        setTimeout(() => {
+            this.node.destroy()
+            this.taskCompleted.destroy()
+            this.closebutton.destroy()
+        });
+        
     }
 
     // sticks = () => {

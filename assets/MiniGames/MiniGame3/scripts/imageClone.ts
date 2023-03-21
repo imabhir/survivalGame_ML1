@@ -20,9 +20,16 @@ export class imageClone extends Component {
     @property({type: SpriteFrame})
     Incorrect: SpriteFrame = null;
 
+    @property({type: Node})
+    closeButton: Node = null;
+
 
     onLoad(){
         this.taskCompleted.active = false;
+        this.closeButton.on(Input.EventType.TOUCH_START, () => {
+            this.node.parent.destroy();
+            this.closeButton.destroy();
+        })
         this.generateImageClone();
     }
 

@@ -16,13 +16,7 @@ export class avatarSelection extends Component {
     @property({type: Node})
     startButton: Node = null;
 
-    @property({type: Node})
-    SelectAvatarButton: Node = null;
-
-    @property({type: Node})
-    CharacterSelected: Node = null;
-
-
+    
     // names = ["Jack","Tim","John","Cook"]
 
     resourceInstance = resourceManager.getInstance();
@@ -35,9 +29,9 @@ export class avatarSelection extends Component {
        
         this.resourceInstance.loadPrefabs();
         this.resourceInstance.loadMusic();
-        this.CharacterSelected.active = false;
+        // this.CharacterSelected.active = false;
         this.startButton.on(Input.EventType.TOUCH_START, this.goToModes)
-        this.SelectAvatarButton.on(Input.EventType.TOUCH_START, this.selectAvatar)
+        // this.SelectAvatarButton.on(Input.EventType.TOUCH_START, this.selectAvatar)
     }
 
     /**
@@ -133,7 +127,7 @@ export class avatarSelection extends Component {
 
         tween(getAvatar).to(0.3, {scale: new Vec3(1.5, 1.5)}).start()
         this.node.getChildByName("Arrows").active = false;
-        this.CharacterSelected.active = true
+        // this.CharacterSelected.active = true
     }
 
     start() {
