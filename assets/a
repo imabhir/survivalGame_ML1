@@ -1,0 +1,101 @@
+// <reference path="Photon/Photon-Javascript_SDK.d.ts"/>
+import { Component, log } from "cc";
+import a from "../assets/cloud-app-info"
+import { walls } from "./Script/wallscollisions";
+// import { walls } from "./Script/wallscollisions";
+// fetching app info global variable while in global context
+var DemoWss = a && a.Wss;
+var DemoAppId = a && a.AppId ? a.AppId : "a36f3ed3-e604-4772-9b98-985d37c5f6ac";
+var DemoAppVersion = a && a.AppVersion ? a.AppVersion : "1.0";
+var DemoMasterServer = a && a.MasterServer;
+var DemoNameServer = a && a.NameServer;
+var DemoRegion = a && a.Region;
+var DemoFbAppId = a && a.FbAppId;
+
+var ConnectOnStart = true;
+
+export class DemoLoadBalancing {
+    logger = new Exitgames.Common.Logger("Demo:");
+
+
+    a = 1;
+    player: walls;
+    set players(player: walls) {
+        this.player = player;
+    }
+    private USERCOLORS = ["#FF0000", "#00AA00", "#0000FF", "#FFFF00", "#00FFFF", "#FF00FF"];
+    photon: Photon.LoadBalancing.LoadBalancingClient;
+    constructor() {
+        this.photon = new Photon.LoadBalancing.LoadBalancingClient(DemoWss ? Photon.ConnectionProtocol.Wss : Photon.ConnectionProtocol.Ws, DemoAppId, DemoAppVersion);
+        console.log("We are in photon photonect", this.photon);
+
+
+
+
+
+
+
+
+        
+
+
+        this.photon.logger.info("Photon Version: " + Photon.Version + (Photon.IsEmscriptenBuild ? "-em" : ""));
+
+        // uncomment to use Custom Authentication
+        // a.setCustomAuthentication("username=" + "yes" + "&token=" + "yes");
+
+
+        this.photon.logger.info("Init", this.photon.getNameServerAddress(), DemoAppId, DemoAppVersion);
+        this.photon.setLogLevel(Exitgames.Common.Logger.Level.INFO);
+
+        this.photon.myActor().setCustomProperty("color", this.USERCOLORS[0]);
+        hti
+
+    }
+    start() {
+        if (ConnectOnStart) {
+            if (DemoMasterServer) {
+                this.photon.setMasterServerAddress(DemoMasterServer);
+                this.photon.connect();
+                console.log("a");
+
+            }
+            if (DemoNameServer) {
+                this.photon.setNameServerAddress(DemoNameServer);
+                this.photon.connectToRegionMaster(DemoRegion || "in");
+            }
+            else {
+                this.photon.connectToRegionMaster(DemoRegion || "in");
+
+                //a.connectToNameServer({ region: "EU", lobbyType: Photon.LoadBalancing.Constants.LobbyType.Default });
+            }
+        }
+
+    }
+
+
+    onActorLeave(actor: Photon.LoadBalancing.Actor, cleanup: boolean): void {
+        console.log("gaya")
+    }
+    onMyRoomPropertiesChange(): void {
+        console.log("a");
+    }
+    onStateChange(state: number): void {
+        console.log(state);
+
+    }
+
+    check() {
+
+        if (this.a) {
+            if (this.photon.isInLobby()) {
+                var name = "abcde";
+                this.photon.joinRandomOrCreateRoom({ expectedMaxPlayers: 2 },
+                    undefined,
+                    { emptyRoomLiveTime: 20000, maxPlayers: 2 });
+                this.a = 0;
+            }
+        }
+
+    }
+}

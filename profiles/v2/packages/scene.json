@@ -92,8 +92,8 @@
     },
     "eeac7a92-bfc4-4395-953b-0b8c719e5407": {
       "position": {
-        "x": 1050.0249308617335,
-        "y": 566.2772168395321,
+        "x": 747.6087567410581,
+        "y": 588.7795345213274,
         "z": 5000
       },
       "rotation": {
@@ -200,8 +200,8 @@
     },
     "a7a3db07-ebfc-4ed0-9560-148bdd841ef5": {
       "position": {
-        "x": 992.115007929684,
-        "y": 564.9767446673856,
+        "x": 1027.2727389174836,
+        "y": 592.7933260031211,
         "z": 5000
       },
       "rotation": {
@@ -290,8 +290,26 @@
     },
     "382fea8a-012a-44c4-914c-e8bf465780a5": {
       "position": {
-        "x": 717.0350502523836,
-        "y": 462.0516835311539,
+        "x": 913.1146682781997,
+        "y": 640.7260965166114,
+        "z": 5000
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "viewCenter": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    "5c02de3a-fbe5-40c9-90b1-e004a63dd102": {
+      "position": {
+        "x": 764.1200929974391,
+        "y": 537.7240736571358,
         "z": 5000
       },
       "rotation": {
@@ -434,7 +452,7 @@
     }
   },
   "camera-uuids": [
-    "fefc10e0-bd91-4357-af25-a28ac1bcc516"
+    "c77ecaa8-c936-46c4-a5b0-98692673ed87"
   ],
   "float-window": {
     "position": {
@@ -455,7 +473,14 @@
     "sculpt_brush_rotate": 0
   },
   "game-view": {
-    "scaleValue": 78,
-    "sliderValue": 38
+    "scaleValue": 31,
+    "sliderValue": 12,
+    "rotate": false,
+    "devicesInfo": {
+      "name": "i18n:scene.game_view.design_resolution",
+      "type": "design",
+      "width": 1920,
+      "height": 1080
+    }
   }
 }

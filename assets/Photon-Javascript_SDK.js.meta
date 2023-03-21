@@ -1,0 +1,20 @@
+{
+  "ver": "4.0.23",
+  "importer": "javascript",
+  "imported": true,
+  "uuid": "05aadb4d-4b7c-4e94-9cb7-75ff8bd23b44",
+  "files": [
+    ".js"
+  ],
+  "subMetas": {},
+  "userData": {
+    "isPlugin": true,
+    "loadPluginInWeb": true,
+    "loadPluginInNative": true,
+    "loadPluginInEditor": true,
+    "executionScope": "global",
+    "simulateGlobals": [
+      "Photon"
+    ]
+  }
+}

@@ -2,5 +2,209 @@
   "log": {
     "level": 4
   },
-  "__version__": "1.3.3"
+  "__version__": "1.3.3",
+  "common": {
+    "polyfills": {
+      "asyncFunctions": true
+    },
+    "buildPath": "project://build",
+    "outputName": "android",
+    "mainBundleCompressionType": "merge_dep",
+    "platform": "android",
+    "scenes": [
+      {
+        "url": "db://assets/gameplay.scene",
+        "uuid": "382fea8a-012a-44c4-914c-e8bf465780a5",
+        "inBundle": false
+      }
+    ]
+  },
+  "BuildTaskManager": {
+    "taskMap": {
+      "1678973469953": {
+        "type": "build",
+        "id": "1678973469953",
+        "progress": 1,
+        "state": "success",
+        "stage": "run",
+        "message": "20-03-2023 17:13:30 Build success in 9772 ms!",
+        "options": {
+          "name": "tiledMap2",
+          "platform": "web-mobile",
+          "buildPath": "project://build",
+          "debug": false,
+          "md5Cache": false,
+          "skipCompressTexture": false,
+          "sourceMaps": false,
+          "polyfills": {
+            "asyncFunctions": true
+          },
+          "experimentalEraseModules": false,
+          "useBuiltinServer": false,
+          "mainBundleIsRemote": false,
+          "mainBundleCompressionType": "merge_dep",
+          "replaceSplashScreen": false,
+          "startScene": "382fea8a-012a-44c4-914c-e8bf465780a5",
+          "outputName": "web-mobile",
+          "scenes": [
+            {
+              "url": "db://assets/gameplay.scene",
+              "uuid": "382fea8a-012a-44c4-914c-e8bf465780a5",
+              "inBundle": false
+            },
+            {
+              "url": "db://assets/AvatarSelection/Scenes/Avatar.scene",
+              "uuid": "fc217d1f-1edf-4e9d-9756-baaec88658d1",
+              "inBundle": false
+            },
+            {
+              "url": "db://assets/loadLogin/Scenes/Load.scene",
+              "uuid": "3cff5c3b-3fe8-4c2f-ac51-3dbcda1a322d",
+              "inBundle": false
+            },
+            {
+              "url": "db://assets/MiniGames/MiniGame1/Scenes/LevelCreation.scene",
+              "uuid": "5c02de3a-fbe5-40c9-90b1-e004a63dd102",
+              "inBundle": false
+            },
+            {
+              "url": "db://assets/MiniGames/MiniGame1/Scenes/MiniGame1.scene",
+              "uuid": "eeac7a92-bfc4-4395-953b-0b8c719e5407",
+              "inBundle": false
+            },
+            {
+              "url": "db://assets/MiniGames/MiniGame2/Scenes/LevelCreation.scene",
+              "uuid": "07ed039c-4361-4ff5-acec-631782758d54",
+              "inBundle": false
+            },
+            {
+              "url": "db://assets/MiniGames/MiniGame2/Scenes/MiniGame2.scene",
+              "uuid": "38743b43-e842-4e40-acb8-3bc728219664",
+              "inBundle": false
+            },
+            {
+              "url": "db://assets/MiniGames/MiniGame3/Scenes/MiniGame3.scene",
+              "uuid": "a7a3db07-ebfc-4ed0-9560-148bdd841ef5",
+              "inBundle": false
+            }
+          ],
+          "web-desktop": [],
+          "packages": {
+            "web-mobile": {
+              "orientation": "auto",
+              "embedWebDebugger": false,
+              "__version__": "1.0.1"
+            },
+            "cocos-service": {
+              "configID": "c5adb7",
+              "services": [
+                {
+                  "service_id": "235",
+                  "service_component_name": "service-analytics",
+                  "builder": "/Users/rishabhkushwaha/.CocosCreator/.service/analytics/builder/builder.js",
+                  "enable": false,
+                  "params": {}
+                }
+              ],
+              "__version__": "3.0.5"
+            }
+          },
+          "__version__": "1.3.3",
+          "web-mobile": []
+        },
+        "time": "20-03-2023 17:13",
+        "dirty": false
+      },
+      "1679309007730": {
+        "type": "build",
+        "id": "1679309007730",
+        "progress": 1,
+        "state": "success",
+        "stage": "build",
+        "message": "20-03-2023 18:16:40 Build success in 9165 ms!",
+        "options": {
+          "name": "tiledMap2",
+          "platform": "android",
+          "buildPath": "project://build",
+          "debug": false,
+          "md5Cache": false,
+          "skipCompressTexture": false,
+          "sourceMaps": false,
+          "polyfills": {
+            "asyncFunctions": false
+          },
+          "experimentalEraseModules": false,
+          "useBuiltinServer": false,
+          "mainBundleIsRemote": false,
+          "mainBundleCompressionType": "merge_dep",
+          "replaceSplashScreen": false,
+          "startScene": "382fea8a-012a-44c4-914c-e8bf465780a5",
+          "outputName": "android",
+          "scenes": [
+            {
+              "url": "db://assets/gameplay.scene",
+              "uuid": "382fea8a-012a-44c4-914c-e8bf465780a5",
+              "inBundle": false
+            }
+          ],
+          "web-mobile": [],
+          "packages": {
+            "android": {
+              "packageName": "com.zombieamongus",
+              "orientation": {
+                "portrait": false,
+                "upsideDown": false,
+                "landscapeRight": true,
+                "landscapeLeft": true
+              },
+              "apiLevel": 28,
+              "appABIs": [
+                "arm64-v8a"
+              ],
+              "useDebugKeystore": true,
+              "keystorePath": "",
+              "keystorePassword": "",
+              "keystoreAlias": "",
+              "keystoreAliasPassword": "",
+              "appBundle": false,
+              "androidInstant": false,
+              "remoteUrl": "",
+              "sdkPath": "",
+              "ndkPath": "",
+              "renderBackEnd": {
+                "vulkan": false,
+                "gles3": true,
+                "gles2": true
+              },
+              "swappy": false,
+              "__version__": "1.0.1"
+            },
+            "cocos-service": {
+              "configID": "c5adb7",
+              "services": [
+                {
+                  "service_id": "235",
+                  "service_component_name": "service-analytics",
+                  "builder": "/Users/rishabhkushwaha/.CocosCreator/.service/analytics/builder/builder.js",
+                  "enable": false,
+                  "params": {}
+                }
+              ]
+            },
+            "native": {
+              "encrypted": false,
+              "xxteaKey": "38ybffPaJNEqSlS0",
+              "compressZip": false,
+              "JobSystem": "none",
+              "__version__": "1.0.2"
+            }
+          },
+          "__version__": "1.3.3",
+          "android": []
+        },
+        "time": "20-03-2023 18:16",
+        "dirty": false
+      }
+    }
+  }
 }

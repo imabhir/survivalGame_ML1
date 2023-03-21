@@ -4,38 +4,31 @@ const { ccclass, property } = _decorator;
 
 @ccclass('MiniGame1')
 export class MiniGame1 extends Component {
-    @property({type: Prefab})
+    @property({ type: Prefab })
     thunder: Prefab = null;
 
-    @property({type: Prefab})
+    @property({ type: Prefab })
     bulb: Prefab = null;
 
-    @property({type: Prefab})
+    @property({ type: Prefab })
     stick: Prefab = null;
 
-    @property({type: JsonAsset})
+    @property({ type: JsonAsset })
     positions: JsonAsset = null;
 
-    @property({type: Node})
-    closebutton: Node = null;
-
-    @property({type: Node})
-    taskCompleted: Node = null;
-
-    @property({type: JsonAsset})
-    get levelData(){
-     return this.positions
+    @property({ type: JsonAsset })
+    get levelData() {
+        return this.positions
     }
-    set levelData(value){
+    set levelData(value) {
         this.positions = value;
         this.node.destroyAllChildren()
         // this.updateLevel(this.positions.json)
     }
 
 
-    onLoad(){
-        this.taskCompleted.active = false;
-        this.closebutton.on(Input.EventType.TOUCH_START, this.closeGame)
+    onLoad() {
+        this.node.parent.getChildByName("completed").active = false;
         this.updateLevel(this.positions.json)
         // this.node.addChild(this.thunder);
         // this.thunder.setPosition(this.positions.json[0].obj.x, this.positions.json[0].obj.y)
@@ -50,7 +43,7 @@ export class MiniGame1 extends Component {
             this.taskCompleted.destroy()
             this.closebutton.destroy()
         });
-        
+
     }
 
     // sticks = () => {
@@ -66,7 +59,7 @@ export class MiniGame1 extends Component {
     //     this.bulb.setPosition(this.positions.json[len-1].obj.x, this.positions.json[len-1].obj.y)
     //     this.bulb.angle = this.positions.json[len-1].angle;
     // }
-    
+
     // rotate = (event) => {
     //     event.target.angle+= 90;
     //     // let position = event.target.getPosition();
@@ -87,38 +80,38 @@ export class MiniGame1 extends Component {
     //         }
     //     })
     // }
-   
-    updateLevel = (itemsInfo:itemDataType[]) => {
+
+    updateLevel = (itemsInfo: itemDataType[]) => {
         /**
          * Iterating the json file and checking each asset's types and creating the instance according to the type
          */
         itemsInfo.forEach(element => {
-            let item:Node=null;
-            switch(element.itemType){
-                case ITEM_TYPE.BEGIN:{
+            let item: Node = null;
+            switch (element.itemType) {
+                case ITEM_TYPE.BEGIN: {
                     console.log("Thunder");
-                    
+
                     item = instantiate(this.thunder);
-                }break;
-                case ITEM_TYPE.END:{
+                } break;
+                case ITEM_TYPE.END: {
                     console.log("Bulb");
-                    
+
                     item = instantiate(this.bulb);
-                }break;
-                case ITEM_TYPE.L_SHAPED:{
+                } break;
+                case ITEM_TYPE.L_SHAPED: {
                     console.log("stickL");
                     item = instantiate(this.stick);
-                    
-                }break;
-                case ITEM_TYPE.STRAIGHT:{
+
+                } break;
+                case ITEM_TYPE.STRAIGHT: {
                     console.log("stickS");
                     item = instantiate(this.stick);
-                    
-                }break;
+
+                } break;
             }
             // Setting the properties
-            if(item){
-                item.setPosition(new Vec3(element.obj.x,element.obj.y,element.obj.z));
+            if (item) {
+                item.setPosition(new Vec3(element.obj.x, element.obj.y, element.obj.z));
                 // item.setPosition(Vec3.ZERO);
                 item.getComponent(levelItem).resultantAngle = element.angle;
                 item.getComponent(levelItem).isFixed = element.isFixed;
@@ -133,47 +126,43 @@ export class MiniGame1 extends Component {
      * Randomly placing the sticks either through an angle 0 or 90
      */
     randomize = () => {
-        do{
+        do {
             this.node.children.forEach((element, index) => {
-                if(!element.getComponent(levelItem).isFixed){
-                    element.angle = randomRangeInt(0,2)*90;    
-                     
+                if (!element.getComponent(levelItem).isFixed) {
+                    element.angle = randomRangeInt(0, 2) * 90;
+
                     // Touch event on items which are not fixed
                     element.on(Input.EventType.TOUCH_START, this.checkPos)
-                }else{
+                }
+                else {
                     element.angle = this.positions.json[index].angle
                 }
             })
-        }while(this.gameCompleted());
+        } while (this.gameCompleted());
     }
-    
-    /**
-     * 
-     * @param event Touch event on sticks
-     * This function rotates the stick either through 0 or 90
-     */
     checkPos = (event) => {
-        if(event.target.angle == 0){
+        if (event.target.angle == 0) {
             event.target.angle = 90;
-        }else if(event.target.angle == 90){
+        } else if (event.target.angle == 90) {
             event.target.angle = 0;
         }
 
-        if(this.gameCompleted()){
+        if (this.gameCompleted()) {
             this.node.parent.getChildByName("completed").active = true;
-        }else{
+            setTimeout(() => {
+                this.node.parent.destroy();
+                this.node.parent.getChildByName("completed").active = false;
+            }, 1000);
+
+        } else {
             this.node.parent.getChildByName("completed").active = false;
         }
     }
 
-    /**
-     * 
-     * @returns a boolean variable indicating whether our game is over
-     */
-    gameCompleted = () => {
+    gameCompleted() {
         let flag = true;
         this.node.children.forEach(element => {
-            if(element.angle != element.getComponent(levelItem).resultantAngle){
+            if (element.angle != element.getComponent(levelItem).resultantAngle) {
                 flag = false;
             }
         })
@@ -183,11 +172,11 @@ export class MiniGame1 extends Component {
 
 
     start() {
-        
+
     }
 
     update(deltaTime: number) {
-        
+
     }
 }
 

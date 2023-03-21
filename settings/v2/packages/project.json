@@ -1,9 +1,26 @@
 {
   "__version__": "1.0.2",
+  "physics": {
+    "gravity": {
+      "y": 0
+    }
+  },
   "general": {
     "designResolution": {
       "width": 1920,
-      "height": 1080
+      "height": 1080,
+      "fitHeight": true,
+      "fitWidth": true
     }
-  }
+  },
+  "layer": [
+    {
+      "name": "play",
+      "value": 1
+    },
+    {
+      "name": "jack",
+      "value": 2
+    }
+  ]
 }
