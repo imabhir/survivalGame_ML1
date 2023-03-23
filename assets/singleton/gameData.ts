@@ -37,14 +37,17 @@ export class gameData {
         return this.modeIndex
     }
 
-    
-    // initMapWithMaxVotes(targetMapNode: Node){
-    //     this.targetMapNode = targetMapNode
-    //     console.log("Map initialized", this.targetMapNode);
-    // }
+    initMapWithMaxVotes(targetMapWithMaxVotes){
+        // console.log("Got map", targetMapWithMaxVotes);
+        
+        this.targetMapNode = targetMapWithMaxVotes
+    }
 
-    // getMapWithMaxVotes(): Node{
-    //     return this.targetMapNode
-    // }
+    getMapWithMaxVotes(){
+        console.log("Getting Map..",this.targetMapNode);
+        
+        return this.targetMapNode
+    }
+    
 }
 

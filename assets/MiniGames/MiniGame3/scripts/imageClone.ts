@@ -1,33 +1,33 @@
-import { _decorator, Component, Node, Prefab, instantiate, UITransform, Sprite, Input, Graphics, JsonAsset, SpriteFrame } from 'cc';
+import { _decorator, Component, Node, Prefab, instantiate, UITransform, Sprite, Input, Graphics, JsonAsset, SpriteFrame, Color } from 'cc';
 import { ColorPallete } from './ColorPallete';
 import { ImageGenerator } from './ImageGenerator';
 const { ccclass, property } = _decorator;
 
 @ccclass('imageClone')
 export class imageClone extends Component {
-    @property({type: Prefab})
+    @property({ type: Prefab })
     whiteSquare: Prefab = null
 
-    @property({type: Node})
+    @property({ type: Node })
     colorPallete: Node = null
 
-    @property({type: Node})
+    @property({ type: Node })
     imageBackground: Node = null;
 
-    @property({type: Node})
+    @property({ type: Node })
     taskCompleted: Node = null;
 
-    @property({type: SpriteFrame})
+    @property({ type: SpriteFrame })
     Incorrect: SpriteFrame = null;
 
-    @property({type: Node})
+    @property({ type: Node })
     closeButton: Node = null;
 
 
-    onLoad(){
+    onLoad() {
         this.taskCompleted.active = false;
         this.closeButton.on(Input.EventType.TOUCH_START, () => {
-            this.node.parent.destroy();
+            this.node.parent.parent.destroy();
             this.closeButton.destroy();
         })
         this.generateImageClone();
@@ -39,7 +39,7 @@ export class imageClone extends Component {
 
     // Variable for checking if all the colors are filled in white squares
     check: number = 0;
-    
+
 
     /**
      * This function traverses the json file's 'imageClone element' and place all transparent squares at their postion as per level
@@ -65,9 +65,13 @@ export class imageClone extends Component {
      * @param event fills color as the touch event happens
      */
     fillColor = (event) => {
-        event.target.getComponent(Sprite).color = this.colorPallete.getComponent(ColorPallete).pickedColor
-        this.check++;
-        if(this.check == this.node.children.length){
+        if (this.colorPallete.getComponent(ColorPallete).pickedColor != null) {
+            event.target.getComponent(Sprite).color = this.colorPallete.getComponent(ColorPallete).pickedColor
+            this.colorPallete.getComponent(ColorPallete).pickedColor = null;
+            this.check++;
+        }
+
+        if (this.check == this.node.children.length) {
             this.checkIfRight();
         }
     }
@@ -77,29 +81,35 @@ export class imageClone extends Component {
      */
     checkIfRight = () => {
         let flag = true
-        for(let i=0;i<this.node.children.length;i++){
-            if(this.node.children[i].getComponent(Sprite).color._val != this.imageBackground.children[i].getComponent(Graphics).fillColor._val){
+        for (let i = 0; i < this.node.children.length; i++) {
+            if (this.node.children[i].getComponent(Sprite).color._val != this.imageBackground.children[i].getComponent(Graphics).fillColor._val) {
                 flag = false;
                 break;
             }
         }
 
-        if(flag){
+        if (flag) {
             console.log("Right");
+            setTimeout(() => {
+                this.node.parent.destroy();
+            }, 1000);
             this.taskCompleted.active = true;
-        }else{
+        } else {
             console.log("Wrong");
             this.taskCompleted.active = true;
+            setTimeout(() => {
+                this.node.parent.destroy();
+            }, 1000);
             this.taskCompleted.getComponent(Sprite).spriteFrame = this.Incorrect
         }
     }
-    
+
     start() {
 
     }
 
     update(deltaTime: number) {
-        
+
     }
 }
 

@@ -16,6 +16,12 @@ export class MiniGame1 extends Component {
     @property({ type: JsonAsset })
     positions: JsonAsset = null;
 
+    @property({ type: Node })
+    closebutton: Node = null;
+
+    @property({ type: Node })
+    taskCompleted: Node = null;
+
     @property({ type: JsonAsset })
     get levelData() {
         return this.positions
@@ -28,7 +34,8 @@ export class MiniGame1 extends Component {
 
 
     onLoad() {
-        this.node.parent.getChildByName("completed").active = false;
+        this.taskCompleted.active = false;
+        this.closebutton.on(Input.EventType.TOUCH_START, this.closeGame)
         this.updateLevel(this.positions.json)
         // this.node.addChild(this.thunder);
         // this.thunder.setPosition(this.positions.json[0].obj.x, this.positions.json[0].obj.y)
@@ -39,6 +46,7 @@ export class MiniGame1 extends Component {
 
     closeGame = () => {
         setTimeout(() => {
+            this.node.parent.destroy();
             this.node.destroy()
             this.taskCompleted.destroy()
             this.closebutton.destroy()
@@ -133,13 +141,18 @@ export class MiniGame1 extends Component {
 
                     // Touch event on items which are not fixed
                     element.on(Input.EventType.TOUCH_START, this.checkPos)
-                }
-                else {
+                } else {
                     element.angle = this.positions.json[index].angle
                 }
             })
         } while (this.gameCompleted());
     }
+
+    /**
+     * 
+     * @param event Touch event on sticks
+     * This function rotates the stick either through 0 or 90
+     */
     checkPos = (event) => {
         if (event.target.angle == 0) {
             event.target.angle = 90;
@@ -151,15 +164,17 @@ export class MiniGame1 extends Component {
             this.node.parent.getChildByName("completed").active = true;
             setTimeout(() => {
                 this.node.parent.destroy();
-                this.node.parent.getChildByName("completed").active = false;
             }, 1000);
-
         } else {
             this.node.parent.getChildByName("completed").active = false;
         }
     }
 
-    gameCompleted() {
+    /**
+     * 
+     * @returns a boolean variable indicating whether our game is over
+     */
+    gameCompleted = () => {
         let flag = true;
         this.node.children.forEach(element => {
             if (element.angle != element.getComponent(levelItem).resultantAngle) {

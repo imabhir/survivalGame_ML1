@@ -62,6 +62,8 @@ export class walls extends Component {
                     tile.getComponent(RigidBody2D).gravityScale = 0;
                     let collider = tile.addComponent(BoxCollider2D);
                     collider.size = tilesize;
+                    collider.density = 1000;
+                    collider.restitution = 0;
                     collider.offset = new Vec2(tilesize.width / 2, tilesize.height / 2)
                     collider.apply();
                 }
@@ -108,7 +110,7 @@ export class walls extends Component {
                 this.minigame = instantiate(this.minigames[e!.prefab_name]);
                 this.minigame.setPosition(this.maincamera.getPosition());
                 // this.node.getChildByName("level1").active = false
-                console.log("a");
+
 
                 // this.node.getChildByName("level2").active = true
                 // this.enablecollision("level2")
@@ -126,9 +128,9 @@ export class walls extends Component {
                 this.counter = 1
             }
             else if (this.counter == 1) {
-                console.log(this.minigame.name, this.minigames[e.prefab_name].name);
+
                 if (this.minigame.name == this.minigames[e.prefab_name].name) {
-                    console.log("b");
+
                     this.use_button.getComponent(Button).interactable = false
                 }
             }

@@ -1,16 +1,16 @@
-import { _decorator, Component, Node, UITransform, Vec3, Vec2, Animation, ImageAsset, SpriteFrame, Sprite, PhysicsSystem, PhysicsSystem2D, AudioClip, AudioSourceComponent, Collider2D, Contact2DType, IPhysics2DContact, Camera, log, EPhysics2DDrawFlags, TiledMap, instantiate, Prefab, randomRangeInt } from "cc";
+import { _decorator, Component, Node, UITransform, Vec3, Vec2, Animation, ImageAsset, SpriteFrame, Sprite, PhysicsSystem, PhysicsSystem2D, AudioClip, AudioSourceComponent, Collider2D, Contact2DType, IPhysics2DContact, Camera, log, EPhysics2DDrawFlags, TiledMap, instantiate, Prefab, randomRangeInt, RigidBody, RigidBody2D } from "cc";
 import { Room } from "../../../extensions/colyseus-sdk/runtime/colyseus";
 import { data_manager } from "../data_manager";
 import { walls } from "../wallscollisions";
-import a from "../../cloud-app-info"
+import config from "../../cloud-app-info"
 const { ccclass, property } = _decorator;
-var photon_instance; var DemoWss = a && a.Wss;
-var DemoAppId = a && a.AppId ? a.AppId : "a36f3ed3-e604-4772-9b98-985d37c5f6ac";
-var DemoAppVersion = a && a.AppVersion ? a.AppVersion : "1.0";
-var DemoMasterServer = a && a.MasterServer;
-var DemoNameServer = a && a.NameServer;
-var DemoRegion = a && a.Region;
-var DemoFbAppId = a && a.FbAppId;
+var photon_instance; var DemoWss = config && config.Wss;
+var DemoAppId = config && config.AppId ? config.AppId : "a36f3ed3-e604-4772-9b98-985d37c5f6ac";
+var DemoAppVersion = config && config.AppVersion ? config.AppVersion : "1.0";
+var DemoMasterServer = config && config.MasterServer;
+var DemoNameServer = config && config.NameServer;
+var DemoRegion = config && config.Region;
+var DemoFbAppId = config && config.FbAppId;
 
 var ConnectOnStart = false;
 @ccclass("PlayerMovement")
@@ -55,6 +55,7 @@ export class PlayerMovement extends Component {
 
         photon_instance.player_movements = this;
         photon_instance.start();
+        photon_instance.myActor().setCustomProperty("position", this.node.getPosition());
 
     }
     onLoad() {
@@ -66,6 +67,9 @@ export class PlayerMovement extends Component {
     }
     onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {//collsion callback functions
         if (otherCollider.node.name == "player") {
+            this.node.getComponent(RigidBody2D).linearVelocity = new Vec2(0, 0);
+            selfCollider.restitution = 0;
+            otherCollider.restitution = 0;
             this.collided = true;
         }
     }
@@ -86,6 +90,8 @@ export class PlayerMovement extends Component {
     touchEnd() {
         this.canMovePlayer = false;
         this.joyStickBall.setPosition(0, 0, 0);
+        photon_instance.myActor().setCustomProperty("angle", null);
+        this.node.getComponent(Animation)?.pause();
     }
     touchStart() {
         this.joyStickBall.setPosition(0, 0, 0);
@@ -135,43 +141,30 @@ export class PlayerMovement extends Component {
             else {
                 this.anlges = angleDeg;
             }
-            this.getDirection(this.anlges);
+            this.getDirection(this.node, this.anlges);
+            photon_instance.myActor().setCustomProperty("angle", this.anlges);
         }
     }
-    getDirection(angle) {//handling animations according to     joystick movement
+    getDirection(node, angle) {
+        console.log("config");
+        //handling animations according to     joystick movement
         if (angle > 335 && angle < 359 || angle < 25 && angle > 0) {
-            this.playWalkAnmation(this.node, "East");
-            photon_instance.myActor().setCustomProperty("angle", "East");
+            this.playWalkAnmation(node, "East");
         } else if (angle > 25 && angle < 75) {
-            this.playWalkAnmation(this.node, "North_East");
-            photon_instance.myActor().setCustomProperty("angle", "North_East");
-
+            this.playWalkAnmation(node, "North_East");
         } else if (angle > 75 && angle < 125) {
-            this.playWalkAnmation(this.node, "North");
-            photon_instance.myActor().setCustomProperty("angle", "North");
+            this.playWalkAnmation(node, "North");
         } else if (angle > 125 && angle < 155) {
-            this.playWalkAnmation(this.node, "North_West");
-
-            photon_instance.myActor().setCustomProperty("angle", "North_West");
-
+            this.playWalkAnmation(node, "North_West");
         } else if (angle > 155 && angle < 215) {
-            this.playWalkAnmation(this.node, "West");
-
-            photon_instance.myActor().setCustomProperty("angle", "West");
+            this.playWalkAnmation(node, "West");
         } else if (angle > 215 && angle < 255) {
-            this.playWalkAnmation(this.node, "South_West");
-
-            photon_instance.myActor().setCustomProperty("angle", "South_West");
-
+            this.playWalkAnmation(node, "South_West");
         } else if (angle > 245 && angle < 315) {
-            this.playWalkAnmation(this.node, "South");
-
-            photon_instance.myActor().setCustomProperty("angle", "South");
+            this.playWalkAnmation(node, "South");
         }
         else {
-            this.playWalkAnmation(this.node, "South_East");
-
-            photon_instance.myActor().setCustomProperty("angle", "South_East");
+            this.playWalkAnmation(node, "South_East");
         }
     }
     handlecollision(angle) {//function to block the particular part of joystick on collisions
@@ -183,6 +176,9 @@ export class PlayerMovement extends Component {
         }
     }
     playWalkAnmation(node, walkDirection: String) {
+
+        console.log(node);
+
         switch (walkDirection) {
             case "North":
                 {
@@ -227,18 +223,14 @@ export class PlayerMovement extends Component {
         }
     }
     addedactor(actor: any) {
-
-
         var actors = Object.keys(photon_instance.myRoomActors()).map(key => {
             return photon_instance.myRoomActors()[key];
         })
         actors.forEach((actor) => {
             if (actor.actorNr != photon_instance.myActor().actorNr) {
-                let b = instantiate(this.player_prefab)
-                b.name = actor.actorNr.toString()
-                b.setPosition(b.getPosition())
-                this.node.parent.addChild(b);
-                console.log(b);
+                let player = instantiate(this.player_prefab)
+                player.name = actor.actorNr.toString()
+                this.node.parent.addChild(player);
             }
         })
         console.log(photon_instance.myRoomActors());
@@ -247,16 +239,28 @@ export class PlayerMovement extends Component {
 
     move_actor(actor: any) {
         if (actor.actorNr != photon_instance.myActor().actorNr) {
-            var child = this.node.parent.getChildByName(actor.actorNr.toString())
-            child.setPosition(actor.getCustomProperty("position"))
-            this.playWalkAnmation(child, actor.getCustomProperty("angle"))
-        }
-        ;
 
+            var child = this.node.parent.getChildByName(actor.actorNr.toString())
+            console.log(actor.getCustomProperty("angle"));
+            if (actor.getCustomProperty("angle") == null) {
+
+
+                child.getComponent(Animation).pause();
+            }
+            else {
+                //function is called again and again which causes animation unable to play;
+                this.getDirection(child, actor.getCustomProperty("angle"))
+            }
+            child.setPosition(actor.getCustomProperty("position"))
+        }
+
+    }
+    destroycharacter(actor: Photon.LoadBalancing.Actor) {
+        var child = this.node.parent.getChildByName(actor.actorNr.toString())
+        child.destroy();
     }
     update(deltaTime: number) {
         // this.checkperspective();
-
         if (this.canMovePlayer) {//player position setting for providing in lerp function
             this.pos = new Vec2(this.startPos.x - this.intialPos.x, this.startPos.y - this.intialPos.y);
             if (this.collided) { }
@@ -267,6 +271,7 @@ export class PlayerMovement extends Component {
             else {
                 this.finalPos = this.node.getPosition();
             }
+            photon_instance.myActor().setCustomProperty("position", this.node.getPosition());
             this.pos.x = 0;
             this.pos.y = 0;
         }
@@ -287,7 +292,6 @@ export class PlayerMovement extends Component {
 
         }
         this.data.actorproperty = playerPosition;
-        photon_instance.myActor().setCustomProperty("position", this.node.getPosition());
         Vec3.lerp(playerPosition, currentPostion, this.finalPos, 0.06);
         this.node.setPosition(playerPosition);
         this.camera.setPosition(playerPosition.x + this.camera.parent.getComponent(UITransform).width * 0.1, playerPosition.y + this.camera.parent.getComponent(UITransform).height * 0.3);//code for camera movements
@@ -302,19 +306,15 @@ export class PlayerMovement extends Component {
 **/
 export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
     logger = new Exitgames.Common.Logger("Zombieamongus:");
-    private USERCOLORS = ["#FF0000", "#00AA00", "#0000FF", "#FFFF00", "#00FFFF", "#FF00FF"];
-    private name = ["#FF0000", "#00AA00", "#0000FF", "#FFFF00", "#00FFFF", "#FF00FF"];
-    a = 1;
+    checker = 1;
     player_movement: PlayerMovement;
     constructor() {
-        super(1, "a36f3ed3-e604-4772-9b98-985d37c5f6ac", "1.0");
+        super(1, DemoAppId, "1.0");
         this.logger.info("Photon Version: " + Photon.Version + (Photon.IsEmscriptenBuild ? "-em" : ""));
         // uncomment to use Custom Authentication
-        // a.setCustomAuthentication("username=" + "yes" + "&token=" + "yes");
+        // config.setCustomAuthentication("username=" + "yes" + "&token=" + "yes");
         this.logger.info("Init", this.getNameServerAddress(), DemoAppId, DemoAppVersion);
         this.setLogLevel(Exitgames.Common.Logger.Level.INFO);
-
-        this.myActor().setCustomProperty("color", this.USERCOLORS[0]);
         // this.data = data_manager.getInstance()
         this.player_movement = new PlayerMovement;
     }
@@ -334,7 +334,7 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
             else {
                 this.connectToRegionMaster(DemoRegion || "in");
 
-                //a.connectToNameServer({ region: "EU", lobbyType: Photon.LoadBalancing.Constants.LobbyType.Default });
+                //config.connectToNameServer({ region: "EU", lobbyType: Photon.LoadBalancing.Constants.LobbyType.Default });
             }
         }
     }
@@ -355,21 +355,20 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
     }
     onActorPropertiesChange(actor: Photon.LoadBalancing.Actor): void {
         this.player_movement.move_actor(actor)
-        console.log(actor.getCustomProperty("position"));
-
     }
     onActorLeave(actor: Photon.LoadBalancing.Actor, cleanup: boolean): void {
+        this.player_movement.destroycharacter(actor);
         console.log("gaya")
     }
     onMyRoomPropertiesChange(): void {
-        console.log("a");
+        console.log("config");
     }
     onStateChange(state: number): void {
         console.log(state);
         this.check();
     }
     check() {
-        if (this.a) {
+        if (this.checker) {
             if (this.isInLobby()) {
                 var name = "abcde";
                 this.joinRandomOrCreateRoom({ expectedMaxPlayers: 2 },
@@ -377,7 +376,7 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
                     { emptyRoomLiveTime: 20000, maxPlayers: 2 });
                 console.log("ban gaya");
 
-                this.a = 0;
+                this.checker = 0;
             }
         }
     }

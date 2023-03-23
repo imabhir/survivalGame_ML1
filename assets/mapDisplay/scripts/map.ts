@@ -11,11 +11,10 @@ export class map extends Component {
     @property({type: Node})
     backButton: Node = null;
     
-
     object = {}
 
     gameDataInstance;
-    // targetMapWithMaxVotes: Node = null;
+    TargetMapWithMaxVotes: Node = null;
     onLoad(){
         this.gameDataInstance = gameData.getInstance()
         this.backButton.on(Input.EventType.TOUCH_START, () => {
@@ -27,7 +26,6 @@ export class map extends Component {
     /**
      * This function displays all maps in scene
      */
-
     mapDisplay = () => {
         for(let i=0;i<4;i++){
             const map = instantiate(this.map);
@@ -45,31 +43,34 @@ export class map extends Component {
 
     setMap = (event) => {
         this.object[event.target.name]++;
-        // this.check()
+        this.check()
     }
 
-    // check = () => {
-    //     let mapWithMaxVotes: string;
-    //     let maxx = 0;
-    //     for(const key in this.object){
-    //         if(this.object[key] > maxx){
-    //             maxx = Math.max(maxx, this.object[key])
-    //             mapWithMaxVotes = key;
-    //         }
-    //     }
+    check = () => {
+        let mapWithMaxVotes: string;
+        let maxx = 0;
+        for(const key in this.object){
+            if(this.object[key] > maxx){
+                maxx = Math.max(maxx, this.object[key])
+                mapWithMaxVotes = key;
+            }
+        }
         
-    //     this.findMapNode(mapWithMaxVotes);
-    // }
+        this.findMapNode(mapWithMaxVotes);
+    }
 
-    // findMapNode = (mapWithMaxVotes) => {
-    //     this.node.children.forEach((element) => {
-    //         if(element.name == mapWithMaxVotes){
-    //             this.targetMapWithMaxVotes = element
-    //         }
-    //     })
-    //     console.log(this.targetMapWithMaxVotes);
-    //     this.gameDataInstance.initMapWithMaxVotes(this.targetMapWithMaxVotes)
-    // }
+    findMapNode = (mapWithMaxVotes) => {
+        this.node.children.forEach((element) => {
+            if(element.name == mapWithMaxVotes){
+                this.TargetMapWithMaxVotes = element
+            }
+        })
+        console.log("Target Map", this.TargetMapWithMaxVotes);
+        
+        let node = instantiate(this.TargetMapWithMaxVotes);
+        // console.log("Node", node);
+        this.gameDataInstance.initMapWithMaxVotes(node)
+    }
 
     start() {
         

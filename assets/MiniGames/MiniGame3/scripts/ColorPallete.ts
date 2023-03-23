@@ -12,7 +12,7 @@ export class ColorPallete extends Component {
     index = 0;
 
     // Initial color of transparent squares
-    pickedColor = Color.WHITE;
+    pickedColor = null;
     onLoad(){
         this.colorPallete()
     }
