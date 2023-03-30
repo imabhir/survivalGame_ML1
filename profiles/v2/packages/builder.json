@@ -2,34 +2,32 @@
   "log": {
     "level": 4
   },
-  "__version__": "1.3.4",
+  "__version__": "1.3.3",
   "common": {
     "polyfills": {
       "asyncFunctions": true
     },
     "buildPath": "project://build",
-    "outputName": "web-mobile-003",
+    "outputName": "android",
     "mainBundleCompressionType": "merge_dep",
-    "platform": "web-mobile",
+    "platform": "android",
     "scenes": [
       {
         "url": "db://assets/gameplay.scene",
         "uuid": "382fea8a-012a-44c4-914c-e8bf465780a5",
         "inBundle": false
       }
-    ],
-    "startScene": "0c162cc2-0768-49d7-8e01-f8c33d92541e",
-    "useBuiltinServer": false
+    ]
   },
   "BuildTaskManager": {
     "taskMap": {
       "1678973469953": {
         "type": "build",
         "id": "1678973469953",
-        "progress": 0,
-        "state": "waiting",
-        "stage": "build",
-        "message": "Wait a moment, build task is busy",
+        "progress": 1,
+        "state": "success",
+        "stage": "run",
+        "message": "20-03-2023 17:13:30 Build success in 9772 ms!",
         "options": {
           "name": "tiledMap2",
           "platform": "web-mobile",
@@ -60,33 +58,8 @@
               "inBundle": false
             },
             {
-              "url": "db://assets/Modes/Scenes/Modes.scene",
-              "uuid": "b9cc8efe-d6d0-42a9-86d0-6f5bc20613f8",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/PlayingOptions/Scenes/PlayingOptions.scene",
-              "uuid": "d04c996b-ca91-4803-9d3d-80f5bed481ab",
-              "inBundle": false
-            },
-            {
               "url": "db://assets/loadLogin/Scenes/Load.scene",
-              "uuid": "0c162cc2-0768-49d7-8e01-f8c33d92541e",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/loadLogin/Scenes/Login.scene",
-              "uuid": "fefc10e0-bd91-4357-af25-a28ac1bcc516",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/mapDisplay/scenes/map.scene",
-              "uuid": "dea503c8-e08b-43e6-b594-16a7f51592ca",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/playersLobby/scenes/playersLobby.scene",
-              "uuid": "e3dbfa1f-070b-450d-a58a-67c02054392e",
+              "uuid": "3cff5c3b-3fe8-4c2f-ac51-3dbcda1a322d",
               "inBundle": false
             },
             {
@@ -110,22 +83,36 @@
               "inBundle": false
             },
             {
-              "url": "db://assets/MiniGames/MiniGame3/Scenes/Level Creation.scene",
-              "uuid": "2e71ed8e-3839-420c-8dcb-ca18a01ac680",
-              "inBundle": false
-            },
-            {
               "url": "db://assets/MiniGames/MiniGame3/Scenes/MiniGame3.scene",
               "uuid": "a7a3db07-ebfc-4ed0-9560-148bdd841ef5",
               "inBundle": false
             }
           ],
           "web-desktop": [],
+          "packages": {
+            "web-mobile": {
+              "orientation": "auto",
+              "embedWebDebugger": false,
+              "__version__": "1.0.1"
+            },
+            "cocos-service": {
+              "configID": "c5adb7",
+              "services": [
+                {
+                  "service_id": "235",
+                  "service_component_name": "service-analytics",
+                  "builder": "/Users/rishabhkushwaha/.CocosCreator/.service/analytics/builder/builder.js",
+                  "enable": false,
+                  "params": {}
+                }
+              ],
+              "__version__": "3.0.5"
+            }
+          },
           "__version__": "1.3.3",
-          "web-mobile": [],
-          "packages": {}
+          "web-mobile": []
         },
-        "time": "28-03-2023 18:37",
+        "time": "20-03-2023 17:13",
         "dirty": false
       },
       "1679309007730": {
@@ -161,575 +148,61 @@
             }
           ],
           "web-mobile": [],
+          "packages": {
+            "android": {
+              "packageName": "com.zombieamongus",
+              "orientation": {
+                "portrait": false,
+                "upsideDown": false,
+                "landscapeRight": true,
+                "landscapeLeft": true
+              },
+              "apiLevel": 28,
+              "appABIs": [
+                "arm64-v8a"
+              ],
+              "useDebugKeystore": true,
+              "keystorePath": "",
+              "keystorePassword": "",
+              "keystoreAlias": "",
+              "keystoreAliasPassword": "",
+              "appBundle": false,
+              "androidInstant": false,
+              "remoteUrl": "",
+              "sdkPath": "",
+              "ndkPath": "",
+              "renderBackEnd": {
+                "vulkan": false,
+                "gles3": true,
+                "gles2": true
+              },
+              "swappy": false,
+              "__version__": "1.0.1"
+            },
+            "cocos-service": {
+              "configID": "c5adb7",
+              "services": [
+                {
+                  "service_id": "235",
+                  "service_component_name": "service-analytics",
+                  "builder": "/Users/rishabhkushwaha/.CocosCreator/.service/analytics/builder/builder.js",
+                  "enable": false,
+                  "params": {}
+                }
+              ]
+            },
+            "native": {
+              "encrypted": false,
+              "xxteaKey": "38ybffPaJNEqSlS0",
+              "compressZip": false,
+              "JobSystem": "none",
+              "__version__": "1.0.2"
+            }
+          },
           "__version__": "1.3.3",
-          "android": [],
-          "packages": {}
+          "android": []
         },
         "time": "20-03-2023 18:16",
-        "dirty": false
-      },
-      "1680008941738": {
-        "type": "build",
-        "id": "1680008941738",
-        "progress": 1,
-        "state": "success",
-        "stage": "build",
-        "message": "28-03-2023 18:39:36 Build success in 35018 ms!",
-        "options": {
-          "name": "tiledMap2",
-          "platform": "android",
-          "buildPath": "project://build",
-          "debug": false,
-          "md5Cache": false,
-          "skipCompressTexture": false,
-          "sourceMaps": false,
-          "polyfills": {
-            "asyncFunctions": false
-          },
-          "experimentalEraseModules": false,
-          "useBuiltinServer": false,
-          "mainBundleIsRemote": false,
-          "mainBundleCompressionType": "merge_dep",
-          "replaceSplashScreen": false,
-          "startScene": "0c162cc2-0768-49d7-8e01-f8c33d92541e",
-          "outputName": "android-001",
-          "scenes": [
-            {
-              "url": "db://assets/gameplay.scene",
-              "uuid": "382fea8a-012a-44c4-914c-e8bf465780a5",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/loadLogin/Scenes/Login.scene",
-              "uuid": "fefc10e0-bd91-4357-af25-a28ac1bcc516",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/mapDisplay/scenes/map.scene",
-              "uuid": "dea503c8-e08b-43e6-b594-16a7f51592ca",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/playersLobby/scenes/playersLobby.scene",
-              "uuid": "e3dbfa1f-070b-450d-a58a-67c02054392e",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/MiniGames/MiniGame1/Scenes/LevelCreation.scene",
-              "uuid": "5c02de3a-fbe5-40c9-90b1-e004a63dd102",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/MiniGames/MiniGame1/Scenes/MiniGame1.scene",
-              "uuid": "eeac7a92-bfc4-4395-953b-0b8c719e5407",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/MiniGames/MiniGame2/Scenes/LevelCreation.scene",
-              "uuid": "07ed039c-4361-4ff5-acec-631782758d54",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/MiniGames/MiniGame2/Scenes/MiniGame2.scene",
-              "uuid": "38743b43-e842-4e40-acb8-3bc728219664",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/MiniGames/MiniGame3/Scenes/Level Creation.scene",
-              "uuid": "2e71ed8e-3839-420c-8dcb-ca18a01ac680",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/MiniGames/MiniGame3/Scenes/MiniGame3.scene",
-              "uuid": "a7a3db07-ebfc-4ed0-9560-148bdd841ef5",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/AvatarSelection/Scenes/Avatar.scene",
-              "uuid": "fc217d1f-1edf-4e9d-9756-baaec88658d1",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/Modes/Scenes/Modes.scene",
-              "uuid": "b9cc8efe-d6d0-42a9-86d0-6f5bc20613f8",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/PlayingOptions/Scenes/PlayingOptions.scene",
-              "uuid": "d04c996b-ca91-4803-9d3d-80f5bed481ab",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/loadLogin/Scenes/Load.scene",
-              "uuid": "0c162cc2-0768-49d7-8e01-f8c33d92541e",
-              "inBundle": false
-            }
-          ],
-          "android": [],
-          "__version__": "1.3.3",
-          "packages": {}
-        },
-        "time": "28-03-2023 18:39",
-        "dirty": false
-      },
-      "1680008990859": {
-        "type": "build",
-        "id": "1680008990859",
-        "progress": 1,
-        "state": "success",
-        "stage": "build",
-        "message": "28-03-2023 18:39:58 Build success in 7608 ms!",
-        "options": {
-          "name": "tiledMap2",
-          "platform": "android",
-          "buildPath": "project://build",
-          "debug": false,
-          "md5Cache": false,
-          "skipCompressTexture": false,
-          "sourceMaps": false,
-          "polyfills": {
-            "asyncFunctions": false
-          },
-          "experimentalEraseModules": false,
-          "useBuiltinServer": false,
-          "mainBundleIsRemote": false,
-          "mainBundleCompressionType": "merge_dep",
-          "replaceSplashScreen": false,
-          "startScene": "0c162cc2-0768-49d7-8e01-f8c33d92541e",
-          "outputName": "android-002",
-          "scenes": [
-            {
-              "url": "db://assets/gameplay.scene",
-              "uuid": "382fea8a-012a-44c4-914c-e8bf465780a5",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/AvatarSelection/Scenes/Avatar.scene",
-              "uuid": "fc217d1f-1edf-4e9d-9756-baaec88658d1",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/Modes/Scenes/Modes.scene",
-              "uuid": "b9cc8efe-d6d0-42a9-86d0-6f5bc20613f8",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/PlayingOptions/Scenes/PlayingOptions.scene",
-              "uuid": "d04c996b-ca91-4803-9d3d-80f5bed481ab",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/loadLogin/Scenes/Load.scene",
-              "uuid": "0c162cc2-0768-49d7-8e01-f8c33d92541e",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/loadLogin/Scenes/Login.scene",
-              "uuid": "fefc10e0-bd91-4357-af25-a28ac1bcc516",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/mapDisplay/scenes/map.scene",
-              "uuid": "dea503c8-e08b-43e6-b594-16a7f51592ca",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/playersLobby/scenes/playersLobby.scene",
-              "uuid": "e3dbfa1f-070b-450d-a58a-67c02054392e",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/MiniGames/MiniGame1/Scenes/LevelCreation.scene",
-              "uuid": "5c02de3a-fbe5-40c9-90b1-e004a63dd102",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/MiniGames/MiniGame1/Scenes/MiniGame1.scene",
-              "uuid": "eeac7a92-bfc4-4395-953b-0b8c719e5407",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/MiniGames/MiniGame2/Scenes/LevelCreation.scene",
-              "uuid": "07ed039c-4361-4ff5-acec-631782758d54",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/MiniGames/MiniGame2/Scenes/MiniGame2.scene",
-              "uuid": "38743b43-e842-4e40-acb8-3bc728219664",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/MiniGames/MiniGame3/Scenes/Level Creation.scene",
-              "uuid": "2e71ed8e-3839-420c-8dcb-ca18a01ac680",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/MiniGames/MiniGame3/Scenes/MiniGame3.scene",
-              "uuid": "a7a3db07-ebfc-4ed0-9560-148bdd841ef5",
-              "inBundle": false
-            }
-          ],
-          "android": [],
-          "__version__": "1.3.3",
-          "packages": {}
-        },
-        "time": "28-03-2023 18:39",
-        "dirty": false
-      },
-      "1680009018786": {
-        "type": "build",
-        "id": "1680009018786",
-        "progress": 1,
-        "state": "success",
-        "stage": "run",
-        "message": "28-03-2023 18:40:27 Build success in 8476 ms!",
-        "options": {
-          "name": "tiledMap2",
-          "platform": "web-mobile",
-          "buildPath": "project://build",
-          "debug": false,
-          "md5Cache": false,
-          "skipCompressTexture": false,
-          "sourceMaps": false,
-          "polyfills": {
-            "asyncFunctions": true
-          },
-          "experimentalEraseModules": false,
-          "useBuiltinServer": false,
-          "mainBundleIsRemote": false,
-          "mainBundleCompressionType": "merge_dep",
-          "replaceSplashScreen": false,
-          "startScene": "382fea8a-012a-44c4-914c-e8bf465780a5",
-          "outputName": "web-mobile-001",
-          "scenes": [
-            {
-              "url": "db://assets/gameplay.scene",
-              "uuid": "382fea8a-012a-44c4-914c-e8bf465780a5",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/AvatarSelection/Scenes/Avatar.scene",
-              "uuid": "fc217d1f-1edf-4e9d-9756-baaec88658d1",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/Modes/Scenes/Modes.scene",
-              "uuid": "b9cc8efe-d6d0-42a9-86d0-6f5bc20613f8",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/PlayingOptions/Scenes/PlayingOptions.scene",
-              "uuid": "d04c996b-ca91-4803-9d3d-80f5bed481ab",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/loadLogin/Scenes/Load.scene",
-              "uuid": "0c162cc2-0768-49d7-8e01-f8c33d92541e",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/loadLogin/Scenes/Login.scene",
-              "uuid": "fefc10e0-bd91-4357-af25-a28ac1bcc516",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/mapDisplay/scenes/map.scene",
-              "uuid": "dea503c8-e08b-43e6-b594-16a7f51592ca",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/playersLobby/scenes/playersLobby.scene",
-              "uuid": "e3dbfa1f-070b-450d-a58a-67c02054392e",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/MiniGames/MiniGame1/Scenes/LevelCreation.scene",
-              "uuid": "5c02de3a-fbe5-40c9-90b1-e004a63dd102",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/MiniGames/MiniGame1/Scenes/MiniGame1.scene",
-              "uuid": "eeac7a92-bfc4-4395-953b-0b8c719e5407",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/MiniGames/MiniGame2/Scenes/LevelCreation.scene",
-              "uuid": "07ed039c-4361-4ff5-acec-631782758d54",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/MiniGames/MiniGame2/Scenes/MiniGame2.scene",
-              "uuid": "38743b43-e842-4e40-acb8-3bc728219664",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/MiniGames/MiniGame3/Scenes/Level Creation.scene",
-              "uuid": "2e71ed8e-3839-420c-8dcb-ca18a01ac680",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/MiniGames/MiniGame3/Scenes/MiniGame3.scene",
-              "uuid": "a7a3db07-ebfc-4ed0-9560-148bdd841ef5",
-              "inBundle": false
-            }
-          ],
-          "android": [],
-          "__version__": "1.3.3",
-          "web-mobile": [],
-          "packages": {}
-        },
-        "time": "28-03-2023 18:40",
-        "dirty": false
-      },
-      "1680009059097": {
-        "type": "build",
-        "id": "1680009059097",
-        "progress": 1,
-        "state": "success",
-        "stage": "build",
-        "message": "29-03-2023 10:45:26 Build success in 6009 ms!",
-        "options": {
-          "name": "tiledMap2",
-          "platform": "web-mobile",
-          "buildPath": "project://build",
-          "debug": false,
-          "md5Cache": false,
-          "skipCompressTexture": false,
-          "sourceMaps": false,
-          "polyfills": {
-            "asyncFunctions": true
-          },
-          "experimentalEraseModules": false,
-          "useBuiltinServer": false,
-          "mainBundleIsRemote": false,
-          "mainBundleCompressionType": "merge_dep",
-          "replaceSplashScreen": false,
-          "startScene": "0c162cc2-0768-49d7-8e01-f8c33d92541e",
-          "outputName": "web-mobile-002",
-          "scenes": [
-            {
-              "url": "db://assets/gameplay.scene",
-              "uuid": "382fea8a-012a-44c4-914c-e8bf465780a5",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/AvatarSelection/Scenes/Avatar.scene",
-              "uuid": "fc217d1f-1edf-4e9d-9756-baaec88658d1",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/Modes/Scenes/Modes.scene",
-              "uuid": "b9cc8efe-d6d0-42a9-86d0-6f5bc20613f8",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/PlayingOptions/Scenes/PlayingOptions.scene",
-              "uuid": "d04c996b-ca91-4803-9d3d-80f5bed481ab",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/loadLogin/Scenes/Load.scene",
-              "uuid": "0c162cc2-0768-49d7-8e01-f8c33d92541e",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/loadLogin/Scenes/Login.scene",
-              "uuid": "fefc10e0-bd91-4357-af25-a28ac1bcc516",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/mapDisplay/scenes/map.scene",
-              "uuid": "dea503c8-e08b-43e6-b594-16a7f51592ca",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/playersLobby/scenes/playersLobby.scene",
-              "uuid": "e3dbfa1f-070b-450d-a58a-67c02054392e",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/MiniGames/MiniGame1/Scenes/LevelCreation.scene",
-              "uuid": "5c02de3a-fbe5-40c9-90b1-e004a63dd102",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/MiniGames/MiniGame1/Scenes/MiniGame1.scene",
-              "uuid": "eeac7a92-bfc4-4395-953b-0b8c719e5407",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/MiniGames/MiniGame2/Scenes/LevelCreation.scene",
-              "uuid": "07ed039c-4361-4ff5-acec-631782758d54",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/MiniGames/MiniGame2/Scenes/MiniGame2.scene",
-              "uuid": "38743b43-e842-4e40-acb8-3bc728219664",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/MiniGames/MiniGame3/Scenes/Level Creation.scene",
-              "uuid": "2e71ed8e-3839-420c-8dcb-ca18a01ac680",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/MiniGames/MiniGame3/Scenes/MiniGame3.scene",
-              "uuid": "a7a3db07-ebfc-4ed0-9560-148bdd841ef5",
-              "inBundle": false
-            }
-          ],
-          "web-mobile": [],
-          "__version__": "1.3.3",
-          "packages": {}
-        },
-        "time": "29-03-2023 10:45",
-        "dirty": false
-      },
-      "1680095499723": {
-        "type": "build",
-        "id": "1680095499723",
-        "progress": 1,
-        "state": "success",
-        "stage": "build",
-        "message": "29-03-2023 18:42:32 Build success in 52988 ms!",
-        "options": {
-          "name": "tiledMap2",
-          "platform": "fb-instant-games",
-          "buildPath": "project://build",
-          "debug": false,
-          "md5Cache": false,
-          "skipCompressTexture": false,
-          "sourceMaps": false,
-          "polyfills": {
-            "asyncFunctions": false
-          },
-          "experimentalEraseModules": false,
-          "useBuiltinServer": false,
-          "mainBundleIsRemote": false,
-          "mainBundleCompressionType": "merge_dep",
-          "useSplashScreen": true,
-          "packAutoAtlas": true,
-          "startScene": "382fea8a-012a-44c4-914c-e8bf465780a5",
-          "outputName": "fb-instant-games",
-          "scenes": [
-            {
-              "url": "db://assets/gameplay.scene",
-              "uuid": "382fea8a-012a-44c4-914c-e8bf465780a5",
-              "inBundle": false
-            }
-          ],
-          "web-mobile": [],
-          "packages": {},
-          "__version__": "1.3.4",
-          "fb-instant-games": []
-        },
-        "time": "29-03-2023 18:41",
-        "dirty": false
-      },
-      "1680151152516": {
-        "type": "build",
-        "id": "1680151152516",
-        "progress": 1,
-        "state": "failure",
-        "stage": "build",
-        "message": "The build task was interrupted",
-        "options": {
-          "name": "tiledMap2",
-          "platform": "web-mobile",
-          "buildPath": "project://build",
-          "debug": false,
-          "md5Cache": false,
-          "skipCompressTexture": false,
-          "sourceMaps": false,
-          "polyfills": {
-            "asyncFunctions": true
-          },
-          "experimentalEraseModules": false,
-          "useBuiltinServer": false,
-          "mainBundleIsRemote": false,
-          "mainBundleCompressionType": "merge_dep",
-          "useSplashScreen": true,
-          "packAutoAtlas": true,
-          "startScene": "0c162cc2-0768-49d7-8e01-f8c33d92541e",
-          "outputName": "web-mobile-003",
-          "scenes": [
-            {
-              "url": "db://assets/gameplay.scene",
-              "uuid": "382fea8a-012a-44c4-914c-e8bf465780a5",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/AvatarSelection/Scenes/Avatar.scene",
-              "uuid": "fc217d1f-1edf-4e9d-9756-baaec88658d1",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/Modes/Scenes/Modes.scene",
-              "uuid": "b9cc8efe-d6d0-42a9-86d0-6f5bc20613f8",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/PlayingOptions/Scenes/PlayingOptions.scene",
-              "uuid": "d04c996b-ca91-4803-9d3d-80f5bed481ab",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/loadLogin/Scenes/Load.scene",
-              "uuid": "0c162cc2-0768-49d7-8e01-f8c33d92541e",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/loadLogin/Scenes/Login.scene",
-              "uuid": "fefc10e0-bd91-4357-af25-a28ac1bcc516",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/mapDisplay/scenes/map.scene",
-              "uuid": "dea503c8-e08b-43e6-b594-16a7f51592ca",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/playersLobby/scenes/playersLobby.scene",
-              "uuid": "e3dbfa1f-070b-450d-a58a-67c02054392e",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/MiniGames/MiniGame1/Scenes/LevelCreation.scene",
-              "uuid": "5c02de3a-fbe5-40c9-90b1-e004a63dd102",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/MiniGames/MiniGame1/Scenes/MiniGame1.scene",
-              "uuid": "eeac7a92-bfc4-4395-953b-0b8c719e5407",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/MiniGames/MiniGame2/Scenes/LevelCreation.scene",
-              "uuid": "07ed039c-4361-4ff5-acec-631782758d54",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/MiniGames/MiniGame2/Scenes/MiniGame2.scene",
-              "uuid": "38743b43-e842-4e40-acb8-3bc728219664",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/MiniGames/MiniGame3/Scenes/Level Creation.scene",
-              "uuid": "2e71ed8e-3839-420c-8dcb-ca18a01ac680",
-              "inBundle": false
-            },
-            {
-              "url": "db://assets/MiniGames/MiniGame3/Scenes/MiniGame3.scene",
-              "uuid": "a7a3db07-ebfc-4ed0-9560-148bdd841ef5",
-              "inBundle": false
-            }
-          ],
-          "fb-instant-games": [],
-          "packages": {},
-          "__version__": "1.3.4",
-          "web-mobile": []
-        },
-        "time": "30-03-2023 10:10",
         "dirty": false
       }
     }
