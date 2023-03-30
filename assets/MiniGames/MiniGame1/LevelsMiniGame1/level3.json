@@ -1,0 +1,82 @@
+[
+    {
+        "obj": {
+            "x": -542.001,
+            "y": 11.299,
+            "z": 0
+        },
+        "isFixed": true,
+        "itemType": 3,
+        "angle": 45
+    },
+    {
+        "obj": {
+            "x": -368.21,
+            "y": 0,
+            "z": 0
+        },
+        "isFixed": true,
+        "itemType": 1,
+        "angle": 90
+    },
+    {
+        "obj": {
+            "x": -244.736,
+            "y": 84.744,
+            "z": 0
+        },
+        "isFixed": false,
+        "itemType": 1,
+        "angle": 0
+    },
+    {
+        "obj": {
+            "x": -121.26,
+            "y": 163.838,
+            "z": 0
+        },
+        "isFixed": false,
+        "itemType": 1,
+        "angle": 90
+    },
+    {
+        "obj": {
+            "x": 0.206,
+            "y": 81.919,
+            "z": 0
+        },
+        "isFixed": false,
+        "itemType": 1,
+        "angle": 0
+    },
+    {
+        "obj": {
+            "x": 118.847,
+            "y": 5.649,
+            "z": 0
+        },
+        "isFixed": false,
+        "itemType": 1,
+        "angle": 90
+    },
+    {
+        "obj": {
+            "x": 325.057,
+            "y": 5.649,
+            "z": 0
+        },
+        "isFixed": false,
+        "itemType": 1,
+        "angle": 90
+    },
+    {
+        "obj": {
+            "x": 501.09400000000005,
+            "y": 5.649999999999977,
+            "z": 0
+        },
+        "isFixed": true,
+        "itemType": 4,
+        "angle": 45.000000000000014
+    }
+]

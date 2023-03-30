@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Prefab, instantiate, UITransform, Sprite, Input, Graphics, JsonAsset, SpriteFrame } from 'cc';
+import { _decorator, Component, Node, Prefab, instantiate, UITransform, Sprite, Input, Graphics, JsonAsset, SpriteFrame, Color } from 'cc';
 import { ColorPallete } from './ColorPallete';
 import { ImageGenerator } from './ImageGenerator';
 const { ccclass, property } = _decorator;
@@ -39,8 +39,7 @@ export class imageClone extends Component {
 
     // Variable for checking if all the colors are filled in white squares
     check: number = 0;
-    
-
+    defaultColor = Color.WHITE;
     /**
      * This function traverses the json file's 'imageClone element' and place all transparent squares at their postion as per level
      */
@@ -64,9 +63,15 @@ export class imageClone extends Component {
      * 
      * @param event fills color as the touch event happens
      */
-    fillColor = (event) => {
-        event.target.getComponent(Sprite).color = this.colorPallete.getComponent(ColorPallete).pickedColor
-        this.check++;
+    fillColor = (event) => {        
+        if(this.colorPallete.getComponent(ColorPallete).pickedColor != null){
+            if(event.target.getComponent(Sprite).color._val == this.defaultColor._val){
+                this.check++;
+            }
+            event.target.getComponent(Sprite).color = this.colorPallete.getComponent(ColorPallete).pickedColor
+            console.log(this.check);
+        }
+        
         if(this.check == this.node.children.length){
             this.checkIfRight();
         }
@@ -76,9 +81,13 @@ export class imageClone extends Component {
      * This function checks if colors filled are right as per the image
      */
     checkIfRight = () => {
+        console.log("Executed");
+        
         let flag = true
         for(let i=0;i<this.node.children.length;i++){
             if(this.node.children[i].getComponent(Sprite).color._val != this.imageBackground.children[i].getComponent(Graphics).fillColor._val){
+                console.log("Not Same", i);
+                
                 flag = false;
                 break;
             }

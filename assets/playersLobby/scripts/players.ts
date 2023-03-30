@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Prefab, JsonAsset, instantiate, UITransform, director, Input, Sprite } from 'cc';
+import { _decorator, Component, Node, Prefab, JsonAsset, instantiate, UITransform, director, Input, Sprite, Button } from 'cc';
 // import { gameData } from '../../gameData';
 import { modes } from '../../Modes/scripts/modes';
 import { gameData } from '../../singleton/gameData';
@@ -17,21 +17,25 @@ export class players extends Component {
 
     @property({type: Node})
     MostVotedMap: Node = null;
+
+    @property({type: Node})
+    StartButton: Node = null;
     
 
     gameDataInstance;
+    playerCount = 0;
     onLoad(){
         this.gameDataInstance = gameData.getInstance();
         this.instantiatePlayers();
         this.selectMapButton.on(Input.EventType.TOUCH_START, this.SelectMap)
 
-        // let targetMapNode:Node = this.gameDataInstance.getMapWithMaxVotes();
+        let targetMapNode: Node = this.gameDataInstance.getMapWithMaxVotes();
+        console.log("Target Map Node", targetMapNode);
         
-        
-        // if(targetMapNode != null){
-        //     console.log(targetMapNode);
-        //     this.showMapWithMaxVotes(targetMapNode)
-        // }
+        if(targetMapNode != null){
+            
+            this.showMapWithMaxVotes(targetMapNode)
+        }
     }
     /**
      * This function instantiates the players and display them on the scene
@@ -85,13 +89,21 @@ export class players extends Component {
         director.loadScene("map")
     }
 
-    // showMapWithMaxVotes = (targetMapNode: Node) => {
-    //     console.log("Entered");
-    //     console.log(targetMapNode);
-        
-    //     this.MostVotedMap.getComponent(Sprite).spriteFrame = targetMapNode.getComponent(Sprite).spriteFrame
-    //     console.log(this.MostVotedMap.getComponent(Sprite).spriteFrame);
-    // }
+    showMapWithMaxVotes = (targetMapNode: Node) => {
+        console.log("Entered");
+        // console.log(targetMapNode);
+        console.log(targetMapNode.getComponent(Sprite).spriteFrame);
+        let TargetMapNodeSpriteFrame = targetMapNode.getComponent(Sprite).spriteFrame
+        this.MostVotedMap.getComponent(Sprite).spriteFrame = TargetMapNodeSpriteFrame
+        console.log(this.MostVotedMap.getComponent(Sprite).spriteFrame);
+    }
+
+
+    CheckPlayerCount(){
+        if(this.playerCount >= 2){
+            this.StartButton.getComponent(Button).interactable = true;
+        }
+    }
 
     
     start() {

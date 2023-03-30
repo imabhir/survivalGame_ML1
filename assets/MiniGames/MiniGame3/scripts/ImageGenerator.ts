@@ -13,6 +13,14 @@ export class ImageGenerator extends Component {
     @property({type: JsonAsset})
     level: JsonAsset = null;
 
+    @property({type: JsonAsset})
+    get levelData(){
+        return this.level;
+    }
+    set levelData(value){
+        this.level = value;
+    }
+
     index = 0;
     onLoad(){
         this.generateImage()

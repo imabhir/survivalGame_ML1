@@ -1,5 +1,6 @@
 import { _decorator, Component, Node, AudioSource } from 'cc';
-import { audioManager } from '../../audio/scripts/audioManager';
+import { audioManager } from './audioManager';
+// import { audioManager } from '../../audio/scripts/audioManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('Audio')
@@ -18,7 +19,7 @@ export class Audio extends Component {
     }
 
     start() {
-        
+        console.log("Started");
     }
 
     update(deltaTime: number) {

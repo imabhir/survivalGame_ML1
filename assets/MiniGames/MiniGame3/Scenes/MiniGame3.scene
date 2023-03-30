@@ -141,7 +141,7 @@
     "_priority": 1073741824,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 612.2755741127348,
+    "_orthoHeight": 685.4279749478079,
     "_near": 0,
     "_far": 2000,
     "_color": {
@@ -481,7 +481,7 @@
       "__id__": 6
     },
     "level": {
-      "__uuid__": "abd70da2-5dad-4bf3-ac7d-897cc3a8d626",
+      "__uuid__": "02acc6a2-c83e-4bca-ab52-b692a278311a",
       "__expectedType__": "cc.JsonAsset"
     },
     "_id": "c2m4TSgDVArYdkw3YnBfAz"

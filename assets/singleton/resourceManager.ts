@@ -6,10 +6,13 @@ export class resourceManager {
     musicClips = [];
     PrefabArr = [];
     Sprites = []
-    // LoadResourcesPercentage = [];
-    cnt = 0;
+    
     private static _instance: resourceManager = null;
 
+    /**
+     * 
+     * @returns Instance of the singleton class
+     */
     public static getInstance(){
         if(!resourceManager._instance){
             resourceManager._instance = new resourceManager()
@@ -51,53 +54,16 @@ export class resourceManager {
         })
     }
 
-    loadAvatarSprites = () => {
-        resources.loadDir("avatarSceneSprites", (err, avatarSceneSprites) => {
-            return new Promise((resolve, reject) => {
-                if(!err){
-                    resolve(avatarSceneSprites)
-                }else{
-                    reject(err)
-                }
-            })
-            
-        })
-    }
-
-    // loadModeSprites = () => {
-    //     resources.loadDir("ModesSprites", (err, ModesSprites) => {
-    //         return new Promise((resolve, reject) => {
-    //             if(!err){
-    //                 resolve(ModesSprites)
-    //             }else{
-    //                 reject(err)
-    //             }
-    //         })
-            
-    //     })
-    // }
-
-    // loadPlayersLobbySprites = () => {
-    //     resources.loadDir("playersLobbySprites", (err, playersLobbySprites) => {
-    //         return new Promise((resolve, reject) => {
-    //             if(!err){
-    //                 resolve(playersLobbySprites)
-    //             }else{
-    //                 reject(err)
-    //             }
-    //         })
-            
-    //     })
-    // }
-
-    public getSettingsPrefab(name: string): Prefab{
-        let settingsPrefab = this.PrefabArr.find((prefab) => prefab.name == name)
-        return settingsPrefab;
-    }
+    
 
     public getMusicPrefab(name: string): Prefab{
         let musicPrefab = this.PrefabArr.find((prefab) => prefab.name == name)
         return musicPrefab;
+    }
+
+    public getSettingsPrefab(name: string): Prefab{
+        let settingsPrefab = this.PrefabArr.find((prefab) => prefab.name == name)
+        return settingsPrefab;
     }
 
     public getSettingsControlsPrefab(name: string): Prefab{
@@ -110,6 +76,21 @@ export class resourceManager {
             let clip = this.musicClips.find((clip) => clip.name == name);
             return clip || null;
         }
+    }
+
+    public getAccountPrefab(name: string): Prefab{
+        let accountPrefab = this.PrefabArr.find((prefab) => prefab.name == name)
+        return accountPrefab;
+    }
+
+    public getAccountControlsPrefab(name: string): Prefab{
+        let accountControlsPrefab = this.PrefabArr.find((prefab) => prefab.name == name)
+        return accountControlsPrefab;
+    }
+
+    public getPopUp(name: string): Prefab{
+        let popUp = this.PrefabArr.find((prefab) => prefab.name == name)
+        return popUp;
     }
 }
 

@@ -1,5 +1,6 @@
 import { _decorator, Component, Node, Slider, sys, Input } from 'cc';
 import { audioManager } from '../audio/scripts/audioManager';
+// import { audioManager } from '../audio/scripts/audioManager';
 // import { audioManager } from './audio/scripts/audioManager';
 const { ccclass, property } = _decorator;
 
@@ -25,15 +26,23 @@ export class VolumeAdjustment extends Component {
         this.closeButton.on(Input.EventType.TOUCH_START, () => {
             setTimeout(() => {
                 this.node.destroy()
+                console.log(this.node);
             });
         })
     }
 
+    /**
+     * Slider for adjusting music sound
+     */
     adjustMusicSound = () => {
         let progress = this.MusicSlider.getComponent(Slider).progress
         sys.localStorage.setItem('MusicProgress', JSON.stringify(progress))
         this.audioInstance.adjustMusicSound(progress)
     }
+
+    /**
+     * Slider for adjusting Sound effect
+     */
 
     adjustSoundEffect = () => {
         let progress = this.SoundSlider.getComponent(Slider).progress

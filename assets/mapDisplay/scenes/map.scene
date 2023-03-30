@@ -59,7 +59,7 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 960,
+      "x": 959.9999999999999,
       "y": 540,
       "z": 0
     },
@@ -141,7 +141,7 @@
     "_priority": 1073741824,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 612.2755741127348,
+    "_orthoHeight": 733.908754623921,
     "_near": 0,
     "_far": 2000,
     "_color": {
@@ -404,6 +404,10 @@
     "backButton": {
       "__id__": 6
     },
+    "mapSprite": {
+      "__uuid__": "bed0ba2d-4c97-43be-abbc-d79290be17ec@f9941",
+      "__expectedType__": "cc.SpriteFrame"
+    },
     "_id": "9fM2DTX6VBg6KwxiQD+wvU"
   },
   {
@@ -453,8 +457,8 @@
     "__prefab": null,
     "_alignFlags": 45,
     "_target": null,
-    "_left": 0,
-    "_right": 0,
+    "_left": -1.1368683772161603e-13,
+    "_right": -1.1368683772161603e-13,
     "_top": 5.684341886080802e-14,
     "_bottom": 5.684341886080802e-14,
     "_horizontalCenter": 0,

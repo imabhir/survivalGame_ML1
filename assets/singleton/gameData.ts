@@ -6,6 +6,7 @@ export class gameData {
     private static _instance: gameData = null;
     private modeIndex: gameData = null;
     private targetMapNode: Node = null;
+    private UserName: string = "";
     private gameData(){
 
     }
@@ -37,14 +38,25 @@ export class gameData {
         return this.modeIndex
     }
 
-    
-    // initMapWithMaxVotes(targetMapNode: Node){
-    //     this.targetMapNode = targetMapNode
-    //     console.log("Map initialized", this.targetMapNode);
-    // }
+    initMapWithMaxVotes(targetMapWithMaxVotes){
+        // console.log("Got map", targetMapWithMaxVotes);
+        
+        this.targetMapNode = targetMapWithMaxVotes
+    }
 
-    // getMapWithMaxVotes(): Node{
-    //     return this.targetMapNode
-    // }
+    getMapWithMaxVotes(){
+        console.log("Getting Map..",this.targetMapNode);
+        console.log("Name of the map", this.targetMapNode.name);
+        
+        return this.targetMapNode
+    }
+
+    SetUserName(UserName){
+        this.UserName = UserName
+    }
+
+    GetUserName(){
+        return this.UserName
+    }
 }
 

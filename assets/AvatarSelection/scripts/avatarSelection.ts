@@ -1,5 +1,6 @@
 import { _decorator, Component, Node, Prefab, instantiate, PageView, Input, Label, AudioClip, director, tween, Vec3, Slider, sys } from 'cc';
 import { audioManager } from '../../audio/scripts/audioManager';
+// import { audioManager } from '../../audio/scripts/audioManager';
 import { resourceManager } from '../../singleton/resourceManager';
 // import { resourceManager } from '../../singleton/resourceManager';
 // import { resourceManager } from '../../resourceManager';
@@ -16,22 +17,47 @@ export class avatarSelection extends Component {
     @property({type: Node})
     startButton: Node = null;
 
+    @property({type: Node})
+    SettingsNode: Node = null;
+
+    @property({type: Node})
+    AccountNode: Node = null;
+
     
     // names = ["Jack","Tim","John","Cook"]
-
     resourceInstance = resourceManager.getInstance();
     audioInstance = audioManager.getInstance();
     onLoad(){
-        this.addAvatar();
-        this.applyMusic();
-        this.addSettings();
-        this.resourceInstance.loadAvatarSprites()
-       
+        // let node = director.getScene().getChildByName("Background")
         this.resourceInstance.loadPrefabs();
         this.resourceInstance.loadMusic();
-        // this.CharacterSelected.active = false;
+
+
+        this.addSettings();
+        this.addAccountButton()
+        this.addAvatar();
+        
+        
         this.startButton.on(Input.EventType.TOUCH_START, this.goToModes)
-        // this.SelectAvatarButton.on(Input.EventType.TOUCH_START, this.selectAvatar)
+        this.applyMusic();
+    }
+
+
+
+    addAccountButton = () => {
+        this.scheduleOnce(() => {
+            const account = instantiate(this.resourceInstance.getAccountPrefab("Account"))
+            director.addPersistRootNode(account)
+            account.on(Input.EventType.TOUCH_START, this.openAccountInfo)
+            this.node.addChild(account)
+        }, 0.7)
+    }
+
+    openAccountInfo = () => {
+        if(this.AccountNode.children.length == 0){
+            const AccountInfo = instantiate(this.resourceInstance.getAccountControlsPrefab("AccountSettings"))
+            this.AccountNode.addChild(AccountInfo)
+        }
     }
 
     /**
@@ -43,16 +69,18 @@ export class avatarSelection extends Component {
             const setting = instantiate(this.resourceInstance.getSettingsPrefab("Settings"))
             setting.on(Input.EventType.TOUCH_START, this.openSettings)
             this.node.addChild(setting)
-        }, 1)
+        }, 0.7)
     }
 
     /**
      * Opening of settings
      */
-
+    
     openSettings = () => {
-        const settingsControls = instantiate(this.resourceInstance.getSettingsControlsPrefab("SettingsControls"))
-        this.node.addChild(settingsControls)
+        if(this.SettingsNode.children.length == 0){
+            let settingsControls = instantiate(this.resourceInstance.getSettingsControlsPrefab("SettingsControls"))
+            this.SettingsNode.addChild(settingsControls)   
+        }   
     }
     
 
@@ -64,13 +92,13 @@ export class avatarSelection extends Component {
         this.scheduleOnce(() => {
             const music = instantiate(this.resourceInstance.getMusicPrefab("Music"))
             this.node.addChild(music)
-        }, 1)
+        }, 0.7)
         
         
         this.scheduleOnce(()=>{
             const clip = this.resourceInstance.getMusicFile("audio1") 
             this.audioInstance.playMusicClip(clip, true)
-        }, 1)
+        }, 0.7)
     }
 
     /**
@@ -131,7 +159,29 @@ export class avatarSelection extends Component {
     }
 
     start() {
-
+        // async fetchResource(){
+        //     this.spriteArr = await singletonInstance.resourceLoad();
+        //     this.fetchBackground();
+        // }
+    
+        // /**
+        //  * This function is setting the background image
+        //  */
+    
+        // fetchBackground(){
+        //     let backgroundImage = this.spriteArr[singletonInstance.indexAsset("bg")];
+        //     this.background.getComponent(Sprite).spriteFrame = backgroundImage;
+            
+    
+        //     tween(this.loader).by(4, {angle: -360}).repeatForever().start();
+            
+        //     setTimeout(() => {
+        //         this.node.getChildByName("loading icon").active = false;
+        //         this.node.getChildByName("loader").active = false;
+        //         this.fetchLogo();
+        //     }, 2000)
+            
+        // }
     }
 
     update(deltaTime: number) {

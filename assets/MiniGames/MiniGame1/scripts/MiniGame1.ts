@@ -24,24 +24,19 @@ export class MiniGame1 extends Component {
 
     @property({type: JsonAsset})
     get levelData(){
-     return this.positions
+        return this.positions
     }
     set levelData(value){
         this.positions = value;
-        this.node.destroyAllChildren()
-        // this.updateLevel(this.positions.json)
+        // this.node.destroyAllChildren()
     }
 
 
+    LevelNumber = 0;
     onLoad(){
         this.taskCompleted.active = false;
         this.closebutton.on(Input.EventType.TOUCH_START, this.closeGame)
         this.updateLevel(this.positions.json)
-        // this.node.addChild(this.thunder);
-        // this.thunder.setPosition(this.positions.json[0].obj.x, this.positions.json[0].obj.y)
-        // this.thunder.angle = this.positions.json[0].angle;
-        // this.node.parent.getChildByName("completed").active = false;
-        // this.sticks();
     }
 
     closeGame = () => {
@@ -92,26 +87,28 @@ export class MiniGame1 extends Component {
         /**
          * Iterating the json file and checking each asset's types and creating the instance according to the type
          */
-        itemsInfo.forEach(element => {
+
+        console.log(this.LevelNumber);
+        itemsInfo[this.LevelNumber].forEach(element => {
             let item:Node=null;
             switch(element.itemType){
                 case ITEM_TYPE.BEGIN:{
-                    console.log("Thunder");
+                    // console.log("Thunder");
                     
                     item = instantiate(this.thunder);
                 }break;
                 case ITEM_TYPE.END:{
-                    console.log("Bulb");
+                    // console.log("Bulb");
                     
                     item = instantiate(this.bulb);
                 }break;
                 case ITEM_TYPE.L_SHAPED:{
-                    console.log("stickL");
+                    // console.log("stickL");
                     item = instantiate(this.stick);
                     
                 }break;
                 case ITEM_TYPE.STRAIGHT:{
-                    console.log("stickS");
+                    // console.log("stickS");
                     item = instantiate(this.stick);
                     
                 }break;
@@ -134,6 +131,8 @@ export class MiniGame1 extends Component {
      */
     randomize = () => {
         do{
+            // console.log(this.node.children.length);
+            
             this.node.children.forEach((element, index) => {
                 if(!element.getComponent(levelItem).isFixed){
                     element.angle = randomRangeInt(0,2)*90;    
@@ -141,7 +140,8 @@ export class MiniGame1 extends Component {
                     // Touch event on items which are not fixed
                     element.on(Input.EventType.TOUCH_START, this.checkPos)
                 }else{
-                    element.angle = this.positions.json[index].angle
+                    // element.angle = this.positions.json[index].angle
+                    element.angle = this.positions.json[this.LevelNumber][index].angle
                 }
             })
         }while(this.gameCompleted());
@@ -153,16 +153,21 @@ export class MiniGame1 extends Component {
      * This function rotates the stick either through 0 or 90
      */
     checkPos = (event) => {
-        if(event.target.angle == 0){
-            event.target.angle = 90;
-        }else if(event.target.angle == 90){
-            event.target.angle = 0;
-        }
-
+        event.target.angle == 0 ? event.target.angle = 90 : event.target.angle = 0;
         if(this.gameCompleted()){
             this.node.parent.getChildByName("completed").active = true;
-        }else{
-            this.node.parent.getChildByName("completed").active = false;
+            
+            this.LevelNumber+= 1;
+            // console.log(this.LevelNumber);
+            
+            if(this.LevelNumber < 2){
+                this.node.destroyAllChildren()
+                
+                this.updateLevel(this.positions.json)
+            }
+        }
+        else{
+            this.taskCompleted.active = false;
         }
     }
 
@@ -177,7 +182,6 @@ export class MiniGame1 extends Component {
                 flag = false;
             }
         })
-        // console.log(flag);
         return flag
     }
 

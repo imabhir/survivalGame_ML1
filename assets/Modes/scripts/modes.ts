@@ -1,7 +1,8 @@
 import { _decorator, Component, Node, PageView, Input, SpriteFrame, Sprite, UIOpacity, Vec3, Prefab, instantiate, UITransform, Label,JsonAsset, director, tween, Toggle } from 'cc';
-import { audioManager } from '../../audio/scripts/audioManager';
+// import { audioManager } from '../../audio/scripts/audioManager';
 // import { gameData } from '../../gameData';
 import { players } from '../../playersLobby/scripts/players';
+import { audioManager } from '../../audio/scripts/audioManager';
 import { gameData } from '../../singleton/gameData';
 import { resourceManager } from '../../singleton/resourceManager';
 // import { resourceManager } from '../../resourceManager';
@@ -32,16 +33,16 @@ export class modes extends Component {
     rotater: Node = null;
 
     @property({type: Node})
-    arrowButtonLeft: Node = null;
-
-    @property({type: Node})
-    arrowButtonRight: Node = null;
+    arrowButtons: Node = null;
 
     @property({type: Prefab})
     goldenBorder: Prefab = null;
 
     @property({type: Node})
     EnterButton: Node = null
+
+    @property({type: Node})
+    backButton: Node = null;
 
 
     // It is used to store the modeInformation which is used to check which mode we are entering in
@@ -57,46 +58,11 @@ export class modes extends Component {
         this.resourceInstance.loadPrefabs();
         this.resourceInstance.loadMusic();
 
-        /**
-         * Left button for sliding
-         */
-        this.arrowButtonLeft.on(Input.EventType.TOUCH_START, () => {
-            let currentIndex = this.node.getComponent(PageView).getCurrentPageIndex()
-            this.node.getComponent(PageView).setCurrentPageIndex(currentIndex+1)
+        this.slideWithButtons();
+        this.selectMode()
+        this.backButton.on(Input.EventType.TOUCH_START, () => {
+            director.loadScene("Avatar")
         })
-
-        /**
-         * Right button for sliding
-         */
-        this.arrowButtonRight.on(Input.EventType.TOUCH_START, () => {
-            let currentIndex = this.node.getComponent(PageView).getCurrentPageIndex()
-            this.node.getComponent(PageView).setCurrentPageIndex(currentIndex-1)
-        })
-
-        this.selectMode() 
-    }
-
-    /**
-     * This function is used for selection of particular mode
-     */
-
-    selectMode = () => {
-        this.node.getComponent(PageView).content.children.forEach((element) => {
-            const buttons = instantiate(this.Buttons)
-            const toggleButton = instantiate(this.Toggle)
-            
-            buttons.getChildByName("InstructionButton").on(Input.EventType.TOUCH_START, this.showInstructions)
-            element.on(Input.EventType.TOUCH_START, (event) => {
-                const Border = instantiate(this.goldenBorder)
-                event.target.addChild(Border)
-                toggleButton.getComponent(Toggle).isChecked = true
-                this.EnterButton.on(Input.EventType.TOUCH_START, () => {
-                    this.enterMode(element)
-                })
-            })
-            element.addChild(buttons)
-            element.addChild(toggleButton)
-        })   
     }
 
     /**
@@ -115,6 +81,105 @@ export class modes extends Component {
             this.audioInstance.playMusicClip(clip, true)
         }, 1)
     }
+    
+    /**
+     * Function for sliding with left and right arrow buttons
+     */
+    slideWithButtons = () => {
+        /**
+         * Left button for sliding
+         */
+        this.arrowButtons.children[1].getComponent(UIOpacity).opacity = 150
+        this.arrowButtons.children[0].on(Input.EventType.TOUCH_START, () => {
+            let currentIndex = this.node.getComponent(PageView).getCurrentPageIndex()
+            this.node.getComponent(PageView).setCurrentPageIndex(currentIndex+1)
+            currentIndex++;
+            
+            if(this.node.getComponent(PageView).content.children.length%2 == 0 && currentIndex == Math.floor(this.node.getComponent(PageView).content.children.length/2) - 1){
+                this.arrowButtons.children[1].getComponent(UIOpacity).opacity = 255
+                this.arrowButtons.children[0].getComponent(UIOpacity).opacity = 150
+            }
+            else if(currentIndex == Math.floor(this.node.getComponent(PageView).content.children.length/2)){
+                this.arrowButtons.children[1].getComponent(UIOpacity).opacity = 255
+                this.arrowButtons.children[0].getComponent(UIOpacity).opacity = 150
+            }
+        })
+
+        /**
+         * Right button for sliding
+         */
+        this.arrowButtons.children[1].on(Input.EventType.TOUCH_START, () => {
+            let currentIndex = this.node.getComponent(PageView).getCurrentPageIndex()
+            this.node.getComponent(PageView).setCurrentPageIndex(currentIndex-1)
+            currentIndex--;
+            if(currentIndex == 0){
+                this.arrowButtons.children[0].getComponent(UIOpacity).opacity = 255
+                this.arrowButtons.children[1].getComponent(UIOpacity).opacity = 150
+            } 
+        })
+    }
+
+    /**
+     * This function is used for selection of particular mode
+     */
+
+    // elementTouchEvent;
+    selectMode = () => {
+        this.node.getComponent(PageView).content.children.forEach((element) => {
+            const buttons = instantiate(this.Buttons)
+            const toggleButton = instantiate(this.Toggle)
+            toggleButton.active = false;
+            element.on(Input.EventType.TOUCH_START, (event) => {
+                // this.elementTouchEvent = event.target
+                this.clickMode(element, toggleButton, event)
+            })
+
+            
+            buttons.getChildByName("InstructionButton").on(Input.EventType.TOUCH_START, this.showInstructions)
+            element.addChild(buttons)
+            element.addChild(toggleButton)
+        })   
+    }
+
+    clickMode = (element, toggleButton, event) => {
+        let Border = null;
+        if(element.getChildByName("goldenBorder") == null){
+            Border = instantiate(this.goldenBorder)
+            element.addChild(Border)
+        }
+        
+        // toggleButton.getComponent(Toggle).isChecked = true;
+        toggleButton.active = true
+
+        // Enter button for entering specific mode
+        this.EnterButton.on(Input.EventType.TOUCH_START, () => {
+            this.enterMode(element)
+        })
+        
+        this.checkIfOtherModeSelected(event, toggleButton)
+    }
+    
+
+    /**
+     * 
+     * @param event Used to fetch target node
+     * This function is used if any mode is previously selected or not.
+     */
+    checkIfOtherModeSelected = (event, toggleButton) => {
+        // console.log(this.elementTouchEvent);
+        let elementChildrenLength = this.node.getComponent(PageView).content.children.length
+        this.node.getComponent(PageView).content.children.forEach((element) => {
+            if(event.target != element && element.children.length == elementChildrenLength){
+                setTimeout(() => {
+                    element.getChildByName("goldenBorder").destroy()
+                    element.getChildByName("Toggle").active = false;
+                });
+                
+            }
+        })   
+        
+    }
+
     
 
     /**
@@ -137,7 +202,7 @@ export class modes extends Component {
         this.audioInstance.stopMusic()
 
         setTimeout(() => {
-            director.loadScene("playersLobby")
+            director.loadScene("PlayingOptions")
         }, 3000);
         
         this.gameDataInstance.initMode(this.modeIndex)
