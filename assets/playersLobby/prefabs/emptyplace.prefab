@@ -1,7 +1,7 @@
 [
   {
     "__type__": "cc.Prefab",
-    "_name": "character",
+    "_name": "emptyplace",
     "_objFlags": 0,
     "_native": "",
     "data": {
@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "character",
+    "_name": "emptyplace",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": null,
@@ -107,7 +107,7 @@
       "a": 255
     },
     "_spriteFrame": {
-      "__uuid__": "146251cc-ad1d-46f7-af86-8b1ef1135f3c@f9941",
+      "__uuid__": "6b146555-9057-4bf5-a61c-e95706c393db@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_type": 0,

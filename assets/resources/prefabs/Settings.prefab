@@ -36,7 +36,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 406.198,
-      "y": -474.354,
+      "y": -487.727,
       "z": 0
     },
     "_lrot": {
@@ -174,7 +174,10 @@
       "b": 124,
       "a": 255
     },
-    "_normalSprite": null,
+    "_normalSprite": {
+      "__uuid__": "927e32ff-2d10-4c19-944a-04f7f68d1adf@f9941",
+      "__expectedType__": "cc.SpriteFrame"
+    },
     "_hoverSprite": null,
     "_pressedSprite": null,
     "_disabledSprite": null,

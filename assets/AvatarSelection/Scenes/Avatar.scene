@@ -1,7 +1,7 @@
 [
   {
     "__type__": "cc.SceneAsset",
-    "_name": "",
+    "_name": "Avatar",
     "_objFlags": 0,
     "_native": "",
     "scene": {
@@ -1140,8 +1140,8 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -754.042,
-      "y": -336.507,
+      "x": -711.226,
+      "y": -436.818,
       "z": 0
     },
     "_lrot": {
@@ -1282,8 +1282,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 400,
-      "height": 150
+      "width": 500,
+      "height": 200
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",

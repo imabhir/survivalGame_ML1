@@ -1,18 +1,14 @@
 import { _decorator, Component, Node, UITransform, Vec3, Vec2, Animation, ImageAsset, SpriteFrame, Sprite, PhysicsSystem, PhysicsSystem2D, AudioClip, AudioSourceComponent, Collider2D, Contact2DType, IPhysics2DContact, Camera, log, EPhysics2DDrawFlags, TiledMap, instantiate, Prefab, randomRangeInt, RigidBody, RigidBody2D } from "cc";
 import { Room } from "../../../extensions/colyseus-sdk/runtime/colyseus";
-import { data_manager } from "../data_manager";
+import { Event } from "../photon/photonconstants"
 import { walls } from "../wallscollisions";
-import config from "../../cloud-app-info"
+import { photonmanager } from "../photon/photonmanager";
+import photon from "../photon/photon";
 const { ccclass, property } = _decorator;
-var photon_instance; var DemoWss = config && config.Wss;
-var DemoAppId = config && config.AppId ? config.AppId : "a36f3ed3-e604-4772-9b98-985d37c5f6ac";
-var DemoAppVersion = config && config.AppVersion ? config.AppVersion : "1.0";
-var DemoMasterServer = config && config.MasterServer;
-var DemoNameServer = config && config.NameServer;
-var DemoRegion = config && config.Region;
-var DemoFbAppId = config && config.FbAppId;
 
-var ConnectOnStart = false;
+
+
+
 @ccclass("PlayerMovement")
 export class PlayerMovement extends Component {
     @property({ type: SpriteFrame })
@@ -41,8 +37,8 @@ export class PlayerMovement extends Component {
     touchenabled: boolean = true;
     count: number = 0;
     anlges: number = 0
-    data: data_manager;
     actors: any;
+    photon_instance
     start() {
         this.touchEventsFunc();
         PhysicsSystem2D.instance.enable = true;
@@ -50,12 +46,7 @@ export class PlayerMovement extends Component {
             PhysicsSystem2D.instance.on(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this);
             PhysicsSystem2D.instance.on(Contact2DType.END_CONTACT, () => { this.collided = false; }, this);
         }
-        ConnectOnStart = true;
-        photon_instance = new photon;
-
-        photon_instance.player_movements = this;
-        photon_instance.start();
-        photon_instance.myActor().setCustomProperty("position", this.node.getPosition());
+        this.photon_instance.myActor().setCustomProperty("position", this.node.getPosition());
 
     }
     onLoad() {
@@ -63,7 +54,12 @@ export class PlayerMovement extends Component {
         this.finalPos = this.node.getPosition();
         this.intialPos = new Vec3(1, 1, 0);
         this.startPos = this.joyStickBall.getPosition();
-        this.data = data_manager.getInstance();
+        this.photon_instance = photonmanager.getInstance().photon_instance;
+        this.photon_instance.player_movements = this;
+        this.addedactor(this.photon_instance.myActor())
+
+
+
     }
     onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {//collsion callback functions
         if (otherCollider.node.name == "player") {
@@ -72,6 +68,7 @@ export class PlayerMovement extends Component {
             otherCollider.restitution = 0;
             this.collided = true;
         }
+        otherCollider.node.getComponent(Animation).pause();
     }
     touchEventsFunc() {//touch events handler
         this.joyStickBall.on(Node.EventType.TOUCH_START, this.touchStart, this);
@@ -90,7 +87,7 @@ export class PlayerMovement extends Component {
     touchEnd() {
         this.canMovePlayer = false;
         this.joyStickBall.setPosition(0, 0, 0);
-        photon_instance.myActor().setCustomProperty("angle", null);
+        this.photon_instance.myActor().setCustomProperty("angle", null);
         this.node.getComponent(Animation)?.pause();
     }
     touchStart() {
@@ -142,7 +139,9 @@ export class PlayerMovement extends Component {
                 this.anlges = angleDeg;
             }
             this.getDirection(this.node, this.anlges);
-            photon_instance.myActor().setCustomProperty("angle", this.anlges);
+            // this.photon_instance.myActor().setCustomProperty("angle", this.anlges);
+
+            this.photon_instance.raiseEvent(Event.Animation, this.anlges, {});
         }
     }
     getDirection(node, angle) {
@@ -177,7 +176,7 @@ export class PlayerMovement extends Component {
     }
     playWalkAnmation(node, walkDirection: String) {
 
-        console.log(node);
+
 
         switch (walkDirection) {
             case "North":
@@ -223,37 +222,31 @@ export class PlayerMovement extends Component {
         }
     }
     addedactor(actor: any) {
-        var actors = Object.keys(photon_instance.myRoomActors()).map(key => {
-            return photon_instance.myRoomActors()[key];
+        var actors = Object.keys(this.photon_instance.myRoomActors()).map(key => {
+            return this.photon_instance.myRoomActors()[key];
         })
         actors.forEach((actor) => {
-            if (actor.actorNr != photon_instance.myActor().actorNr) {
+            if (actor.actorNr != this.photon_instance.myActor().actorNr && !this.node.parent.getChildByName(actor.actorNr.toString())) {
+                console.log(actor.actorNr);
                 let player = instantiate(this.player_prefab)
                 player.name = actor.actorNr.toString()
                 this.node.parent.addChild(player);
             }
         })
-        console.log(photon_instance.myRoomActors());
+        console.log(this.photon_instance.myRoomActors());
 
     }
-
     move_actor(actor: any) {
-        if (actor.actorNr != photon_instance.myActor().actorNr) {
+        if (actor.actorNr != this.photon_instance.myActor().actorNr) {
 
             var child = this.node.parent.getChildByName(actor.actorNr.toString())
-            console.log(actor.getCustomProperty("angle"));
-            if (actor.getCustomProperty("angle") == null) {
-
-
-                child.getComponent(Animation).pause();
-            }
-            else {
-                //function is called again and again which causes animation unable to play;
-                this.getDirection(child, actor.getCustomProperty("angle"))
-            }
             child.setPosition(actor.getCustomProperty("position"))
         }
 
+    }
+    enableanimation(actorNr: number, content: any) {
+        var child = this.node.parent.getChildByName(actorNr.toString())
+        this.getDirection(child, content)
     }
     destroycharacter(actor: Photon.LoadBalancing.Actor) {
         var child = this.node.parent.getChildByName(actor.actorNr.toString())
@@ -271,12 +264,12 @@ export class PlayerMovement extends Component {
             else {
                 this.finalPos = this.node.getPosition();
             }
-            photon_instance.myActor().setCustomProperty("position", this.node.getPosition());
+            this.photon_instance.myActor().setCustomProperty("position", this.node.getPosition());
             this.pos.x = 0;
             this.pos.y = 0;
         }
+        let currentPostion = this.node.getPosition();
         let playerPosition = new Vec3();
-        let currentPostion: Vec3 = this.node.getPosition();
         if (this.collided && this.count == 0) {
             //condition to handle collisions for an particular angle only
             if ((this.anlges < 295 && this.anlges > 245) || (this.anlges < 25 || this.anlges > 345) || (this.anlges > 75 && this.anlges < 115) || (this.anlges > 155 && this.anlges < 215)) {
@@ -287,100 +280,16 @@ export class PlayerMovement extends Component {
 
             }
         }
-        if (this.collided) {//condition to stop lerp function on collision
+        if (this.collided) {//condition to stop lerp function on collision            
             this.finalPos = currentPostion; this.pos = new Vec2(0, 0); this.collided = false; console.log(this.canMovePlayer, "hell ya");
 
         }
-        this.data.actorproperty = playerPosition;
         Vec3.lerp(playerPosition, currentPostion, this.finalPos, 0.06);
         this.node.setPosition(playerPosition);
         this.camera.setPosition(playerPosition.x + this.camera.parent.getComponent(UITransform).width * 0.1, playerPosition.y + this.camera.parent.getComponent(UITransform).height * 0.3);//code for camera movements
     }
 }
 
-
-
-/** 
-*@class extension of photon class
-*@usage an object of this class can be made inside the same script within or outside any class
-**/
-export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
-    logger = new Exitgames.Common.Logger("Zombieamongus:");
-    checker = 1;
-    player_movement: PlayerMovement;
-    constructor() {
-        super(1, DemoAppId, "1.0");
-        this.logger.info("Photon Version: " + Photon.Version + (Photon.IsEmscriptenBuild ? "-em" : ""));
-        // uncomment to use Custom Authentication
-        // config.setCustomAuthentication("username=" + "yes" + "&token=" + "yes");
-        this.logger.info("Init", this.getNameServerAddress(), DemoAppId, DemoAppVersion);
-        this.setLogLevel(Exitgames.Common.Logger.Level.INFO);
-        // this.data = data_manager.getInstance()
-        this.player_movement = new PlayerMovement;
-    }
-    set player_movements(value: PlayerMovement) {
-        this.player_movement = value;
-    }
-    start() {
-        if (ConnectOnStart) {
-            if (DemoMasterServer) {
-                this.setMasterServerAddress(DemoMasterServer);
-                this.connect();
-            }
-            if (DemoNameServer) {
-                this.setNameServerAddress(DemoNameServer);
-                this.connectToRegionMaster(DemoRegion || "in");
-            }
-            else {
-                this.connectToRegionMaster(DemoRegion || "in");
-
-                //config.connectToNameServer({ region: "EU", lobbyType: Photon.LoadBalancing.Constants.LobbyType.Default });
-            }
-        }
-    }
-
-    onJoinRoom(createdByMe: boolean): void {
-        console.log(createdByMe);
-    }
-    onActorJoin(actor: Photon.LoadBalancing.Actor): void {
-        console.log(actor
-        );
-        console.log(this.myRoomActorCount());
-
-        // this.addedactor
-        // this.data.countofactors = this.myRoomActorCount();
-        //this.player.addplayer();
-        this.player_movement.addedactor(actor);
-
-    }
-    onActorPropertiesChange(actor: Photon.LoadBalancing.Actor): void {
-        this.player_movement.move_actor(actor)
-    }
-    onActorLeave(actor: Photon.LoadBalancing.Actor, cleanup: boolean): void {
-        this.player_movement.destroycharacter(actor);
-        console.log("gaya")
-    }
-    onMyRoomPropertiesChange(): void {
-        console.log("config");
-    }
-    onStateChange(state: number): void {
-        console.log(state);
-        this.check();
-    }
-    check() {
-        if (this.checker) {
-            if (this.isInLobby()) {
-                var name = "abcde";
-                this.joinRandomOrCreateRoom({ expectedMaxPlayers: 2 },
-                    undefined,
-                    { emptyRoomLiveTime: 20000, maxPlayers: 2 });
-                console.log("ban gaya");
-
-                this.checker = 0;
-            }
-        }
-    }
-}
 
 
 

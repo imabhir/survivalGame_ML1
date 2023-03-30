@@ -1,5 +1,6 @@
 import { _decorator, Component, Node, Prefab, instantiate, PageView, Input, Label, AudioClip, director, tween, Vec3, Slider, sys } from 'cc';
 import { audioManager } from '../../audio/scripts/audioManager';
+import { photonmanager } from '../../Script/photon/photonmanager';
 import { resourceManager } from '../../singleton/resourceManager';
 // import { resourceManager } from '../../singleton/resourceManager';
 // import { resourceManager } from '../../resourceManager';
@@ -7,31 +8,34 @@ const { ccclass, property } = _decorator;
 
 @ccclass('avatarSelection')
 export class avatarSelection extends Component {
-    @property({type: Prefab})
+    @property({ type: Prefab })
     avatar: Prefab = null;
 
-    @property({type:PageView})
+    @property({ type: PageView })
     pageView: PageView = null;
 
-    @property({type: Node})
+    @property({ type: Node })
     startButton: Node = null;
 
-    
+
     // names = ["Jack","Tim","John","Cook"]
 
     resourceInstance = resourceManager.getInstance();
     audioInstance = audioManager.getInstance();
-    onLoad(){
+    b: any;
+    onLoad() {
         this.addAvatar();
         this.applyMusic();
         this.addSettings();
-        this.resourceInstance.loadAvatarSprites()
-       
+
+
         this.resourceInstance.loadPrefabs();
         this.resourceInstance.loadMusic();
         // this.CharacterSelected.active = false;
         this.startButton.on(Input.EventType.TOUCH_START, this.goToModes)
         // this.SelectAvatarButton.on(Input.EventType.TOUCH_START, this.selectAvatar)
+        this.b = photonmanager.getInstance().photon_instance;
+        this.b.start();
     }
 
     /**
@@ -54,7 +58,7 @@ export class avatarSelection extends Component {
         const settingsControls = instantiate(this.resourceInstance.getSettingsControlsPrefab("SettingsControls"))
         this.node.addChild(settingsControls)
     }
-    
+
 
     /**
      * This functions applies the audio to the scene
@@ -65,10 +69,10 @@ export class avatarSelection extends Component {
             const music = instantiate(this.resourceInstance.getMusicPrefab("Music"))
             this.node.addChild(music)
         }, 1)
-        
-        
-        this.scheduleOnce(()=>{
-            const clip = this.resourceInstance.getMusicFile("audio1") 
+
+
+        this.scheduleOnce(() => {
+            const clip = this.resourceInstance.getMusicFile("audio1")
             this.audioInstance.playMusicClip(clip, true)
         }, 1)
     }
@@ -77,7 +81,7 @@ export class avatarSelection extends Component {
      * This function is used for adding avatars
      */
     addAvatar = () => {
-        for(let i=0;i<4;i++){
+        for (let i = 0; i < 4; i++) {
             const avatar = instantiate(this.avatar);
             this.pageView.content.addChild(avatar);
             // avatar.getChildByName("Name").getComponent(Label).string = this.names[i]
@@ -87,22 +91,22 @@ export class avatarSelection extends Component {
     /**
      * This function is used for sliding the avatar forward. Button click event is applied on button.
      */
-    changeAvatarForward(){
+    changeAvatarForward() {
         let currentIndex = this.pageView.getCurrentPageIndex();
-        this.pageView.setCurrentPageIndex(currentIndex+1)
-        
-        const clip = this.resourceInstance.getMusicFile("AvatarChanging") 
-        this.audioInstance.playSoundEffect(clip)    
+        this.pageView.setCurrentPageIndex(currentIndex + 1)
+
+        const clip = this.resourceInstance.getMusicFile("AvatarChanging")
+        this.audioInstance.playSoundEffect(clip)
     }
 
     /**
      * This function is used for sliding the avatar backward. Button click event is applied on button.
      */
-    changeAvatarBackWard(){
+    changeAvatarBackWard() {
         let currentIndex = this.pageView.getCurrentPageIndex();
-        this.pageView.setCurrentPageIndex(currentIndex-1)
-        
-        const clip = this.resourceInstance.getMusicFile("AvatarChanging") 
+        this.pageView.setCurrentPageIndex(currentIndex - 1)
+
+        const clip = this.resourceInstance.getMusicFile("AvatarChanging")
         this.audioInstance.playSoundEffect(clip)
     }
 
@@ -120,12 +124,12 @@ export class avatarSelection extends Component {
     selectAvatar = () => {
         let getAvatar: Node;
         this.pageView.content.children.forEach((element, index) => {
-            if(index == this.pageView.getCurrentPageIndex()){
+            if (index == this.pageView.getCurrentPageIndex()) {
                 getAvatar = element
             }
         })
 
-        tween(getAvatar).to(0.3, {scale: new Vec3(1.5, 1.5)}).start()
+        tween(getAvatar).to(0.3, { scale: new Vec3(1.5, 1.5) }).start()
         this.node.getChildByName("Arrows").active = false;
         // this.CharacterSelected.active = true
     }
@@ -135,7 +139,7 @@ export class avatarSelection extends Component {
     }
 
     update(deltaTime: number) {
-        
+
     }
 }
 

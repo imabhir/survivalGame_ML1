@@ -1,7 +1,7 @@
 [
   {
     "__type__": "cc.SceneAsset",
-    "_name": "",
+    "_name": "Load",
     "_objFlags": 0,
     "_native": "",
     "scene": {
@@ -25,7 +25,7 @@
     "_globals": {
       "__id__": 18
     },
-    "_id": "3cff5c3b-3fe8-4c2f-ac51-3dbcda1a322d"
+    "_id": "0c162cc2-0768-49d7-8e01-f8c33d92541e"
   },
   {
     "__type__": "cc.Node",
@@ -57,7 +57,7 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 960,
+      "x": 959.9999999999999,
       "y": 540,
       "z": 0
     },
@@ -139,7 +139,7 @@
     "_priority": 1073741824,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 612.2755741127348,
+    "_orthoHeight": 614.2797494780793,
     "_near": 0,
     "_far": 2000,
     "_color": {
@@ -558,8 +558,8 @@
     "__prefab": null,
     "_alignFlags": 45,
     "_target": null,
-    "_left": 0,
-    "_right": 0,
+    "_left": -1.1368683772161603e-13,
+    "_right": -1.1368683772161603e-13,
     "_top": 5.684341886080802e-14,
     "_bottom": 5.684341886080802e-14,
     "_horizontalCenter": 0,

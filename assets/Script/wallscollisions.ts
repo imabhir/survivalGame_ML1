@@ -1,8 +1,6 @@
 import { _decorator, Component, Node, TiledMap, PhysicsSystem2D, Contact2DType, Collider2D, IPhysics2DContact, Rect, UITransform, TiledObjectGroup, Vec3, TiledLayer, TiledTile, RigidBody, RigidBody2D, RigidBodyComponent, BoxCollider2D, Vec2, ERigidBody2DType, PhysicsSystem, EPhysics2DDrawFlags, director, Prefab, instantiate, GraphicsComponent, rect, log, Input, TiledMapAsset, Button, Sprite, Event, EventHandler, math, randomRangeInt } from 'cc';
-import { data_manager } from './data_manager';
 const { ccclass, property } = _decorator;
 var player: walls;
-var data: data_manager;
 var photon;
 @ccclass('walls')
 export class walls extends Component {
@@ -27,7 +25,6 @@ export class walls extends Component {
     minigame: Node;
     demo: Photon.LoadBalancing.LoadBalancingClient;
     actors = 0;
-    data: data_manager;
 
     onLoad() {
         PhysicsSystem2D.instance.enable = true;
@@ -36,7 +33,6 @@ export class walls extends Component {
         this.camera.setPosition(this.maincamera.getPosition())
 
         this.use_button.getComponent(Button).interactable = false
-        this.data = data_manager.getInstance();
     }
     start() {//refer to link https://juejin.cn/post/7068114266716373029
         this.enablecollision("level1")

@@ -6,7 +6,7 @@ export class gameData {
     private static _instance: gameData = null;
     private modeIndex: gameData = null;
     private targetMapNode: Node = null;
-    private gameData(){
+    private gameData() {
 
     }
 
@@ -14,8 +14,8 @@ export class gameData {
      * 
      * @returns instance of the class
      */
-    public static getInstance(){
-        if(!gameData._instance){
+    public static getInstance() {
+        if (!gameData._instance) {
             gameData._instance = new gameData()
         }
         return gameData._instance
@@ -25,7 +25,7 @@ export class gameData {
      * 
      * @param index It is the index of the mode as defined in enum
      */
-    initMode(index){
+    initMode(index) {
         this.modeIndex = index;
     }
 
@@ -33,21 +33,21 @@ export class gameData {
      * 
      * @returns the mode index which is used in deciding the number of players as per the mode
      */
-    getModeOnSelect(){
+    getModeOnSelect() {
         return this.modeIndex
     }
 
-    initMapWithMaxVotes(targetMapWithMaxVotes){
+    initMapWithMaxVotes(targetMapWithMaxVotes) {
         // console.log("Got map", targetMapWithMaxVotes);
-        
+
         this.targetMapNode = targetMapWithMaxVotes
     }
 
-    getMapWithMaxVotes(){
-        console.log("Getting Map..",this.targetMapNode);
-        
+    getMapWithMaxVotes() {
+        // console.log("Getting Map..", this.targetMapNode);
+        // console.log("Name of the map", this.targetMapNode.name);
+
         return this.targetMapNode
     }
-    
 }
 
