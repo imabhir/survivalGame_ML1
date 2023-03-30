@@ -99,7 +99,6 @@ export class playerslobby extends Component {
 
 
     addplayerinlobby() {
-        const player = instantiate(this.player)
         let actorcount = this.photon.myRoomActorCount();
         var actors = Object.keys(this.photon.myRoomActors()).map(key => {
             return this.photon.myRoomActors()[key];
@@ -110,6 +109,8 @@ export class playerslobby extends Component {
             console.log(this.node.getChildByName((actorcount - 1).toString()).children.length);
 
             if (this.node.getChildByName(place.toString()).children.length == 0) {
+                console.log(this.player);
+
                 const player = instantiate(this.player)
                 player.name = actor.actorNr.toString()
                 this.node.getChildByName(place.toString()).addChild(player);

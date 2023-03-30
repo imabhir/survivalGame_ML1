@@ -1,7 +1,7 @@
 [
   {
     "__type__": "cc.SceneAsset",
-    "_name": "playersLobby",
+    "_name": "",
     "_objFlags": 0,
     "_native": "",
     "scene": {
@@ -257,8 +257,8 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 747.438,
-      "y": -156.966,
+      "x": 762.8,
+      "y": -174.852,
       "z": 0
     },
     "_lrot": {
@@ -639,8 +639,8 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 750.507,
-      "y": -399.48,
+      "x": 762.8,
+      "y": -400.835,
       "z": 0
     },
     "_lrot": {
@@ -663,7 +663,7 @@
       "y": 0,
       "z": 0
     },
-    "_id": "12cEtMZBZEcJGkNPJWpFh2"
+    "_id": "2ee45QL0dAKa0/vsm2A1d2"
   },
   {
     "__type__": "cc.Node",
@@ -709,7 +709,7 @@
       "y": 0,
       "z": 0
     },
-    "_id": "67jMBRjmtLfKiJoRVz2B6B"
+    "_id": "d4SYTkluNFNarZWQCLum73"
   },
   {
     "__type__": "cc.UITransform",
@@ -730,7 +730,7 @@
       "x": 0.5,
       "y": 0.5
     },
-    "_id": "5be3lPAyFIX57D1QfriOdT"
+    "_id": "80WrsuvBtMvLuBNCP9otxO"
   },
   {
     "__type__": "cc.Label",
@@ -768,7 +768,7 @@
     "_isUnderline": false,
     "_underlineHeight": 2,
     "_cacheMode": 0,
-    "_id": "a0RaLcBFhAEomtIVQAWiQQ"
+    "_id": "a3EqFZc0dB2pn8PiO/OzPf"
   },
   {
     "__type__": "cc.UITransform",
@@ -789,7 +789,7 @@
       "x": 0.5,
       "y": 0.5
     },
-    "_id": "4cUc9ztOZN2r6xx44VGyZc"
+    "_id": "fcjqgmx0BBb7rB8TKmSWBp"
   },
   {
     "__type__": "cc.Sprite",
@@ -827,7 +827,7 @@
     "_isTrimmedMode": true,
     "_useGrayscale": false,
     "_atlas": null,
-    "_id": "14yeuCAS9O0IX7wknj3BeF"
+    "_id": "14cfbit89PUrww0nMRYnk+"
   },
   {
     "__type__": "cc.Button",
@@ -894,7 +894,7 @@
     "_target": {
       "__id__": 16
     },
-    "_id": "399Y5mRWRLo4Q42NfYDi0P"
+    "_id": "44oaI1e91ESpglJkxrnOdL"
   },
   {
     "__type__": "cc.ClickEvent",

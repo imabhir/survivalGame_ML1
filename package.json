@@ -3,7 +3,7 @@
   "uuid": "0e5a268c-a9a4-4023-8e3f-fbcde29cb57c",
   "version": "3.6.3",
   "creator": {
-    "version": "3.7.0"
+    "version": "3.6.3"
   },
   "dependencies": {
     "touch": "^3.1.0"
