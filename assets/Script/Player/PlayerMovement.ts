@@ -8,23 +8,29 @@ const { ccclass, property } = _decorator;
 
 
 
-
 @ccclass("PlayerMovement")
 export class PlayerMovement extends Component {
     @property({ type: SpriteFrame })
     playerImage: SpriteFrame = null;
+
     @property({ type: Node })
     joystick: Node = null;
+
     @property({ type: Node })
     joyStickBall: Node = null;
+
     @property({ type: Node })
     camera: Node = null;
+
     @property({ type: Node })
     controller: Node = null;
+
     @property({ type: Node })
     map: Node = null;
+
     @property({ type: Prefab })
     player_prefab: Prefab = null
+
     pos: Vec2 = null;
     startPos: Vec3 = null;
     intialPos: Vec3 = null;
@@ -33,7 +39,7 @@ export class PlayerMovement extends Component {
     canMovePlayer: boolean = false;
     collided: boolean = false;
     collisionangle: number = null
-    playerSpeed: number = 0.04
+    playerSpeed: number = 0.08
     touchenabled: boolean = true;
     count: number = 0;
     anlges: number = 0
@@ -50,17 +56,28 @@ export class PlayerMovement extends Component {
 
     }
     onLoad() {
+        console.log(this.node.getPosition());
+        
         this.finalPosBall = new Vec3(1, 1, 0);
+        // Player final Position
         this.finalPos = this.node.getPosition();
+        
+        // Player initial Position
         this.intialPos = new Vec3(1, 1, 0);
+
+        // joystick ball position
         this.startPos = this.joyStickBall.getPosition();
+
+
         this.photon_instance = photonmanager.getInstance().photon_instance;
         this.photon_instance.player_movements = this;
         this.addedactor(this.photon_instance.myActor())
 
-
-
+        // this.schedule(this.CameraMovement, 0.01)
     }
+
+
+    
     onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {//collsion callback functions
         if (otherCollider.node.name == "player") {
             this.node.getComponent(RigidBody2D).linearVelocity = new Vec2(0, 0);
@@ -88,7 +105,7 @@ export class PlayerMovement extends Component {
         this.canMovePlayer = false;
         this.joyStickBall.setPosition(0, 0, 0);
         this.photon_instance.myActor().setCustomProperty("angle", null);
-        this.node.getComponent(Animation)?.pause();
+        this.node.getComponent(Animation).pause();
     }
     touchStart() {
         this.joyStickBall.setPosition(0, 0, 0);
@@ -102,21 +119,28 @@ export class PlayerMovement extends Component {
 
                 this.node.setSiblingIndex(0);
             }
-
         })
     }
     touchMove(e) {
-
         //functionality to check if the touch is wihtin the limit for the joystick to be enabled
         let first_touch = this.controller.getComponent(UITransform).convertToNodeSpaceAR(new Vec3(e.getUILocation().x, e.getUILocation().y, e.getUILocation().z))
+        // console.log(first_touch);
+        
         let final_touch = new Vec2(this.startPos.x - first_touch.x, this.startPos.y - first_touch.y)
+        // console.log(final_touch);
+        
+
+
         let width_check = new Vec3(this.controller.parent.getComponent(UITransform).width / 2 - this.controller.getComponent(UITransform).width / 2, this.controller.parent.getComponent(UITransform).height / 2 - this.controller.getComponent(UITransform).width / 2, 0)
         if (final_touch.length() > width_check.length()) {
             this.touchenabled = false
             this.touchEnd();
         }
+
+
         //if the player is not collided then functionality to move player 
         if (!this.collided) {
+            
             this.intialPos = this.controller
                 .getComponent(UITransform)
                 .convertToNodeSpaceAR(new Vec3(e.getUILocation().x, e.getUILocation().y, e.getUILocation().z));//controller node is passed as an property to get its height and width such that the cameras motion doesnt effect the position
@@ -130,7 +154,11 @@ export class PlayerMovement extends Component {
             var dx = this.intialPos.x;
             var angleRad = Math.atan2(dy, dx);
             var angleDeg = (angleRad * 180) / Math.PI;
+
+            
             this.handlecollision(angleDeg);
+
+
             this.joyStickBall.setPosition(this.intialPos);
             if (angleDeg < 0) {
                 this.anlges = angleDeg + 360;//convert angle to positive
@@ -146,8 +174,10 @@ export class PlayerMovement extends Component {
     }
     getDirection(node, angle) {
         console.log("config");
-        //handling animations according to     joystick movement
+        //handling animations according to joystick movement
         if (angle > 335 && angle < 359 || angle < 25 && angle > 0) {
+            console.log("Easr");
+            
             this.playWalkAnmation(node, "East");
         } else if (angle > 25 && angle < 75) {
             this.playWalkAnmation(node, "North_East");
@@ -156,67 +186,63 @@ export class PlayerMovement extends Component {
         } else if (angle > 125 && angle < 155) {
             this.playWalkAnmation(node, "North_West");
         } else if (angle > 155 && angle < 215) {
+            console.log("Wesr");
             this.playWalkAnmation(node, "West");
         } else if (angle > 215 && angle < 255) {
             this.playWalkAnmation(node, "South_West");
         } else if (angle > 245 && angle < 315) {
             this.playWalkAnmation(node, "South");
-        }
-        else {
+        } else {
             this.playWalkAnmation(node, "South_East");
         }
     }
     handlecollision(angle) {//function to block the particular part of joystick on collisions
-
-        if (this.anlges < (this.collisionangle - 25) || this.anlges > (this.collisionangle + 25)) {
-            this.playerSpeed = 0.04
+        // if (this.anlges < (this.collisionangle - 25) || this.anlges > (this.collisionangle + 25)) {
+            this.playerSpeed = 0.08
             this.count = 0;
             this.collided = false
-        }
+        // }
     }
     playWalkAnmation(node, walkDirection: String) {
-
-
-
         switch (walkDirection) {
             case "North":
                 {
-                    node.getComponent(Animation)?.play("north");
+                    this.node.getComponent(Animation)?.play("north");
                 }
                 break;
             case "East":
                 {
-                    node.getComponent(Animation)?.play("east");
+                    this.node.getComponent(Animation)?.play("east");
                 }
                 break;
             case "South":
                 {
-                    node.getComponent(Animation)?.play("south");
+                    this.node.getComponent(Animation)?.play("south");
                 }
                 break;
             case "West":
                 {
-                    node.getComponent(Animation)?.play("west");
+                    this.node.getComponent(Animation)?.play("west");
                 }
                 break;
             case "North_East":
                 {
-                    node.getComponent(Animation)?.play("northEast");
+                    this.node.getComponent(Animation)?.play("northEast");
                 }
                 break;
             case "North_West":
                 {
-                    node.getComponent(Animation)?.play("northWest");
+                    this.node.getComponent(Animation)?.play("northWest");
                 }
                 break;
             case "South_East":
                 {
-                    node.getComponent(Animation)?.play("southEast");
+                    this.node.getComponent(Animation)?.play("southEast");
                 }
                 break;
             case "South_West":
                 {
-                    node.getComponent(Animation)?.play("southWest");
+                    this.node.getComponent(Animation)?.play("southWest");
                 }
                 break;
         }
@@ -238,7 +264,6 @@ export class PlayerMovement extends Component {
     }
     move_actor(actor: any) {
         if (actor.actorNr != this.photon_instance.myActor().actorNr) {
-
             var child = this.node.parent.getChildByName(actor.actorNr.toString())
             child.setPosition(actor.getCustomProperty("position"))
         }
@@ -250,43 +275,59 @@ export class PlayerMovement extends Component {
     }
     destroycharacter(actor: Photon.LoadBalancing.Actor) {
         var child = this.node.parent.getChildByName(actor.actorNr.toString())
-        child.destroy();
+        if(child.isValid){
+            child.destroy();
+        }
     }
     update(deltaTime: number) {
         // this.checkperspective();
         if (this.canMovePlayer) {//player position setting for providing in lerp function
+            // this.startPos -- Joystick
+            // this.intialPos -- Player
             this.pos = new Vec2(this.startPos.x - this.intialPos.x, this.startPos.y - this.intialPos.y);
-            if (this.collided) { }
             if (!this.collided) {
                 this.finalPos.x -= this.pos.x * this.playerSpeed;
                 this.finalPos.y -= this.pos.y * this.playerSpeed;
             }
-            else {
-                this.finalPos = this.node.getPosition();
-            }
+            // else {
+            //     this.finalPos = this.node.getPosition();
+            // }
             this.photon_instance.myActor().setCustomProperty("position", this.node.getPosition());
             this.pos.x = 0;
             this.pos.y = 0;
         }
-        let currentPostion = this.node.getPosition();
         let playerPosition = new Vec3();
+        let currentPostion = this.node.getPosition();
+        // let playerPosition = new Vec3();
         if (this.collided && this.count == 0) {
             //condition to handle collisions for an particular angle only
-            if ((this.anlges < 295 && this.anlges > 245) || (this.anlges < 25 || this.anlges > 345) || (this.anlges > 75 && this.anlges < 115) || (this.anlges > 155 && this.anlges < 215)) {
+            // if ((this.anlges < 295 && this.anlges > 245) || (this.anlges < 25 || this.anlges > 345) || (this.anlges > 75 && this.anlges < 115) || (this.anlges > 155 && this.anlges < 215)) {
                 this.collisionangle = this.anlges;
 
                 this.playerSpeed = 0;
                 this.count = 1;
 
-            }
-        }
-        if (this.collided) {//condition to stop lerp function on collision            
-            this.finalPos = currentPostion; this.pos = new Vec2(0, 0); this.collided = false; console.log(this.canMovePlayer, "hell ya");
-
+            // }
         }
         Vec3.lerp(playerPosition, currentPostion, this.finalPos, 0.06);
         this.node.setPosition(playerPosition);
-        this.camera.setPosition(playerPosition.x + this.camera.parent.getComponent(UITransform).width * 0.1, playerPosition.y + this.camera.parent.getComponent(UITransform).height * 0.3);//code for camera movements
+
+        if (this.collided) {//condition to stop lerp function on collision            
+            this.finalPos = currentPostion; this.pos = new Vec2(0, 0); this.collided = false; 
+        }
+        
+        
+        // if(!this.collided){
+        playerPosition = this.node.getPosition()
+
+            // if(this.playerSpeed != 0){
+                // console.log(this.playerSpeed);
+        
+        this.camera.setPosition(playerPosition.x + this.camera.parent.getComponent(UITransform).width * 0.1, playerPosition.y + this.camera.parent.getComponent(UITransform).height * 0.3);//code for camera movement
+            // }
+
+            // console.log(this.camera.getPosition());
+        // }
     }
 }
 
