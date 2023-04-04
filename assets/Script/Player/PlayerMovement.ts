@@ -304,7 +304,7 @@ export class PlayerMovement extends Component {
             // if ((this.anlges < 295 && this.anlges > 245) || (this.anlges < 25 || this.anlges > 345) || (this.anlges > 75 && this.anlges < 115) || (this.anlges > 155 && this.anlges < 215)) {
                 this.collisionangle = this.anlges;
 
-                this.playerSpeed = 0;
+                // this.playerSpeed = 0;
                 this.count = 1;
 
             // }
