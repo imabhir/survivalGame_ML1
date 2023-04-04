@@ -1,15 +1,23 @@
 import { _decorator, Component, Node, director, tween } from 'cc';
-import { help } from './help';
 const { ccclass, property } = _decorator;
 
-@ccclass('persistNode')
-export class persistNode extends Component {
-    @property({type: Node})
-    rotate: Node = null;
+@ccclass('help')
+export class help extends Component {
+    // @property({type: Node})
+    // rotate: Node = null;
 
     onLoad(){
-        director.addPersistRootNode(this.node);
+        let persistNode = director.getScene().getChildByName("Background")
+        // console.log("scene and children", persistNode);
     }
+
+    changeScene(){
+        director.loadScene("Login")
+    }
+
+    // changeSceneToAvatar(){
+    //     director.loadScene("Avatar")
+    // }
 
     // load = () => {
     //     tween(this.rotate).by(2, {angle: -360}).repeatForever().start()
@@ -18,9 +26,7 @@ export class persistNode extends Component {
     //     }, 2000); 
     // }
 
-
     start() {
-        
     }
 
     update(deltaTime: number) {

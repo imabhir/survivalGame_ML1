@@ -24,6 +24,9 @@ export class playingOptions extends Component {
     @property({type: Node})
     AccountNode: Node = null;
 
+    @property({type: Prefab})
+    message: Prefab = null;
+
     
     resourceInstance = resourceManager.getInstance()
     audioInstance = audioManager.getInstance()
@@ -45,7 +48,13 @@ export class playingOptions extends Component {
             this.node.addChild(RoomDetail)
         })
         this.applyMusic()
+
+        const ReqMessage = instantiate(this.message)
+        this.node.addChild(ReqMessage)
     }
+
+
+    
 
 
     applyMusic = () => {
@@ -75,6 +84,7 @@ export class playingOptions extends Component {
         if(this.SettingsNode.children.length == 0){
             const SettingsControls = instantiate(this.resourceInstance.getAccountControlsPrefab("SettingsControls"))
             this.SettingsNode.addChild(SettingsControls);
+            SettingsControls.parent.setSiblingIndex(this.node.children.length)
         }
     }
 
@@ -90,8 +100,11 @@ export class playingOptions extends Component {
         if(this.AccountNode.children.length == 0){
             const AccountSettings = instantiate(this.resourceInstance.getAccountControlsPrefab("AccountSettings"))
             this.AccountNode.addChild(AccountSettings);
+            AccountSettings.parent.setSiblingIndex(this.node.children.length)
         }
     }
+
+
 
     start() {
 

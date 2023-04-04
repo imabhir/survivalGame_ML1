@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Prefab, instantiate, PageView, Input, Label, AudioClip, director, tween, Vec3, Slider, sys } from 'cc';
+import { _decorator, Component, Node, Prefab, instantiate, PageView, Input, Label, AudioClip, director, tween, Vec3, Slider, sys, NodePool, UITransform, randomRangeInt } from 'cc';
 import { audioManager } from '../../audio/scripts/audioManager';
 // import { audioManager } from '../../audio/scripts/audioManager';
 import { resourceManager } from '../../singleton/resourceManager';
@@ -23,12 +23,18 @@ export class avatarSelection extends Component {
     @property({type: Node})
     AccountNode: Node = null;
 
+    @property({type: Node})
+    playerAnimation: Node = null;
     
     // names = ["Jack","Tim","John","Cook"]
     resourceInstance = resourceManager.getInstance();
     audioInstance = audioManager.getInstance();
+
+    pool1 = new NodePool();
+    // BackgroundWidth = this.node.getComponent(UITransform).width
+    // BackgroundHeight = this.node,
+    cnt = 0;
     onLoad(){
-        // let node = director.getScene().getChildByName("Background")
         this.resourceInstance.loadPrefabs();
         this.resourceInstance.loadMusic();
 
@@ -40,14 +46,80 @@ export class avatarSelection extends Component {
         
         this.startButton.on(Input.EventType.TOUCH_START, this.goToModes)
         this.applyMusic();
+
+        this.AddItemsInPool();
+
+        this.schedule(() => {
+            this.GetItemFromPool();
+        }, 0.6)
     }
 
+    AddItemsInPool(){
+        for(let i=0;i<=4;i++){
+            const avatar = instantiate(this.avatar)
+            avatar.getComponent(UITransform).height = 100;
+            avatar.getComponent(UITransform).width = 100;
+            this.pool1.put(avatar)
+        }
+    }
+    angle;
+    GetItemFromPool(){
+        const BackgroundHeight = this.node.getComponent(UITransform).height
+        const BackgroundWidth = this.node.getComponent(UITransform).width
+        if(this.pool1.size()){
+            const player = this.pool1.get()
+            const playerHeight = player.getComponent(UITransform).height
+            const randomPosX = randomRangeInt((-1)*BackgroundWidth/2, BackgroundWidth/2)
+            const randomPosY = randomRangeInt((-1)*BackgroundHeight/2, BackgroundHeight/2)
+            
+            player.setPosition(randomPosX, randomPosY)
+            console.log(player.getPosition());
+            console.log(playerHeight);
+            
+            
+            this.cnt++;
+
+            if(this.cnt & 1){
+                this.angle = 360;
+            }else{
+                this.angle = -360;
+            }
+
+            
+            this.animatePlayer(player, this.angle)
+            this.playerAnimation.addChild(player)
+        }
+    }
+
+    animatePlayer(player, angle){
+        tween(player).by(30, {angle: angle}).repeatForever().start();
+    }
+
+    checkPlayerPos(pool1, deltaTime){
+        this.playerAnimation.children.forEach((element, index) => {
+            const BackgroundHeight = this.node.getComponent(UITransform).height
+            const playerHeight = element.getComponent(UITransform).height
+            const PlayerPos = element.getPosition();
+
+            if(index&1){
+                PlayerPos.x+= 5*deltaTime;
+            }else{
+                PlayerPos.y-= 5*deltaTime   
+            }
+            
+
+            element.setPosition(PlayerPos.x, PlayerPos.y)
+
+            if(PlayerPos.y < (-1) * (BackgroundHeight*0.5)){
+                this.pool1.put(element)
+            }
+        })
+    }
 
 
     addAccountButton = () => {
         this.scheduleOnce(() => {
             const account = instantiate(this.resourceInstance.getAccountPrefab("Account"))
-            director.addPersistRootNode(account)
             account.on(Input.EventType.TOUCH_START, this.openAccountInfo)
             this.node.addChild(account)
         }, 0.7)
@@ -57,6 +129,11 @@ export class avatarSelection extends Component {
         if(this.AccountNode.children.length == 0){
             const AccountInfo = instantiate(this.resourceInstance.getAccountControlsPrefab("AccountSettings"))
             this.AccountNode.addChild(AccountInfo)
+            // const siblingIndex = AccountInfo.getSiblingIndex()
+            // // if(siblingIndex == 0){
+            // //     AccountInfo.setSiblingIndex(1)
+            // // }
+            AccountInfo.parent.setSiblingIndex(this.node.children.length)
         }
     }
 
@@ -80,6 +157,8 @@ export class avatarSelection extends Component {
         if(this.SettingsNode.children.length == 0){
             let settingsControls = instantiate(this.resourceInstance.getSettingsControlsPrefab("SettingsControls"))
             this.SettingsNode.addChild(settingsControls)   
+            
+            settingsControls.parent.setSiblingIndex(this.node.children.length)
         }   
     }
     
@@ -185,7 +264,7 @@ export class avatarSelection extends Component {
     }
 
     update(deltaTime: number) {
-        
+        this.checkPlayerPos(this.pool1, deltaTime)
     }
 }
 

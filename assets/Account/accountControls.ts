@@ -12,8 +12,7 @@ export class accountControls extends Component {
 
     gameDataInstance = gameData.getInstance()
     onLoad(){
-        
-        this.UserName.getComponent(EditBox).string = this.gameDataInstance.GetUserName()
+        this.UserName.getComponent(EditBox).string = this.gameDataInstance.GetSaveUserName()
         this.closeButton.on(Input.EventType.TOUCH_START, () => {
             setTimeout(() => {
                 this.node.destroy()
@@ -21,13 +20,15 @@ export class accountControls extends Component {
         })
     }
 
-
     MakeUserNameFieldActive(){
         // Make the editbox active on click of a button
         this.UserName.focus()
     }
-
-   
+    
+    EditUserName(){
+        this.gameDataInstance.SetSaveUserName(this.UserName.getComponent(EditBox).string)
+        this.UserName.getComponent(EditBox).string = this.gameDataInstance.GetSaveUserName()
+    }
 
     start() {
         console.log("Started");

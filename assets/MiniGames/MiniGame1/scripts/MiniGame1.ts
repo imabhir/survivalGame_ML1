@@ -32,7 +32,7 @@ export class MiniGame1 extends Component {
     }
 
 
-    LevelNumber = 0;
+    // LevelNumber = 0;
     onLoad(){
         this.taskCompleted.active = false;
         this.closebutton.on(Input.EventType.TOUCH_START, this.closeGame)
@@ -88,8 +88,8 @@ export class MiniGame1 extends Component {
          * Iterating the json file and checking each asset's types and creating the instance according to the type
          */
 
-        console.log(this.LevelNumber);
-        itemsInfo[this.LevelNumber].forEach(element => {
+        // console.log(this.LevelNumber);
+        itemsInfo.forEach(element => {
             let item:Node=null;
             switch(element.itemType){
                 case ITEM_TYPE.BEGIN:{
@@ -141,7 +141,7 @@ export class MiniGame1 extends Component {
                     element.on(Input.EventType.TOUCH_START, this.checkPos)
                 }else{
                     // element.angle = this.positions.json[index].angle
-                    element.angle = this.positions.json[this.LevelNumber][index].angle
+                    element.angle = this.positions.json[index].angle
                 }
             })
         }while(this.gameCompleted());
@@ -157,14 +157,14 @@ export class MiniGame1 extends Component {
         if(this.gameCompleted()){
             this.node.parent.getChildByName("completed").active = true;
             
-            this.LevelNumber+= 1;
+            // this.LevelNumber+= 1;
             // console.log(this.LevelNumber);
             
-            if(this.LevelNumber < 2){
-                this.node.destroyAllChildren()
+            // if(this.LevelNumber < 2){
+            //     this.node.destroyAllChildren()
                 
-                this.updateLevel(this.positions.json)
-            }
+            //     this.updateLevel(<itemDataType[]>this.positions.json)
+            // }
         }
         else{
             this.taskCompleted.active = false;

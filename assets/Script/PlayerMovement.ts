@@ -14,14 +14,19 @@ export class PlayerMovement extends Component {
     @property({ type: Node })
     hud: Node = null;
     pos: Vec2 = null;
+
     startPos: Vec3 = null;
+
     intialPos: Vec3 = null;
+
     finalPosBall: Vec3 = null;
+
     finalPos: Vec3 = null;
     canMovePlayer: boolean = false;
     collided: boolean = false;
     collisionangle: number = null
     playerSpeed: number = 0.04
+
     touchenabled: boolean = true;
     count: number = 0;
     anlges: number = 0
@@ -72,8 +77,11 @@ export class PlayerMovement extends Component {
         let first_touch = this.hud
             .getComponent(UITransform)
             .convertToNodeSpaceAR(new Vec3(e.getUILocation().x, e.getUILocation().y, e.getUILocation().z))
+        
+        
         let final_touch = new Vec2(this.startPos.x - first_touch.x, this.startPos.y - first_touch.y)
-        let width_check = new Vec3(this.hud.parent.getComponent(UITransform).width / 2 - this.hud.getComponent(UITransform).width / 2, this.hud.parent.getComponent(UITransform).height / 2 - this.hud.getComponent(UITransform).width / 2, 0)
+        let width_check = new Vec3(this.hud.parent.getComponent(UITransform).width / 2 - this.hud.getComponent(UITransform).width / 2, this.hud.parent.getComponent(UITransform).height / 2 - this.hud.getComponent(UITransform).height / 2, 0)
+
         if (final_touch.length() > width_check.length()) {
             this.touchenabled = false
             this.touchEnd();
@@ -118,7 +126,7 @@ export class PlayerMovement extends Component {
 
 
         if (this.anlges < (this.collisionangle - 25) || this.anlges > (this.collisionangle + 25)) {
-            this.playerSpeed = 0.04
+            this.playerSpeed = 0.07
             console.log("abbb");
             console.log(this.count);
             this.count = 0;
@@ -198,13 +206,15 @@ export class PlayerMovement extends Component {
         let currentPostion: Vec3 = this.node.getPosition();
         if (this.collided && this.count == 0) {
             console.log(this.playerSpeed);
-            if ((this.anlges < 295 && this.anlges > 245) || (this.anlges < 25 || this.anlges > 345) || (this.anlges > 75 && this.anlges < 115) || (this.anlges > 155 && this.anlges < 215)) {
-                this.collisionangle = this.anlges;
+            // if ((this.anlges < 295 && this.anlges > 245) || (this.anlges < 25 || this.anlges > 345) || (this.anlges > 75 && this.anlges < 115) || (this.anlges > 155 && this.anlges < 215)) {
+            //     
+            // }
+
+            this.collisionangle = this.anlges;
 
                 this.playerSpeed = 0;
                 this.count = 1;
                 console.log(1);
-            }
 
         }
         if (this.collided) {

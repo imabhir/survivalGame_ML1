@@ -1,4 +1,5 @@
 import { _decorator, Component, Node, director, EditBox, Input, instantiate, Label, Color } from 'cc';
+import { help } from '../../help';
 import { gameData } from '../../singleton/gameData';
 import { resourceManager } from '../../singleton/resourceManager';
 const { ccclass, property } = _decorator;
@@ -26,7 +27,6 @@ export class load extends Component {
     gameDataInstance = gameData.getInstance()
     PopUp;
     onLoad(){
-        // let persistNode = director.getScene().getChildByName("Canvas").getChildByName("Background")
         this.resourceInstance.loadPrefabs()
         this.scheduleOnce(() => {
             this.PopUp = instantiate(this.resourceInstance.getPopUp("PopUp"))
@@ -60,7 +60,9 @@ export class load extends Component {
         
         if(UserNameCheck && PasswordCheck){
             const UserName = this.username.getComponent(EditBox).string;
-            this.gameDataInstance.SetUserName(UserName)
+            // Setting username on login
+            // this.gameDataInstance.SetUserName(UserName)
+            this.gameDataInstance.SetSaveUserName(UserName)
             director.loadScene("Avatar")
         }else{
             if(!UserNameCheck){

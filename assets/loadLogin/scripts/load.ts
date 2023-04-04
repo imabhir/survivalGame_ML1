@@ -16,34 +16,27 @@ export class login extends Component {
          * Function which handles loading
          */
 
-        let persistNode = director.getScene().getChildByName("Canvas").getChildByName("Background")
-        console.log(persistNode);
-        
-        
         /**
          * This settimeout function accepts a callback which changes scene after 2 seconds
          */
 
-        this.load()
+        // this.load()
+
+        // let persistNode = director.getScene().getChildByName("Background")
+        // console.log(persistNode);
+        // let persistNode = this.node.getChildByName("Background")
     }
 
-    /**
-     * Function for loading icon
-     */
+    // /**
+    //  * Function for loading icon
+    //  */
 
-    load = () => {
-        tween(this.Rotate).by(2, {angle: -360}).repeatForever().start()
-        setTimeout(() => {
-            this.changeScene();
-        }, 2000); 
-    }
-
-    /**
-     * Scene change to Login
-     */
-    changeScene = () => {
-        director.loadScene("Login")
-    }
+    // load = () => {
+    //     tween(this.Rotate).by(2, {angle: -360}).repeatForever().start()
+    //     setTimeout(() => {
+    //         director.loadScene("Login");
+    //     }, 2000); 
+    // }
 
     start() {
 

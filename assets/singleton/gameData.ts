@@ -6,7 +6,8 @@ export class gameData {
     private static _instance: gameData = null;
     private modeIndex: gameData = null;
     private targetMapNode: Node = null;
-    private UserName: string = "";
+    private SaveUser: string = "";
+    // private UserName: string = "";
     private gameData(){
 
     }
@@ -51,12 +52,20 @@ export class gameData {
         return this.targetMapNode
     }
 
-    SetUserName(UserName){
-        this.UserName = UserName
+    // SetUserName(UserName){
+    //     this.UserName = UserName
+    // }
+
+    // GetUserName(){
+    //     return this.UserName
+    // }
+
+    SetSaveUserName(UserName){
+        this.SaveUser = UserName
     }
 
-    GetUserName(){
-        return this.UserName
+    GetSaveUserName(){
+        return this.SaveUser
     }
 }
 

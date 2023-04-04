@@ -8,16 +8,9 @@ export class walls extends Component {
     player_bb: Rect
     map: any
     onLoad() {
-
-
-
-
-
         PhysicsSystem2D.instance.enable = true;
         this.map = this.node.getComponent(TiledMap)
         console.log(this.node.getComponent(TiledMap).getObjectGroups())
-
-
     }
     start() {
         let layer: TiledLayer = this.map.getLayer("Tile Layer 2")
