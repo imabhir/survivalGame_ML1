@@ -1,6 +1,6 @@
 import { _decorator, Component, Node, director, EditBox, Input, instantiate, Label, Color } from 'cc';
-import { gameData } from '../../singleton/gameData';
-import { resourceManager } from '../../singleton/resourceManager';
+import { gameData } from '../singleton/gameData';
+import { resourceManager } from '../singleton/resourceManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('login')

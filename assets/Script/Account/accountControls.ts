@@ -4,14 +4,14 @@ const { ccclass, property } = _decorator;
 
 @ccclass('accountControls')
 export class accountControls extends Component {
-    @property({type: Node})
+    @property({ type: Node })
     closeButton: Node = null;
 
-    @property({type: EditBox})
+    @property({ type: EditBox })
     UserName: EditBox = null;
 
     gameDataInstance = gameData.getInstance()
-    onLoad(){
+    onLoad() {
         this.UserName.getComponent(EditBox).string = this.gameDataInstance.GetSaveUserName()
         this.closeButton.on(Input.EventType.TOUCH_START, () => {
             setTimeout(() => {
@@ -20,12 +20,12 @@ export class accountControls extends Component {
         })
     }
 
-    MakeUserNameFieldActive(){
+    MakeUserNameFieldActive() {
         // Make the editbox active on click of a button
         this.UserName.focus()
     }
-    
-    EditUserName(){
+
+    EditUserName() {
         this.gameDataInstance.SetSaveUserName(this.UserName.getComponent(EditBox).string)
         this.UserName.getComponent(EditBox).string = this.gameDataInstance.GetSaveUserName()
     }
@@ -35,7 +35,7 @@ export class accountControls extends Component {
     }
 
     update(deltaTime: number) {
-        
+
     }
 }
 

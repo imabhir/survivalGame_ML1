@@ -1,8 +1,8 @@
 import { _decorator, Component, Node, Prefab, JsonAsset, instantiate, UITransform, director, Input, Sprite, NodePool, log } from 'cc';
 // import { gameData } from '../../gameData';
-import { modes } from '../../Modes/scripts/modes';
+// import { modes } from '../Modes/scripts/modes';
 import { photonmanager } from '../../Script/photon/photonmanager';
-import { gameData } from '../../singleton/gameData';
+import { gameData } from '../singleton/gameData';
 const { ccclass, property } = _decorator;
 
 @ccclass('playerslobby')

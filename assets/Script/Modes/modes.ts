@@ -1,9 +1,9 @@
 import { _decorator, Component, Node, PageView, Input, SpriteFrame, Sprite, UIOpacity, Vec3, Prefab, instantiate, UITransform, Label, JsonAsset, director, tween, Toggle } from 'cc';
-import { audioManager } from '../../audio/scripts/audioManager';
+import { audioManager } from '../audio/scripts/audioManager';
 // import { gameData } from '../../gameData';
-import { players } from '../../playersLobby/scripts/players';
-import { gameData } from '../../singleton/gameData';
-import { resourceManager } from '../../singleton/resourceManager';
+// import { players } from '../playersLobby/scripts/players';
+import { gameData } from '../singleton/gameData';
+import { resourceManager } from '../singleton/resourceManager';
 // import { resourceManager } from '../../resourceManager';
 import { ModeEnum, MODE_NAME } from './ModeEnum';
 const { ccclass, property } = _decorator;

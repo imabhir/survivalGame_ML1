@@ -5,17 +5,17 @@ const { ccclass, property } = _decorator;
 
 @ccclass('VolumeAdjustment')
 export class VolumeAdjustment extends Component {
-    @property({type: Node})
+    @property({ type: Node })
     MusicSlider: Node = null;
 
-    @property({type: Node})
+    @property({ type: Node })
     SoundSlider: Node = null;
 
-    @property({type: Node})
+    @property({ type: Node })
     closeButton: Node = null;
 
     audioInstance = audioManager.getInstance()
-    onLoad(){
+    onLoad() {
         this.MusicSlider!.on("slide", this.adjustMusicSound)
         this.SoundSlider!.on("slide", this.adjustSoundEffect)
 
@@ -46,7 +46,7 @@ export class VolumeAdjustment extends Component {
     }
 
     update(deltaTime: number) {
-        
+
     }
 }
 

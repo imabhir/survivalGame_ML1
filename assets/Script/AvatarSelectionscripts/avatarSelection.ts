@@ -1,7 +1,7 @@
 import { _decorator, Component, Node, Prefab, instantiate, PageView, Input, Label, AudioClip, director, tween, Vec3, Slider, sys, NodePool, UITransform, randomRangeInt } from 'cc';
-import { audioManager } from '../../audio/scripts/audioManager';
+import { audioManager } from '../audio/scripts/audioManager';
 // import { audioManager } from '../../audio/scripts/audioManager';
-import { resourceManager } from '../../singleton/resourceManager';
+import { resourceManager } from '../singleton/resourceManager';
 // import { resourceManager } from '../../singleton/resourceManager';
 // import { resourceManager } from '../../resourceManager';
 const { ccclass, property } = _decorator;

@@ -1,5 +1,5 @@
 import { _decorator, Component, Node, Prefab, instantiate, UITransform, Input, director, SpriteFrame, Sprite } from 'cc';
-import { gameData } from '../../singleton/gameData';
+import { gameData } from '../singleton/gameData';
 // import { gameData } from '../../gameData';
 const { ccclass, property } = _decorator;
 

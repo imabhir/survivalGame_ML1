@@ -1,8 +1,8 @@
 import { _decorator, Component, Node, instantiate, Input, Canvas, Prefab, ScrollView, EventHandler, Button, director } from 'cc';
-import { audioManager } from '../../audio/scripts/audioManager';
+import { audioManager } from '../audio/scripts/audioManager';
 import { photonmanager } from '../../Script/photon/photonmanager';
 // import { audioManager } from '../../audio/scripts/audioManager';
-import { resourceManager } from '../../singleton/resourceManager';
+import { resourceManager } from '../singleton/resourceManager';
 import { AvailableRooms } from './AvailableRooms';
 const { ccclass, property } = _decorator;
 
