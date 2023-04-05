@@ -129,10 +129,6 @@ export class avatarSelection extends Component {
         if(this.AccountNode.children.length == 0){
             const AccountInfo = instantiate(this.resourceInstance.getAccountControlsPrefab("AccountSettings"))
             this.AccountNode.addChild(AccountInfo)
-            // const siblingIndex = AccountInfo.getSiblingIndex()
-            // // if(siblingIndex == 0){
-            // //     AccountInfo.setSiblingIndex(1)
-            // // }
             AccountInfo.parent.setSiblingIndex(this.node.children.length)
         }
     }
@@ -157,7 +153,6 @@ export class avatarSelection extends Component {
         if(this.SettingsNode.children.length == 0){
             let settingsControls = instantiate(this.resourceInstance.getSettingsControlsPrefab("SettingsControls"))
             this.SettingsNode.addChild(settingsControls)   
-            
             settingsControls.parent.setSiblingIndex(this.node.children.length)
         }   
     }
