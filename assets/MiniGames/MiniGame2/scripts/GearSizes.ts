@@ -158,9 +158,12 @@ export class MiniGame2 extends Component {
                     const elementBoundingBox = element.getComponent(UITransform).getBoundingBoxToWorld();
                     if (elementBoundingBox.contains(targetPosition)) {
                         if (targetHeight == element.getComponent(UITransform).height && targetWidth == element.getComponent(UITransform).width) {
+                            if (element.active == false) {
+                                return;
+                            }
                             element.active = false
                             this.taskOver.active = true;
-                            // Setting the new gear postion to element's position if it is valid
+                            // Setting the new gear position to element's position if it is valid
                             this.newGear.setWorldPosition(new Vec3(elementPosition.x, elementPosition.y, elementPosition.z))
 
                             let currentCount = event.target.getChildByName("Label").getComponent(Label).string.replace(/\D/g, '')
@@ -188,7 +191,6 @@ export class MiniGame2 extends Component {
             }
         }
     }
-
     checkIfOver = () => {
         if (this.checkCount == this.totalCount && !this.taskCompleted) {
             this.rotateSprites();

@@ -20,6 +20,12 @@ export class playingOptions extends Component {
     @property({ type: Prefab })
     RoomDetails: Prefab = null;
 
+    @property({ type: Node })
+    SettingsNode: Node = null;
+
+    @property({ type: Node })
+    AccountNode: Node = null;
+
 
     resourceInstance = resourceManager.getInstance()
     audioInstance = audioManager.getInstance()
@@ -99,21 +105,25 @@ export class playingOptions extends Component {
     }
 
     OpenSettingsControls = () => {
-        this.scheduleOnce(() => {
+        if (this.SettingsNode.children.length == 0) {
             const SettingsControls = instantiate(this.resourceInstance.getAccountControlsPrefab("SettingsControls"))
-            this.node.addChild(SettingsControls);
-        }, 1)
-
+            this.SettingsNode.addChild(SettingsControls);
+            SettingsControls.parent.setSiblingIndex(this.node.children.length)
+        }
     }
+
+
+
+
+
 
     AddAccountButton = () => {
         this.scheduleOnce(() => {
             const AccountButton = instantiate(this.resourceInstance.getAccountPrefab("Account"))
             AccountButton.on(Input.EventType.TOUCH_START, this.OpenAccountControls)
             this.node.addChild(AccountButton)
-        }, 1)
+        }, 0.7)
     }
-
     OpenAccountControls = () => {
         this.scheduleOnce(() => {
             const AccountSettings = instantiate(this.resourceInstance.getAccountControlsPrefab("AccountSettings"))

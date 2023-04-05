@@ -54,6 +54,8 @@ export class resourceManager {
         })
     }
 
+    
+
     public getMusicPrefab(name: string): Prefab{
         let musicPrefab = this.PrefabArr.find((prefab) => prefab.name == name)
         return musicPrefab;
