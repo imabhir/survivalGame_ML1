@@ -1,6 +1,7 @@
-import { _decorator, Component, Node, director, EditBox, Input, instantiate, Label, Color } from 'cc';
+import { _decorator, Component, Node, director, EditBox, Input, instantiate, Label, Color, tween } from 'cc';
 import { gameData } from '../singleton/gameData';
 import { resourceManager } from '../singleton/resourceManager';
+import { persistNode } from '../../persistNode';
 const { ccclass, property } = _decorator;
 
 @ccclass('login')
@@ -14,6 +15,9 @@ export class load extends Component {
     @property({ type: Node })
     LoginButton: Node = null;
 
+    @property({type: Node})
+    LoadingIcon: Node = null;
+
 
     // UserName and Password Format
     obj = {
@@ -25,18 +29,29 @@ export class load extends Component {
     resourceInstance = resourceManager.getInstance()
     gameDataInstance = gameData.getInstance()
     PopUp;
+    persistNode;
     onLoad() {
+        this.persistNode = director.getScene().getChildByName("PersistNode")
+        this.persistNode.active = false;
+
+
         this.resourceInstance.loadPrefabs()
         this.scheduleOnce(() => {
             this.PopUp = instantiate(this.resourceInstance.getPopUp("PopUp"))
             this.node.addChild(this.PopUp)
         }, 0.4)
+
+        // this.persistNode = director.getScene().getChildByName("PersistNode");
+        // this.persistNode.active = false;
+        
     }
 
     // Show UserName Format on click
     ShowUserNameFormat() {
         const pos = this.username.node.getPosition()
         if (this.username.getComponent(EditBox).string == "") {
+            console.log(this.PopUp);
+            
             this.PopUp.setPosition(pos.x, pos.y - 80)
             this.PopUp.getComponent(Label).color = Color.WHITE
             this.PopUp.getComponent(Label).string = this.obj.UserNameFormat;
@@ -53,6 +68,15 @@ export class load extends Component {
         }
     }
 
+    changeScene(){
+        this.persistNode.active = true
+        tween(this.LoadingIcon).to(2, {angle: -360}).repeatForever().start()
+
+        setTimeout(() => {
+            director.loadScene("Avatar")
+        }, 1000);
+    }
+
     Validate() {
         let UserNameCheck = this.ValidateUserName()
         let PasswordCheck = this.ValidatePassword()
@@ -62,7 +86,9 @@ export class load extends Component {
             // Setting username on login
             // this.gameDataInstance.SetUserName(UserName)
             this.gameDataInstance.SetSaveUserName(UserName)
-            director.loadScene("Avatar")
+
+            this.changeScene()
+            // director.loadScene("Avatar")
         } else {
             if (!UserNameCheck) {
                 const pos = this.username.node.getPosition()

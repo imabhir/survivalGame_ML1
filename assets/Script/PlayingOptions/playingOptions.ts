@@ -33,6 +33,10 @@ export class playingOptions extends Component {
 
 
     onLoad() {
+        console.log("PlayingOptions PersistNode", director.getScene().getChildByName("PersistNode"));
+        director.getScene().getChildByName("PersistNode").active = false;
+
+
         this.AddAccountButton()
         this.AddSettings()
         this.applyMusic()

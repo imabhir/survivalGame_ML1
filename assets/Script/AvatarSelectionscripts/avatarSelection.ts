@@ -32,11 +32,19 @@ export class avatarSelection extends Component {
     audioInstance = audioManager.getInstance();
 
     pool1 = new NodePool();
-    // BackgroundWidth = this.node.getComponent(UITransform).width
-    // BackgroundHeight = this.node,
+    
     cnt = 0;
     b: any;
+    BackgroundHeight;
+    BackgroundWidth;
     onLoad() {
+        console.log("PersistNode Avatar", director.getScene().getChildByName("PersistNode"));
+        director.getScene().getChildByName("PersistNode").active = false;
+
+        this.BackgroundHeight = this.node.getComponent(UITransform).height
+        this.BackgroundWidth = this.node.getComponent(UITransform).width;
+
+       
         this.resourceInstance.loadPrefabs();
         this.resourceInstance.loadMusic();
 
@@ -59,27 +67,32 @@ export class avatarSelection extends Component {
     }
 
     AddItemsInPool() {
-        for (let i = 0; i <= 4; i++) {
+        for (let i = 0; i <= 5; i++) {
             const avatar = instantiate(this.avatar)
             avatar.getComponent(UITransform).height = 100;
             avatar.getComponent(UITransform).width = 100;
             this.pool1.put(avatar)
+            avatar.on(Input.EventType.TOUCH_START, this.randomMovement, this)
         }
     }
+
+    randomMovement(event){
+        const randomPosX = randomRangeInt((-1) * this.BackgroundWidth / 2, this.BackgroundWidth / 2)
+        const randomPosY = randomRangeInt((-1) * this.BackgroundHeight / 2, this.BackgroundHeight / 2)
+        tween(event.target)
+        .to(4, { position: new Vec3(randomPosX, randomPosY), angle: 360 })
+        .start()
+    }
+
     angle;
     GetItemFromPool() {
-        const BackgroundHeight = this.node.getComponent(UITransform).height
-        const BackgroundWidth = this.node.getComponent(UITransform).width
         if (this.pool1.size()) {
             const player = this.pool1.get()
             const playerHeight = player.getComponent(UITransform).height
-            const randomPosX = randomRangeInt((-1) * BackgroundWidth / 2, BackgroundWidth / 2)
-            const randomPosY = randomRangeInt((-1) * BackgroundHeight / 2, BackgroundHeight / 2)
+            const randomPosX = randomRangeInt((-1) * this.BackgroundWidth / 2, this.BackgroundWidth / 2)
+            const randomPosY = randomRangeInt((-1) * this.BackgroundHeight / 2, this.BackgroundHeight / 2)
 
             player.setPosition(randomPosX, randomPosY)
-            console.log(player.getPosition());
-            console.log(playerHeight);
-
 
             this.cnt++;
 

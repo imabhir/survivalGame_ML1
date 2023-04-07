@@ -25,11 +25,11 @@ export class modes extends Component {
     @property({ type: Node })
     text: Node = null;
 
-    @property({ type: Node })
-    loadingIcon: Node = null;
+    // @property({ type: Node })
+    // loadingIcon: Node = null;
 
-    @property({ type: Node })
-    rotater: Node = null;
+    // @property({ type: Node })
+    // rotater: Node = null;
 
     @property({ type: Node })
     arrowButtons: Node = null;
@@ -49,9 +49,13 @@ export class modes extends Component {
     gameDataInstance = gameData.getInstance()
     resourceInstance = resourceManager.getInstance();
     audioInstance = audioManager.getInstance();
+    
     onLoad() {
-        this.loadingIcon.active = false;
-        this.rotater.active = false;
+        // this.loadingIcon.active = false;
+        // this.rotater.active = false;
+
+        console.log("Persist Node Modes", director.getScene().getChildByName("PersistNode"));
+        
         this.text.active = true;
         this.applyMusic();
         this.resourceInstance.loadPrefabs();
@@ -184,7 +188,7 @@ export class modes extends Component {
         })
 
     }
-
+    // Chatfeatures
 
 
     /**
@@ -194,21 +198,25 @@ export class modes extends Component {
      */
 
     enterMode = (element) => {
+        this.audioInstance.stopMusic()
         const clip = this.resourceInstance.getMusicFile("AvatarChanging")
         this.audioInstance.playSoundEffect(clip)
 
-        this.loadingIcon.active = true;
-        this.rotater.active = true;
+        // this.loadingIcon.active = true;
+        // this.rotater.active = true;
         this.modeIndex = element.getComponent(ModeEnum).ModeName;
-
         console.log(this.modeIndex);
 
-        tween(this.rotater).by(2, { angle: -360 }).repeatForever().start()
-        this.audioInstance.stopMusic()
+        director.getScene().getChildByName("PersistNode").active = true
+        // this.rotater.active = true
+
+        // director.getScene().getChildByName("Persist").active = true
+        tween(director.getScene().getChildByName("PersistNode").getChildByName("loadingIcon")).by(2, { angle: -360 }).repeatForever().start()
+        
 
         setTimeout(() => {
             director.loadScene("PlayingOptions")
-        }, 3000);
+        }, 2000);
 
         this.gameDataInstance.initMode(this.modeIndex)
     }

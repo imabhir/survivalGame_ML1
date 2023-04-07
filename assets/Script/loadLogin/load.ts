@@ -16,23 +16,23 @@ export class login extends Component {
          * Function which handles loading
          */
 
-        this.load()
+        // this.load()
 
         /**
          * This settimeout function accepts a callback which changes scene after 2 seconds
          */
-        setTimeout(() => {
-            this.changeScene();
-        }, 2000);
+        // setTimeout(() => {
+        //     this.changeScene();
+        // }, 2000);
     }
 
-    load = () => {
-        tween(this.Rotate).by(2, { angle: -360 }).repeatForever().start()
-    }
+    // load = () => {
+    //     tween(this.Rotate).by(2, { angle: -360 }).repeatForever().start()
+    // }
 
-    changeScene = () => {
-        director.loadScene("Login")
-    }
+    // changeScene = () => {
+    //     director.loadScene("Login")
+    // }
 
     start() {
 
