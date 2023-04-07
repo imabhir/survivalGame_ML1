@@ -700,7 +700,7 @@
     ]
   },
   {
-    "__type__": "bca62Zml7tDzYzugwb01/e5",
+    "__type__": "d3775wJ6V1KJLXCiC+qFw5R",
     "_name": "",
     "_objFlags": 0,
     "__editorExtras__": {
@@ -729,7 +729,7 @@
     "hud": {
       "__id__": 3
     },
-    "_id": "05s1I+olpEK59FLfD+wpep"
+    "_id": "60moG/HBZD2oNlr1hjw76x"
   },
   {
     "__type__": "cc.Node",
@@ -888,7 +888,7 @@
     "_priority": 1073741824,
     "_fov": 31.889,
     "_fovAxis": 0,
-    "_orthoHeight": 598.4162436548223,
+    "_orthoHeight": 629.0364025695932,
     "_near": 0,
     "_far": 2000,
     "_color": {

@@ -1,0 +1,12 @@
+{
+  "ver": "1.0.0",
+  "importer": "*",
+  "imported": true,
+  "uuid": "645d481a-a19e-4702-ae55-459d121f42b5",
+  "files": [
+    ".csproj",
+    ".json"
+  ],
+  "subMetas": {},
+  "userData": {}
+}
