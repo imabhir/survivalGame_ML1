@@ -8,45 +8,43 @@
       "asyncFunctions": true
     },
     "buildPath": "project://build",
-    "outputName": "android",
+    "outputName": "mac",
     "mainBundleCompressionType": "merge_dep",
-    "platform": "android",
-    "scenes": [
-      {
-        "url": "db://assets/gameplay.scene",
-        "uuid": "382fea8a-012a-44c4-914c-e8bf465780a5",
-        "inBundle": false
-      }
-    ]
+    "platform": "mac"
   },
   "BuildTaskManager": {
     "taskMap": {
-      "1678973469953": {
+      "1680772756194": {
         "type": "build",
-        "id": "1678973469953",
+        "id": "1680772756194",
         "progress": 1,
         "state": "success",
-        "stage": "run",
-        "message": "20-03-2023 17:13:30 Build success in 9772 ms!",
+        "stage": "build",
+        "message": "06-04-2023 14:50:28 Build success in 8481 ms!",
         "options": {
           "name": "tiledMap2",
-          "platform": "web-mobile",
+          "platform": "mac",
           "buildPath": "project://build",
           "debug": false,
           "md5Cache": false,
           "skipCompressTexture": false,
           "sourceMaps": false,
           "polyfills": {
-            "asyncFunctions": true
+            "asyncFunctions": false
           },
           "experimentalEraseModules": false,
           "useBuiltinServer": false,
           "mainBundleIsRemote": false,
           "mainBundleCompressionType": "merge_dep",
           "replaceSplashScreen": false,
-          "startScene": "382fea8a-012a-44c4-914c-e8bf465780a5",
-          "outputName": "web-mobile",
+          "startScene": "f50e2f72-040d-47be-a95b-cc6afcf9aebb",
+          "outputName": "mac",
           "scenes": [
+            {
+              "url": "db://assets/chat/ChatSample.scene",
+              "uuid": "f50e2f72-040d-47be-a95b-cc6afcf9aebb",
+              "inBundle": false
+            },
             {
               "url": "db://assets/gameplay.scene",
               "uuid": "382fea8a-012a-44c4-914c-e8bf465780a5",
@@ -58,8 +56,33 @@
               "inBundle": false
             },
             {
+              "url": "db://assets/Modes/Scenes/Modes.scene",
+              "uuid": "b9cc8efe-d6d0-42a9-86d0-6f5bc20613f8",
+              "inBundle": false
+            },
+            {
+              "url": "db://assets/PlayingOptions/Scenes/PlayingOptions.scene",
+              "uuid": "d04c996b-ca91-4803-9d3d-80f5bed481ab",
+              "inBundle": false
+            },
+            {
               "url": "db://assets/loadLogin/Scenes/Load.scene",
               "uuid": "3cff5c3b-3fe8-4c2f-ac51-3dbcda1a322d",
+              "inBundle": false
+            },
+            {
+              "url": "db://assets/loadLogin/Scenes/Login.scene",
+              "uuid": "fefc10e0-bd91-4357-af25-a28ac1bcc516",
+              "inBundle": false
+            },
+            {
+              "url": "db://assets/mapDisplay/scenes/map.scene",
+              "uuid": "dea503c8-e08b-43e6-b594-16a7f51592ca",
+              "inBundle": false
+            },
+            {
+              "url": "db://assets/playersLobby/scenes/playersLobby.scene",
+              "uuid": "e3dbfa1f-070b-450d-a58a-67c02054392e",
               "inBundle": false
             },
             {
@@ -83,6 +106,11 @@
               "inBundle": false
             },
             {
+              "url": "db://assets/MiniGames/MiniGame3/Scenes/Level Creation.scene",
+              "uuid": "2e71ed8e-3839-420c-8dcb-ca18a01ac680",
+              "inBundle": false
+            },
+            {
               "url": "db://assets/MiniGames/MiniGame3/Scenes/MiniGame3.scene",
               "uuid": "a7a3db07-ebfc-4ed0-9560-148bdd841ef5",
               "inBundle": false
@@ -90,119 +118,32 @@
           ],
           "web-desktop": [],
           "packages": {
-            "web-mobile": {
-              "orientation": "auto",
-              "embedWebDebugger": false,
-              "__version__": "1.0.1"
-            },
-            "cocos-service": {
-              "configID": "c5adb7",
-              "services": [
-                {
-                  "service_id": "235",
-                  "service_component_name": "service-analytics",
-                  "builder": "/Users/rishabhkushwaha/.CocosCreator/.service/analytics/builder/builder.js",
-                  "enable": false,
-                  "params": {}
-                }
-              ],
-              "__version__": "3.0.5"
-            }
-          },
-          "__version__": "1.3.3",
-          "web-mobile": []
-        },
-        "time": "20-03-2023 17:13",
-        "dirty": false
-      },
-      "1679309007730": {
-        "type": "build",
-        "id": "1679309007730",
-        "progress": 1,
-        "state": "success",
-        "stage": "build",
-        "message": "20-03-2023 18:16:40 Build success in 9165 ms!",
-        "options": {
-          "name": "tiledMap2",
-          "platform": "android",
-          "buildPath": "project://build",
-          "debug": false,
-          "md5Cache": false,
-          "skipCompressTexture": false,
-          "sourceMaps": false,
-          "polyfills": {
-            "asyncFunctions": false
-          },
-          "experimentalEraseModules": false,
-          "useBuiltinServer": false,
-          "mainBundleIsRemote": false,
-          "mainBundleCompressionType": "merge_dep",
-          "replaceSplashScreen": false,
-          "startScene": "382fea8a-012a-44c4-914c-e8bf465780a5",
-          "outputName": "android",
-          "scenes": [
-            {
-              "url": "db://assets/gameplay.scene",
-              "uuid": "382fea8a-012a-44c4-914c-e8bf465780a5",
-              "inBundle": false
-            }
-          ],
-          "web-mobile": [],
-          "packages": {
-            "android": {
-              "packageName": "com.zombieamongus",
-              "orientation": {
-                "portrait": false,
-                "upsideDown": false,
-                "landscapeRight": true,
-                "landscapeLeft": true
-              },
-              "apiLevel": 28,
-              "appABIs": [
-                "arm64-v8a"
-              ],
-              "useDebugKeystore": true,
-              "keystorePath": "",
-              "keystorePassword": "",
-              "keystoreAlias": "",
-              "keystoreAliasPassword": "",
-              "appBundle": false,
-              "androidInstant": false,
-              "remoteUrl": "",
-              "sdkPath": "",
-              "ndkPath": "",
+            "mac": {
+              "packageName": "com.cocos.mac",
               "renderBackEnd": {
-                "vulkan": false,
-                "gles3": true,
-                "gles2": true
+                "metal": true
               },
-              "swappy": false,
-              "__version__": "1.0.1"
+              "targetVersion": "10.14",
+              "supportM1": false,
+              "skipUpdateXcodeProject": false,
+              "__version__": "1.0.0"
             },
             "cocos-service": {
               "configID": "c5adb7",
-              "services": [
-                {
-                  "service_id": "235",
-                  "service_component_name": "service-analytics",
-                  "builder": "/Users/rishabhkushwaha/.CocosCreator/.service/analytics/builder/builder.js",
-                  "enable": false,
-                  "params": {}
-                }
-              ]
+              "services": []
             },
             "native": {
               "encrypted": false,
-              "xxteaKey": "38ybffPaJNEqSlS0",
+              "xxteaKey": "72+9alPyRD2b6SAS",
               "compressZip": false,
               "JobSystem": "none",
               "__version__": "1.0.2"
             }
           },
           "__version__": "1.3.3",
-          "android": []
+          "mac": []
         },
-        "time": "20-03-2023 18:16",
+        "time": "06-04-2023 14:50",
         "dirty": false
       }
     }
