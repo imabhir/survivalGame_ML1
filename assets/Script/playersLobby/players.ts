@@ -188,7 +188,8 @@ export class playerslobby extends Component {
     StartGame() {
         if (!photonmanager.getInstance().gamestarted)
             director.loadScene("gameplay", () => {
-                photonmanager.getInstance().photon.myRoom().isOpen = false; console.log(photonmanager.getInstance().photon.myRoom().isOpen); photonmanager.getInstance().photon.joined = true; photonmanager.getInstance().gamestarted = true; photonmanager.getInstance().photon.raiseEvent(100, {}, {});
+                photonmanager.getInstance().photon.myRoom().setIsOpen(false);
+                photonmanager.getInstance().photon.myRoom().setIsVisible(false); console.log(photonmanager.getInstance().photon.myRoom().isOpen); photonmanager.getInstance().photon.joined = true; photonmanager.getInstance().gamestarted = true; photonmanager.getInstance().photon.raiseEvent(100, {}, {});
             })
 
     }

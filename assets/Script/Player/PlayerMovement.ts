@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, UITransform, Vec3, Vec2, Animation, ImageAsset, SpriteFrame, Sprite, PhysicsSystem, PhysicsSystem2D, AudioClip, AudioSourceComponent, Collider2D, Contact2DType, IPhysics2DContact, Camera, log, EPhysics2DDrawFlags, TiledMap, instantiate, Prefab, randomRangeInt, RigidBody, RigidBody2D } from "cc";
+import { _decorator, Component, Node, UITransform, Vec3, Vec2, Animation, ImageAsset, SpriteFrame, Sprite, PhysicsSystem, PhysicsSystem2D, AudioClip, AudioSourceComponent, Collider2D, Contact2DType, IPhysics2DContact, Camera, log, EPhysics2DDrawFlags, TiledMap, instantiate, Prefab, randomRangeInt, RigidBody, RigidBody2D, BoxCollider2D, CircleCollider2D } from "cc";
 import { Room } from "../../../extensions/colyseus-sdk/runtime/colyseus";
 import { Event } from "../photon/photonconstants"
 import { walls } from "../wallscollisions";
@@ -13,6 +13,8 @@ const { ccclass, property } = _decorator;
 export class PlayerMovement extends Component {
     @property({ type: SpriteFrame })
     playerImage: SpriteFrame = null;
+    @property({ type: SpriteFrame })
+    killed_player_image: SpriteFrame = null;
     @property({ type: Node })
     joystick: Node = null;
     @property({ type: Node })
@@ -56,10 +58,7 @@ export class PlayerMovement extends Component {
         this.startPos = this.joyStickBall.getPosition();
         this.photon_instance = photonmanager.getInstance().photon_instance;
         this.photon_instance.player_movements = this;
-        this.addedactor(this.photon_instance.myActor())
-
-
-
+        this.addedactor(this.photon_instance.myActor());
     }
     onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {//collsion callback functions
         if (otherCollider.node.name == "player") {
@@ -243,6 +242,45 @@ export class PlayerMovement extends Component {
             child.setPosition(actor.getCustomProperty("position"))
         }
 
+    }
+    kill_otheractor(actor: any) {
+        if (actor.name != this.photon_instance.myActor().actorNr.toString()) {
+
+
+            if (this.node.parent.getChildByName(actor.name + "killedplayer"
+            ) == null) {
+                console.log(actor.name);
+                var child = this.node.parent.getChildByName(actor.name)
+                let killed_sprites = instantiate(this.player_prefab);
+                killed_sprites.name = actor.name + "killedplayer"
+                killed_sprites.setPosition(actor.position)
+                killed_sprites.getComponent(Sprite).spriteFrame = this.killed_player_image;
+                killed_sprites.setScale(new Vec3(0.2, 0.2, 0));
+                this.node.parent.addChild(killed_sprites);
+                child.layer = 2;
+                child.getComponent(Sprite).grayscale = true
+            }
+
+
+        }
+        else {
+            var child = this.node.parent.getChildByName(actor.name
+            )
+            if (this.node.parent.getChildByName(actor.name + "killedplayer"
+            ) == null) {
+                let killed_sprites = instantiate(this.player_prefab);
+                killed_sprites.name = actor.name + "killedplayer"
+                killed_sprites.setPosition(actor.position)
+                killed_sprites.getComponent(Sprite).spriteFrame = this.killed_player_image;
+                killed_sprites.setScale(new Vec3(0.2, 0.2, 0));
+                this.node.parent.addChild(killed_sprites);
+                this.node.getComponent(Sprite).grayscale = true
+                this.node.layer = 2;
+                this.camera.getComponent(Camera).visibility = 3;
+                this.node.getComponent(CircleCollider2D).enabled = false;
+            }
+
+        }
     }
     enableanimation(actorNr: number, content: any) {
         var child = this.node.parent.getChildByName(actorNr.toString())

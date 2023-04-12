@@ -1,7 +1,13 @@
-import { _decorator, Component, Node, TiledMap, PhysicsSystem2D, Contact2DType, Collider2D, IPhysics2DContact, Rect, UITransform, TiledObjectGroup, Vec3, TiledLayer, TiledTile, RigidBody, RigidBody2D, RigidBodyComponent, BoxCollider2D, Vec2, ERigidBody2DType, PhysicsSystem, EPhysics2DDrawFlags, director, Prefab, instantiate, GraphicsComponent, rect, log, Input, TiledMapAsset, Button, Sprite, Event, EventHandler, math, randomRangeInt } from 'cc';
+import { _decorator, Component, Node, TiledMap, PhysicsSystem2D, Contact2DType, Collider2D, IPhysics2DContact, Rect, UITransform, TiledObjectGroup, Vec3, TiledLayer, TiledTile, RigidBody, RigidBody2D, RigidBodyComponent, BoxCollider2D, Vec2, ERigidBody2DType, PhysicsSystem, EPhysics2DDrawFlags, director, Prefab, instantiate, GraphicsComponent, rect, log, Input, TiledMapAsset, Button, Sprite, Event, EventHandler, math, randomRangeInt, SpriteFrame } from 'cc';
+import { photonmanager } from './photon/photonmanager';
 const { ccclass, property } = _decorator;
-var player: walls;
-var photon;
+
+
+
+
+
+
+
 @ccclass('walls')
 export class walls extends Component {
     @property({ type: Node })
@@ -18,14 +24,21 @@ export class walls extends Component {
     maincamera: Node = null
     @property({ type: Node })
     use_button: Node = null
+    @property({ type: Node })
+    kill_button: Node = null
+    @property({ type: SpriteFrame })
+    killed_sprite: SpriteFrame = null
     player_bb: Rect
     count = 0;
     map: any
-    counter: number = 0;
+    use_button_checker: number = 0;
     minigame: Node;
     demo: Photon.LoadBalancing.LoadBalancingClient;
     actors = 0;
-
+    kill_button_checker: number = 0;
+    kill_actor_name: string;
+    photon_instance: any;
+    killed_actor: any;
     onLoad() {
         PhysicsSystem2D.instance.enable = true;
         this.map = this.node.getComponent(TiledMap)
@@ -33,6 +46,10 @@ export class walls extends Component {
         this.camera.setPosition(this.maincamera.getPosition())
 
         this.use_button.getComponent(Button).interactable = false
+        this.kill_button.getComponent(Button).interactable = false
+
+
+        this.photon_instance = photonmanager.getInstance().photon_instance;
     }
     start() {//refer to link https://juejin.cn/post/7068114266716373029
         this.enablecollision("level1")
@@ -67,20 +84,35 @@ export class walls extends Component {
         }
     }
     open() {
-        console.log(this.node.parent.getChildByName(this.minigame.name));
-
         if (this.node.parent.getChildByName(this.minigame.name) == null) {
             console.log(this.minigame.name);
             this.node.parent.addChild(this.minigame)
         }
         console.log("b");
         this.use_button.getComponent(Button).interactable = false
+        this.use_button_checker = 0;
+    }
+    kill_actor() {
+        if (this.killed_actor.name != this.photon_instance.myActor().actorNr.toString()) {
+            var child = this.player.parent.getChildByName(this.killed_actor.name)
+            if (this.player.parent.getChildByName(this.killed_actor.name + "killedplayer"
+            ) == null) {
+                let killed_sprites = instantiate(this.player_prefab);
+                killed_sprites.name = this.killed_actor.name + "killedplayer"
+                killed_sprites.getComponent(Sprite).spriteFrame = this.killed_sprite;
+                killed_sprites.setPosition(this.killed_actor.getPosition())
+                killed_sprites.setScale(new Vec3(0.2, 0.2, 0));
+                this.player.parent.addChild(killed_sprites);
+                child.getComponent(Sprite).grayscale = true
+                this.photon_instance.raiseEvent(113, { name: this.killed_actor.name, position: this.killed_actor.getPosition() });
+                this.kill_button_checker = 0;
+                console.log(this.killed_actor.layer);
 
+                this.killed_actor.layer = 2;
+                console.log(this.killed_actor.layer);
 
-
-
-        this.counter = 0;
-
+            }
+        }
     }
     update(deltaTime: number) {
         //functionality to check if the bounding box of player collides with an particular bounding box given in tilemap object groups
@@ -90,6 +122,7 @@ export class walls extends Component {
             let a: Rect = new Rect(e.x, e.y - e.height, 32, 32)
             let bb = this.node.getComponent(UITransform).convertToNodeSpaceAR(new Vec3(a.x, a.y, 0));
             a = new Rect(bb.x, bb.y, e.width, e.height)
+            /**@Boundingboxdebugging **/
             // let b = instantiate(this.bounding_box);
             // this.node.addChild(b);
             // let ctx = this.node.getChildByName("boundingbox").getComponent(GraphicsComponent);
@@ -121,9 +154,9 @@ export class walls extends Component {
 
 
                 // this.use_button.getComponent(Button).clickEvents.push(clickEventHandler)
-                this.counter = 1
+                this.use_button_checker = 1
             }
-            else if (this.counter == 1) {
+            else if (this.use_button_checker == 1) {
 
                 if (this.minigame.name == this.minigames[e.prefab_name].name) {
 
@@ -144,5 +177,22 @@ export class walls extends Component {
             //     }
             // }
         })
+        this.player.parent.children.forEach((e) => {
+            if (e.name != "player" && e.name[1] != "k") {
+                let otherplayer = e.getComponent(UITransform).getBoundingBoxToWorld();
+                let myplayer = this.player.getComponent(UITransform).getBoundingBoxToWorld();
+                if (myplayer.intersects(otherplayer)) {
+                    this.kill_button.getComponent(Button).interactable = true;
+                    this.killed_actor = e
+                    this.kill_button_checker = 1;
+                }
+                else if (this.kill_button_checker == 1) {
+                    if (this.killed_actor.name == e.name) {
+                        this.kill_button.getComponent(Button).interactable = false
+                    }
+                }
+            }
+        })
+
     }
 }

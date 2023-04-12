@@ -3,7 +3,7 @@ import config from "./cloud-app-info";
 import { Event } from "../photon/photonconstants"
 import { photonmanager } from "./photonmanager";
 import { director, log } from "cc";
-import { playerslobby } from "../../playersLobby/scripts/players";
+import { playerslobby } from "../playersLobby/players";
 var photon_instance;
 var photonWss = config && config.Wss;
 var photonAppId = config && config.AppId ? config.AppId : "a36f3ed3-e604-4772-9b98-985d37c5f6ac";
@@ -88,9 +88,15 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
             this.joined = true;
             if (!photonmanager.getInstance().gamestarted)
                 director.loadScene("gameplay", () => { photonmanager.getInstance().photon.myRoom().isOpen = false; photonmanager.getInstance().photon.CloseAvailableRoom; photonmanager.getInstance().photon.joined = true; photonmanager.getInstance().gamestarted = true; photonmanager.getInstance().photon.raiseEvent(100, {}, {}); })
+        } else if (Event == 113) {
+
+            this.player_movement.kill_otheractor(content)
+
         }
         else if (Event == 420) {
             photonmanager.getInstance().gamestarted = content.gamestarted
+            this.myRoom().setIsOpen(false)
+            this.myRoom().setIsVisible(false)
         }
         else if (this.joined) {
             this.player_movement.enableanimation(actorNr, content);
@@ -128,6 +134,9 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
         }
     }
 }
+
+
+
 photonmanager.getInstance().photon_instance = new photon;
 
 

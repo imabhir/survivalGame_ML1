@@ -73,7 +73,7 @@ export class playingOptions extends Component {
         if (photon_instance.isInLobby()) {
             photon_instance.joinRandomOrCreateRoom({ expectedMaxPlayers: 5, expectedisOpen: true },
                 undefined,
-                { emptyRoomLiveTime: 20000, maxPlayers: 5, isOpen: true });
+                { emptyRoomLiveTime: 20000, maxPlayers: 5 });
 
 
 
