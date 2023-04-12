@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, instantiate, Input, Canvas, Prefab, ScrollView, EventHandler, Button, director } from 'cc';
+import { _decorator, Component, Node, instantiate, Input, Canvas, Prefab, ScrollView, EventHandler, Button, director, tween } from 'cc';
 import { audioManager } from '../audio/scripts/audioManager';
 import { photonmanager } from '../../Script/photon/photonmanager';
 // import { audioManager } from '../../audio/scripts/audioManager';
@@ -68,9 +68,13 @@ export class playingOptions extends Component {
     }
 
     quickjoin() {
+        director.getScene().getChildByName("PersistNode").active = true;
 
-        director.loadScene("playersLobby", this.callback)
+        tween(director.getScene().getChildByName("PersistNode").getChildByName("loadingIcon")).by(2, { angle: -360 }).repeatForever().start()
 
+        setTimeout(() => {
+            director.loadScene("playersLobby", this.callback)
+        }, 1000);
     }
     callback() {
         let photon_instance = photonmanager.getInstance().photon_instance;
@@ -78,10 +82,6 @@ export class playingOptions extends Component {
             photon_instance.joinRandomOrCreateRoom({ expectedMaxPlayers: 5, expectedisOpen: true },
                 undefined,
                 { emptyRoomLiveTime: 20000, maxPlayers: 5, isOpen: true });
-
-
-
-
         }
     }
 
