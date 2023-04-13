@@ -1,9 +1,11 @@
 import { PlayerMovement } from "../Player/PlayerMovement";
-import config from "./cloud-app-info";
+import config, { Photonevents } from "./cloud-app-info";
 import { Event } from "../photon/photonconstants"
 import { photonmanager } from "./photonmanager";
 import { director, log } from "cc";
 import { playerslobby } from "../playersLobby/players";
+import { Message } from "../ChatScript/Message";
+import { walls } from "../wallscollisions";
 var photon_instance;
 var photonWss = config && config.Wss;
 var photonAppId = config && config.AppId ? config.AppId : "a36f3ed3-e604-4772-9b98-985d37c5f6ac";
@@ -23,6 +25,8 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
     player_movement: PlayerMovement;
     player_lobby: playerslobby
     ConnectOnStart = true;
+    message: Message = null;
+    wall: walls = null;
 
     constructor() {
         super(photonWss ? 1 : 0, photonAppId, photonAppVersion);
@@ -33,12 +37,19 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
         this.setLogLevel(Exitgames.Common.Logger.Level.INFO);
         // this.data = data_manager.getInstance()
         // this.player_movement = new PlayerMovement;
+
     }
     set player_movements(value: PlayerMovement) {
         this.player_movement = value;
     }
     set player_lobbys(value: playerslobby) {
         this.player_lobby = value;
+    }
+    set messages(value: Message) {
+        this.message = value;
+    }
+    set wallclass(value: walls) {
+        this.wall = value;
     }
     start() {
         if (this.ConnectOnStart) {
@@ -98,7 +109,18 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
             this.myRoom().setIsOpen(false)
             this.myRoom().setIsVisible(false)
         }
-        else if (this.joined) {
+        else if (Photonevents.Openchat == Event) {
+            console.log("opened");
+            if (this.wall != null)
+                this.wall.openchat()
+        }
+        else if (Photonevents.Ghostchat == Event) {
+            if (this.message != null)
+                this.message.recievedmessage(content.ReqMessage)
+        }
+        else if (this.joined && Event == 115) {
+            console.log("enable");
+
             this.player_movement.enableanimation(actorNr, content);
         }
     }
@@ -134,8 +156,6 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
         }
     }
 }
-
-
 
 photonmanager.getInstance().photon_instance = new photon;
 

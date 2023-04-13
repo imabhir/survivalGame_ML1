@@ -1,5 +1,6 @@
 import { _decorator, Component, Node, TiledMap, PhysicsSystem2D, Contact2DType, Collider2D, IPhysics2DContact, Rect, UITransform, TiledObjectGroup, Vec3, TiledLayer, TiledTile, RigidBody, RigidBody2D, RigidBodyComponent, BoxCollider2D, Vec2, ERigidBody2DType, PhysicsSystem, EPhysics2DDrawFlags, director, Prefab, instantiate, GraphicsComponent, rect, log, Input, TiledMapAsset, Button, Sprite, Event, EventHandler, math, randomRangeInt, SpriteFrame } from 'cc';
 import { photonmanager } from './photon/photonmanager';
+import { Photonevents } from './photon/cloud-app-info';
 const { ccclass, property } = _decorator;
 
 
@@ -28,6 +29,8 @@ export class walls extends Component {
     kill_button: Node = null
     @property({ type: SpriteFrame })
     killed_sprite: SpriteFrame = null
+    @property({ type: Prefab })
+    chat_prefab: Prefab = null
     player_bb: Rect
     count = 0;
     map: any
@@ -39,6 +42,7 @@ export class walls extends Component {
     kill_actor_name: string;
     photon_instance: any;
     killed_actor: any;
+    chat: any = false;
     onLoad() {
         PhysicsSystem2D.instance.enable = true;
         this.map = this.node.getComponent(TiledMap)
@@ -50,6 +54,10 @@ export class walls extends Component {
 
 
         this.photon_instance = photonmanager.getInstance().photon_instance;
+
+
+
+        this.photon_instance.wallclass = this
     }
     start() {//refer to link https://juejin.cn/post/7068114266716373029
         this.enablecollision("level1")
@@ -84,13 +92,32 @@ export class walls extends Component {
         }
     }
     open() {
-        if (this.node.parent.getChildByName(this.minigame.name) == null) {
-            console.log(this.minigame.name);
-            this.node.parent.addChild(this.minigame)
+        if (this.chat) {
+            console.log(this.chat);
+
+            this.photon_instance.raiseEvent(Photonevents.Openchat, { game: this.chat })
+            let chat = instantiate(this.chat_prefab);
+            chat.setPosition(this.maincamera.getPosition());
+            if (this.node.parent.getChildByName(chat.name) == null) {
+                this.node.parent.addChild(chat)
+            }
+        }
+        else {
+            if (this.node.parent.getChildByName(this.minigame.name) == null) {
+                console.log(this.minigame.name);
+                this.node.parent.addChild(this.minigame)
+            }
         }
         console.log("b");
         this.use_button.getComponent(Button).interactable = false
         this.use_button_checker = 0;
+    }
+    openchat() {
+        let chat = instantiate(this.chat_prefab);
+        chat.setPosition(this.maincamera.getPosition());
+        if (this.node.parent.getChildByName(chat.name) == null) {
+            this.node.parent.addChild(chat)
+        }
     }
     kill_actor() {
         if (this.killed_actor.name != this.photon_instance.myActor().actorNr.toString()) {
@@ -136,31 +163,53 @@ export class walls extends Component {
             // ctx1.stroke();
 
             if (this.player_bb.intersects(a)) {
-                this.minigame = instantiate(this.minigames[e!.prefab_name]);
-                this.minigame.setPosition(this.maincamera.getPosition());
-                // this.node.getChildByName("level1").active = false
+
+                if (e!.prefab_type == "chat") {
+                    this.chat = true;
 
 
-                // this.node.getChildByName("level2").active = true
-                // this.enablecollision("level2")
-
-                this.use_button.getComponent(Sprite).setEntityColor(new math.Color(0, 0, 0, 0.4));
-                this.use_button.getComponent(Button).interactable = true
-                // this.use_button.getComponent(Button).enabled = false
-                // var clickEventHandler = new EventHandler();
-                // clickEventHandler.target = this.node; //This node is the node to which your event handler code component belongs
-                // clickEventHandler.component = "walls";//This is the code file name
-                // clickEventHandler.handler = "open";
+                    this.use_button.getComponent(Sprite).setEntityColor(new math.Color(0, 0, 0, 0.4));
+                    this.use_button.getComponent(Button).interactable = true
+                    // this.use_button.getComponent(Button).enabled = false
+                    // var clickEventHandler = new EventHandler();
+                    // clickEventHandler.target = this.node; //This node is the node to which your event handler code component belongs
+                    // clickEventHandler.component = "walls";//This is the code file name
+                    // clickEventHandler.handler = "open";
 
 
-                // this.use_button.getComponent(Button).clickEvents.push(clickEventHandler)
-                this.use_button_checker = 1
+                    // this.use_button.getComponent(Button).clickEvents.push(clickEventHandler)
+                    this.use_button_checker = 1
+
+                } else {
+
+                    this.minigame = instantiate(this.minigames[e!.prefab_name]);
+                    this.minigame.setPosition(this.maincamera.getPosition());
+                    // this.node.getChildByName("level1").active = false
+
+
+                    // this.node.getChildByName("level2").active = true
+                    // this.enablecollision("level2")
+
+                    this.use_button.getComponent(Sprite).setEntityColor(new math.Color(0, 0, 0, 0.4));
+                    this.use_button.getComponent(Button).interactable = true
+                    // this.use_button.getComponent(Button).enabled = false
+                    // var clickEventHandler = new EventHandler();
+                    // clickEventHandler.target = this.node; //This node is the node to which your event handler code component belongs
+                    // clickEventHandler.component = "walls";//This is the code file name
+                    // clickEventHandler.handler = "open";
+
+
+                    // this.use_button.getComponent(Button).clickEvents.push(clickEventHandler)
+                    this.use_button_checker = 1
+                }
             }
             else if (this.use_button_checker == 1) {
-
-                if (this.minigame.name == this.minigames[e.prefab_name].name) {
-
+                if (!this.chat && e!.prefab_type != "chat" && this.minigame.name == this.minigames[e!.prefab_name]!.name) {
                     this.use_button.getComponent(Button).interactable = false
+                }
+                else if (this.chat == true && e!.prefab_type == "chat") {
+                    this.use_button.getComponent(Button).interactable = false
+                    this.chat = false
                 }
             }
             // if (this.actors != this.data.countofactors && this.data.countofactors > 1) {

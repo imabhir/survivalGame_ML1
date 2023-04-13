@@ -1,4 +1,4 @@
 export enum Event {
-    "Animation",
+    "Animation" = 115,
     "Move"
 }

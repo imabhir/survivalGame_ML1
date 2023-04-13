@@ -8,4 +8,9 @@ export default {
     Region: "in",
     FbAppId: null,
 }
+export enum Photonevents {
+    "Ghostchat",
+    "Normalchat",
+    "Openchat"
+}
 

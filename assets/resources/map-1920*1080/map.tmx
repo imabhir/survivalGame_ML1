@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="73" height="55" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="9">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="73" height="55" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="14">
  <tileset firstgid="1" source="Dungeon_Tileset.tsx"/>
  <layer id="1" name="level1" width="73" height="55">
   <data encoding="csv">
@@ -123,16 +123,24 @@
   <object id="1" name="minigame" x="1750.9" y="871.8" width="98.4878" height="149.556">
    <properties>
     <property name="prefab_name" type="int" value="1"/>
+    <property name="prefab_type" value="game"/>
    </properties>
   </object>
   <object id="3" name="minigame" x="1772.78" y="1480.97" width="72.954" height="120.374">
    <properties>
     <property name="prefab_name" type="int" value="0"/>
+    <property name="prefab_type" value="game"/>
    </properties>
   </object>
   <object id="8" name="minigame" x="1036" y="828" width="152" height="220">
    <properties>
     <property name="prefab_name" type="int" value="2"/>
+    <property name="prefab_type" value="game"/>
+   </properties>
+  </object>
+  <object id="11" name="openchat" x="1398" y="914" width="124" height="170">
+   <properties>
+    <property name="prefab_type" value="chat"/>
    </properties>
   </object>
  </objectgroup>
