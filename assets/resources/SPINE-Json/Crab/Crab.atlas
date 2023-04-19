@@ -1,0 +1,48 @@
+
+Crab.png
+size: 512,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Layer 194
+  rotate: false
+  xy: 87, 55
+  size: 83, 71
+  orig: 83, 71
+  offset: 0, 0
+  index: -1
+Layer 195
+  rotate: false
+  xy: 2, 33
+  size: 83, 93
+  orig: 83, 93
+  offset: 0, 0
+  index: -1
+Layer 197
+  rotate: false
+  xy: 263, 83
+  size: 50, 43
+  orig: 50, 43
+  offset: 0, 0
+  index: -1
+Layer 198
+  rotate: true
+  xy: 172, 70
+  size: 56, 89
+  orig: 56, 89
+  offset: 0, 0
+  index: -1
+Layer 200
+  rotate: false
+  xy: 87, 2
+  size: 57, 51
+  orig: 57, 51
+  offset: 0, 0
+  index: -1
+Layer 201
+  rotate: false
+  xy: 315, 85
+  size: 47, 41
+  orig: 47, 41
+  offset: 0, 0
+  index: -1

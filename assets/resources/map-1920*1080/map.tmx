@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="73" height="55" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="14">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="73" height="55" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="15">
  <tileset firstgid="1" source="Dungeon_Tileset.tsx"/>
  <layer id="1" name="level1" width="73" height="55">
   <data encoding="csv">
@@ -138,10 +138,11 @@
     <property name="prefab_type" value="game"/>
    </properties>
   </object>
-  <object id="11" name="openchat" x="1398" y="914" width="124" height="170">
+  <object id="14" name="openchat" x="1472" y="990">
    <properties>
-    <property name="prefab_type" value="chat"/>
+    <property name="prefab_type" value="chest"/>
    </properties>
+   <point/>
   </object>
  </objectgroup>
  <objectgroup id="2" name="player"/>

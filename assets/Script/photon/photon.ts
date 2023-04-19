@@ -93,7 +93,7 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
 
 
     }
-
+    i = 0;
     onEvent(Event: number, content: any, actorNr: number): void {
         if (Event == 100) {
             this.joined = true;
@@ -102,17 +102,15 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
         } else if (Event == 113) {
 
             this.player_movement.kill_otheractor(content)
-
         }
         else if (Event == 420) {
             photonmanager.getInstance().gamestarted = content.gamestarted
             this.myRoom().setIsOpen(false)
             this.myRoom().setIsVisible(false)
         }
-        else if (Photonevents.Openchat == Event) {
-            console.log("opened");
+        else if (Photonevents.Openchest == Event) {
             if (this.wall != null)
-                this.wall.openchat()
+                this.wall.openchest(actorNr)
         }
         else if (Photonevents.Ghostchat == Event) {
             if (this.message != null)
@@ -122,6 +120,16 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
             console.log("enable");
 
             this.player_movement.enableanimation(actorNr, content);
+        }
+        else if (Event == 116) {
+            if (this.wall != null) {
+                console.log(this.i);
+
+                // if (this.i % 2 == 0) {
+                this.wall.fireatotheractor({ ...content, actorNr: actorNr.toString() })
+                // }
+                // this.i++;
+            }
         }
     }
     onActorPropertiesChange(actor: Photon.LoadBalancing.Actor): void {

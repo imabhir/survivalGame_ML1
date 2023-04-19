@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, UITransform, Vec3, Vec2, Animation, ImageAsset, SpriteFrame, Sprite, PhysicsSystem, PhysicsSystem2D, AudioClip, AudioSourceComponent, Collider2D, Contact2DType, IPhysics2DContact, Camera, log, EPhysics2DDrawFlags, TiledMap, instantiate, Prefab, randomRangeInt, RigidBody, RigidBody2D, BoxCollider2D, CircleCollider2D } from "cc";
+import { _decorator, Component, Node, UITransform, Vec3, Vec2, Animation, ImageAsset, SpriteFrame, Sprite, PhysicsSystem, PhysicsSystem2D, AudioClip, AudioSourceComponent, Collider2D, Contact2DType, IPhysics2DContact, Camera, log, EPhysics2DDrawFlags, TiledMap, instantiate, Prefab, randomRangeInt, RigidBody, RigidBody2D, BoxCollider2D, CircleCollider2D, v3, math } from "cc";
 import { Room } from "../../../extensions/colyseus-sdk/runtime/colyseus";
 import { Event } from "../photon/photonconstants"
 import { walls } from "../wallscollisions";
@@ -35,7 +35,7 @@ export class PlayerMovement extends Component {
     canMovePlayer: boolean = false;
     collided: boolean = false;
     collisionangle: number = null
-    playerSpeed: number = 0.04
+    playerSpeed: number = 0.1
     touchenabled: boolean = true;
     count: number = 0;
     anlges: number = 0
@@ -61,13 +61,33 @@ export class PlayerMovement extends Component {
         this.addedactor(this.photon_instance.myActor());
     }
     onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {//collsion callback functions
-        if (otherCollider.node.name == "player") {
+
+        if (otherCollider.node.name == "bullet") {
+            otherCollider.node.destroy()
+            // otherCollider.node.name
+
+        }
+        console.log(otherCollider.node.name.slice(1), selfCollider.node.name, otherCollider.node.name);
+
+        if (otherCollider.node.name.slice(1) == "bullet" && selfCollider.node.name[0] != otherCollider.node.name[0]) {
+            otherCollider.node.destroy();
+            console.log(true);
+
+        }
+
+        else if (otherCollider.node.name == "player" && selfCollider.node.name[0] == otherCollider.node.name[0]) {
             this.node.getComponent(RigidBody2D).linearVelocity = new Vec2(0, 0);
             selfCollider.restitution = 0;
             otherCollider.restitution = 0;
-            this.collided = true;
+            // this.collided = true;
+            console.log("abcde");
+
+            otherCollider.node.getComponent(Animation).pause();
+        } else if (otherCollider.node.name == "player" && selfCollider.node.name[0] != otherCollider.node.name[0] && selfCollider.node.name.slice(1) == "bullet") {
+            console.log(selfCollider.node);
+            selfCollider.node.destroy()
         }
-        otherCollider.node.getComponent(Animation).pause();
+
     }
     touchEventsFunc() {//touch events handler
         this.joyStickBall.on(Node.EventType.TOUCH_START, this.touchStart, this);
@@ -88,6 +108,8 @@ export class PlayerMovement extends Component {
         this.joyStickBall.setPosition(0, 0, 0);
         this.photon_instance.myActor().setCustomProperty("angle", null);
         this.node.getComponent(Animation)?.pause();
+        this.node.getComponent(RigidBody2D).linearVelocity = new Vec2(0, 0)
+
     }
     touchStart() {
         this.joyStickBall.setPosition(0, 0, 0);
@@ -114,34 +136,33 @@ export class PlayerMovement extends Component {
             this.touchenabled = false
             this.touchEnd();
         }
-        //if the player is not collided then functionality to move player 
-        if (!this.collided) {
-            this.intialPos = this.controller
-                .getComponent(UITransform)
-                .convertToNodeSpaceAR(new Vec3(e.getUILocation().x, e.getUILocation().y, e.getUILocation().z));//controller node is passed as an property to get its height and width such that the cameras motion doesnt effect the position
-            var len = this.intialPos.length();
-            var joyStickBallBaseWidth = this.controller.getComponent(UITransform).getBoundingBox().width / 2;
-            if (len > joyStickBallBaseWidth) {//to check if the joystickball is within the length of the joystick
-                this.intialPos.x = (this.intialPos.x * joyStickBallBaseWidth) / len;
-                this.intialPos.y = (this.intialPos.y * joyStickBallBaseWidth) / len;
-            }
-            var dy = this.intialPos.y;
-            var dx = this.intialPos.x;
-            var angleRad = Math.atan2(dy, dx);
-            var angleDeg = (angleRad * 180) / Math.PI;
-            this.handlecollision(angleDeg);
-            this.joyStickBall.setPosition(this.intialPos);
-            if (angleDeg < 0) {
-                this.anlges = angleDeg + 360;//convert angle to positive
-            }
-            else {
-                this.anlges = angleDeg;
-            }
-            this.getDirection(this.node, this.anlges);
-            // this.photon_instance.myActor().setCustomProperty("angle", this.anlges);
-
-            this.photon_instance.raiseEvent(Event.Animation, this.anlges, {});
+        let y = e.touch.getUILocationY();
+        let x = e.touch.getUILocationX();
+        var len = this.intialPos.length();
+        var joyStickBallBaseWidth = this.controller.getComponent(UITransform).getBoundingBox().width / 2;
+        let worldPosition = new Vec3(x, y, 0);
+        let localPosition = v3();
+        this.controller.inverseTransformPoint(localPosition, worldPosition);
+        let thumbnailPosition = v3();
+        let lens = localPosition.length();
+        localPosition.normalize();
+        let radius = this.intialPos.x * joyStickBallBaseWidth / len;
+        Vec3.scaleAndAdd(thumbnailPosition, v3(), localPosition, math.clamp(lens, 0, 60));
+        var dy = thumbnailPosition.y;
+        var dx = thumbnailPosition.x;
+        console.log(thumbnailPosition);
+        var angleRad = Math.atan2(dy, dx);
+        var angleDeg = (angleRad * 180) / Math.PI;
+        this.joyStickBall.setPosition(thumbnailPosition);
+        this.intialPos = thumbnailPosition
+        if (angleDeg < 0) {
+            this.anlges = angleDeg + 360;//convert angle to positive
         }
+        else {
+            this.anlges = angleDeg;
+        }
+        this.getDirection(this.node, this.anlges);
+        this.photon_instance.raiseEvent(Event.Animation, this.anlges, {});
     }
     getDirection(node, angle) {
         console.log("config");
@@ -165,14 +186,9 @@ export class PlayerMovement extends Component {
             this.playWalkAnmation(node, "South_East");
         }
     }
-    handlecollision(angle) {//function to block the particular part of joystick on collisions
+    // 
 
-        if (this.anlges < (this.collisionangle - 25) || this.anlges > (this.collisionangle + 25)) {
-            this.playerSpeed = 0.04
-            this.count = 0;
-            this.collided = false
-        }
-    }
+
     playWalkAnmation(node, walkDirection: String) {
 
 
@@ -291,39 +307,15 @@ export class PlayerMovement extends Component {
         child.destroy();
     }
     update(deltaTime: number) {
-        // this.checkperspective();
-        if (this.canMovePlayer) {//player position setting for providing in lerp function
-            this.pos = new Vec2(this.startPos.x - this.intialPos.x, this.startPos.y - this.intialPos.y);
-            if (this.collided) { }
-            if (!this.collided) {
-                this.finalPos.x -= this.pos.x * this.playerSpeed;
-                this.finalPos.y -= this.pos.y * this.playerSpeed;
-            }
-            else {
-                this.finalPos = this.node.getPosition();
-            }
+        if (this.canMovePlayer) {
+            this.node.getComponent(RigidBody2D).linearVelocity = new Vec2(0, 0)
+            this.node.getComponent(RigidBody2D).linearVelocity = new Vec2(this.intialPos.x * this.playerSpeed, this.intialPos.y * this.playerSpeed)
             this.photon_instance.myActor().setCustomProperty("position", this.node.getPosition());
-            this.pos.x = 0;
-            this.pos.y = 0;
         }
-        let currentPostion = this.node.getPosition();
         let playerPosition = new Vec3();
-        if (this.collided && this.count == 0) {
-            //condition to handle collisions for an particular angle only
-            if ((this.anlges < 295 && this.anlges > 245) || (this.anlges < 25 || this.anlges > 345) || (this.anlges > 75 && this.anlges < 115) || (this.anlges > 155 && this.anlges < 215)) {
-                this.collisionangle = this.anlges;
-
-                this.playerSpeed = 0;
-                this.count = 1;
-
-            }
-        }
-        if (this.collided) {//condition to stop lerp function on collision            
-            this.finalPos = currentPostion; this.pos = new Vec2(0, 0); this.collided = false; console.log(this.canMovePlayer, "hell ya");
-
-        }
-        Vec3.lerp(playerPosition, currentPostion, this.finalPos, 0.06);
-        this.node.setPosition(playerPosition);
+        playerPosition = this.node.getPosition();
+        this.node.angle = 0;
+        this.node.getComponent(RigidBody2D).angularVelocity = 0
         this.camera.setPosition(playerPosition.x + this.camera.parent.getComponent(UITransform).width * 0.1, playerPosition.y + this.camera.parent.getComponent(UITransform).height * 0.3);//code for camera movements
     }
 }

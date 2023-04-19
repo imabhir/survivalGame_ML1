@@ -1,7 +1,7 @@
 [
   {
     "__type__": "cc.AnimationClip",
-    "_name": "northEast",
+    "_name": "north",
     "_objFlags": 0,
     "__editorExtras__": {
       "embeddedPlayerGroups": []
