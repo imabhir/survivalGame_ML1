@@ -36,14 +36,12 @@ export class load extends Component {
 
 
         this.resourceInstance.loadPrefabs()
-        this.scheduleOnce(() => {
+        .then(() => {
             this.PopUp = instantiate(this.resourceInstance.getPopUp("PopUp"))
             this.node.addChild(this.PopUp)
-        }, 0.4)
-
+        })
         // this.persistNode = director.getScene().getChildByName("PersistNode");
         // this.persistNode.active = false;
-        
     }
 
     // Show UserName Format on click
@@ -51,10 +49,11 @@ export class load extends Component {
         const pos = this.username.node.getPosition()
         if (this.username.getComponent(EditBox).string == "") {
             console.log(this.PopUp);
-            
-            this.PopUp.setPosition(pos.x, pos.y - 80)
-            this.PopUp.getComponent(Label).color = Color.WHITE
-            this.PopUp.getComponent(Label).string = this.obj.UserNameFormat;
+            if(this.PopUp != null){
+                this.PopUp.setPosition(pos.x, pos.y - 80)
+                this.PopUp.getComponent(Label).color = Color.WHITE
+                this.PopUp.getComponent(Label).string = this.obj.UserNameFormat;
+            }
         }
     }
 
@@ -62,9 +61,11 @@ export class load extends Component {
     ShowPasswordFormat() {
         const pos = this.password.node.getPosition()
         if (this.password.getComponent(EditBox).string == "") {
-            this.PopUp.setPosition(pos.x, pos.y - 80)
-            this.PopUp.getComponent(Label).color = Color.WHITE
-            this.PopUp.getComponent(Label).string = this.obj.PasswordFormat;
+            if(this.PopUp != null){
+                this.PopUp.setPosition(pos.x, pos.y - 80)
+                this.PopUp.getComponent(Label).color = Color.WHITE
+                this.PopUp.getComponent(Label).string = this.obj.PasswordFormat;
+            }
         }
     }
 
@@ -110,7 +111,9 @@ export class load extends Component {
         const UserNameRegex = new RegExp('^[A-Za-z]\\w{4,14}$')
         const UserNameString = this.username.getComponent(EditBox).string
         let EditBoxPosition = this.username.node.getPosition()
-        this.PopUp.setPosition(EditBoxPosition.x, EditBoxPosition.y - 60)
+        if(this.PopUp != null){
+            this.PopUp.setPosition(EditBoxPosition.x, EditBoxPosition.y - 60)
+        }
 
         if (UserNameRegex.test(UserNameString)) {
             this.PopUp.getComponent(Label).string = "Valid"
@@ -127,7 +130,9 @@ export class load extends Component {
         const PasswordRegex = new RegExp("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,}$")
         const PasswordString = this.password.getComponent(EditBox).string
         let EditBoxPosition = this.password.node.getPosition()
-        this.PopUp.setPosition(EditBoxPosition.x, EditBoxPosition.y - 60)
+        if(this.PopUp != null){
+            this.PopUp.setPosition(EditBoxPosition.x, EditBoxPosition.y - 60)
+        }
 
         if (PasswordRegex.test(PasswordString)) {
             this.PopUp.getComponent(Label).string = "Valid"

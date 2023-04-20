@@ -23,9 +23,23 @@ export class resourceManager {
     /**
      * Loading prefab folder in which all prefabs reside
      */
-    loadPrefabs = () => {
-        resources.loadDir("prefabs", (err, PrefabArr) => {
-            return new Promise((resolve, reject) => {
+    // loadPrefabs = () => {
+    //     resources.loadDir("prefabs", (err, PrefabArr) => {
+    //         return new Promise((resolve, reject) => {
+    //             if(!err){
+    //                 this.PrefabArr = PrefabArr
+    //                 resolve(PrefabArr)
+    //             }else{
+    //                 reject(err)
+    //             }
+    //         })
+            
+    //     })
+    // }
+
+    loadPrefabs = async () => {
+        return await new Promise((resolve, reject) => {
+            resources.loadDir("prefabs", (err, PrefabArr) => {
                 if(!err){
                     this.PrefabArr = PrefabArr
                     resolve(PrefabArr)
@@ -33,24 +47,36 @@ export class resourceManager {
                     reject(err)
                 }
             })
-            
         })
     }
 
     /**
      * Loading audioClips folder in which all music clips reside
      */
-    loadMusic = () => {
-        resources.loadDir("audioClips", (err, musicClips) => {
-            return new Promise((resolve, reject) => {
+    // loadMusic = () => {
+    //     resources.loadDir("audioClips", (err, musicClips) => {
+    //         return new Promise((resolve, reject) => {
+    //             if(!err){
+    //                 this.musicClips = musicClips;
+    //                 resolve(musicClips)
+    //             }else{
+    //                 reject(err)
+    //             }
+    //         })
+            
+    //     })
+    // }
+
+    loadMusic = async () => {
+        return await new Promise((resolve, reject) => {
+            resources.loadDir("audioClips", (err, musicClips) => {
                 if(!err){
-                    this.musicClips = musicClips;
+                    this.musicClips = musicClips
                     resolve(musicClips)
                 }else{
                     reject(err)
                 }
             })
-            
         })
     }
 
@@ -73,7 +99,7 @@ export class resourceManager {
 
     public getMusicFile(name: string): AudioClip {
         if (this.musicClips) {
-            let clip = this.musicClips.find((clip) => clip.name == name);
+            let clip = this.musicClips.find((clip) => clip.name === name);
             return clip || null;
         }
     }
@@ -90,7 +116,7 @@ export class resourceManager {
 
     public getPopUp(name: string): Prefab{
         let popUp = this.PrefabArr.find((prefab) => prefab.name == name)
-        return popUp;
+        return popUp || null;
     }
 }
 
