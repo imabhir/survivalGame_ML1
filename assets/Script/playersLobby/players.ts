@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Prefab, JsonAsset, instantiate, UITransform, director, Input, Sprite, NodePool, log } from 'cc';
+import { _decorator, Component, Node, Prefab, JsonAsset, instantiate, UITransform, director, Input, Sprite, NodePool, log, Label } from 'cc';
 // import { gameData } from '../../gameData';
 // import { modes } from '../Modes/scripts/modes';
 import { photonmanager } from '../../Script/photon/photonmanager';
@@ -22,7 +22,8 @@ export class playerslobby extends Component {
 
     @property({ type: Node })
     MostVotedMap: Node = null;
-
+    @property({ type: Prefab })
+    timer: Prefab = null;
 
     gameDataInstance;
     photon: any;
@@ -31,6 +32,10 @@ export class playerslobby extends Component {
 
 
     targetMapNode;
+    allNums: number[];
+    Min: number = 0;
+    Sec: number = 5;
+    Timer: any;
     start() {
         this.photon.player_lobbys = this;
     }
@@ -44,6 +49,15 @@ export class playerslobby extends Component {
 
 
         this.photon = photonmanager.getInstance().photon_instance;
+
+
+
+
+
+
+
+
+
     }
 
     /**
@@ -189,18 +203,85 @@ export class playerslobby extends Component {
         if (!photonmanager.getInstance().gamestarted)
             director.loadScene("gameplay", () => {
                 photonmanager.getInstance().photon.myRoom().setIsOpen(false);
-                photonmanager.getInstance().photon.myRoom().setIsVisible(false); console.log(photonmanager.getInstance().photon.myRoom().isOpen); photonmanager.getInstance().photon.joined = true; photonmanager.getInstance().gamestarted = true; photonmanager.getInstance().photon.raiseEvent(100, {}, {});
+                photonmanager.getInstance().photon.myRoom().setIsVisible(false); console.log(photonmanager.getInstance().photon.myRoom().isOpen);
+                this.allNums = Array.from({ length: 2 - 1 + 1 }, (_, i) => i + 1);
+                for (let i = this.allNums.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [this.allNums[i], this.allNums[j]] = [this.allNums[j], this.allNums[i]];
+                }
+                var actors = Object.keys(photonmanager.getInstance().photon.myRoomActors()).map(key => {
+                    return photonmanager.getInstance().photon.myRoomActors()[key];
+                })
+                console.log(this.allNums);
+
+                actors.forEach((player, i) => {
+                    if ((i + 1) == this.allNums[0]) {
+                        player.setCustomProperty("zombie", true)
+                    }
+                })
+                photonmanager.getInstance().photon.joined = true; photonmanager.getInstance().gamestarted = true; photonmanager.getInstance().photon.raiseEvent(100, {}, {});
+
             })
 
     }
 
-
-
+    stopwatchTimer() {
+        let timer = instantiate(this.timer);
+        this.node.addChild(timer);
+        this.Timer = this.node.getChildByName("Timer");
+        this.schedule(this.timerworking, 1);
+        if (this.Min == 0 && this.Sec == 0) {
+            this.unschedule(this.timerworking);
+        }
+    }
+    /**
+             * @description Callback Function Scheduled after every Sec until reaches 00:00
+             */
+    timerworking() {
+        if (this.Min > 0 || this.Sec > 0) {
+            if (this.Sec == 0) {
+                this.Sec = 60;
+                this.Min--;
+                if (this.Min == 0 && this.Sec == 0) {
+                    this.Min = 60;
+                }
+            }
+            this.Sec--;
+            let m = this.Min < 10 ? "0" + this.Min : this.Min;
+            let s = this.Sec < 10 ? "0" + this.Sec : this.Sec;
+            this.Timer.getComponent(Label).string = m.toString() + ":" + s.toString();
+        }
+    }
+    starts = true;
+    counterstarted = true;
     update(deltaTime: number) {
+
+
         this.targetMapNode = this.gameDataInstance.getMapWithMaxVotes();
         if (this.targetMapNode != null) {
 
             this.showMapWithMaxVotes(this.targetMapNode)
+        }
+        if (photonmanager.getInstance().photon.myRoomActorCount() == 5 && this.counterstarted) {
+            this.stopwatchTimer();
+            this.counterstarted = false
+        }
+        else if (this.counterstarted == false && photonmanager.getInstance().photon.myRoomActorCount() < 5) {
+            console.log("bbbb");
+            this.Min = 0;
+            this.Sec = 0;
+            this.node.getChildByName("Timer").destroy();
+            this.counterstarted = true;
+
+        }
+        if (photonmanager.getInstance().photon.myRoomActorCount() == 5 && this.starts && photonmanager.getInstance().photon.myRoomMasterActorNr() == photonmanager.getInstance().photon.myActor().actorNr && !photonmanager.getInstance().photon.gamestarted) {
+
+            if (this.Min == 0 && this.Sec == 0) {
+                this.StartGame();
+
+
+                this.starts = false
+            }
         }
     }
 }

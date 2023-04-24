@@ -1,6 +1,7 @@
-import { _decorator, Component, EditBox, instantiate, Label, log, Node, Prefab, tween, UITransform, Vec3 } from 'cc';
+import { _decorator, Color, Component, EditBox, instantiate, Label, log, Node, Prefab, ScrollView, Sprite, tween, UITransform, Vec3 } from 'cc';
 import { photonmanager } from '../photon/photonmanager';
 import { Photonevents } from '../photon/cloud-app-info';
+import { color } from 'cc';
 const { ccclass, property } = _decorator;
 
 
@@ -19,68 +20,111 @@ export class Message extends Component {
 
   @property({ type: Node })
   MessageNode: Node = null;
-
+  colors = [Color.GREEN, Color.CYAN, Color.MAGENTA, Color.YELLOW, Color.BLUE]
+  mycolor: Readonly<Color>;
   protected onLoad(): void {
     let a = photonmanager.getInstance().photon_instance
     a.messages = this;
   }
 
 
-  SendMessage() {
-    const ReqMessage = this.EditBoxMessage.getComponent(EditBox).string
-    const MessageBox = instantiate(this.message)
-    const MessageNodes = MessageBox.getChildByName("text")
-    const smallText = MessageBox.getChildByName("smallText")
-
-    MessageNodes.getComponent(Label).string = ReqMessage
-    MessageNodes.getComponent(Label).updateRenderData(true)
-
-
-    smallText.getComponent(Label).string = ReqMessage
-    smallText.getComponent(Label).updateRenderData(true)
-
-    let chatSize = MessageBox.getComponent(UITransform).contentSize
-
-    if (MessageNodes.getComponent(UITransform).contentSize.width > smallText.getComponent(UITransform).contentSize.width) {
-      MessageBox
-        .getComponent(UITransform)
-        .setContentSize(
-          smallText.getComponent(UITransform).getBoundingBox().width + 30,
-          MessageNodes.getComponent(UITransform).getBoundingBox().height + 15
-        );
-    } else {
-      MessageBox
-        .getComponent(UITransform)
-        .setContentSize(
-          chatSize.width,
-          MessageNodes.getComponent(UITransform).getBoundingBox().height + 15
-        );
-    }
-
-    this.MessageNode.addChild(MessageBox)
-    this.EditBoxMessage.getComponent(EditBox).string = "";
-
-
-
-
-
-
-    photonmanager.getInstance().photon_instance.raiseEvent(Photonevents.Ghostchat, { ReqMessage });
+  getcolor(id: number): Color {
+    let r = Math.pow((id * 50 + 100), 2) % 255
+    let g = Math.pow((id * 40 + 200), 2) % 255
+    let b = Math.pow((id * 30 + 300), 2) % 255
+    return new Color(r, g, b)
   }
-  recievedmessage(messages: any) {
+
+
+  closechat() {
+    this.node.scale = new Vec3(0, 0, 0);
+  }
+  SendMessage() {
+    let id = photonmanager.getInstance().photon_instance.myActor().actorNr
+    const ReqMessage = this.EditBoxMessage.getComponent(EditBox).string
+    if (ReqMessage.length > 0) {
+      const MessageBox = instantiate(this.message)
+      const MessageNodes = MessageBox.getChildByName("text")
+      const smallText = MessageBox.getChildByName("smallText")
+
+      MessageNodes.getComponent(Label).string = ReqMessage
+      MessageNodes.getComponent(Label).updateRenderData(true)
+      this.mycolor = this.getcolor(id);
+
+
+      smallText.getComponent(Label).string = ReqMessage
+      smallText.getComponent(Label).color = this.mycolor
+      smallText.getComponent(Label).updateRenderData(true)
+
+      let chatSize = MessageBox.getComponent(UITransform).contentSize
+
+      if (MessageNodes.getComponent(UITransform).contentSize.width > smallText.getComponent(UITransform).contentSize.width) {
+        MessageBox
+          .getComponent(UITransform)
+          .setContentSize(
+            smallText.getComponent(UITransform).getBoundingBox().width + 30,
+            MessageNodes.getComponent(UITransform).getBoundingBox().height + 15
+          );
+      } else {
+        MessageBox
+          .getComponent(UITransform)
+          .setContentSize(
+            chatSize.width,
+            MessageNodes.getComponent(UITransform).getBoundingBox().height + 15
+          );
+      }
+
+      this.MessageNode.addChild(MessageBox)
+      this.EditBoxMessage.getComponent(EditBox).string = "";
+
+
+
+
+
+
+      photonmanager.getInstance().photon_instance.raiseEvent(Photonevents.Ghostchat, { ReqMessage, color: this.mycolor });
+      this.node.getChildByName("ScrollView").getComponent(ScrollView).scrollToBottom();
+    }
+  }
+  onetimemessage = 1
+  allmessages() {
+    let totalmessages = photonmanager.getInstance().photon_instance.totalmessages
+    console.log(totalmessages);
+
+    if (totalmessages.length != 0 && this.onetimemessage) {
+      let i = 0;
+      while (i < totalmessages.length) {
+        this.recievedmessage(totalmessages[i].reqMessage, totalmessages[i].color);
+        i++;
+      }
+      photonmanager.getInstance().photon_instance.totalmessages = []
+      this.onetimemessage = 0;
+    }
+  }
+  recievedmessage(messages: any, color) {
+    if (this.node.scale.x == 0) {
+      photonmanager.getInstance().photon_instance.totalmessages.push(messages)
+    }
+    else {
+
+      photonmanager.getInstance().photon_instance.totalmessages = []
+
+    }
     const ReqMessage = messages
     const MessageBox = instantiate(this.messages)
     const MessageNodes = MessageBox.getChildByName("text")
     const smallText = MessageBox.getChildByName("smallText")
-
     MessageNodes.getComponent(Label).string = ReqMessage
     MessageNodes.getComponent(Label).updateRenderData(true)
 
 
     smallText.getComponent(Label).string = ReqMessage
+    smallText.getComponent(Label).color = color
     smallText.getComponent(Label).updateRenderData(true)
 
     let chatSize = MessageBox.getComponent(UITransform).contentSize
+
+
 
     if (MessageNodes.getComponent(UITransform).contentSize.width > smallText.getComponent(UITransform).contentSize.width) {
       MessageBox
@@ -100,6 +144,7 @@ export class Message extends Component {
 
     this.MessageNode.addChild(MessageBox)
     this.EditBoxMessage.getComponent(EditBox).string = "";
+    this.node.getChildByName("ScrollView").getComponent(ScrollView).scrollToBottom();
   }
 
   start() {
@@ -109,68 +154,5 @@ export class Message extends Component {
   update(deltaTime: number) {
 
   }
-
-
-
-  // const { ChatClient } = require("photon-chat");
-
-  // cc.Class({
-  // extends: cc.Component,
-
-  // properties: {
-  //     appId: "",
-  //     userId: "",
-  //     roomName: "",
-  // },
-
-
-  // In your Cocos Creator project, create a new script called "ChatManager" or a name of your choice. This script will be responsible for connecting to the chat server, joining a chat room, and sending and receiving messages. 
-
-  // In this script, we create a new instance of the ChatClient class, connect to the chat server using the App ID and User ID, join a chat room using the Room Name, and register callback functions to handle received messages and disconnects. We also define a method to send messages.  
-
-  // onLoad () {
-  //     this.chatClient = new ChatClient();
-  //     this.chatClient.connect(this.appId, this.userId);
-  //     this.chatClient.setonConnectedCallback(() => {
-  //         this.chatClient.joinChatRoom(this.roomName);
-  //     });
-  //     this.chatClient.setonMessageReceivedCallback((userId, message) => {
-  //         console.log(userId + " sent: " + message);
-  //         // Handle received message here
-  //     });
-  //     this.chatClient.setOnDisconnectedCallback(() => {
-  //         console.log("Disconnected from chat server");
-  //         // Handle disconnect here
-  //     });
-  // },
-
-  // sendMessage(message) {
-  //     this.chatClient.sendPublicMessage(this.roomName, message);
-  // },
-
-
-
-
-  // Attach the chat manager to a node: Attach the "ChatManager" script to a node in your scene, such as the root node or a dedicated node for chat functionality.
-
-  // Send messages: You can send messages from anywhere in your game by calling the sendMessage method of the chat manager. For example, in a button click event handler:
-
-  // cc.Class({
-  //     extends: cc.Component,
-
-  //     properties: {
-  //         chatManager: {
-  //             default: null,
-  //             type: cc.Node,
-  //         },
-  //     },
-
-  //     sendMessage() {
-  //         var message = "Hello world!";
-  //         this.chatManager.getComponent("ChatManager").sendMessage(message);
-  //     },
-  // });
-
-
 }
 

@@ -11,6 +11,7 @@ export default {
 export enum Photonevents {
     "Ghostchat",
     "Normalchat",
-    "Openchest"
+    "Openchest",
+    "Move"
 }
 

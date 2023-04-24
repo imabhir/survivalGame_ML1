@@ -1,9 +1,11 @@
-import { _decorator, Component, Node, UITransform, Vec3, Vec2, Animation, ImageAsset, SpriteFrame, Sprite, PhysicsSystem, PhysicsSystem2D, AudioClip, AudioSourceComponent, Collider2D, Contact2DType, IPhysics2DContact, Camera, log, EPhysics2DDrawFlags, TiledMap, instantiate, Prefab, randomRangeInt, RigidBody, RigidBody2D, BoxCollider2D, CircleCollider2D, v3, math } from "cc";
+import { _decorator, Component, Node, UITransform, Vec3, Vec2, Animation, ImageAsset, SpriteFrame, Sprite, PhysicsSystem, PhysicsSystem2D, AudioClip, AudioSourceComponent, Collider2D, Contact2DType, IPhysics2DContact, Camera, log, EPhysics2DDrawFlags, TiledMap, instantiate, Prefab, randomRangeInt, RigidBody, RigidBody2D, BoxCollider2D, CircleCollider2D, v3, math, Color, Label } from "cc";
 import { Room } from "../../../extensions/colyseus-sdk/runtime/colyseus";
 import { Event } from "../photon/photonconstants"
 import { walls } from "../wallscollisions";
 import { photonmanager } from "../photon/photonmanager";
 import photon from "../photon/photon";
+import { Photonevents } from "../photon/cloud-app-info";
+import { color } from "cc";
 const { ccclass, property } = _decorator;
 
 
@@ -27,6 +29,8 @@ export class PlayerMovement extends Component {
     map: Node = null;
     @property({ type: Prefab })
     player_prefab: Prefab = null
+    @property({ type: Node })
+    notification: Node = null;
     pos: Vec2 = null;
     startPos: Vec3 = null;
     intialPos: Vec3 = null;
@@ -35,12 +39,13 @@ export class PlayerMovement extends Component {
     canMovePlayer: boolean = false;
     collided: boolean = false;
     collisionangle: number = null
-    playerSpeed: number = 0.1
+    playerSpeed: number = 0.06
     touchenabled: boolean = true;
     count: number = 0;
     anlges: number = 0
     actors: any;
     photon_instance
+    health: any = 10;
     start() {
         this.touchEventsFunc();
         PhysicsSystem2D.instance.enable = true;
@@ -48,7 +53,19 @@ export class PlayerMovement extends Component {
             PhysicsSystem2D.instance.on(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this);
             PhysicsSystem2D.instance.on(Contact2DType.END_CONTACT, () => { this.collided = false; }, this);
         }
-        this.photon_instance.myActor().setCustomProperty("position", this.node.getPosition());
+        this.photon_instance.myActor().setCustomProperty("health", this.health);
+        // this.photon_instance.myActor().setCustomProperty("zombie", false);
+
+        console.log(this.photon_instance.myActor().getCustomProperty("zombie"));
+
+        if (this.photon_instance.myActor().getCustomProperty("zombie")) {
+
+            this.node.getComponent(Sprite).color = Color.GREEN;
+            this.node.getComponent(CircleCollider2D).group = 1 << 2;
+            this.node.getComponent(RigidBody2D).group = 1 << 2;
+        }
+        this.addedactor(this.photon_instance.myActor());
+
 
     }
     onLoad() {
@@ -58,33 +75,27 @@ export class PlayerMovement extends Component {
         this.startPos = this.joyStickBall.getPosition();
         this.photon_instance = photonmanager.getInstance().photon_instance;
         this.photon_instance.player_movements = this;
-        this.addedactor(this.photon_instance.myActor());
+
     }
     onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {//collsion callback functions
+        console.log(otherCollider.node.name);
 
         if (otherCollider.node.name == "bullet") {
             otherCollider.node.destroy()
-            // otherCollider.node.name
-
+            if (selfCollider.node.name[0] != "N" && selfCollider.node.name[1] != "K") {
+                this.photon_instance.raiseEvent(113, { name: selfCollider.node.name, position: selfCollider.node.getPosition() });
+            }
         }
-        console.log(otherCollider.node.name.slice(1), selfCollider.node.name, otherCollider.node.name);
-
         if (otherCollider.node.name.slice(1) == "bullet" && selfCollider.node.name[0] != otherCollider.node.name[0]) {
             otherCollider.node.destroy();
-            console.log(true);
-
         }
-
         else if (otherCollider.node.name == "player" && selfCollider.node.name[0] == otherCollider.node.name[0]) {
             this.node.getComponent(RigidBody2D).linearVelocity = new Vec2(0, 0);
             selfCollider.restitution = 0;
             otherCollider.restitution = 0;
-            // this.collided = true;
-            console.log("abcde");
-
             otherCollider.node.getComponent(Animation).pause();
-        } else if (otherCollider.node.name == "player" && selfCollider.node.name[0] != otherCollider.node.name[0] && selfCollider.node.name.slice(1) == "bullet") {
-            console.log(selfCollider.node);
+        }
+        else if (otherCollider.node.name == "player" && selfCollider.node.name[0] != otherCollider.node.name[0] && selfCollider.node.name.slice(1) == "bullet") {
             selfCollider.node.destroy()
         }
 
@@ -109,25 +120,20 @@ export class PlayerMovement extends Component {
         this.photon_instance.myActor().setCustomProperty("angle", null);
         this.node.getComponent(Animation)?.pause();
         this.node.getComponent(RigidBody2D).linearVelocity = new Vec2(0, 0)
-
     }
     touchStart() {
         this.joyStickBall.setPosition(0, 0, 0);
         this.touchenabled = true;
         this.canMovePlayer = true;
     }
-    checkperspective() {
-        this.node.parent.children.forEach((e) => {
-            if (this.node.getPosition().y > e.getPosition().y) {
-                console.log(this.node.getPosition().y);
-
-                this.node.setSiblingIndex(0);
-            }
-
-        })
-    }
+    // checkperspective() {
+    //     this.node.parent.children.forEach((e) => {
+    //         if (this.node.getPosition().y > e.getPosition().y) {
+    //             this.node.setSiblingIndex(0);
+    //         }
+    //     })
+    // }
     touchMove(e) {
-
         //functionality to check if the touch is wihtin the limit for the joystick to be enabled
         let first_touch = this.controller.getComponent(UITransform).convertToNodeSpaceAR(new Vec3(e.getUILocation().x, e.getUILocation().y, e.getUILocation().z))
         let final_touch = new Vec2(this.startPos.x - first_touch.x, this.startPos.y - first_touch.y)
@@ -150,7 +156,7 @@ export class PlayerMovement extends Component {
         Vec3.scaleAndAdd(thumbnailPosition, v3(), localPosition, math.clamp(lens, 0, 60));
         var dy = thumbnailPosition.y;
         var dx = thumbnailPosition.x;
-        console.log(thumbnailPosition);
+        // console.log(thumbnailPosition);
         var angleRad = Math.atan2(dy, dx);
         var angleDeg = (angleRad * 180) / Math.PI;
         this.joyStickBall.setPosition(thumbnailPosition);
@@ -165,7 +171,7 @@ export class PlayerMovement extends Component {
         this.photon_instance.raiseEvent(Event.Animation, this.anlges, {});
     }
     getDirection(node, angle) {
-        console.log("config");
+        // console.log("config");
         //handling animations according to     joystick movement
         if (angle > 335 && angle < 359 || angle < 25 && angle > 0) {
             this.playWalkAnmation(node, "East");
@@ -186,13 +192,7 @@ export class PlayerMovement extends Component {
             this.playWalkAnmation(node, "South_East");
         }
     }
-    // 
-
-
     playWalkAnmation(node, walkDirection: String) {
-
-
-
         switch (walkDirection) {
             case "North":
                 {
@@ -242,65 +242,92 @@ export class PlayerMovement extends Component {
         })
         actors.forEach((actor) => {
             if (actor.actorNr != this.photon_instance.myActor().actorNr && !this.node.parent.getChildByName(actor.actorNr.toString())) {
-                console.log(actor.actorNr);
+                // console.log(actor.actorNr);
                 let player = instantiate(this.player_prefab)
+                if (actor.getCustomProperty("zombie")) {
+                    player.getComponent(Sprite).color = Color.GREEN
+                    player.getComponent(BoxCollider2D).group = 1 << 2;
+                    player.getComponent(RigidBody2D).group = 1 << 2;
+                }
                 player.name = actor.actorNr.toString()
                 this.node.parent.addChild(player);
             }
         })
-        console.log(this.photon_instance.myRoomActors());
+        // console.log(this.photon_instance.myRoomActors());
 
     }
     move_actor(actor: any) {
-        if (actor.actorNr != this.photon_instance.myActor().actorNr) {
+        if (this.node.parent.getChildByName(actor.actorNr.toString()) != null) {
+            if (actor.actorNr != this.photon_instance.myActor().actorNr) {
 
-            var child = this.node.parent.getChildByName(actor.actorNr.toString())
-            child.setPosition(actor.getCustomProperty("position"))
+                var child = this.node.parent.getChildByName(actor.actorNr.toString())
+                child.setPosition(actor.position)
+            }
         }
-
     }
     kill_otheractor(actor: any) {
+        console.log(this.health);
+
+        console.log(actor);
+
         if (actor.name != this.photon_instance.myActor().actorNr.toString()) {
 
 
-            if (this.node.parent.getChildByName(actor.name + "killedplayer"
-            ) == null) {
-                console.log(actor.name);
-                var child = this.node.parent.getChildByName(actor.name)
-                let killed_sprites = instantiate(this.player_prefab);
-                killed_sprites.name = actor.name + "killedplayer"
-                killed_sprites.setPosition(actor.position)
-                killed_sprites.getComponent(Sprite).spriteFrame = this.killed_player_image;
-                killed_sprites.setScale(new Vec3(0.2, 0.2, 0));
-                this.node.parent.addChild(killed_sprites);
-                child.layer = 2;
-                child.getComponent(Sprite).grayscale = true
-            }
+            // if (this.node.parent.getChildByName(actor.name + "killedplayer"
+            // ) == null) {
+            //     // console.log(actor.name);
+            //     var child = this.node.parent.getChildByName(actor.name)
+            //     let killed_sprites = instantiate(this.player_prefab);
+            //     killed_sprites.name = actor.name + "killedplayer"
+            //     killed_sprites.setPosition(actor.position)
+            //     killed_sprites.getComponent(Sprite).spriteFrame = this.killed_player_image;
+            //     killed_sprites.setScale(new Vec3(0.2, 0.2, 0));
+            //     this.node.parent.addChild(killed_sprites);
+            //     child.layer = 2;
+            //     child.getComponent(Sprite).grayscale = true
+            // }
 
 
         }
         else {
-            var child = this.node.parent.getChildByName(actor.name
-            )
-            if (this.node.parent.getChildByName(actor.name + "killedplayer"
-            ) == null) {
-                let killed_sprites = instantiate(this.player_prefab);
-                killed_sprites.name = actor.name + "killedplayer"
-                killed_sprites.setPosition(actor.position)
-                killed_sprites.getComponent(Sprite).spriteFrame = this.killed_player_image;
-                killed_sprites.setScale(new Vec3(0.2, 0.2, 0));
-                this.node.parent.addChild(killed_sprites);
-                this.node.getComponent(Sprite).grayscale = true
-                this.node.layer = 2;
-                this.camera.getComponent(Camera).visibility = 3;
-                this.node.getComponent(CircleCollider2D).enabled = false;
-            }
+            // var child = this.node.parent.getChildByName(actor.name
+            // )
+            this.health--;
+            this.photon_instance.myActor().setCustomProperty("health", this.health);
+            console.log(actor.name);
 
+
+            if (this.health == 0) {
+                if (this.node.parent.getChildByName(actor.name + "killedplayer"
+                ) == null) {
+                    let killed_sprites = instantiate(this.player_prefab);
+                    killed_sprites.name = actor.name + "killedplayer"
+                    killed_sprites.setPosition(new Vec3(actor.position.x, actor.position.y, 0))
+                    console.log(new Vec3(actor.position.x, actor.position.y, 0));
+                    console.log(killed_sprites);
+
+                    killed_sprites.getComponent(Sprite).spriteFrame = this.killed_player_image;
+                    killed_sprites.setScale(new Vec3(0.2, 0.3, 0.5));
+                    console.log(killed_sprites.getPosition());
+
+                    this.node.parent.addChild(killed_sprites);
+                    this.node.getComponent(Sprite).grayscale = true
+                    // this.node.getChildByName("gun").destroy();
+                    this.node.layer = 2;
+                    this.camera.getComponent(Camera).visibility = 3;
+                    this.node.getComponent(CircleCollider2D).enabled = false;
+                    this.photon_instance.raiseEvent(133, { name: actor.name, position: this.node.getPosition() });
+                }
+            }
         }
     }
     enableanimation(actorNr: number, content: any) {
-        var child = this.node.parent.getChildByName(actorNr.toString())
-        this.getDirection(child, content)
+        if (this.node.parent.getChildByName(actorNr.toString()) != null) {
+            var child = this.node.parent.getChildByName(actorNr.toString())
+            this.getDirection(child, content)
+        }
+    }
+    getnotification() {
     }
     destroycharacter(actor: Photon.LoadBalancing.Actor) {
         var child = this.node.parent.getChildByName(actor.actorNr.toString())
@@ -308,16 +335,22 @@ export class PlayerMovement extends Component {
     }
     update(deltaTime: number) {
         if (this.canMovePlayer) {
-            this.node.getComponent(RigidBody2D).linearVelocity = new Vec2(0, 0)
+            // this.node.getComponent(RigidBody2D).linearVelocity = new Vec2(0, 0)
             this.node.getComponent(RigidBody2D).linearVelocity = new Vec2(this.intialPos.x * this.playerSpeed, this.intialPos.y * this.playerSpeed)
-            this.photon_instance.myActor().setCustomProperty("position", this.node.getPosition());
+            // this.photon_instance.myActor().setCustomProperty("position", this.node.getPosition());
+            this.photon_instance.raiseEvent(Photonevents.Move, { actorNr: this.photon_instance.myActor().actorNr, position: this.node.getPosition() })
         }
         let playerPosition = new Vec3();
         playerPosition = this.node.getPosition();
         this.node.angle = 0;
         this.node.getComponent(RigidBody2D).angularVelocity = 0
         this.camera.setPosition(playerPosition.x + this.camera.parent.getComponent(UITransform).width * 0.1, playerPosition.y + this.camera.parent.getComponent(UITransform).height * 0.3);//code for camera movements
+
+        if (this.photon_instance.totalmessages.length != 0)
+            this.notification.getComponent(Label).string = this.photon_instance.totalmessages.length
     }
+
+
 }
 
 

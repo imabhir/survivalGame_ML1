@@ -1,8 +1,9 @@
-import { _decorator, Component, Node, TiledMap, PhysicsSystem2D, Contact2DType, Collider2D, IPhysics2DContact, Rect, UITransform, TiledObjectGroup, Vec3, TiledLayer, TiledTile, RigidBody, RigidBody2D, RigidBodyComponent, BoxCollider2D, Vec2, ERigidBody2DType, PhysicsSystem, EPhysics2DDrawFlags, director, Prefab, instantiate, GraphicsComponent, rect, log, Input, TiledMapAsset, Button, Sprite, Event, EventHandler, math, randomRangeInt, SpriteFrame, Skeleton, sp, Socket, input, Quat } from 'cc';
+import { _decorator, Component, Node, TiledMap, PhysicsSystem2D, Contact2DType, Collider2D, IPhysics2DContact, Rect, UITransform, TiledObjectGroup, Vec3, TiledLayer, TiledTile, RigidBody, RigidBody2D, RigidBodyComponent, BoxCollider2D, Vec2, ERigidBody2DType, PhysicsSystem, EPhysics2DDrawFlags, director, Prefab, instantiate, GraphicsComponent, rect, log, Input, TiledMapAsset, Button, Sprite, Event, EventHandler, math, randomRangeInt, SpriteFrame, Skeleton, sp, Socket, input, Quat, CircleCollider2D, Color } from 'cc';
 import { photonmanager } from './photon/photonmanager';
 import { Photonevents } from './photon/cloud-app-info';
 const { ccclass, property } = _decorator;
 import { PlayerMovement } from './Player/PlayerMovement'
+import { Message } from './ChatScript/Message';
 
 
 
@@ -39,6 +40,8 @@ export class walls extends Component {
     @property({ type: Prefab })
     chest_prefab: Prefab = null
     @property({ type: Prefab })
+    chat_prefab: Prefab = null
+    @property({ type: Prefab })
     gun: Prefab = null
     @property({ type: Prefab })
     bullet: Prefab = null
@@ -73,7 +76,7 @@ export class walls extends Component {
     onLoad() {
         PhysicsSystem2D.instance.enable = true;
         this.map = this.node.getComponent(TiledMap)
-        console.log(this.node.getComponent(TiledMap).getObjectGroups())
+        // console.log(this.node.getComponent(TiledMap).getObjectGroups())
         this.camera.setPosition(this.maincamera.getPosition())
 
         this.use_button.getComponent(Button).interactable = false
@@ -98,7 +101,7 @@ export class walls extends Component {
     }
     start() {//refer to link https://juejin.cn/post/7068114266716373029
         this.enablecollision("level1")
-        console.log("logged");
+        // console.log("logged");
         this.setUpConnection();
         this.node.getComponent(TiledMap).getObjectGroup("interactables").getObjects().forEach((e) => {
             if (e!.prefab_type == "chest") {
@@ -127,7 +130,7 @@ export class walls extends Component {
     touchStart() {
         this.joyStickBall.setPosition(0, 0, 0);
         this.canmoveweapon = true;
-        console.log("abcde");
+        // console.log("abcde");
     }
     touchMove(e) {
         this.intialPos = this.controller
@@ -141,7 +144,7 @@ export class walls extends Component {
             this.intialPos.y = (this.intialPos.y * joyStickBallBaseWidth) / len;
 
 
-            console.log(this.anlges);
+            // console.log(this.anlges);
             this.canfire = true
             // console.log(this.player.getChildByName("gun"));
 
@@ -162,7 +165,7 @@ export class walls extends Component {
         else {
             this.anlges = angleDeg;
         }
-        console.log(this.anlges);
+        // console.log(this.anlges);
         this.player.getChildByName("gun").angle = (this.anlges)
         this.player.getComponent(PlayerMovement).getDirection(this.player, this.anlges)
         // this.anlges = angleDeg < 0 ? angleDeg - 180 : angleDeg + 90
@@ -194,7 +197,7 @@ export class walls extends Component {
     }
     open() {
         if (this.chest) {
-            console.log("opened");
+            // console.log("opened");
             let gun = instantiate(this.gun);
             this.player.getChildByName("gun").addChild(gun);
             this.player.updateWorldTransform(); // 4
@@ -218,7 +221,7 @@ export class walls extends Component {
                 console.log(this.minigame.name);
                 this.node.parent.addChild(this.minigame)
             }
-            console.log("b");
+            // console.log("b");
             this.use_button.getComponent(Button).interactable = false
             this.use_button_checker = 0;
         }
@@ -228,7 +231,7 @@ export class walls extends Component {
 
         var child = this.player.parent.getChildByName(actor.toString())
         let gun = instantiate(this.gun);
-        console.log(child);
+        // console.log(child);
         child.getChildByName("gun").addChild(gun);
 
 
@@ -242,6 +245,19 @@ export class walls extends Component {
 
 
     }
+    openchat() {
+        let chat = instantiate(this.chat_prefab);
+        chat.setPosition(this.maincamera.getPosition());
+        if (this.node.parent.getChildByName(chat.name) == null) {
+            this.node.parent.addChild(chat)
+            console.log(this.photon_instance.totalmessages);
+
+            this.node.parent.getChildByName(chat.name).getComponent(Message).allmessages();
+        }
+        else {
+            this.node.parent.getChildByName(chat.name).scale = new Vec3(1, 1, 1);
+        }
+    }
     fire(angle) {
         // if (this.player.parent.getChildByName(this.killed_actor.name + "killedplayer"
         // ) == null) {
@@ -249,7 +265,7 @@ export class walls extends Component {
 
         const WorldSpace = this.player.getChildByName("gun").getComponent(UITransform).convertToWorldSpaceAR(position) // 2
         const Position = this.player.getComponent(UITransform).convertToNodeSpaceAR(WorldSpace) // 3
-        console.log(Position, position);
+        // console.log(Position, position);
 
         this.createBullet(new Vec2(position.x, position.y), 10, angle) // 4
         this.photon_instance.raiseEvent(116, { position: new Vec2(position.x, position.y), angle: angle })
@@ -281,31 +297,36 @@ export class walls extends Component {
 
 
     }
-    kill_actor() {
+    kill_actor(actor) {
 
 
 
+        this.killed_actor = actor.name;
+        if (this.killed_actor != this.photon_instance.myActor().actorNr.toString()) {
+            var child = this.player.parent.getChildByName(this.killed_actor)
+            if (this.player.parent.getChildByName(this.killed_actor + "killedplayer"
+            ) == null) {
+                let killed_sprites = instantiate(this.player_prefab);
+                killed_sprites.name = this.killed_actor + "killedplayer"
+                killed_sprites.getComponent(Sprite).spriteFrame = this.killed_sprite;
+                console.log(actor.position.x);
 
-        // if (this.killed_actor.name != this.photon_instance.myActor().actorNr.toString()) {
-        //     var child = this.player.parent.getChildByName(this.killed_actor.name)
-        //     if (this.player.parent.getChildByName(this.killed_actor.name + "killedplayer"
-        //     ) == null) {
-        //         let killed_sprites = instantiate(this.player_prefab);
-        //         killed_sprites.name = this.killed_actor.name + "killedplayer"
-        //         killed_sprites.getComponent(Sprite).spriteFrame = this.killed_sprite;
-        //         killed_sprites.setPosition(this.killed_actor.getPosition())
-        //         killed_sprites.setScale(new Vec3(0.2, 0.2, 0));
-        //         this.player.parent.addChild(killed_sprites);
-        //         child.getComponent(Sprite).grayscale = true
-        //         this.photon_instance.raiseEvent(113, { name: this.killed_actor.name, position: this.killed_actor.getPosition() });
-        //         this.kill_button_checker = 0;
-        //         console.log(this.killed_actor.layer);
+                killed_sprites.setPosition(actor.position)
+                killed_sprites.setScale(new Vec3(0.2, 0.3, 0.5));
+                this.player.parent.addChild(killed_sprites);
+                console.log(killed_sprites
+                );
 
-        //         this.killed_actor.layer = 2;
-        //         console.log(this.killed_actor.layer);
+                child.getComponent(Sprite).grayscale = true
+                // this.photon_instance.raiseEvent(113, { name: this.killed_actor, position: this.killed_actor.getPosition() });
+                this.kill_button_checker = 0;
+                console.log(this.killed_actor.layer);
 
-        //     }
-        // }
+                child.layer = 2;
+                console.log(this.killed_actor.layer);
+
+            }
+        }
     }
     createBullet(position: Vec2, velocity: number, angle: number) {
         const newBullet = instantiate(this.bullet) // 1
@@ -315,25 +336,40 @@ export class walls extends Component {
         const body = newBullet.getComponent(RigidBody2D) // 3
         body.linearVelocity = new Vec2(sind(angle) * velocity,
             cosd(angle) * velocity)
+        if (this.photon_instance.myActor().getCustomProperty("zombie")) {
+            newBullet.getComponent(RigidBody2D).group = 2;
+            newBullet.getComponent(BoxCollider2D).group = 2;
 
+        }
         this.player.addChild(newBullet)
         this.player.updateWorldTransform(); // 4
     }
     createotherBullet(position: Vec2, velocity: number, angle: number, actorNr) {
-        const newBullet = instantiate(this.bullet) // 1
-        // newBullet.getComponent(BoxCollider2D).enabled = false
+        if (this.player.parent.getChildByName(actorNr) != null) {
+            const newBullet = instantiate(this.bullet) // 1
+            // newBullet.getComponent(BoxCollider2D).enabled = false
 
-        newBullet.name = actorNr.toString() + "bullet"
-        console.log(newBullet);
-        newBullet.setPosition(position.x, position.y, 0) // 2
-        newBullet.angle = angle * -1
+            newBullet.name = actorNr.toString() + "bullet"
+            // console.log(newBullet);
+            newBullet.setPosition(position.x, position.y, 0) // 2
+            newBullet.angle = angle * -1
 
-        const body = newBullet.getComponent(RigidBody2D) // 3
-        body.linearVelocity = new Vec2(sind(angle) * velocity,
-            cosd(angle) * velocity)
+            const body = newBullet.getComponent(RigidBody2D) // 3
+            body.linearVelocity = new Vec2(sind(angle) * velocity,
+                cosd(angle) * velocity)
+            if (this.player.parent.getChildByName(actorNr).getComponent(Sprite).color == Color.GREEN) {
+                newBullet.getComponent(RigidBody2D).group = 2;
+                newBullet.getComponent(BoxCollider2D).group = 2;
+            }
+            this.player.parent.getChildByName(actorNr).addChild(newBullet)
+            this.player.parent.getChildByName(actorNr).updateWorldTransform(); // 4
 
-        this.player.parent.getChildByName(actorNr).addChild(newBullet)
-        this.player.parent.getChildByName(actorNr).updateWorldTransform(); // 4
+
+
+
+
+
+        }
     }
     update(deltaTime: number) {
         //functionality to check if the bounding box of player collides with an particular bounding box given in tilemap object groups

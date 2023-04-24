@@ -3,6 +3,22 @@
   "physics": {
     "gravity": {
       "y": 0
+    },
+    "collisionGroups": [
+      {
+        "index": 1,
+        "name": "normalplayer"
+      },
+      {
+        "index": 2,
+        "name": "zombieplayer"
+      }
+    ],
+    "collisionMatrix": {
+      "0": 7,
+      "1": 5,
+      "2": 3,
+      "3": 0
     }
   },
   "general": {

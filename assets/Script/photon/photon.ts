@@ -2,7 +2,7 @@ import { PlayerMovement } from "../Player/PlayerMovement";
 import config, { Photonevents } from "./cloud-app-info";
 import { Event } from "../photon/photonconstants"
 import { photonmanager } from "./photonmanager";
-import { director, log } from "cc";
+import { Color, director, log } from "cc";
 import { playerslobby } from "../playersLobby/players";
 import { Message } from "../ChatScript/Message";
 import { walls } from "../wallscollisions";
@@ -27,7 +27,7 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
     ConnectOnStart = true;
     message: Message = null;
     wall: walls = null;
-
+    totalmessages: any = [];
     constructor() {
         super(photonWss ? 1 : 0, photonAppId, photonAppVersion);
         this.logger.info("Photon Version: " + Photon.Version + (Photon.IsEmscriptenBuild ? "-em" : ""));
@@ -37,8 +37,8 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
         this.setLogLevel(Exitgames.Common.Logger.Level.INFO);
         // this.data = data_manager.getInstance()
         // this.player_movement = new PlayerMovement;
-
     }
+
     set player_movements(value: PlayerMovement) {
         this.player_movement = value;
     }
@@ -93,7 +93,8 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
 
 
     }
-    i = 0;
+
+
     onEvent(Event: number, content: any, actorNr: number): void {
         if (Event == 100) {
             this.joined = true;
@@ -113,28 +114,48 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
                 this.wall.openchest(actorNr)
         }
         else if (Photonevents.Ghostchat == Event) {
-            if (this.message != null)
-                this.message.recievedmessage(content.ReqMessage)
+            if (this.message != null) {
+                this.message.recievedmessage(content.ReqMessage, content.color);
+            }
+            else {
+                this.player_movement.getnotification()
+                this.totalmessages.push({ reqMessage: content.ReqMessage, color: content.color })
+            }
         }
-        else if (this.joined && Event == 115) {
+        else if (this.joined && Event == 115 && photonmanager.getInstance().gamestarted) {
             console.log("enable");
+            if (this.player_movement != null)
 
-            this.player_movement.enableanimation(actorNr, content);
+
+                this.player_movement.enableanimation(actorNr, content);
         }
         else if (Event == 116) {
             if (this.wall != null) {
-                console.log(this.i);
 
-                // if (this.i % 2 == 0) {
+
+
                 this.wall.fireatotheractor({ ...content, actorNr: actorNr.toString() })
-                // }
-                // this.i++;
+
+
+
+
             }
+        }
+        else if (Event == 133) {
+            if (this.wall != null) {
+                this.wall.kill_actor(content)
+            }
+        }
+        else if (Event = Photonevents.Move) {
+            if (this.joined && photonmanager.getInstance().gamestarted)
+                if (this.player_movement != null)
+
+                    this.player_movement.move_actor(content)
         }
     }
     onActorPropertiesChange(actor: Photon.LoadBalancing.Actor): void {
-        if (this.joined && photonmanager.getInstance().gamestarted)
-            this.player_movement.move_actor(actor)
+        // if (this.joined && photonmanager.getInstance().gamestarted)
+        //     this.player_movement.move_actor(actor)
     }
     onActorLeave(actor: Photon.LoadBalancing.Actor, cleanup: boolean): void {
         if (this.joined && photonmanager.getInstance().gamestarted) {
