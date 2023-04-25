@@ -96,13 +96,20 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
 
 
     onEvent(Event: number, content: any, actorNr: number): void {
+        console.log(Event);
+        this.raiseEvent
         if (Event == 100) {
             this.joined = true;
             if (!photonmanager.getInstance().gamestarted)
                 director.loadScene("gameplay", () => { photonmanager.getInstance().photon.myRoom().isOpen = false; photonmanager.getInstance().photon.CloseAvailableRoom; photonmanager.getInstance().photon.joined = true; photonmanager.getInstance().gamestarted = true; photonmanager.getInstance().photon.raiseEvent(100, {}, {}); })
         } else if (Event == 113) {
 
-            this.player_movement.kill_otheractor(content)
+            this.player_movement.kill_otheractor(null, content)
+        }
+        else if (Event == 48) {
+            console.log("killed");
+
+            this.player_movement.kill_otheractor(null, content)
         }
         else if (Event == 420) {
             photonmanager.getInstance().gamestarted = content.gamestarted
@@ -118,7 +125,6 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
                 this.message.recievedmessage(content.ReqMessage, content.color);
             }
             else {
-                this.player_movement.getnotification()
                 this.totalmessages.push({ reqMessage: content.ReqMessage, color: content.color })
             }
         }
@@ -146,12 +152,23 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
                 this.wall.kill_actor(content)
             }
         }
-        else if (Event = Photonevents.Move) {
+        else if (Event == Photonevents.Move) {
             if (this.joined && photonmanager.getInstance().gamestarted)
                 if (this.player_movement != null)
 
                     this.player_movement.move_actor(content)
         }
+        else if (Event == 52) {
+            console.log("killed");
+
+            this.player_movement.zombie_otheractor(null, content)
+        }
+        else if (Event == 62) {
+            console.log("killed");
+
+            this.wall.zombie_actor(content)
+        }
+
     }
     onActorPropertiesChange(actor: Photon.LoadBalancing.Actor): void {
         // if (this.joined && photonmanager.getInstance().gamestarted)

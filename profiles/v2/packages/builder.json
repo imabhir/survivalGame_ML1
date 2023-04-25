@@ -38,7 +38,7 @@
         "progress": 1,
         "state": "success",
         "stage": "run",
-        "message": "20-03-2023 17:13:30 Build success in 9772 ms!",
+        "message": "25-04-2023 09:56:08 run package /Users/rishabhkushwaha/Desktop/survivalGame_ML1/build/web-mobile success!",
         "options": {
           "name": "tiledMap2",
           "platform": "web-mobile",
@@ -55,7 +55,7 @@
           "mainBundleIsRemote": false,
           "mainBundleCompressionType": "merge_dep",
           "replaceSplashScreen": false,
-          "startScene": "382fea8a-012a-44c4-914c-e8bf465780a5",
+          "startScene": "fefc10e0-bd91-4357-af25-a28ac1bcc516",
           "outputName": "web-mobile",
           "scenes": [
             {
@@ -64,13 +64,43 @@
               "inBundle": false
             },
             {
-              "url": "db://assets/AvatarSelection/Scenes/Avatar.scene",
+              "url": "db://assets/scenes/AvatarSelectionScenes/Avatar.scene",
               "uuid": "fc217d1f-1edf-4e9d-9756-baaec88658d1",
               "inBundle": false
             },
             {
-              "url": "db://assets/loadLogin/Scenes/Load.scene",
-              "uuid": "3cff5c3b-3fe8-4c2f-ac51-3dbcda1a322d",
+              "url": "db://assets/scenes/ChatScene/ChatSample.scene",
+              "uuid": "f50e2f72-040d-47be-a95b-cc6afcf9aebb",
+              "inBundle": false
+            },
+            {
+              "url": "db://assets/scenes/ModesScenes/Modes.scene",
+              "uuid": "b9cc8efe-d6d0-42a9-86d0-6f5bc20613f8",
+              "inBundle": false
+            },
+            {
+              "url": "db://assets/scenes/PlayingOptions/PlayingOptions.scene",
+              "uuid": "d04c996b-ca91-4803-9d3d-80f5bed481ab",
+              "inBundle": false
+            },
+            {
+              "url": "db://assets/scenes/loadLoginScenes/Load.scene",
+              "uuid": "0c162cc2-0768-49d7-8e01-f8c33d92541e",
+              "inBundle": false
+            },
+            {
+              "url": "db://assets/scenes/loadLoginScenes/Login.scene",
+              "uuid": "fefc10e0-bd91-4357-af25-a28ac1bcc516",
+              "inBundle": false
+            },
+            {
+              "url": "db://assets/scenes/mapDisplayscenes/map.scene",
+              "uuid": "dea503c8-e08b-43e6-b594-16a7f51592ca",
+              "inBundle": false
+            },
+            {
+              "url": "db://assets/scenes/playersLobbyscenes/playersLobby.scene",
+              "uuid": "e3dbfa1f-070b-450d-a58a-67c02054392e",
               "inBundle": false
             },
             {
@@ -94,6 +124,11 @@
               "inBundle": false
             },
             {
+              "url": "db://assets/MiniGames/MiniGame3/Scenes/Level Creation.scene",
+              "uuid": "2e71ed8e-3839-420c-8dcb-ca18a01ac680",
+              "inBundle": false
+            },
+            {
               "url": "db://assets/MiniGames/MiniGame3/Scenes/MiniGame3.scene",
               "uuid": "a7a3db07-ebfc-4ed0-9560-148bdd841ef5",
               "inBundle": false
@@ -102,9 +137,11 @@
           "web-desktop": [],
           "__version__": "1.3.3",
           "web-mobile": [],
-          "packages": {}
+          "packages": {},
+          "useSplashScreen": true,
+          "packAutoAtlas": true
         },
-        "time": "20-03-2023 17:13",
+        "time": "4-25-2023 09:55",
         "dirty": false
       },
       "1679309007730": {

@@ -56,6 +56,7 @@ export class playerslobby extends Component {
 
 
 
+        this.photon.myRoom().setCustomProperty("totalzombies", 0)
 
 
     }
@@ -254,6 +255,7 @@ export class playerslobby extends Component {
     }
     starts = true;
     counterstarted = true;
+    playertostartgame = 5;
     update(deltaTime: number) {
 
 
@@ -262,11 +264,11 @@ export class playerslobby extends Component {
 
             this.showMapWithMaxVotes(this.targetMapNode)
         }
-        if (photonmanager.getInstance().photon.myRoomActorCount() == 5 && this.counterstarted) {
+        if (photonmanager.getInstance().photon.myRoomActorCount() == this.playertostartgame && this.counterstarted) {
             this.stopwatchTimer();
             this.counterstarted = false
         }
-        else if (this.counterstarted == false && photonmanager.getInstance().photon.myRoomActorCount() < 5) {
+        else if (this.counterstarted == false && photonmanager.getInstance().photon.myRoomActorCount() < this.playertostartgame) {
             console.log("bbbb");
             this.Min = 0;
             this.Sec = 0;
@@ -274,7 +276,7 @@ export class playerslobby extends Component {
             this.counterstarted = true;
 
         }
-        if (photonmanager.getInstance().photon.myRoomActorCount() == 5 && this.starts && photonmanager.getInstance().photon.myRoomMasterActorNr() == photonmanager.getInstance().photon.myActor().actorNr && !photonmanager.getInstance().photon.gamestarted) {
+        if (photonmanager.getInstance().photon.myRoomActorCount() == this.playertostartgame && this.starts && photonmanager.getInstance().photon.myRoomMasterActorNr() == photonmanager.getInstance().photon.myActor().actorNr && !photonmanager.getInstance().photon.gamestarted) {
 
             if (this.Min == 0 && this.Sec == 0) {
                 this.StartGame();

@@ -256,6 +256,7 @@ export class walls extends Component {
         }
         else {
             this.node.parent.getChildByName(chat.name).scale = new Vec3(1, 1, 1);
+            photonmanager.getInstance().photon_instance.totalmessages = []
         }
     }
     fire(angle) {
@@ -325,6 +326,21 @@ export class walls extends Component {
                 child.layer = 2;
                 console.log(this.killed_actor.layer);
 
+            }
+        }
+    }
+    zombie_actor(actor) {
+
+
+
+        this.killed_actor = actor.name;
+        console.log(actor.name);
+
+        if (this.killed_actor != this.photon_instance.myActor().actorNr.toString()) {
+            var child = this.player.parent.getChildByName(this.killed_actor)
+            if (this.player.parent.getChildByName(actor.name + "killedplayer"
+            ) == null && this.player.parent.getChildByName(actor.name).getComponent(Sprite).color != Color.GREEN) {
+                child.getComponent(Sprite).color = Color.GREEN;
             }
         }
     }

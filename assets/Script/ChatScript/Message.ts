@@ -97,11 +97,14 @@ export class Message extends Component {
         this.recievedmessage(totalmessages[i].reqMessage, totalmessages[i].color);
         i++;
       }
-      photonmanager.getInstance().photon_instance.totalmessages = []
       this.onetimemessage = 0;
     }
+    photonmanager.getInstance().photon_instance.totalmessages = []
+    console.log(totalmessages);
   }
   recievedmessage(messages: any, color) {
+    console.log(this.node.scale.x);
+
     if (this.node.scale.x == 0) {
       photonmanager.getInstance().photon_instance.totalmessages.push(messages)
     }

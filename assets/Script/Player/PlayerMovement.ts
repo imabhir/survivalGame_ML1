@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, UITransform, Vec3, Vec2, Animation, ImageAsset, SpriteFrame, Sprite, PhysicsSystem, PhysicsSystem2D, AudioClip, AudioSourceComponent, Collider2D, Contact2DType, IPhysics2DContact, Camera, log, EPhysics2DDrawFlags, TiledMap, instantiate, Prefab, randomRangeInt, RigidBody, RigidBody2D, BoxCollider2D, CircleCollider2D, v3, math, Color, Label } from "cc";
+import { _decorator, Component, Node, UITransform, Vec3, Vec2, Animation, ImageAsset, SpriteFrame, Sprite, PhysicsSystem, PhysicsSystem2D, AudioClip, AudioSourceComponent, Collider2D, Contact2DType, IPhysics2DContact, Camera, log, EPhysics2DDrawFlags, TiledMap, instantiate, Prefab, randomRangeInt, RigidBody, RigidBody2D, BoxCollider2D, CircleCollider2D, v3, math, Color, Label, Rect, Button } from "cc";
 import { Room } from "../../../extensions/colyseus-sdk/runtime/colyseus";
 import { Event } from "../photon/photonconstants"
 import { walls } from "../wallscollisions";
@@ -31,6 +31,12 @@ export class PlayerMovement extends Component {
     player_prefab: Prefab = null
     @property({ type: Node })
     notification: Node = null;
+    @property({ type: Node })
+    playershud: Node = null;
+    @property({ type: Node })
+    zombieshud: Node = null;
+    @property({ type: Node })
+    zombieskillbutton: Node = null;
     pos: Vec2 = null;
     startPos: Vec3 = null;
     intialPos: Vec3 = null;
@@ -46,6 +52,8 @@ export class PlayerMovement extends Component {
     actors: any;
     photon_instance
     health: any = 10;
+    killed_actor: Node;
+    kill_button_checker: number = 0;
     start() {
         this.touchEventsFunc();
         PhysicsSystem2D.instance.enable = true;
@@ -63,6 +71,12 @@ export class PlayerMovement extends Component {
             this.node.getComponent(Sprite).color = Color.GREEN;
             this.node.getComponent(CircleCollider2D).group = 1 << 2;
             this.node.getComponent(RigidBody2D).group = 1 << 2;
+            this.playershud.active = false
+            this.zombieshud.active = true
+
+        }
+        else {
+            this.zombieshud.active = false
         }
         this.addedactor(this.photon_instance.myActor());
 
@@ -120,6 +134,7 @@ export class PlayerMovement extends Component {
         this.photon_instance.myActor().setCustomProperty("angle", null);
         this.node.getComponent(Animation)?.pause();
         this.node.getComponent(RigidBody2D).linearVelocity = new Vec2(0, 0)
+        this.intialPos = new Vec3(0, 0, 0)
     }
     touchStart() {
         this.joyStickBall.setPosition(0, 0, 0);
@@ -265,38 +280,23 @@ export class PlayerMovement extends Component {
             }
         }
     }
-    kill_otheractor(actor: any) {
-        console.log(this.health);
+    kill_otheractor(e, actor: any = { name: this.killed_actor.name, position: this.killed_actor.getPosition() }) {
+
 
         console.log(actor);
 
         if (actor.name != this.photon_instance.myActor().actorNr.toString()) {
-
-
-            // if (this.node.parent.getChildByName(actor.name + "killedplayer"
-            // ) == null) {
-            //     // console.log(actor.name);
-            //     var child = this.node.parent.getChildByName(actor.name)
-            //     let killed_sprites = instantiate(this.player_prefab);
-            //     killed_sprites.name = actor.name + "killedplayer"
-            //     killed_sprites.setPosition(actor.position)
-            //     killed_sprites.getComponent(Sprite).spriteFrame = this.killed_player_image;
-            //     killed_sprites.setScale(new Vec3(0.2, 0.2, 0));
-            //     this.node.parent.addChild(killed_sprites);
-            //     child.layer = 2;
-            //     child.getComponent(Sprite).grayscale = true
-            // }
-
+            console.log(actor);
+            if (e != null)
+                this.photon_instance.raiseEvent(48, { name: actor.name, position: actor.position });
+            // console.log("kill");
 
         }
         else {
-            // var child = this.node.parent.getChildByName(actor.name
-            // )
+
             this.health--;
             this.photon_instance.myActor().setCustomProperty("health", this.health);
             console.log(actor.name);
-
-
             if (this.health == 0) {
                 if (this.node.parent.getChildByName(actor.name + "killedplayer"
                 ) == null) {
@@ -305,9 +305,13 @@ export class PlayerMovement extends Component {
                     killed_sprites.setPosition(new Vec3(actor.position.x, actor.position.y, 0))
                     console.log(new Vec3(actor.position.x, actor.position.y, 0));
                     console.log(killed_sprites);
+                    killed_sprites.getComponent(RigidBody2D).enabled = false
 
+
+                    killed_sprites.getComponent(BoxCollider2D).enabled = false
+                    // killed_sprites.getComponent(RigidBody2D).enabled=false
                     killed_sprites.getComponent(Sprite).spriteFrame = this.killed_player_image;
-                    killed_sprites.setScale(new Vec3(0.2, 0.3, 0.5));
+                    // killed_sprites.setScale(new Vec3(0.2, 0.3, 0.5));
                     console.log(killed_sprites.getPosition());
 
                     this.node.parent.addChild(killed_sprites);
@@ -321,13 +325,42 @@ export class PlayerMovement extends Component {
             }
         }
     }
+    zombie_otheractor(e, actor: any = { name: this.killed_actor.name }) {
+
+
+        console.log(actor);
+        if (actor.name != this.photon_instance.myActor().actorNr.toString()) {
+            if (e != null)
+                this.photon_instance.raiseEvent(52, { name: actor.name });
+            console.log("kill");
+        }
+        else {
+            console.log(actor.name);
+            if (this.node.parent.getChildByName(actor.name + "killedplayer"
+            ) == null && this.node.getComponent(Sprite).color != Color.GREEN) {
+                console.log(this.photon_instance.myRoom().getCustomProperty("totalzombies"));
+
+                if (this.photon_instance.myRoom().getCustomProperty("totalzombies") <= 2) {
+                    setTimeout(() => {
+                        this.node.getComponent(Sprite).color = Color.GREEN; console.log(actor);
+                        this.photon_instance.raiseEvent(62, { name: actor.name });
+                    }, randomRangeInt(0, 5) * 1000)
+                    this.playershud.active = false
+                    this.zombieshud.active = true
+                }
+                let totalzombies = this.photon_instance.myRoom().getCustomProperty("totalzombies") + 1;
+                this.photon_instance.myRoom().setCustomProperty("totalzombies", totalzombies)
+                console.log(this.photon_instance.myRoom().getCustomProperty("totalzombies"));
+
+            }
+
+        }
+    }
     enableanimation(actorNr: number, content: any) {
         if (this.node.parent.getChildByName(actorNr.toString()) != null) {
             var child = this.node.parent.getChildByName(actorNr.toString())
             this.getDirection(child, content)
         }
-    }
-    getnotification() {
     }
     destroycharacter(actor: Photon.LoadBalancing.Actor) {
         var child = this.node.parent.getChildByName(actor.actorNr.toString())
@@ -346,8 +379,37 @@ export class PlayerMovement extends Component {
         this.node.getComponent(RigidBody2D).angularVelocity = 0
         this.camera.setPosition(playerPosition.x + this.camera.parent.getComponent(UITransform).width * 0.1, playerPosition.y + this.camera.parent.getComponent(UITransform).height * 0.3);//code for camera movements
 
-        if (this.photon_instance.totalmessages.length != 0)
+        if (this.photon_instance.totalmessages.length == 0) {
+            this.notification.getComponent(Label).string = ""
+            this.notification.parent.active = false;
+        }
+        else {
+            this.notification.parent.active = true;
             this.notification.getComponent(Label).string = this.photon_instance.totalmessages.length
+        }
+
+
+
+        this.node.parent.children.forEach((e) => {
+
+
+            if (e.getComponent(Sprite).color != Color.GREEN && e.name != "player" && e.name != "chest" && e.name[1] != "k" && e.name != "bullet") {
+                e.updateWorldTransform()
+                let otherplayer = e.getComponent(UITransform).getBoundingBoxToWorld();
+                this.node.updateWorldTransform()
+                let myplayer = new Rect(this.node.getWorldPosition().x, this.node.getWorldPosition().y, this.node.getComponent(UITransform).width, this.node.getComponent(UITransform).height)
+                if (myplayer.intersects(otherplayer)) {
+                    this.zombieskillbutton.getComponent(Button).interactable = true;
+                    this.killed_actor = e
+                    this.kill_button_checker = 1;
+                }
+                else if (this.kill_button_checker == 1) {
+                    if (this.killed_actor.name == e.name) {
+                        this.zombieskillbutton.getComponent(Button).interactable = false
+                    }
+                }
+            }
+        })
     }
 
 
