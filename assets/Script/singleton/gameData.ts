@@ -46,10 +46,6 @@ export class gameData {
     }
 
     getMapWithMaxVotes() {
-
-
-
-
         return this.targetMapNode
     }
 

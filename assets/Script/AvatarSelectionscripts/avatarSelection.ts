@@ -37,26 +37,41 @@ export class avatarSelection extends Component {
     b: any;
     BackgroundHeight;
     BackgroundWidth;
+    // Account
+    // AccountSettings
+    // Settings
+    // SettingsControls
+    // Music;
+    // MusicClip;
     onLoad() {
-        console.log("PersistNode Avatar", director.getScene().getChildByName("PersistNode"));
-        director.getScene().getChildByName("PersistNode").active = false;
+        // console.log("PersistNode Avatar", director.getScene().getChildByName("PersistNode"));
+        // director.getScene().getChildByName("PersistNode").active = false;
 
         this.BackgroundHeight = this.node.getComponent(UITransform).height
         this.BackgroundWidth = this.node.getComponent(UITransform).width;
 
        
-        this.resourceInstance.loadPrefabs();
-        this.resourceInstance.loadMusic();
+        // this.resourceInstance.loadPrefabs()
+        // .then(() => {
+        //     this.Account = this.resourceInstance.GetPrefab("Account")
+        //     this.AccountSettings = this.resourceInstance.GetPrefab("AccountSettings")
+        //     this.Settings = this.resourceInstance.GetPrefab("Settings")
+        //     this.SettingsControls = this.resourceInstance.GetPrefab("SettingsControls")
+        //     this.Music = this.resourceInstance.GetPrefab("Music")
+        // })
+        
+        // this.resourceInstance.loadMusic()
+        // .then(() => {
+        //     this.MusicClip = this.resourceInstance.getMusicFile("AvatarChanging")
+        // });
 
 
         this.addSettings();
         this.addAccountButton()
         this.addAvatar();
 
-
         this.startButton.on(Input.EventType.TOUCH_START, this.goToModes)
-        this.applyMusic();
-
+        
         this.AddItemsInPool();
 
         this.schedule(() => {
@@ -64,6 +79,8 @@ export class avatarSelection extends Component {
         }, 0.6)
         this.b = photonmanager.getInstance().photon_instance;
         this.b.start();
+
+        this.applyMusic()
     }
 
     AddItemsInPool() {
@@ -135,16 +152,14 @@ export class avatarSelection extends Component {
 
 
     addAccountButton = () => {
-        this.scheduleOnce(() => {
-            const account = instantiate(this.resourceInstance.getAccountPrefab("Account"))
-            account.on(Input.EventType.TOUCH_START, this.openAccountInfo)
-            this.node.addChild(account)
-        }, 0.7)
+        const account = instantiate(this.resourceInstance.GetPrefab("Account"))
+        account.on(Input.EventType.TOUCH_START, this.openAccountInfo)
+        this.node.addChild(account)
     }
 
     openAccountInfo = () => {
         if (this.AccountNode.children.length == 0) {
-            const AccountInfo = instantiate(this.resourceInstance.getAccountControlsPrefab("AccountSettings"))
+            const AccountInfo = instantiate(this.resourceInstance.GetPrefab("AccountSettings"))
             this.AccountNode.addChild(AccountInfo)
             AccountInfo.parent.setSiblingIndex(this.node.children.length)
         }
@@ -155,11 +170,9 @@ export class avatarSelection extends Component {
      */
 
     addSettings = () => {
-        this.scheduleOnce(() => {
-            const setting = instantiate(this.resourceInstance.getSettingsPrefab("Settings"))
-            setting.on(Input.EventType.TOUCH_START, this.openSettings)
-            this.node.addChild(setting)
-        }, 0.7)
+        const setting = instantiate(this.resourceInstance.GetPrefab("Settings"))
+        setting.on(Input.EventType.TOUCH_START, this.openSettings)
+        this.node.addChild(setting) 
     }
 
     /**
@@ -168,7 +181,7 @@ export class avatarSelection extends Component {
 
     openSettings = () => {
         if (this.SettingsNode.children.length == 0) {
-            let settingsControls = instantiate(this.resourceInstance.getSettingsControlsPrefab("SettingsControls"))
+            let settingsControls = instantiate(this.resourceInstance.GetPrefab("SettingsControls"))
             this.SettingsNode.addChild(settingsControls)
             settingsControls.parent.setSiblingIndex(this.node.children.length)
         }
@@ -180,16 +193,17 @@ export class avatarSelection extends Component {
      */
 
     applyMusic = () => {
-        this.scheduleOnce(() => {
-            const music = instantiate(this.resourceInstance.getMusicPrefab("Music"))
-            this.node.addChild(music)
-        }, 0.7)
-
-
-        this.scheduleOnce(() => {
+        console.log("Prefab arrr...................", this.resourceInstance.PrefabArr);
+        
+        const music = instantiate(this.resourceInstance.GetPrefab("Music"))
+        this.node.addChild(music)
+        console.log("Music", music);
+        
+    
+        // this.scheduleOnce(() => {
             const clip = this.resourceInstance.getMusicFile("audio1")
             this.audioInstance.playMusicClip(clip, true)
-        }, 0.7)
+        // }, 0.7)
     }
 
     /**
@@ -230,23 +244,6 @@ export class avatarSelection extends Component {
      */
     goToModes = () => {
         director.loadScene("Modes")
-    }
-
-
-    /**
-     * Selection of avatar
-     */
-    selectAvatar = () => {
-        let getAvatar: Node;
-        this.pageView.content.children.forEach((element, index) => {
-            if (index == this.pageView.getCurrentPageIndex()) {
-                getAvatar = element
-            }
-        })
-
-        tween(getAvatar).to(0.3, { scale: new Vec3(1.5, 1.5) }).start()
-        this.node.getChildByName("Arrows").active = false;
-        // this.CharacterSelected.active = true
     }
 
     start() {

@@ -15,10 +15,6 @@ export class load extends Component {
     @property({ type: Node })
     LoginButton: Node = null;
 
-    @property({type: Node})
-    LoadingIcon: Node = null;
-
-
     // UserName and Password Format
     obj = {
         "UserNameFormat": "⚫   The number of characters must be between 5 and 15. \n ⚫  The string should only contain alphanumeric characters and/or underscores (_). \n ⚫  The first character of the string should be alphabetic.",
@@ -31,15 +27,28 @@ export class load extends Component {
     PopUp;
     persistNode;
     onLoad() {
-        this.persistNode = director.getScene().getChildByName("PersistNode")
-        this.persistNode.active = false;
+        console.log("Started");
+        
+        // this.persistNode = director.getScene().getChildByName("PersistNode")
+        // this.persistNode.active = false;
 
 
-        this.resourceInstance.loadPrefabs()
-        .then(() => {
-            this.PopUp = instantiate(this.resourceInstance.getPopUp("PopUp"))
+        // this.resourceInstance.loadPrefabs()
+        // .then((prefab) => {
+            
+            this.PopUp = instantiate(this.resourceInstance.GetPrefab("PopUp"))
+            
             this.node.addChild(this.PopUp)
-        })
+        // })
+        
+        // this.scheduleOnce(() => {
+            // this.PopUp = instantiate(this.resourceInstance.GetPrefab("PopUp"))
+            // console.log("Added Pop Up");
+            
+            // this.node.addChild(this.PopUp)
+        // }, 0.8)
+            
+       
         // this.persistNode = director.getScene().getChildByName("PersistNode");
         // this.persistNode.active = false;
     }
@@ -61,17 +70,17 @@ export class load extends Component {
     ShowPasswordFormat() {
         const pos = this.password.node.getPosition()
         if (this.password.getComponent(EditBox).string == "") {
-            if(this.PopUp != null){
+            // if(this.PopUp != null){
                 this.PopUp.setPosition(pos.x, pos.y - 80)
                 this.PopUp.getComponent(Label).color = Color.WHITE
                 this.PopUp.getComponent(Label).string = this.obj.PasswordFormat;
-            }
+            // }
         }
     }
 
     changeScene(){
-        this.persistNode.active = true
-        tween(this.LoadingIcon).to(2, {angle: -360}).repeatForever().start()
+        // this.persistNode.active = true
+        // tween(this.LoadingIcon).to(2, {angle: -360}).repeatForever().start()
 
         setTimeout(() => {
             director.loadScene("Avatar")
@@ -93,16 +102,20 @@ export class load extends Component {
         } else {
             if (!UserNameCheck) {
                 const pos = this.username.node.getPosition()
-                this.PopUp.setPosition(pos.x, pos.y - 60)
+                if(this.PopUp != null){
+                    this.PopUp.setPosition(pos.x, pos.y - 60)
 
-                this.PopUp.getComponent(Label).string = "Please Enter a valid email to continue"
-                this.PopUp.getComponent(Label).color = Color.RED
+                    this.PopUp.getComponent(Label).string = "Please Enter a valid email to continue"
+                    this.PopUp.getComponent(Label).color = Color.RED
+                }
             } else {
                 const pos = this.password.node.getPosition()
-                this.PopUp.setPosition(pos.x, pos.y - 60)
+                if(this.PopUp != null){
+                    this.PopUp.setPosition(pos.x, pos.y - 60)
 
-                this.PopUp.getComponent(Label).string = "Please Enter a valid Password"
-                this.PopUp.getComponent(Label).color = Color.RED
+                    this.PopUp.getComponent(Label).string = "Please Enter a valid Password"
+                    this.PopUp.getComponent(Label).color = Color.RED
+                }
             }
         }
     }
