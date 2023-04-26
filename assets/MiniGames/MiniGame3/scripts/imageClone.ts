@@ -1,6 +1,7 @@
 import { _decorator, Component, Node, Prefab, instantiate, UITransform, Sprite, Input, Graphics, JsonAsset, SpriteFrame, Color } from 'cc';
 import { ColorPallete } from './ColorPallete';
 import { ImageGenerator } from './ImageGenerator';
+import { photonmanager } from '../../../Script/photon/photonmanager';
 const { ccclass, property } = _decorator;
 
 @ccclass('imageClone')
@@ -91,6 +92,13 @@ export class imageClone extends Component {
         if (flag) {
             console.log("Right");
             setTimeout(() => {
+
+
+
+
+
+                photonmanager.getInstance().photon_instance.myRoom().setCustomProperty("Minigame3", true);
+
                 this.node.parent.destroy();
             }, 1000);
             this.taskCompleted.active = true;

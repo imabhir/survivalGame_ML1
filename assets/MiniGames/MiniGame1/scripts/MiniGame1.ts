@@ -1,5 +1,6 @@
 import { _decorator, Component, Node, Input, UITransform, Prefab, JsonAsset, instantiate, Vec3, randomRange, random, randomRangeInt } from 'cc';
 import { itemDataType, ITEM_TYPE, levelItem } from './levelItem';
+import { photonmanager } from '../../../Script/photon/photonmanager';
 const { ccclass, property } = _decorator;
 
 @ccclass('MiniGame1')
@@ -163,6 +164,10 @@ export class MiniGame1 extends Component {
         if (this.gameCompleted()) {
             this.node.parent.getChildByName("completed").active = true;
             setTimeout(() => {
+
+
+
+                photonmanager.getInstance().photon_instance.myRoom().setCustomProperty("Minigame1", true);
                 this.node.parent.destroy();
             }, 1000);
         } else {

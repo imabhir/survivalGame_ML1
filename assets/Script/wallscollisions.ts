@@ -145,7 +145,8 @@ export class walls extends Component {
 
 
             // console.log(this.anlges);
-            this.canfire = true
+            if (this.player.getChildByName("gun").children.length != 0)
+                this.canfire = true
             // console.log(this.player.getChildByName("gun"));
 
             // let sockets = this.player.getComponent(sp.Skeleton)
@@ -262,6 +263,7 @@ export class walls extends Component {
     fire(angle) {
         // if (this.player.parent.getChildByName(this.killed_actor.name + "killedplayer"
         // ) == null) {
+
         let position = this.player.getChildByName("gun").getPosition();
 
         const WorldSpace = this.player.getChildByName("gun").getComponent(UITransform).convertToWorldSpaceAR(position) // 2
@@ -307,25 +309,32 @@ export class walls extends Component {
             var child = this.player.parent.getChildByName(this.killed_actor)
             if (this.player.parent.getChildByName(this.killed_actor + "killedplayer"
             ) == null && this.player.parent.getChildByName(this.killed_actor) != null) {
-                let killed_sprites = instantiate(this.player_prefab);
-                killed_sprites.name = this.killed_actor + "killedplayer"
-                killed_sprites.getComponent(Sprite).spriteFrame = this.killed_sprite;
-                console.log(actor.position.x);
+                if (child.getComponent(Sprite).color.toRGBValue() != Color.GREEN.toRGBValue()) {
+                    let killed_sprites = instantiate(this.player_prefab);
+                    killed_sprites.name = this.killed_actor + "killedplayer"
+                    killed_sprites.getComponent(Sprite).spriteFrame = this.killed_sprite;
+                    console.log(actor.position.x);
 
-                killed_sprites.setPosition(actor.position)
-                // killed_sprites.setScale(new Vec3(0.2, 0.3, 0.5));
-                this.player.parent.addChild(killed_sprites);
-                console.log(killed_sprites
-                );
+                    killed_sprites.setPosition(actor.position)
+                    // killed_sprites.setScale(new Vec3(0.2, 0.3, 0.5));
+                    this.player.parent.addChild(killed_sprites);
+                    console.log(killed_sprites
+                    );
 
-                child.getComponent(Sprite).grayscale = true
-                // this.photon_instance.raiseEvent(113, { name: this.killed_actor, position: this.killed_actor.getPosition() });
-                this.kill_button_checker = 0;
-                console.log(this.killed_actor.layer);
+                    child.getComponent(Sprite).grayscale = true
+                    // this.photon_instance.raiseEvent(113, { name: this.killed_actor, position: this.killed_actor.getPosition() });
+                    this.kill_button_checker = 0;
+                    console.log(this.killed_actor.layer);
 
-                child.layer = 2;
-                console.log(this.killed_actor.layer);
-
+                    child.layer = 2;
+                    console.log(this.killed_actor.layer);
+                }
+                else {
+                    child.active = false;
+                    setTimeout(() => {
+                        child.active = true;
+                    }, 5000)
+                }
             }
         }
     }
@@ -492,5 +501,10 @@ export class walls extends Component {
             if (this.intervaloffire % this.rateoffire == 0) { this.fire((this.anlges - 90) * -1) }
             this.intervaloffire++;
         }
+        if (this.photon_instance.myRoom().getCustomProperty("Minigame1") && this.photon_instance.myRoom().getCustomProperty("Minigame2") && this.photon_instance.myRoom().getCustomProperty("Minigame3")) {
+            console.log("");
+
+        }
+
     }
 }

@@ -77,10 +77,22 @@ export class PlayerMovement extends Component {
             this.zombieshud.active = true
             this.zombiesmakebutton.getComponent(Button).interactable = false
             this.zombieskillbutton.getComponent(Button).interactable = false
+            var zombielocations = this.map.getComponent(TiledMap).getObjectGroup("zombielocation").getObjects()
+            let locations = this.node.getComponent(UITransform).convertToWorldSpaceAR(new Vec3(zombielocations[0].x, zombielocations[0].y, 0))
+            locations = this.node.getComponent(UITransform).convertToNodeSpaceAR(locations)
+            locations.x = locations.x - this.map.getComponent(UITransform).width * 0.5;
+            locations.y = locations.y - this.map.getComponent(UITransform).height * 0.5;
+            this.node.setPosition(locations)
 
         }
         else {
             this.zombieshud.active = false
+            var playerlocations = this.map.getComponent(TiledMap).getObjectGroup("playerlocation").getObjects()
+            let location = this.node.getComponent(UITransform).convertToWorldSpaceAR(new Vec3(playerlocations[0].x, playerlocations[0].y, 0))
+            location = this.node.getComponent(UITransform).convertToNodeSpaceAR(location)
+            location.x = location.x - this.map.getComponent(UITransform).width * 0.5;
+            location.y = location.y - this.map.getComponent(UITransform).height * 0.5;
+            this.node.setPosition(location)
         }
         this.addedactor(this.photon_instance.myActor());
 
@@ -260,18 +272,31 @@ export class PlayerMovement extends Component {
         var playerlocations = this.map.getComponent(TiledMap).getObjectGroup("playerlocation").getObjects()
         let location = this.node.getComponent(UITransform).convertToWorldSpaceAR(new Vec3(playerlocations[0].x, playerlocations[0].y, 0))
         location = this.node.getComponent(UITransform).convertToNodeSpaceAR(location)
+
+        location.x = location.x - this.map.getComponent(UITransform).width * 0.5;
+        location.y = location.y - this.map.getComponent(UITransform).height * 0.5;
+        var zombielocations = this.map.getComponent(TiledMap).getObjectGroup("zombielocation").getObjects()
+        let locations = this.node.getComponent(UITransform).convertToWorldSpaceAR(new Vec3(zombielocations[0].x, zombielocations[0].y, 0))
+        locations = this.node.getComponent(UITransform).convertToNodeSpaceAR(locations)
+
+        locations.x = locations.x - this.map.getComponent(UITransform).width * 0.5;
+        locations.y = locations.y - this.map.getComponent(UITransform).height * 0.5;
         console.log(playerlocations);
 
         actors.forEach((actor) => {
             if (actor.actorNr != this.photon_instance.myActor().actorNr && !this.node.parent.getChildByName(actor.actorNr.toString())) {
                 // console.log(actor.actorNr);
                 let player = instantiate(this.player_prefab)
+                player.setPosition(location)
                 if (actor.getCustomProperty("zombie")) {
                     player.getComponent(Sprite).color = Color.GREEN
                     player.getComponent(BoxCollider2D).group = 1 << 2;
                     player.getComponent(RigidBody2D).group = 1 << 2;
+                    player.setPosition(locations)
                 }
-                player.setPosition(location)
+
+
+
                 player.name = actor.actorNr.toString()
                 this.node.parent.addChild(player);
             }
@@ -299,32 +324,60 @@ export class PlayerMovement extends Component {
 
             this.health--;
             this.photon_instance.myActor().setCustomProperty("health", this.health);
+            if (this.node.getComponent(Sprite).color.toRGBValue() != Color.GREEN.toRGBValue()) {
+
+
+
+
+
+                this.health--;
+
+            }
+
             console.log(actor.name);
             if (this.health == 0) {
                 if (this.node.parent.getChildByName(actor.name + "killedplayer"
                 ) == null) {
-                    let killed_sprites = instantiate(this.player_prefab);
-                    killed_sprites.name = actor.name + "killedplayer"
-                    killed_sprites.setPosition(new Vec3(actor.position.x, actor.position.y, 0))
-                    console.log(new Vec3(actor.position.x, actor.position.y, 0));
-                    console.log(killed_sprites);
-                    killed_sprites.getComponent(RigidBody2D).enabled = false
+                    if (this.node.getComponent(Sprite).color.toRGBValue() != Color.GREEN.toRGBValue()) {
 
 
-                    killed_sprites.getComponent(BoxCollider2D).enabled = false
-                    // killed_sprites.getComponent(RigidBody2D).enabled=false
-                    killed_sprites.getComponent(Sprite).spriteFrame = this.killed_player_image;
-                    // killed_sprites.setScale(new Vec3(0.2, 0.3, 0.5));
-                    console.log(killed_sprites.getPosition());
 
-                    this.node.parent.addChild(killed_sprites);
-                    this.node.getComponent(Sprite).grayscale = true
-                    // this.node.getChildByName("gun").destroy();
-                    this.node.layer = 2;
-                    this.playershud.active = false
-                    this.camera.getComponent(Camera).visibility = 3;
-                    this.node.getComponent(CircleCollider2D).enabled = false;
-                    this.photon_instance.raiseEvent(133, { name: actor.name, position: this.node.getPosition() });
+
+
+
+                        let killed_sprites = instantiate(this.player_prefab);
+                        killed_sprites.name = actor.name + "killedplayer"
+                        killed_sprites.setPosition(new Vec3(actor.position.x, actor.position.y, 0))
+                        console.log(new Vec3(actor.position.x, actor.position.y, 0));
+                        console.log(killed_sprites);
+                        killed_sprites.getComponent(RigidBody2D).enabled = false
+
+
+                        killed_sprites.getComponent(BoxCollider2D).enabled = false
+                        // killed_sprites.getComponent(RigidBody2D).enabled=false
+                        killed_sprites.getComponent(Sprite).spriteFrame = this.killed_player_image;
+                        // killed_sprites.setScale(new Vec3(0.2, 0.3, 0.5));
+                        console.log(killed_sprites.getPosition());
+
+                        this.node.parent.addChild(killed_sprites);
+                        this.node.getComponent(Sprite).grayscale = true
+                        // this.node.getChildByName("gun").destroy();
+
+                        this.playershud.active = false
+                        this.camera.getComponent(Camera).visibility = 3;
+                        this.node.getComponent(CircleCollider2D).enabled = false;
+
+                        this.photon_instance.raiseEvent(133, { name: actor.name, position: this.node.getPosition() });
+
+                    }
+                    else {
+                        this.node.active = false;
+                        this.joystick.active = false;
+                        setTimeout(() => { this.node.active = true; this.joystick.active = true; this.health = 10; }, 5000)
+                        this.photon_instance.raiseEvent(133, { name: actor.name, position: this.node.getPosition() });
+
+                    }
+
                 }
             }
         }
