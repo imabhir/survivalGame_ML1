@@ -3607,7 +3607,7 @@
     "node": {
       "__id__": 50
     },
-    "_enabled": true,
+    "_enabled": false,
     "__prefab": null,
     "tag": 0,
     "_group": 2,
@@ -3819,6 +3819,10 @@
     },
     "controller": {
       "__id__": 79
+    },
+    "gameovernode": {
+      "__uuid__": "2fff47fb-a7b4-4b18-91e8-47594e60f543",
+      "__expectedType__": "cc.Prefab"
     },
     "_id": "028SJJADZIpouGL2aIma/H"
   },

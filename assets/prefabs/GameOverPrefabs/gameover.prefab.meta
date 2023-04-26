@@ -1,0 +1,13 @@
+{
+  "ver": "1.1.43",
+  "importer": "prefab",
+  "imported": true,
+  "uuid": "2fff47fb-a7b4-4b18-91e8-47594e60f543",
+  "files": [
+    ".json"
+  ],
+  "subMetas": {},
+  "userData": {
+    "syncNodeName": "gameover"
+  }
+}

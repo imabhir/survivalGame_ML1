@@ -1,9 +1,10 @@
-import { _decorator, Component, Node, TiledMap, PhysicsSystem2D, Contact2DType, Collider2D, IPhysics2DContact, Rect, UITransform, TiledObjectGroup, Vec3, TiledLayer, TiledTile, RigidBody, RigidBody2D, RigidBodyComponent, BoxCollider2D, Vec2, ERigidBody2DType, PhysicsSystem, EPhysics2DDrawFlags, director, Prefab, instantiate, GraphicsComponent, rect, log, Input, TiledMapAsset, Button, Sprite, Event, EventHandler, math, randomRangeInt, SpriteFrame, Skeleton, sp, Socket, input, Quat, CircleCollider2D, Color } from 'cc';
+import { _decorator, Component, Node, TiledMap, PhysicsSystem2D, Contact2DType, Collider2D, IPhysics2DContact, Rect, UITransform, TiledObjectGroup, Vec3, TiledLayer, TiledTile, RigidBody, RigidBody2D, RigidBodyComponent, BoxCollider2D, Vec2, ERigidBody2DType, PhysicsSystem, EPhysics2DDrawFlags, director, Prefab, instantiate, GraphicsComponent, rect, log, Input, TiledMapAsset, Button, Sprite, Event, EventHandler, math, randomRangeInt, SpriteFrame, Skeleton, sp, Socket, input, Quat, CircleCollider2D, Color, Director } from 'cc';
 import { photonmanager } from './photon/photonmanager';
 import { Photonevents } from './photon/cloud-app-info';
 const { ccclass, property } = _decorator;
 import { PlayerMovement } from './Player/PlayerMovement'
 import { Message } from './ChatScript/Message';
+import { GameOver } from './GameOver/GameOver';
 
 
 
@@ -51,6 +52,8 @@ export class walls extends Component {
     joyStickBall: Node = null;
     @property({ type: Node })
     controller: Node = null;
+    @property({ type: Prefab })
+    gameovernode: Prefab = null;
     player_bb: Rect
     count = 0;
     map: any
@@ -218,6 +221,8 @@ export class walls extends Component {
             this.photon_instance.raiseEvent(Photonevents.Openchest, {});
         }
         else {
+            console.log(this.node.parent.getChildByName(this.minigame.name));
+
             if (this.node.parent.getChildByName(this.minigame.name) == null) {
                 console.log(this.minigame.name);
                 this.node.parent.addChild(this.minigame)
@@ -434,6 +439,8 @@ export class walls extends Component {
                 } else {
 
                     this.minigame = instantiate(this.minigames[e!.prefab_name]);
+                    console.log(e!.prefab_name);
+
                     this.minigame.setPosition(this.maincamera.getPosition());
                     // this.node.getChildByName("level1").active = false
 
@@ -502,8 +509,19 @@ export class walls extends Component {
             this.intervaloffire++;
         }
         if (this.photon_instance.myRoom().getCustomProperty("Minigame1") && this.photon_instance.myRoom().getCustomProperty("Minigame2") && this.photon_instance.myRoom().getCustomProperty("Minigame3")) {
-            console.log("");
 
+            // director.loadScene("GameOver", () => { });
+
+
+            let gameover = instantiate(this.gameovernode);
+            if (this.node.parent.getChildByName(gameover.name) == null) {
+                this.node.parent.addChild(gameover);
+                setTimeout(() => {
+                    this.node.parent.getChildByName("gameover").getComponent(GameOver).GetWinner(1, 1, 1)
+                }, 1000)
+
+
+            }
         }
 
     }
