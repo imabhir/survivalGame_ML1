@@ -306,14 +306,14 @@ export class walls extends Component {
         if (this.killed_actor != this.photon_instance.myActor().actorNr.toString()) {
             var child = this.player.parent.getChildByName(this.killed_actor)
             if (this.player.parent.getChildByName(this.killed_actor + "killedplayer"
-            ) == null) {
+            ) == null && this.player.parent.getChildByName(this.killed_actor) != null) {
                 let killed_sprites = instantiate(this.player_prefab);
                 killed_sprites.name = this.killed_actor + "killedplayer"
                 killed_sprites.getComponent(Sprite).spriteFrame = this.killed_sprite;
                 console.log(actor.position.x);
 
                 killed_sprites.setPosition(actor.position)
-                killed_sprites.setScale(new Vec3(0.2, 0.3, 0.5));
+                // killed_sprites.setScale(new Vec3(0.2, 0.3, 0.5));
                 this.player.parent.addChild(killed_sprites);
                 console.log(killed_sprites
                 );
@@ -339,7 +339,7 @@ export class walls extends Component {
         if (this.killed_actor != this.photon_instance.myActor().actorNr.toString()) {
             var child = this.player.parent.getChildByName(this.killed_actor)
             if (this.player.parent.getChildByName(actor.name + "killedplayer"
-            ) == null && this.player.parent.getChildByName(actor.name).getComponent(Sprite).color != Color.GREEN) {
+            ) == null && this.player.parent.getChildByName(actor.name) != null && this.player.parent.getChildByName(actor.name).getComponent(Sprite).color != Color.GREEN) {
                 child.getComponent(Sprite).color = Color.GREEN;
             }
         }

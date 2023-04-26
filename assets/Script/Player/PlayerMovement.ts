@@ -37,6 +37,8 @@ export class PlayerMovement extends Component {
     zombieshud: Node = null;
     @property({ type: Node })
     zombieskillbutton: Node = null;
+    @property({ type: Node })
+    zombiesmakebutton: Node = null;
     pos: Vec2 = null;
     startPos: Vec3 = null;
     intialPos: Vec3 = null;
@@ -73,6 +75,8 @@ export class PlayerMovement extends Component {
             this.node.getComponent(RigidBody2D).group = 1 << 2;
             this.playershud.active = false
             this.zombieshud.active = true
+            this.zombiesmakebutton.getComponent(Button).interactable = false
+            this.zombieskillbutton.getComponent(Button).interactable = false
 
         }
         else {
@@ -92,8 +96,6 @@ export class PlayerMovement extends Component {
 
     }
     onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {//collsion callback functions
-        console.log(otherCollider.node.name);
-
         if (otherCollider.node.name == "bullet") {
             otherCollider.node.destroy()
             if (selfCollider.node.name[0] != "N" && selfCollider.node.name[1] != "K") {
@@ -255,6 +257,11 @@ export class PlayerMovement extends Component {
         var actors = Object.keys(this.photon_instance.myRoomActors()).map(key => {
             return this.photon_instance.myRoomActors()[key];
         })
+        var playerlocations = this.map.getComponent(TiledMap).getObjectGroup("playerlocation").getObjects()
+        let location = this.node.getComponent(UITransform).convertToWorldSpaceAR(new Vec3(playerlocations[0].x, playerlocations[0].y, 0))
+        location = this.node.getComponent(UITransform).convertToNodeSpaceAR(location)
+        console.log(playerlocations);
+
         actors.forEach((actor) => {
             if (actor.actorNr != this.photon_instance.myActor().actorNr && !this.node.parent.getChildByName(actor.actorNr.toString())) {
                 // console.log(actor.actorNr);
@@ -264,6 +271,7 @@ export class PlayerMovement extends Component {
                     player.getComponent(BoxCollider2D).group = 1 << 2;
                     player.getComponent(RigidBody2D).group = 1 << 2;
                 }
+                player.setPosition(location)
                 player.name = actor.actorNr.toString()
                 this.node.parent.addChild(player);
             }
@@ -274,23 +282,18 @@ export class PlayerMovement extends Component {
     move_actor(actor: any) {
         if (this.node.parent.getChildByName(actor.actorNr.toString()) != null) {
             if (actor.actorNr != this.photon_instance.myActor().actorNr) {
-
                 var child = this.node.parent.getChildByName(actor.actorNr.toString())
                 child.setPosition(actor.position)
             }
         }
     }
     kill_otheractor(e, actor: any = { name: this.killed_actor.name, position: this.killed_actor.getPosition() }) {
-
-
         console.log(actor);
-
         if (actor.name != this.photon_instance.myActor().actorNr.toString()) {
             console.log(actor);
             if (e != null)
                 this.photon_instance.raiseEvent(48, { name: actor.name, position: actor.position });
             // console.log("kill");
-
         }
         else {
 
@@ -318,6 +321,7 @@ export class PlayerMovement extends Component {
                     this.node.getComponent(Sprite).grayscale = true
                     // this.node.getChildByName("gun").destroy();
                     this.node.layer = 2;
+                    this.playershud.active = false
                     this.camera.getComponent(Camera).visibility = 3;
                     this.node.getComponent(CircleCollider2D).enabled = false;
                     this.photon_instance.raiseEvent(133, { name: actor.name, position: this.node.getPosition() });
@@ -340,7 +344,7 @@ export class PlayerMovement extends Component {
             ) == null && this.node.getComponent(Sprite).color != Color.GREEN) {
                 console.log(this.photon_instance.myRoom().getCustomProperty("totalzombies"));
 
-                if (this.photon_instance.myRoom().getCustomProperty("totalzombies") <= 2) {
+                if (this.photon_instance.myRoom().getCustomProperty("totalzombies") < 1) {
                     setTimeout(() => {
                         this.node.getComponent(Sprite).color = Color.GREEN; console.log(actor);
                         this.photon_instance.raiseEvent(62, { name: actor.name });
@@ -363,8 +367,10 @@ export class PlayerMovement extends Component {
         }
     }
     destroycharacter(actor: Photon.LoadBalancing.Actor) {
-        var child = this.node.parent.getChildByName(actor.actorNr.toString())
-        child.destroy();
+        if (this.node.parent.getChildByName(actor.actorNr.toString()) != null) {
+            var child = this.node.parent.getChildByName(actor.actorNr.toString())
+            child.destroy();
+        }
     }
     update(deltaTime: number) {
         if (this.canMovePlayer) {
@@ -392,20 +398,23 @@ export class PlayerMovement extends Component {
 
         this.node.parent.children.forEach((e) => {
 
-
-            if (e.getComponent(Sprite).color != Color.GREEN && e.name != "player" && e.name != "chest" && e.name[1] != "k" && e.name != "bullet") {
+            e.updateWorldTransform()
+            if (e.getComponent(Sprite).color.toRGBValue() != Color.GREEN.toRGBValue() && e.name != "player" && e.name != "chest" && e.name[1] != "k" && e.name != "bullet") {
                 e.updateWorldTransform()
-                let otherplayer = e.getComponent(UITransform).getBoundingBoxToWorld();
+                let position = e.getWorldPosition();
+                let otherplayer = new Rect(position.x, position.y, e.getComponent(UITransform).width, e.getComponent(UITransform).height)
                 this.node.updateWorldTransform()
                 let myplayer = new Rect(this.node.getWorldPosition().x, this.node.getWorldPosition().y, this.node.getComponent(UITransform).width, this.node.getComponent(UITransform).height)
                 if (myplayer.intersects(otherplayer)) {
                     this.zombieskillbutton.getComponent(Button).interactable = true;
+                    this.zombiesmakebutton.getComponent(Button).interactable = true;
                     this.killed_actor = e
                     this.kill_button_checker = 1;
                 }
                 else if (this.kill_button_checker == 1) {
                     if (this.killed_actor.name == e.name) {
                         this.zombieskillbutton.getComponent(Button).interactable = false
+                        this.zombiesmakebutton.getComponent(Button).interactable = false
                     }
                 }
             }
