@@ -1,4 +1,4 @@
-import { color, log } from 'cc';
+import { Director, color, director, log } from 'cc';
 import { Color } from 'cc';
 import { UITransform } from 'cc';
 import { _decorator, Component, instantiate, Node, Prefab, Sprite, tween, Vec3 } from 'cc';
@@ -62,7 +62,7 @@ export class GameOver extends Component {
             const NodeHeight = this.Zombies.getComponent(UITransform).height
 
             // For Scaling up and down node
-            tween(this.Survivors).repeatForever(
+            tween(this.Zombies).repeatForever(
                 tween()
                     .to(0.5, { scale: new Vec3(1.1, 1.1, 0) })
                     .to(0.5, { scale: new Vec3(1.2, 1.2, 0) })
@@ -73,7 +73,7 @@ export class GameOver extends Component {
             Prize.setPosition(0, NodeHeight / 2)
             this.Zombies.addChild(Prize)
         } else {
-            const NodeHeight = this.Zombies.getComponent(UITransform).height
+            const NodeHeight = this.Survivors.getComponent(UITransform).height
 
             // For Scaling up and down node
             tween(this.Survivors).repeatForever(
@@ -94,7 +94,11 @@ export class GameOver extends Component {
     start() {
 
     }
+    tolobby() {
 
+
+        director.loadScene("Avatar")
+    }
     update(deltaTime: number) {
 
     }

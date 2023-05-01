@@ -169,6 +169,8 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
             this.wall.zombie_actor(content)
         }
 
+
+
     }
     onActorPropertiesChange(actor: Photon.LoadBalancing.Actor): void {
         // if (this.joined && photonmanager.getInstance().gamestarted)

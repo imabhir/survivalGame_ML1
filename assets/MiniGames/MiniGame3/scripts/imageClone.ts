@@ -99,14 +99,14 @@ export class imageClone extends Component {
 
                 photonmanager.getInstance().photon_instance.myRoom().setCustomProperty("Minigame3", true);
 
-                this.node.parent.destroy();
+                this.node.parent.parent.destroy();
             }, 1000);
             this.taskCompleted.active = true;
         } else {
             console.log("Wrong");
             this.taskCompleted.active = true;
             setTimeout(() => {
-                this.node.parent.destroy();
+                this.node.parent.parent.destroy();
             }, 1000);
             this.taskCompleted.getComponent(Sprite).spriteFrame = this.Incorrect
         }

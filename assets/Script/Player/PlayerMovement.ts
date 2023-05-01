@@ -361,12 +361,14 @@ export class PlayerMovement extends Component {
 
                         this.node.parent.addChild(killed_sprites);
                         this.node.getComponent(Sprite).grayscale = true
-                        // this.node.getChildByName("gun").destroy();
+                        if (this.node.getChildByName("gun").children.length != 0)
+                            this.node.getChildByName("gun").children[0].destroy();
 
                         this.playershud.active = false
                         this.camera.getComponent(Camera).visibility = 3;
                         this.node.getComponent(CircleCollider2D).enabled = false;
-
+                        let currentliveplayers = this.photon_instance.myRoom().getCustomProperty("killedplayers") + 1;
+                        this.photon_instance.myRoom().setCustomProperty("liveplayers", currentliveplayers);
                         this.photon_instance.raiseEvent(133, { name: actor.name, position: this.node.getPosition() });
 
                     }
@@ -404,10 +406,14 @@ export class PlayerMovement extends Component {
                     }, randomRangeInt(0, 5) * 1000)
                     this.playershud.active = false
                     this.zombieshud.active = true
+                    this.node.getComponent(BoxCollider2D).group = 1 << 2;
+                    this.node.getComponent(RigidBody2D).group = 1 << 2;
                 }
                 let totalzombies = this.photon_instance.myRoom().getCustomProperty("totalzombies") + 1;
                 this.photon_instance.myRoom().setCustomProperty("totalzombies", totalzombies)
                 console.log(this.photon_instance.myRoom().getCustomProperty("totalzombies"));
+                let currentliveplayers = this.photon_instance.myRoom().getCustomProperty("killedplayers") + 1;
+                this.photon_instance.myRoom().setCustomProperty("liveplayers", currentliveplayers);
 
             }
 
@@ -452,7 +458,7 @@ export class PlayerMovement extends Component {
         this.node.parent.children.forEach((e) => {
 
             e.updateWorldTransform()
-            if (e.getComponent(Sprite).color.toRGBValue() != Color.GREEN.toRGBValue() && e.name != "player" && e.name != "chest" && e.name[1] != "k" && e.name != "bullet") {
+            if (e.getComponent(Sprite).color.toRGBValue() != Color.GREEN.toRGBValue() && !e.getComponent(Sprite).grayscale && e.name != "player" && e.name != "chest" && e.name[1] != "k" && e.name != "bullet") {
                 e.updateWorldTransform()
                 let position = e.getWorldPosition();
                 let otherplayer = new Rect(position.x, position.y, e.getComponent(UITransform).width, e.getComponent(UITransform).height)

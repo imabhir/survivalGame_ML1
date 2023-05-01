@@ -36,8 +36,8 @@ export class playingOptions extends Component {
         this.AddAccountButton()
         this.AddSettings()
         this.applyMusic()
-        this.resourceInstance.loadPrefabs();
-        this.resourceInstance.loadMusic()
+        // this.resourceInstance.loadPrefabs();
+        // this.resourceInstance.loadMusic()
 
         this.photon_instance = photonmanager.getInstance().photon_instance;
 
@@ -82,31 +82,31 @@ export class playingOptions extends Component {
     }
 
     applyMusic = () => {
-        this.scheduleOnce(() => {
-            const music = instantiate(this.resourceInstance.getMusicPrefab("Music"))
-            this.node.addChild(music)
-        }, 1)
+        // this.scheduleOnce(() => {
+        const music = instantiate(this.resourceInstance.GetPrefab("Music"))
+        this.node.addChild(music)
+        // }, 1)
 
 
-        this.scheduleOnce(() => {
-            const clip = this.resourceInstance.getMusicFile("audio1")
-            this.audioInstance.playMusicClip(clip, true)
-        }, 1)
+        // this.scheduleOnce(() => {
+        const clip = this.resourceInstance.getMusicFile("audio1")
+        this.audioInstance.playMusicClip(clip, true)
+        // }, 1)
     }
 
 
     AddSettings = () => {
-        this.scheduleOnce(() => {
-            const SettingButton = instantiate(this.resourceInstance.getSettingsPrefab("Settings"))
-            SettingButton.on(Input.EventType.TOUCH_START, this.OpenSettingsControls)
-            this.node.addChild(SettingButton)
-        }, 1)
+        // this.scheduleOnce(() => {
+        const SettingButton = instantiate(this.resourceInstance.GetPrefab("Settings"))
+        SettingButton.on(Input.EventType.TOUCH_START, this.OpenSettingsControls)
+        this.node.addChild(SettingButton)
+        // }, 1)
 
     }
 
     OpenSettingsControls = () => {
         if (this.SettingsNode.children.length == 0) {
-            const SettingsControls = instantiate(this.resourceInstance.getAccountControlsPrefab("SettingsControls"))
+            const SettingsControls = instantiate(this.resourceInstance.GetPrefab("SettingsControls"))
             this.SettingsNode.addChild(SettingsControls);
             SettingsControls.parent.setSiblingIndex(this.node.children.length)
         }
@@ -118,17 +118,17 @@ export class playingOptions extends Component {
 
 
     AddAccountButton = () => {
-        this.scheduleOnce(() => {
-            const AccountButton = instantiate(this.resourceInstance.getAccountPrefab("Account"))
-            AccountButton.on(Input.EventType.TOUCH_START, this.OpenAccountControls)
-            this.node.addChild(AccountButton)
-        }, 0.7)
+        // this.scheduleOnce(() => {
+        const AccountButton = instantiate(this.resourceInstance.GetPrefab("Account"))
+        AccountButton.on(Input.EventType.TOUCH_START, this.OpenAccountControls)
+        this.node.addChild(AccountButton)
+        // }, 0.7)
     }
     OpenAccountControls = () => {
-        this.scheduleOnce(() => {
-            const AccountSettings = instantiate(this.resourceInstance.getAccountControlsPrefab("AccountSettings"))
-            this.node.addChild(AccountSettings);
-        }, 1)
+        // this.scheduleOnce(() => {
+        const AccountSettings = instantiate(this.resourceInstance.GetPrefab("AccountSettings"))
+        this.node.addChild(AccountSettings);
+        // }, 1)
 
     }
 

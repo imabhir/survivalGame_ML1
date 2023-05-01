@@ -57,7 +57,7 @@ export class playerslobby extends Component {
 
 
         this.photon.myRoom().setCustomProperty("totalzombies", 0)
-
+        photonmanager.getInstance().photon_instance.myRoom().setCustomProperty("gamestarted", false);
 
     }
 
@@ -205,7 +205,7 @@ export class playerslobby extends Component {
             director.loadScene("gameplay", () => {
                 photonmanager.getInstance().photon.myRoom().setIsOpen(false);
                 photonmanager.getInstance().photon.myRoom().setIsVisible(false); console.log(photonmanager.getInstance().photon.myRoom().isOpen);
-                this.allNums = Array.from({ length: 2 - 1 + 1 }, (_, i) => i + 1);
+                this.allNums = Array.from({ length: 5 - 1 + 1 }, (_, i) => i + 1);
                 for (let i = this.allNums.length - 1; i > 0; i--) {
                     const j = Math.floor(Math.random() * (i + 1));
                     [this.allNums[i], this.allNums[j]] = [this.allNums[j], this.allNums[i]];
@@ -276,13 +276,14 @@ export class playerslobby extends Component {
             this.counterstarted = true;
 
         }
-        if (photonmanager.getInstance().photon.myRoomActorCount() == this.playertostartgame && this.starts && photonmanager.getInstance().photon.myRoomMasterActorNr() == photonmanager.getInstance().photon.myActor().actorNr && !photonmanager.getInstance().photon.gamestarted) {
+        if (photonmanager.getInstance().photon.myRoomActorCount() == this.playertostartgame && this.starts && photonmanager.getInstance().photon_instance.myActor().actorNr == photonmanager.getInstance().photon_instance.myRoomMasterActorNr() && !photonmanager.getInstance().photon.gamestarted) {
 
             if (this.Min == 0 && this.Sec == 0) {
+
                 this.StartGame();
-
-
+                photonmanager.getInstance().photon_instance.myRoom().setCustomProperty("gamestarted", true);
                 this.starts = false
+
             }
         }
     }

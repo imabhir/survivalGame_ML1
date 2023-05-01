@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, TiledMap, PhysicsSystem2D, Contact2DType, Collider2D, IPhysics2DContact, Rect, UITransform, TiledObjectGroup, Vec3, TiledLayer, TiledTile, RigidBody, RigidBody2D, RigidBodyComponent, BoxCollider2D, Vec2, ERigidBody2DType, PhysicsSystem, EPhysics2DDrawFlags, director, Prefab, instantiate, GraphicsComponent, rect, log, Input, TiledMapAsset, Button, Sprite, Event, EventHandler, math, randomRangeInt, SpriteFrame, Skeleton, sp, Socket, input, Quat, CircleCollider2D, Color, Director } from 'cc';
+import { _decorator, Component, Node, TiledMap, PhysicsSystem2D, Contact2DType, Collider2D, IPhysics2DContact, Rect, UITransform, TiledObjectGroup, Vec3, TiledLayer, TiledTile, RigidBody, RigidBody2D, RigidBodyComponent, BoxCollider2D, Vec2, ERigidBody2DType, PhysicsSystem, EPhysics2DDrawFlags, director, Prefab, instantiate, GraphicsComponent, rect, log, Input, TiledMapAsset, Button, Sprite, Event, EventHandler, math, randomRangeInt, SpriteFrame, Skeleton, sp, Socket, input, Quat, CircleCollider2D, Color, Director, Label } from 'cc';
 import { photonmanager } from './photon/photonmanager';
 import { Photonevents } from './photon/cloud-app-info';
 const { ccclass, property } = _decorator;
@@ -54,6 +54,8 @@ export class walls extends Component {
     controller: Node = null;
     @property({ type: Prefab })
     gameovernode: Prefab = null;
+    @property({ type: Prefab })
+    timer: Prefab = null;
     player_bb: Rect
     count = 0;
     map: any
@@ -76,6 +78,9 @@ export class walls extends Component {
     canfire: boolean = false;
     intervaloffire: number = 0;
     rateoffire: number = 20;
+    Timer: Node;
+    Min: number = 5;
+    Sec: number = 0;
     onLoad() {
         PhysicsSystem2D.instance.enable = true;
         this.map = this.node.getComponent(TiledMap)
@@ -101,6 +106,9 @@ export class walls extends Component {
 
 
         this.touchEventsFunc()
+        this.stopwatchTimer()
+        this.photon_instance.myRoom().setCustomProperty("liveplayers", 0);
+
     }
     start() {//refer to link https://juejin.cn/post/7068114266716373029
         this.enablecollision("level1")
@@ -238,7 +246,8 @@ export class walls extends Component {
         var child = this.player.parent.getChildByName(actor.toString())
         let gun = instantiate(this.gun);
         // console.log(child);
-        child.getChildByName("gun").addChild(gun);
+        if (this.player.parent.getChildByName(actor.toString()) != null)
+            child.getChildByName("gun").addChild(gun);
 
 
 
@@ -332,7 +341,11 @@ export class walls extends Component {
                     console.log(this.killed_actor.layer);
 
                     child.layer = 2;
+                    if (child.getChildByName("gun").children.length != 0)
+                        child.getChildByName("gun").children[0].destroy();
                     console.log(this.killed_actor.layer);
+                    let currentliveplayers = this.photon_instance.myRoom().getCustomProperty("killedplayers") + 1;
+                    this.photon_instance.myRoom().setCustomProperty("liveplayers", currentliveplayers);
                 }
                 else {
                     child.active = false;
@@ -355,6 +368,10 @@ export class walls extends Component {
             if (this.player.parent.getChildByName(actor.name + "killedplayer"
             ) == null && this.player.parent.getChildByName(actor.name) != null && this.player.parent.getChildByName(actor.name).getComponent(Sprite).color != Color.GREEN) {
                 child.getComponent(Sprite).color = Color.GREEN;
+                let currentliveplayers = this.photon_instance.myRoom().getCustomProperty("killedplayers") + 1;
+                this.photon_instance.myRoom().setCustomProperty("liveplayers", currentliveplayers);
+                child.getComponent(BoxCollider2D).group = 1 << 2;
+                child.getComponent(RigidBody2D).group = 1 << 2;
             }
         }
     }
@@ -399,6 +416,36 @@ export class walls extends Component {
 
 
 
+        }
+    }
+    stopwatchTimer() {
+        let timer = instantiate(this.timer);
+        let position = timer.getPosition();
+        position.y = -440
+        timer.setPosition(position)
+        this.node.parent.addChild(timer);
+        this.Timer = this.node.parent.getChildByName("Timer");
+        this.schedule(this.timerworking, 1);
+        if (this.Min == 0 && this.Sec == 0) {
+            this.unschedule(this.timerworking);
+        }
+    }
+    /**
+             * @description Callback Function Scheduled after every Sec until reaches 00:00
+             */
+    timerworking() {
+        if (this.Min > 0 || this.Sec > 0) {
+            if (this.Sec == 0) {
+                this.Sec = 60;
+                this.Min--;
+                if (this.Min == 0 && this.Sec == 0) {
+                    this.Min = 60;
+                }
+            }
+            this.Sec--;
+            let m = this.Min < 10 ? "0" + this.Min : this.Min;
+            let s = this.Sec < 10 ? "0" + this.Sec : this.Sec;
+            this.Timer.getComponent(Label).string = m.toString() + ":" + s.toString();
         }
     }
     update(deltaTime: number) {
@@ -508,7 +555,18 @@ export class walls extends Component {
             if (this.intervaloffire % this.rateoffire == 0) { this.fire((this.anlges - 90) * -1) }
             this.intervaloffire++;
         }
-        if (this.photon_instance.myRoom().getCustomProperty("Minigame1") && this.photon_instance.myRoom().getCustomProperty("Minigame2") && this.photon_instance.myRoom().getCustomProperty("Minigame3")) {
+        if (this.Min == 0 && this.Sec == 0) {
+            let gameover = instantiate(this.gameovernode);
+            if (this.node.parent.getChildByName(gameover.name) == null) {
+                this.node.parent.addChild(gameover);
+                setTimeout(() => {
+                    this.node.parent.getChildByName("gameover").getComponent(GameOver).GetWinner(0, 1, 1)
+                }, 1000)
+
+
+            }
+        }
+        else if ((this.photon_instance.myRoom().getCustomProperty("liveplayers") == 4) || (this.photon_instance.myRoom().getCustomProperty("Minigame1") && this.photon_instance.myRoom().getCustomProperty("Minigame2") && this.photon_instance.myRoom().getCustomProperty("Minigame3"))) {
 
             // director.loadScene("GameOver", () => { });
 
@@ -523,6 +581,5 @@ export class walls extends Component {
 
             }
         }
-
     }
 }

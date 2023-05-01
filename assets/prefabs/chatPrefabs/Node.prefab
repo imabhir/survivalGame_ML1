@@ -166,12 +166,12 @@
     "_dstBlendFactor": 4,
     "_color": {
       "__type__": "cc.Color",
-      "r": 12,
-      "g": 1,
-      "b": 1,
-      "a": 255
+      "r": 241,
+      "g": 233,
+      "b": 233,
+      "a": 252
     },
-    "_string": "label",
+    "_string": "",
     "_horizontalAlign": 0,
     "_verticalAlign": 1,
     "_actualFontSize": 48,
@@ -304,7 +304,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 101.41,
+      "width": 0,
       "height": 60.48
     },
     "_anchorPoint": {
@@ -334,12 +334,12 @@
     "_dstBlendFactor": 4,
     "_color": {
       "__type__": "cc.Color",
-      "r": 12,
-      "g": 1,
-      "b": 1,
+      "r": 250,
+      "g": 247,
+      "b": 247,
       "a": 0
     },
-    "_string": "label",
+    "_string": "",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
     "_actualFontSize": 48,

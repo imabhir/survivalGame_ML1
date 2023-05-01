@@ -101,7 +101,7 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 960,
+      "x": 960.0000000000002,
       "y": 540,
       "z": 0
     },
@@ -185,7 +185,7 @@
     "_priority": 1,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 550.4957904583723,
+    "_orthoHeight": 547.9329608938548,
     "_near": 1,
     "_far": 1000,
     "_color": {
@@ -1982,7 +1982,7 @@
       "__expectedType__": "cc.SpriteFrame"
     },
     "killed_player_image": {
-      "__uuid__": "5c7fcf8a-a574-48f2-94a3-6d4f18c5e9ff@f9941",
+      "__uuid__": "c97e2cab-5432-4fdd-83f3-46019d83da0b@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "joystick": {
@@ -3607,7 +3607,7 @@
     "node": {
       "__id__": 50
     },
-    "_enabled": false,
+    "_enabled": true,
     "__prefab": null,
     "tag": 0,
     "_group": 2,
@@ -3789,7 +3789,7 @@
       "__id__": 69
     },
     "killed_sprite": {
-      "__uuid__": "5c7fcf8a-a574-48f2-94a3-6d4f18c5e9ff@f9941",
+      "__uuid__": "c97e2cab-5432-4fdd-83f3-46019d83da0b@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "chest_button": {
@@ -3822,6 +3822,10 @@
     },
     "gameovernode": {
       "__uuid__": "2fff47fb-a7b4-4b18-91e8-47594e60f543",
+      "__expectedType__": "cc.Prefab"
+    },
+    "timer": {
+      "__uuid__": "d5de01ec-dcac-4848-a35e-7a06ee95cd98",
       "__expectedType__": "cc.Prefab"
     },
     "_id": "028SJJADZIpouGL2aIma/H"

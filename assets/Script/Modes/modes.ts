@@ -54,8 +54,8 @@ export class modes extends Component {
         this.rotater.active = false;
         this.text.active = true;
         this.applyMusic();
-        this.resourceInstance.loadPrefabs();
-        this.resourceInstance.loadMusic();
+        // this.resourceInstance.loadPrefabs();
+        // this.resourceInstance.loadMusic();
 
         this.slideWithButtons();
         this.selectMode()
@@ -69,16 +69,16 @@ export class modes extends Component {
      */
 
     applyMusic = () => {
-        this.scheduleOnce(() => {
-            const music = instantiate(this.resourceInstance.getMusicPrefab("Music"))
-            this.node.addChild(music)
-        }, 1)
+        // this.scheduleOnce(() => {
+        const music = instantiate(this.resourceInstance.GetPrefab("Music"))
+        this.node.addChild(music)
+        // }, 1)
 
 
-        this.scheduleOnce(() => {
-            const clip = this.resourceInstance.getMusicFile("audio1")
-            this.audioInstance.playMusicClip(clip, true)
-        }, 1)
+        // this.scheduleOnce(() => {
+        const clip = this.resourceInstance.getMusicFile("audio1")
+        this.audioInstance.playMusicClip(clip, true)
+        // }, 1)
     }
 
     /**

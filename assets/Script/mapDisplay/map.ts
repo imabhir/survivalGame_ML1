@@ -21,7 +21,8 @@ export class map extends Component {
     onLoad() {
         this.gameDataInstance = gameData.getInstance()
         this.backButton.on(Input.EventType.TOUCH_START, () => {
-            director.loadScene("playersLobby")
+            this.node.destroy()
+
         })
         this.mapDisplay()
     }

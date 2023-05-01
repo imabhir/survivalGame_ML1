@@ -2,6 +2,7 @@ import { _decorator, Color, Component, EditBox, instantiate, Label, log, Node, P
 import { photonmanager } from '../photon/photonmanager';
 import { Photonevents } from '../photon/cloud-app-info';
 import { color } from 'cc';
+import { text } from 'stream/consumers';
 const { ccclass, property } = _decorator;
 
 
@@ -53,7 +54,6 @@ export class Message extends Component {
 
 
       smallText.getComponent(Label).string = ReqMessage
-      smallText.getComponent(Label).color = this.mycolor
       smallText.getComponent(Label).updateRenderData(true)
 
       let chatSize = MessageBox.getComponent(UITransform).contentSize
@@ -64,7 +64,10 @@ export class Message extends Component {
           .setContentSize(
             smallText.getComponent(UITransform).getBoundingBox().width + 30,
             MessageNodes.getComponent(UITransform).getBoundingBox().height + 15
+
           );
+        smallText.getComponent(Label).color = this.mycolor
+
       } else {
         MessageBox
           .getComponent(UITransform)
@@ -72,6 +75,8 @@ export class Message extends Component {
             chatSize.width,
             MessageNodes.getComponent(UITransform).getBoundingBox().height + 15
           );
+
+        MessageNodes.getComponent(Label).color = this.mycolor
       }
 
       this.MessageNode.addChild(MessageBox)
@@ -135,7 +140,13 @@ export class Message extends Component {
         .setContentSize(
           smallText.getComponent(UITransform).getBoundingBox().width + 30,
           MessageNodes.getComponent(UITransform).getBoundingBox().height + 15
+
         );
+
+
+
+      MessageNodes.getComponent(Label).color = color
+
     } else {
       MessageBox
         .getComponent(UITransform)

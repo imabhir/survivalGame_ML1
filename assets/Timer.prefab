@@ -71,8 +71,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 36.71,
-      "height": 90.4
+      "width": 0,
+      "height": 130.4
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -106,7 +106,7 @@
       "b": 255,
       "a": 255
     },
-    "_string": "a\n",
+    "_string": "\n\n",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
     "_actualFontSize": 66,
@@ -138,6 +138,7 @@
       "__id__": 0
     },
     "fileId": "5bq8lRDThH6q5SuG5MjuTY",
+    "instance": null,
     "targetOverrides": null
   }
 ]
