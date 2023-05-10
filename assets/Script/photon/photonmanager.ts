@@ -10,7 +10,7 @@ export class photonmanager {
     inlobby: boolean
     public photon: any;
     public roomname;
-    public gamestarted;
+    public gamestarted = false;
     private constructor() { }
     public static getInstance() {
         if (this.instance == null) {

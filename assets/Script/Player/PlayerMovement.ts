@@ -66,8 +66,6 @@ export class PlayerMovement extends Component {
         this.photon_instance.myActor().setCustomProperty("health", this.health);
         // this.photon_instance.myActor().setCustomProperty("zombie", false);
 
-        console.log(this.photon_instance.myActor().getCustomProperty("zombie"));
-
         if (this.photon_instance.myActor().getCustomProperty("zombie")) {
 
             this.node.getComponent(Sprite).color = Color.GREEN;
@@ -111,7 +109,7 @@ export class PlayerMovement extends Component {
         if (otherCollider.node.name == "bullet") {
             otherCollider.node.destroy()
             if (selfCollider.node.name[0] != "N" && selfCollider.node.name[1] != "K") {
-                this.photon_instance.raiseEvent(113, { name: selfCollider.node.name, position: selfCollider.node.getPosition() });
+                this.photon_instance.raiseEvent(Photonevents.Killotheractor, { name: selfCollider.node.name, position: selfCollider.node.getPosition() });
             }
         }
         if (otherCollider.node.name.slice(1) == "bullet" && selfCollider.node.name[0] != otherCollider.node.name[0]) {
@@ -197,7 +195,7 @@ export class PlayerMovement extends Component {
             this.anlges = angleDeg;
         }
         this.getDirection(this.node, this.anlges);
-        this.photon_instance.raiseEvent(Event.Animation, this.anlges, {});
+        this.photon_instance.raiseEvent(Photonevents.Animation, this.anlges, {});
     }
     getDirection(node, angle) {
         // console.log("config");
@@ -317,7 +315,7 @@ export class PlayerMovement extends Component {
         if (actor.name != this.photon_instance.myActor().actorNr.toString()) {
             console.log(actor);
             if (e != null)
-                this.photon_instance.raiseEvent(48, { name: actor.name, position: actor.position });
+                this.photon_instance.raiseEvent(Photonevents.Killotheractors, { name: actor.name, position: actor.position });
             // console.log("kill");
         }
         else {
@@ -367,16 +365,18 @@ export class PlayerMovement extends Component {
                         this.playershud.active = false
                         this.camera.getComponent(Camera).visibility = 3;
                         this.node.getComponent(CircleCollider2D).enabled = false;
-                        let currentliveplayers = this.photon_instance.myRoom().getCustomProperty("killedplayers") + 1;
+                        let currentliveplayers = Number(this.photon_instance.myRoom().getCustomProperty("liveplayers")) + 1;
                         this.photon_instance.myRoom().setCustomProperty("liveplayers", currentliveplayers);
-                        this.photon_instance.raiseEvent(133, { name: actor.name, position: this.node.getPosition() });
+                        console.log(this.photon_instance.myRoom().getCustomProperty("liveplayers"));
+
+                        this.photon_instance.raiseEvent(Photonevents.Killactor, { name: actor.name, position: this.node.getPosition() });
 
                     }
                     else {
                         this.node.active = false;
                         this.joystick.active = false;
                         setTimeout(() => { this.node.active = true; this.joystick.active = true; this.health = 10; }, 5000)
-                        this.photon_instance.raiseEvent(133, { name: actor.name, position: this.node.getPosition() });
+                        this.photon_instance.raiseEvent(Photonevents.Killactor, { name: actor.name, position: this.node.getPosition() });
 
                     }
 
@@ -390,7 +390,7 @@ export class PlayerMovement extends Component {
         console.log(actor);
         if (actor.name != this.photon_instance.myActor().actorNr.toString()) {
             if (e != null)
-                this.photon_instance.raiseEvent(52, { name: actor.name });
+                this.photon_instance.raiseEvent(Photonevents.Zombieotheractor, { name: actor.name });
             console.log("kill");
         }
         else {
@@ -402,18 +402,19 @@ export class PlayerMovement extends Component {
                 if (this.photon_instance.myRoom().getCustomProperty("totalzombies") < 1) {
                     setTimeout(() => {
                         this.node.getComponent(Sprite).color = Color.GREEN; console.log(actor);
-                        this.photon_instance.raiseEvent(62, { name: actor.name });
+                        this.photon_instance.raiseEvent(Photonevents.Zombieactor, { name: actor.name });
                     }, randomRangeInt(0, 5) * 1000)
                     this.playershud.active = false
                     this.zombieshud.active = true
-                    this.node.getComponent(BoxCollider2D).group = 1 << 2;
+                    this.node.getComponent(CircleCollider2D).group = 1 << 2;
                     this.node.getComponent(RigidBody2D).group = 1 << 2;
+                    let totalzombies = Number(this.photon_instance.myRoom().getCustomProperty("totalzombies")) + 1;
+                    this.photon_instance.myRoom().setCustomProperty("totalzombies", totalzombies)
+                    console.log(this.photon_instance.myRoom().getCustomProperty("totalzombies"));
+                    let currentliveplayers = Number(this.photon_instance.myRoom().getCustomProperty("liveplayers")) + 1;
+                    this.photon_instance.myRoom().setCustomProperty("liveplayers", currentliveplayers);
                 }
-                let totalzombies = this.photon_instance.myRoom().getCustomProperty("totalzombies") + 1;
-                this.photon_instance.myRoom().setCustomProperty("totalzombies", totalzombies)
-                console.log(this.photon_instance.myRoom().getCustomProperty("totalzombies"));
-                let currentliveplayers = this.photon_instance.myRoom().getCustomProperty("killedplayers") + 1;
-                this.photon_instance.myRoom().setCustomProperty("liveplayers", currentliveplayers);
+
 
             }
 

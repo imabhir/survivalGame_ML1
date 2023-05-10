@@ -66,7 +66,7 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
 
                 //config.connectToNameServer({ region: "EU", lobbyType: Photon.LoadBalancing.Constants.LobbyType.Default });
             }
-        }
+        };
     }
 
 
@@ -88,33 +88,30 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
         //this.player.addplayer();
         if (this.joined)
             this.player_movement.addedactor(actor)
-        if (actor.actorNr != this.myActor().actorNr)
-            this.raiseEvent(420, { gamestarted: photonmanager.getInstance().gamestarted })
-
-
     }
 
 
     onEvent(Event: number, content: any, actorNr: number): void {
-        console.log(Event);
-        this.raiseEvent
-        if (Event == 100) {
+        // console.log(Event);
+        // this.raiseEvent
+        if (Event == Photonevents.Startgame) {
             this.joined = true;
             if (!photonmanager.getInstance().gamestarted)
-                director.loadScene("gameplay", () => { photonmanager.getInstance().photon.myRoom().isOpen = false; photonmanager.getInstance().photon.CloseAvailableRoom; photonmanager.getInstance().photon.joined = true; photonmanager.getInstance().gamestarted = true; photonmanager.getInstance().photon.raiseEvent(100, {}, {}); })
-        } else if (Event == 113) {
-
+                director.loadScene("gameplay", () => {
+                    photonmanager.getInstance().photon.myRoom().isOpen = false; photonmanager.getInstance().gamestarted = true;
+                    this.myRoom().setIsOpen(false);
+                    this.myRoom().setIsVisible(false); photonmanager.getInstance().photon.CloseAvailableRoom; photonmanager.getInstance().photon.joined = true; photonmanager.getInstance().gamestarted = true; photonmanager.getInstance().photon.raiseEvent(Photonevents.Startgame, {}, {});
+                })
+        } else if (Event == Photonevents.Killotheractor) {
             this.player_movement.kill_otheractor(null, content)
         }
-        else if (Event == 48) {
+        else if (Event == Photonevents.Killotheractors) {
             console.log("killed");
 
             this.player_movement.kill_otheractor(null, content)
         }
-        else if (Event == 420) {
-            photonmanager.getInstance().gamestarted = content.gamestarted
-            this.myRoom().setIsOpen(false)
-            this.myRoom().setIsVisible(false)
+        else if (Event == Photonevents.Setroomproperties) {
+
         }
         else if (Photonevents.Openchest == Event) {
             if (this.wall != null)
@@ -128,26 +125,19 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
                 this.totalmessages.push({ reqMessage: content.ReqMessage, color: content.color })
             }
         }
-        else if (this.joined && Event == 115 && photonmanager.getInstance().gamestarted) {
+        else if (this.joined && Event == Photonevents.Animation && photonmanager.getInstance().gamestarted) {
             console.log("enable");
             if (this.player_movement != null)
 
 
                 this.player_movement.enableanimation(actorNr, content);
         }
-        else if (Event == 116) {
+        else if (Event == Photonevents.Fireatotheractors) {
             if (this.wall != null) {
-
-
-
                 this.wall.fireatotheractor({ ...content, actorNr: actorNr.toString() })
-
-
-
-
             }
         }
-        else if (Event == 133) {
+        else if (Event == Photonevents.Killactor) {
             if (this.wall != null) {
                 this.wall.kill_actor(content)
             }
@@ -158,12 +148,12 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
 
                     this.player_movement.move_actor(content)
         }
-        else if (Event == 52) {
+        else if (Event == Photonevents.Zombieotheractor) {
             console.log("killed");
 
             this.player_movement.zombie_otheractor(null, content)
         }
-        else if (Event == 62) {
+        else if (Event == Photonevents.Zombieactor) {
             console.log("killed");
 
             this.wall.zombie_actor(content)
@@ -181,7 +171,7 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
             this.player_movement.destroycharacter(actor); console.log("a");
         }
         console.log("gaya");
-        if (!photonmanager.getInstance().gamestarted)
+        if (!photonmanager.getInstance().gamestarted && this.isJoinedToRoom())
             this.player_lobby.leaveplayerinlobby(actor);
     }
     onMyRoomPropertiesChange(): void {
@@ -198,7 +188,6 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
                 this.joinRandomOrCreateRoom({ expectedMaxPlayers: 2 },
                     undefined,
                     { emptyRoomLiveTime: 20000, suspendedPlayerLiveTime: 20000, maxPlayers: 2 });
-                console.log("ban gaya");
                 this.checker = 0;
             }
         }

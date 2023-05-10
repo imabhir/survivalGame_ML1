@@ -3,6 +3,7 @@ import { _decorator, Component, Node, Prefab, JsonAsset, instantiate, UITransfor
 // import { modes } from '../Modes/scripts/modes';
 import { photonmanager } from '../../Script/photon/photonmanager';
 import { gameData } from '../singleton/gameData';
+import { Photonevents } from '../photon/cloud-app-info';
 const { ccclass, property } = _decorator;
 
 @ccclass('playerslobby')
@@ -58,6 +59,7 @@ export class playerslobby extends Component {
 
         this.photon.myRoom().setCustomProperty("totalzombies", 0)
         photonmanager.getInstance().photon_instance.myRoom().setCustomProperty("gamestarted", false);
+
 
     }
 
@@ -146,38 +148,39 @@ export class playerslobby extends Component {
 
     }
     leaveplayerinlobby(a) {
-        const player = instantiate(this.player)
-        let actorcount = this.photon.myRoomActorCount();
-        var actors = Object.keys(this.photon.myRoomActors()).map(key => {
-            return this.photon.myRoomActors()[key];
-        })
-        let destroy = new NodePool;
-        for (let i = 0; i < 6; i++) {
-            if (i < 5)
-                if (this.node.getChildByName(i.toString()).children.length != 0 && i < 5) {
-                    console.log(a.actorNr);
-                    destroy.put(
-                        this.node.getChildByName(i.toString()).children[0]);
+        if (this.player != null) {
+            const player = instantiate(this.player)
+            let actorcount = this.photon.myRoomActorCount();
+            var actors = Object.keys(this.photon.myRoomActors()).map(key => {
+                return this.photon.myRoomActors()[key];
+            })
+            let destroy = new NodePool;
+            for (let i = 0; i < 6; i++) {
+                if (i < 5)
+                    if (this.node.getChildByName(i.toString()).children.length != 0 && i < 5) {
+                        console.log(a.actorNr);
+                        destroy.put(
+                            this.node.getChildByName(i.toString()).children[0]);
+                    }
+                if (i == 5) {
+
+                    this.addplayerinlobby();
                 }
-            if (i == 5) {
-
-                this.addplayerinlobby();
             }
+
+
+
+
+
+
+
+
+
+
+
+
+
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
     /**
@@ -201,6 +204,8 @@ export class playerslobby extends Component {
 
     }
     StartGame() {
+        console.log(photonmanager.getInstance().gamestarted);
+
         if (!photonmanager.getInstance().gamestarted)
             director.loadScene("gameplay", () => {
                 photonmanager.getInstance().photon.myRoom().setIsOpen(false);
@@ -220,7 +225,10 @@ export class playerslobby extends Component {
                         player.setCustomProperty("zombie", true)
                     }
                 })
-                photonmanager.getInstance().photon.joined = true; photonmanager.getInstance().gamestarted = true; photonmanager.getInstance().photon.raiseEvent(100, {}, {});
+
+
+                photonmanager.getInstance().photon.myRoom().setCustomProperty("liveplayers", 0);
+                photonmanager.getInstance().photon.joined = true; photonmanager.getInstance().gamestarted = true; photonmanager.getInstance().photon.raiseEvent(Photonevents.Startgame, {}, {});
 
             })
 
@@ -261,7 +269,6 @@ export class playerslobby extends Component {
 
         this.targetMapNode = this.gameDataInstance.getMapWithMaxVotes();
         if (this.targetMapNode != null) {
-
             this.showMapWithMaxVotes(this.targetMapNode)
         }
         if (photonmanager.getInstance().photon.myRoomActorCount() == this.playertostartgame && this.counterstarted) {

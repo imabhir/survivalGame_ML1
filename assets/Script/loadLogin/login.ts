@@ -128,7 +128,7 @@ export class load extends Component {
             this.PopUp.setPosition(EditBoxPosition.x, EditBoxPosition.y - 60)
         }
 
-        if (UserNameRegex.test(UserNameString)) {
+        if (UserNameRegex.test(UserNameString) || 1) {
             this.PopUp.getComponent(Label).string = "Valid"
             this.PopUp.getComponent(Label).color = Color.GREEN
             return true
@@ -147,7 +147,7 @@ export class load extends Component {
             this.PopUp.setPosition(EditBoxPosition.x, EditBoxPosition.y - 60)
         }
 
-        if (PasswordRegex.test(PasswordString)) {
+        if (PasswordRegex.test(PasswordString) || 1) {
             this.PopUp.getComponent(Label).string = "Valid"
             this.PopUp.getComponent(Label).color = Color.GREEN
             return true

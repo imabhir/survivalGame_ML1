@@ -12,6 +12,15 @@ export enum Photonevents {
     "Ghostchat",
     "Normalchat",
     "Openchest",
-    "Move"
+    "Move",
+    "Startgame",
+    "Killotheractor",
+    "Killotheractors",
+    "Setroomproperties",
+    "Fireatotheractors",
+    "Animation",
+    "Killactor",
+    "Zombieotheractor",
+    "Zombieactor"
 }
 
