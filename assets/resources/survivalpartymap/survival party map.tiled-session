@@ -1,0 +1,117 @@
+{
+    "activeFile": "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-001/map.tmx",
+    "expandedProjectPaths": [
+    ],
+    "fileStates": {
+        "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/map-1920*1081/Dungeon_Tileset.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/map-1920*1081/map.tmx": {
+            "scale": 0.23,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2584.782608695652,
+                "y": 252.17391304347814
+            }
+        },
+        "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-001/Dungeon_Tileset.tsx": {
+            "scaleInDock": 1
+        },
+        "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-001/map.tmx": {
+            "scale": 1.25,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 480.40000000000003,
+                "y": 333.59999999999997
+            }
+        },
+        "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-001/map.tsx": {
+            "scaleInDock": 1
+        },
+        "/Users/rishabhkushwaha/Desktop/tiles2.tsx": {
+            "scaleInDock": 1
+        },
+        "Dungeon_Tileset.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "More-Objects.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "PathAndObjects.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "TileB.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "image-1.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.75,
+            "scaleInEditor": 1
+        },
+        "map-001.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2354,
+                "y": 636
+            }
+        },
+        "map-001.tmx#image-1": {
+            "scaleInDock": 1
+        },
+        "map.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2777.272727272727,
+                "y": 1496.969696969697
+            }
+        },
+        "obj1.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "room2.tsx": {
+            "scaleInDock": 0.75,
+            "scaleInEditor": 1
+        },
+        "survivalpartymap.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1242.4242424242423,
+                "y": 996.9696969696971
+            }
+        }
+    },
+    "openFiles": [
+        "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/map-1920*1081/map.tmx",
+        "map.tmx",
+        "map-001.tmx",
+        "More-Objects.tsx",
+        "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/map-1920*1081/Dungeon_Tileset.tsx",
+        "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-001/map.tmx"
+    ],
+    "project": "survival party map.tiled-project",
+    "recentFiles": [
+        "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/map-1920*1081/map.tmx",
+        "map.tmx",
+        "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-001/map.tmx",
+        "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/map-1920*1081/Dungeon_Tileset.tsx",
+        "More-Objects.tsx",
+        "map-001.tmx",
+        "Dungeon_Tileset.tsx",
+        "PathAndObjects.tsx",
+        "TileB.tsx",
+        "obj1.tsx",
+        "room2.tsx",
+        "image-1.tsx"
+    ]
+}

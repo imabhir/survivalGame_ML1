@@ -1,0 +1,132 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "map.tmx",
+    "expandedProjectPaths": [
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "/Users/rishabhkushwaha/Desktop/maps/Dungeon_Tileset.tsx": {
+            "scaleInDock": 1
+        },
+        "/Users/rishabhkushwaha/Desktop/maps/maps.tmx": {
+            "scale": 0.8772656249999999,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 481.0401638614302,
+                "y": 320.31347404043106
+            }
+        },
+        "/Users/rishabhkushwaha/Downloads/Cocos/jail.tmx": {
+            "expandedGroupLayers": [
+                1
+            ],
+            "scale": 1.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 398.6666666666667,
+                "y": 361.33333333333326
+            }
+        },
+        "/Users/rishabhkushwaha/Downloads/Cocos/jail.tmx#collision_graphic": {
+            "scaleInDock": 1
+        },
+        "/Users/rishabhkushwaha/Downloads/Cocos/jail.tmx#dungeon_tileset": {
+            "scaleInDock": 1
+        },
+        "/Users/rishabhkushwaha/Downloads/Cocos/map_arena.tmx": {
+            "scale": 0.7018125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 400.39184255053874,
+                "y": 400.39184255053874
+            }
+        },
+        "/Users/rishabhkushwaha/Downloads/Cocos/map_arena.tmx#collission": {
+            "scaleInDock": 1
+        },
+        "/Users/rishabhkushwaha/Downloads/Cocos/map_arena.tmx#tileset_arena": {
+            "scaleInDock": 1
+        },
+        "/Users/rishabhkushwaha/Downloads/Cocos/map_town.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 200,
+                "y": 142.66666666666663
+            }
+        },
+        "/Users/rishabhkushwaha/Downloads/Cocos/map_town.tmx#collision_graphic": {
+            "scaleInDock": 1
+        },
+        "/Users/rishabhkushwaha/Downloads/Cocos/map_town.tmx#tileset_town": {
+            "scaleInDock": 1
+        },
+        "/Users/rishabhkushwaha/Downloads/Cocos/small_room.tmx": {
+            "scale": 2.9242187499999996,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 96.09404221212932,
+                "y": 96.09404221212931
+            }
+        },
+        "/Users/rishabhkushwaha/Downloads/Cocos/small_room.tmx#collision_px": {
+            "scaleInDock": 1
+        },
+        "/Users/rishabhkushwaha/Downloads/Cocos/small_room.tmx#rpg_indoor": {
+            "scaleInDock": 1
+        },
+        "/Users/rishabhkushwaha/Downloads/Cocos/sontos_house.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 314,
+                "y": 385.33333333333326
+            }
+        },
+        "/Users/rishabhkushwaha/Downloads/Cocos/sontos_house.tmx#collision_px": {
+            "scaleInDock": 1
+        },
+        "/Users/rishabhkushwaha/Downloads/Cocos/sontos_house.tmx#tileset_sontos_house": {
+            "scaleInDock": 1
+        },
+        "Dungeon_Tileset.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "map.tmx": {
+            "scale": 0.87,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 452.29885057471256,
+                "y": 332.18390804597703
+            }
+        },
+        "map.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        }
+    },
+    "last.imagePath": "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/maps-001",
+    "map.lastUsedFormat": "tmx",
+    "openFiles": [
+        "map.tmx",
+        "map.tsx"
+    ],
+    "project": "zombieamongusmap.tiled-project",
+    "property.type": "string",
+    "recentFiles": [
+        "map.tsx",
+        "map.tmx",
+        "Dungeon_Tileset.tsx",
+        "/Users/rishabhkushwaha/Downloads/Cocos/jail.tmx",
+        "/Users/rishabhkushwaha/Downloads/Cocos/map_arena.tmx",
+        "/Users/rishabhkushwaha/Downloads/Cocos/small_room.tmx",
+        "/Users/rishabhkushwaha/Downloads/Cocos/sontos_house.tmx",
+        "/Users/rishabhkushwaha/Downloads/Cocos/map_town.tmx",
+        "/Users/rishabhkushwaha/Desktop/maps/maps.tmx"
+    ],
+    "tileset.lastUsedFormat": "tsx"
+}

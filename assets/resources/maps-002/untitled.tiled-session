@@ -1,0 +1,53 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "finalmaps.tmx",
+    "expandedProjectPaths": [
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "Dungeon_Tileset.tsx": {
+            "scaleInDock": 1
+        },
+        "finalmaps.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 768,
+                "y": 744
+            }
+        },
+        "map.tmx": {
+            "scale": 1.0984375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 480.68278805120906,
+                "y": 320.45519203413943
+            }
+        },
+        "map.tsx": {
+            "scaleInDock": 1
+        },
+        "rombouts-flavien-among-us-map (1).tsx": {
+            "scaleInDock": 0.25,
+            "scaleInEditor": 1
+        }
+    },
+    "last.imagePath": "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-001",
+    "map.lastUsedFormat": "tmx",
+    "map.layerDataFormat": null,
+    "openFiles": [
+        "finalmaps.tmx",
+        "rombouts-flavien-among-us-map (1).tsx",
+        "map.tmx"
+    ],
+    "project": "untitled.tiled-project",
+    "recentFiles": [
+        "map.tmx",
+        "rombouts-flavien-among-us-map (1).tsx",
+        "finalmaps.tmx"
+    ],
+    "tileset.lastUsedFormat": "tsx"
+}
