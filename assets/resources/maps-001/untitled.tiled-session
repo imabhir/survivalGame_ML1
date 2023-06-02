@@ -45,15 +45,29 @@
             "scaleInEditor": 1
         },
         "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-002/finalmaps.tmx": {
-            "scale": 0.125,
-            "selectedLayer": 2,
+            "expandedObjectLayers": [
+                4
+            ],
+            "scale": 0.33,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": -1248,
-                "y": 104
+                "x": 2309.090909090909,
+                "y": 1609.0909090909092
             }
+        },
+        "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-002/finalmaps.tmx#map": {
+            "scaleInDock": 1
         },
         "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-002/furniture-top-view-kitchen-bathroom-and-living-vector-28149265.tsx": {
             "scaleInDock": 0.25,
+            "scaleInEditor": 1
+        },
+        "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-002/ground000.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-002/ground001.tsx": {
+            "scaleInDock": 0.75,
             "scaleInEditor": 1
         },
         "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-002/isolated-house-living-room-interior-260nw-2277926181.tsx": {
@@ -65,7 +79,8 @@
             "scaleInEditor": 1
         },
         "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-002/map.tsx": {
-            "scaleInDock": 1
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         },
         "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-002/png-clipart-table-computer-software-chair-bar-map-top-view-bed-furniture-top-view-bed-removebg-preview.tsx": {
             "scaleInDock": 0.5,
@@ -86,6 +101,10 @@
             "scaleInDock": 0.33,
             "scaleInEditor": 1
         },
+        "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-002/—Pngtree—dark green brush paint on_5889064.tsx": {
+            "scaleInDock": 0.015625,
+            "scaleInEditor": 1
+        },
         "Dungeon_Tileset.tsx": {
             "scaleInDock": 1
         },
@@ -97,8 +116,8 @@
             "scale": 0.33,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 1072.7272727272725,
-                "y": 654.5454545454545
+                "x": 1096.969696969697,
+                "y": 603.030303030303
             }
         },
         "map.tmx": {
@@ -106,7 +125,7 @@
             "selectedLayer": 0,
             "viewCenter": {
                 "x": 480.6827880512091,
-                "y": 320.45519203413943
+                "y": 320.4551920341394
             }
         },
         "map.tsx": {
@@ -141,22 +160,24 @@
         "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-002/isolated-house-living-room-interior-260nw-2277926181.tsx",
         "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-002/istockphoto-1297818873-612x612.tsx",
         "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-002/bedroom.tsx",
-        "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-002/furniture-top-view-kitchen-bathroom-and-living-vector-28149265.tsx"
+        "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-002/furniture-top-view-kitchen-bathroom-and-living-vector-28149265.tsx",
+        "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-002/—Pngtree—dark green brush paint on_5889064.tsx",
+        "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-002/map.tsx"
     ],
     "project": "untitled.tiled-project",
     "recentFiles": [
         "finalmaps.tmx",
-        "rombouts-flavien-among-us-map (1).tsx",
-        "map.tmx",
-        "aimap.tsx",
-        "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-002/furniture-top-view-kitchen-bathroom-and-living-vector-28149265.tsx",
-        "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-002/bedroom.tsx",
-        "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-002/istockphoto-1297818873-612x612.tsx",
-        "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-002/isolated-house-living-room-interior-260nw-2277926181.tsx",
-        "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-002/Layout-2-2D-300x225.tsx",
-        "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-002/Pool-Landscape-Design-2D.tsx",
-        "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-002/FURNITURE.tsx",
-        "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-002/stylish-turquoise-kitchen-design-with-built-hob-sink-vector-drawing_531064-199.tsx"
+        "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-002/finalmaps.tmx",
+        "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-002/png-clipart-table-computer-software-chair-bar-map-top-view-bed-furniture-top-view-bed-removebg-preview.tsx",
+        "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-002/ground001.tsx",
+        "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-002/stylish-turquoise-kitchen-design-with-built-hob-sink-vector-drawing_531064-199.tsx",
+        "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-002/69O8iT.tsx",
+        "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-002/stairs_1.tsx",
+        "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-002/60e43171f464b2f8e20d1b04_image21.tsx",
+        "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-002/3AlOVky.tsx",
+        "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-002/2021091510504700_s.tsx",
+        "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-002/png-clipart-table-computer-software-chair-bar-map-top-view-bed-furniture-top-view-bed.tsx",
+        "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-002/FURNITURE.tsx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
