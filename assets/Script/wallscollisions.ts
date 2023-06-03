@@ -83,6 +83,7 @@ export class walls extends Component {
     Sec: number = 0;
     onLoad() {
         PhysicsSystem2D.instance.enable = true;
+        // PhysicsSystem2D.instance.debugDrawFlags = EPhysics2DDrawFlags.All;
         this.map = this.node.getComponent(TiledMap)
         // console.log(this.node.getComponent(TiledMap).getObjectGroups())
         this.camera.setPosition(this.maincamera.getPosition())
@@ -194,6 +195,7 @@ export class walls extends Component {
                     tile.getComponent(RigidBody2D).allowSleep = false;
                     tile.getComponent(RigidBody2D).awakeOnLoad = true;
                     tile.getComponent(RigidBody2D).gravityScale = 0;
+                    tile.getComponent(RigidBody2D).allowSleep = true
                     let collider = tile.addComponent(BoxCollider2D);
                     collider.size = tilesize;
                     collider.density = 1000;

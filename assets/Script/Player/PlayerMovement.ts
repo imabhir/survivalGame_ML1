@@ -47,7 +47,7 @@ export class PlayerMovement extends Component {
     canMovePlayer: boolean = false;
     collided: boolean = false;
     collisionangle: number = null
-    playerSpeed: number = 0.6
+    playerSpeed: number = 0.1
     touchenabled: boolean = true;
     count: number = 0;
     anlges: number = 0
