@@ -11,7 +11,7 @@
     "6c48a": {
       "importer": "texture",
       "uuid": "0b58aa4b-7c40-4f3c-ad05-7e00961f0104@6c48a",
-      "displayName": "653271d0daf4ac594ee6d60b05af9b7c",
+      "displayName": "whiteeffect",
       "id": "6c48a",
       "name": "texture",
       "userData": {
@@ -35,7 +35,7 @@
     "f9941": {
       "importer": "sprite-frame",
       "uuid": "0b58aa4b-7c40-4f3c-ad05-7e00961f0104@f9941",
-      "displayName": "653271d0daf4ac594ee6d60b05af9b7c",
+      "displayName": "whiteeffect",
       "id": "f9941",
       "name": "spriteFrame",
       "userData": {
