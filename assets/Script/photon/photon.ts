@@ -86,8 +86,14 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
         // this.addedactor
         // this.data.countofactors = this.myRoomActorCount();
         //this.player.addplayer();
-        if (this.joined)
+        if (this.joined) {
             this.player_movement.addedactor(actor)
+
+
+
+            console.log("logged");
+
+        }
     }
 
 

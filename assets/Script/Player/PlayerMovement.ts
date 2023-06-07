@@ -58,7 +58,22 @@ export class PlayerMovement extends Component {
     health: any = 10;
     killed_actor: Node;
     kill_button_checker: number = 0;
+
+    onLoad() {
+        this.finalPosBall = new Vec3(1, 1, 0);
+        this.finalPos = this.node.getPosition();
+        this.intialPos = new Vec3(1, 1, 0);
+        this.startPos = this.joyStickBall.getPosition();
+        this.photon_instance = photonmanager.getInstance().photon_instance;
+        this.photon_instance.player_movements = this;
+        console.log("jdkbak");
+
+
+    }
+
     start() {
+        console.log("jdkbak");
+
         this.touchEventsFunc();
         PhysicsSystem2D.instance.enable = true;
         if (PhysicsSystem2D.instance) {//physics handler to check for collsions
@@ -96,15 +111,6 @@ export class PlayerMovement extends Component {
         }
         this.addedactor(this.photon_instance.myActor());
 
-
-    }
-    onLoad() {
-        this.finalPosBall = new Vec3(1, 1, 0);
-        this.finalPos = this.node.getPosition();
-        this.intialPos = new Vec3(1, 1, 0);
-        this.startPos = this.joyStickBall.getPosition();
-        this.photon_instance = photonmanager.getInstance().photon_instance;
-        this.photon_instance.player_movements = this;
 
     }
     onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {//collsion callback functions
@@ -267,18 +273,24 @@ export class PlayerMovement extends Component {
         }
     }
     addedactor(actor: any) {
+        console.log("jfdkl");
+
         var actors = Object.keys(this.photon_instance.myRoomActors()).map(key => {
             return this.photon_instance.myRoomActors()[key];
         })
         var playerlocations = this.map.getComponent(TiledMap).getObjectGroup("playerlocation").getObjects()
         let location = this.node.getComponent(UITransform).convertToWorldSpaceAR(new Vec3(playerlocations[0].x, playerlocations[0].y, 0))
         location = this.node.getComponent(UITransform).convertToNodeSpaceAR(location)
+        console.log("jfdkl");
 
         location.x = location.x - this.map.getComponent(UITransform).width * 0.5;
         location.y = location.y - this.map.getComponent(UITransform).height * 0.5;
         var zombielocations = this.map.getComponent(TiledMap).getObjectGroup("zombielocation").getObjects()
+        console.log("jfdkl");
+
         let locations = this.node.getComponent(UITransform).convertToWorldSpaceAR(new Vec3(zombielocations[0].x, zombielocations[0].y, 0))
         locations = this.node.getComponent(UITransform).convertToNodeSpaceAR(locations)
+        console.log("jfdkl");
 
         locations.x = locations.x - this.map.getComponent(UITransform).width * 0.5;
         locations.y = locations.y - this.map.getComponent(UITransform).height * 0.5;
