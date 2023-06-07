@@ -27,7 +27,8 @@
       "height": 1080,
       "fitHeight": true,
       "fitWidth": true
-    }
+    },
+    "highQuality": true
   },
   "layer": [
     {
@@ -37,6 +38,14 @@
     {
       "name": "jack",
       "value": 2
+    },
+    {
+      "name": "cast",
+      "value": 4
+    },
+    {
+      "name": "shadow",
+      "value": 8
     }
   ],
   "custom_joint_texture_layouts": []

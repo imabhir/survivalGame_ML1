@@ -24,6 +24,8 @@ export class PlayerMovement extends Component {
     @property({ type: Node })
     camera: Node = null;
     @property({ type: Node })
+    camera000: Node = null;
+    @property({ type: Node })
     controller: Node = null;
     @property({ type: Node })
     map: Node = null;
@@ -194,6 +196,7 @@ export class PlayerMovement extends Component {
         else {
             this.anlges = angleDeg;
         }
+        this.node.getChildByName("arrow").angle = this.anlges - 90
         this.getDirection(this.node, this.anlges);
         this.photon_instance.raiseEvent(Photonevents.Animation, this.anlges, {});
     }
@@ -444,6 +447,7 @@ export class PlayerMovement extends Component {
         this.node.angle = 0;
         this.node.getComponent(RigidBody2D).angularVelocity = 0
         this.camera.setPosition(playerPosition.x + this.camera.parent.getComponent(UITransform).width * 0.1, playerPosition.y + this.camera.parent.getComponent(UITransform).height * 0.3);//code for camera movements
+        this.camera000.setPosition(playerPosition.x + this.camera.parent.getComponent(UITransform).width * 0.1, playerPosition.y + this.camera.parent.getComponent(UITransform).height * 0.3);//code for camera movements
 
         if (this.photon_instance.totalmessages.length == 0) {
             this.notification.getComponent(Label).string = ""

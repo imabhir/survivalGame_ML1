@@ -68,11 +68,11 @@
             "expandedObjectLayers": [
                 4
             ],
-            "scale": 0.125,
-            "selectedLayer": 2,
+            "scale": 0.12,
+            "selectedLayer": 4,
             "viewCenter": {
-                "x": 1920,
-                "y": 832
+                "x": 862.5,
+                "y": 2345.833333333334
             }
         },
         "/Users/rishabhkushwaha/Desktop/survivalGame_ML1/assets/resources/maps-002/finalmaps.tmx#istockphoto-1297818873-612x612": {

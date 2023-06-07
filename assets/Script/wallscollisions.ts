@@ -29,6 +29,8 @@ export class walls extends Component {
     @property({ type: Node })
     camera: Node = null
     @property({ type: Node })
+    camera000: Node = null
+    @property({ type: Node })
     maincamera: Node = null
     @property({ type: Node })
     use_button: Node = null
@@ -87,7 +89,7 @@ export class walls extends Component {
         this.map = this.node.getComponent(TiledMap)
         // console.log(this.node.getComponent(TiledMap).getObjectGroups())
         this.camera.setPosition(this.maincamera.getPosition())
-
+        this.camera000.setPosition(this.maincamera.getPosition())
         this.use_button.getComponent(Button).interactable = false
         this.kill_button.getComponent(Button).interactable = false
         this.chest_button.getComponent(Button).interactable = false
@@ -408,6 +410,7 @@ export class walls extends Component {
             let bb = this.node.getComponent(UITransform).convertToNodeSpaceAR(new Vec3(a.x, a.y, 0));
             a = new Rect(bb.x, bb.y, e.width, e.height)
             /**@Boundingboxdebugging **/
+            console.log("a");
 
             // let b = instantiate(this.bounding_box);
             // this.node.addChild(b);

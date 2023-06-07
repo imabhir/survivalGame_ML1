@@ -38,8 +38,8 @@
   "camera-infos": {
     "c77ecaa8-c936-46c4-a5b0-98692673ed87": {
       "position": {
-        "x": -7231.71048652016,
-        "y": 4384.000997394364,
+        "x": 419.99999999999994,
+        "y": 308.5,
         "z": 5000
       },
       "rotation": {
@@ -290,8 +290,8 @@
     },
     "382fea8a-012a-44c4-914c-e8bf465780a5": {
       "position": {
-        "x": -1503.8542918726198,
-        "y": 4142.762609754522,
+        "x": 1076.073937159638,
+        "y": 658.7062206413264,
         "z": 5000
       },
       "rotation": {
@@ -566,8 +566,8 @@
     "sculpt_brush_rotate": 0
   },
   "game-view": {
-    "scaleValue": 31,
-    "sliderValue": 12,
+    "scaleValue": 10,
+    "sliderValue": 0,
     "rotate": false,
     "devicesInfo": {
       "name": "i18n:scene.game_view.design_resolution",
