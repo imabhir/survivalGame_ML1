@@ -8,8 +8,7 @@
       "__id__": 1
     },
     "optimizationPolicy": 0,
-    "persistent": false,
-    "asyncLoadAssets": false
+    "persistent": false
   },
   {
     "__type__": "cc.Node",
@@ -49,6 +48,7 @@
       "y": 1,
       "z": 1
     },
+    "_mobility": 0,
     "_layer": 33554432,
     "_euler": {
       "__type__": "cc.Vec3",
@@ -71,7 +71,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 100,
+      "width": 150,
       "height": 200
     },
     "_anchorPoint": {
@@ -107,7 +107,7 @@
       "a": 255
     },
     "_spriteFrame": {
-      "__uuid__": "fb9eaf39-893a-4f32-87ef-2ed26946d271@f9941",
+      "__uuid__": "c8b85f04-ab8e-48c9-891a-bded65eb1799@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_type": 0,
@@ -137,6 +137,8 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "83c+4oUsBPzYstsTS8IA6q"
+    "fileId": "83c+4oUsBPzYstsTS8IA6q",
+    "instance": null,
+    "targetOverrides": null
   }
 ]

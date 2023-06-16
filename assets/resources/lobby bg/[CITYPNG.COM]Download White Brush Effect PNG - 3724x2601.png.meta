@@ -1,0 +1,134 @@
+{
+  "ver": "1.0.25",
+  "importer": "image",
+  "imported": true,
+  "uuid": "39131358-1cd3-4c65-b54c-0af1d0fc0ea5",
+  "files": [
+    ".json",
+    ".png"
+  ],
+  "subMetas": {
+    "6c48a": {
+      "importer": "texture",
+      "uuid": "39131358-1cd3-4c65-b54c-0af1d0fc0ea5@6c48a",
+      "displayName": "[CITYPNG.COM]Download White Brush Effect PNG - 3724x2601",
+      "id": "6c48a",
+      "name": "texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "39131358-1cd3-4c65-b54c-0af1d0fc0ea5",
+        "visible": false
+      },
+      "ver": "1.0.22",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "f9941": {
+      "importer": "sprite-frame",
+      "uuid": "39131358-1cd3-4c65-b54c-0af1d0fc0ea5@f9941",
+      "displayName": "[CITYPNG.COM]Download White Brush Effect PNG - 3724x2601",
+      "id": "f9941",
+      "name": "spriteFrame",
+      "userData": {
+        "trimType": "auto",
+        "trimThreshold": 1,
+        "rotated": false,
+        "offsetX": 24.5,
+        "offsetY": -26,
+        "trimX": 149,
+        "trimY": 160,
+        "width": 3475,
+        "height": 2333,
+        "rawWidth": 3724,
+        "rawHeight": 2601,
+        "borderTop": 0,
+        "borderBottom": 0,
+        "borderLeft": 0,
+        "borderRight": 0,
+        "packable": true,
+        "pixelsToUnit": 100,
+        "pivotX": 0.5,
+        "pivotY": 0.5,
+        "meshType": 0,
+        "vertices": {
+          "rawPosition": [
+            -1737.5,
+            -1166.5,
+            0,
+            1737.5,
+            -1166.5,
+            0,
+            -1737.5,
+            1166.5,
+            0,
+            1737.5,
+            1166.5,
+            0
+          ],
+          "indexes": [
+            0,
+            1,
+            2,
+            2,
+            1,
+            3
+          ],
+          "uv": [
+            149,
+            2441,
+            3624,
+            2441,
+            149,
+            108,
+            3624,
+            108
+          ],
+          "nuv": [
+            0.040010741138560686,
+            0.04152249134948097,
+            0.9731471535982814,
+            0.04152249134948097,
+            0.040010741138560686,
+            0.9384851980007689,
+            0.9731471535982814,
+            0.9384851980007689
+          ],
+          "minPos": [
+            -1737.5,
+            -1166.5,
+            0
+          ],
+          "maxPos": [
+            1737.5,
+            1166.5,
+            0
+          ]
+        },
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "39131358-1cd3-4c65-b54c-0af1d0fc0ea5@6c48a",
+        "atlasUuid": ""
+      },
+      "ver": "1.0.11",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "fixAlphaTransparencyArtifacts": true,
+    "hasAlpha": true,
+    "type": "sprite-frame",
+    "redirect": "39131358-1cd3-4c65-b54c-0af1d0fc0ea5@f9941"
+  }
+}

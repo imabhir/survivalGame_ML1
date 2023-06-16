@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, instantiate, Label, ScrollView, Input, director } from 'cc';
+import { _decorator, Component, Node, instantiate, Label, ScrollView, Input, director, Sprite, color, Color } from 'cc';
 import { photonmanager } from '../../Script/photon/photonmanager';
 const { ccclass, property } = _decorator;
 
@@ -56,9 +56,12 @@ export class AvailableRooms extends Component {
     LoadRoom(arrOfObj) {
         arrOfObj.forEach((element) => {
             let NewNode = instantiate(this.AvailableRoomInfo)
+            NewNode.getChildByName("RoomName").getComponent(Label).color = Color.WHITE
             NewNode.getChildByName("RoomName").getComponent(Label).string = element.name
             NewNode.getChildByName("Number").getComponent(Label).string = "5"
+            NewNode.getChildByName("Number").getComponent(Label).color = Color.WHITE
             NewNode.getChildByName("GameMode").getComponent(Label).string = "standard"
+            NewNode.getChildByName("GameMode").getComponent(Label).color = Color.WHITE
 
 
             NewNode.on(Input.EventType.TOUCH_START, (en) => {

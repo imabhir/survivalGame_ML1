@@ -33,12 +33,12 @@
       },
       "fog_color": {
         "__type__": "cc.Color",
-        "r": 255,
-        "g": 255,
-        "b": 255,
-        "a": 0
+        "r": 36,
+        "g": 32,
+        "b": 32,
+        "a": 53
       },
-      "fog_density": 0.87,
+      "fog_density": 0.8,
       "fog_xSpeed": 0.2,
       "fog_ySpeed": 0.1,
       "fog_sparse": 3

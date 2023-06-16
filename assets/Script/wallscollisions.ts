@@ -79,7 +79,7 @@ export class walls extends Component {
     anlges: number;
     canfire: boolean = false;
     intervaloffire: number = 0;
-    rateoffire: number = 20;
+    rateoffire: number = 10;
     Timer: Node;
     Min: number = 5;
     Sec: number = 0;
@@ -117,8 +117,12 @@ export class walls extends Component {
         this.node.getComponent(TiledMap).getObjectGroup("interactables").getObjects().forEach((e) => {
             if (e!.prefab_type == "chest") {
                 let chest = instantiate(this.chest_prefab)
-                let position = this.player.parent.getComponent(UITransform).convertToNodeSpaceAR(new Vec3(e.x, e.y, 0))
-                chest.setPosition(position.x + e.width * 0.5, position.y + e.height * 0.5)
+                let worldposition = this.player.parent.getComponent(UITransform).convertToWorldSpaceAR(new Vec3(e.x, e.y, 0))
+                let position = this.player.parent.getComponent(UITransform).convertToNodeSpaceAR(worldposition)
+                console.log(position, e.x * 0.5);
+                chest.setPosition(position.x - (this.node.getComponent(UITransform).width * 0.5), position.y - (this.node.getComponent(UITransform).height * 0.5))
+                console.log(chest);
+
                 this.player.parent.addChild(chest)
             }
         })
@@ -425,6 +429,7 @@ export class walls extends Component {
             // ctx1.stroke();
 
             if (this.player_bb.intersects(a)) {
+                console.log("logged");
 
                 if (e!.prefab_type == "chest") {
                     this.chest = true;
@@ -436,6 +441,7 @@ export class walls extends Component {
 
 
                     this.chest_button_checker = 1
+                    // this.use_button_checker = 1
 
                 } else {
 
@@ -465,10 +471,13 @@ export class walls extends Component {
             else if (this.use_button_checker == 1) {
                 if (!this.chest && e!.prefab_type != "chest" && this.minigame.name == this.minigames[e!.prefab_name]!.name) {
                     this.use_button.getComponent(Button).interactable = false
+                    console.log("sajkfhdkslj");
                 }
-                else if (this.chest == true && e!.prefab_type == "chest") {
+                if (this.chest == true && e!.prefab_type == "chest") {
+
                     this.chest_button.getComponent(Button).interactable = false
                     this.chest = false
+
                 }
             }
             // if (this.actors != this.data.countofactors && this.data.countofactors > 1) {
@@ -510,7 +519,6 @@ export class walls extends Component {
             this.intervaloffire++;
         }
         console.log(this.photon_instance.myRoom().getCustomProperty("liveplayers"));
-
         if (this.Min == 0 && this.Sec == 0 || (this.photon_instance.myRoom().getCustomProperty("liveplayers") == 4)) {
             let gameover = instantiate(this.gameovernode);
             if (this.node.parent.getChildByName(gameover.name) == null) {
@@ -519,12 +527,9 @@ export class walls extends Component {
                     this.node.parent.getChildByName("gameover").getComponent(GameOver).GetWinner(0, 1, 1);
                     this.photon_instance.leaveRoom();
                 }, 1000)
-
-
                 photonmanager.getInstance().gamestarted = false;
                 this.photon_instance.joined = false;
                 this.photon_instance.myActor().setCustomProperty("zombie", false)
-
             }
         }
         else if (this.photon_instance.myRoom().getCustomProperty("Minigame1") && this.photon_instance.myRoom().getCustomProperty("Minigame2") && this.photon_instance.myRoom().getCustomProperty("Minigame3")) {

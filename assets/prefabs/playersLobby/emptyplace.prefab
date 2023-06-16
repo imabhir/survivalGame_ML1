@@ -8,8 +8,7 @@
       "__id__": 1
     },
     "optimizationPolicy": 0,
-    "persistent": false,
-    "asyncLoadAssets": false
+    "persistent": false
   },
   {
     "__type__": "cc.Node",
@@ -49,6 +48,7 @@
       "y": 1,
       "z": 1
     },
+    "_mobility": 0,
     "_layer": 33554432,
     "_euler": {
       "__type__": "cc.Vec3",
@@ -101,9 +101,9 @@
     "_dstBlendFactor": 4,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 42,
+      "g": 42,
+      "b": 42,
       "a": 255
     },
     "_spriteFrame": {
@@ -137,6 +137,8 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "9eUiipEdhEV4FdW7OLey3y"
+    "fileId": "9eUiipEdhEV4FdW7OLey3y",
+    "instance": null,
+    "targetOverrides": null
   }
 ]

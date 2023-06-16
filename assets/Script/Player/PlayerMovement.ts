@@ -49,7 +49,7 @@ export class PlayerMovement extends Component {
     canMovePlayer: boolean = false;
     collided: boolean = false;
     collisionangle: number = null
-    playerSpeed: number = 0.1
+    playerSpeed: number = 1
     touchenabled: boolean = true;
     count: number = 0;
     anlges: number = 0
@@ -202,13 +202,13 @@ export class PlayerMovement extends Component {
         else {
             this.anlges = angleDeg;
         }
-        this.node.getChildByName("arrow").angle = this.anlges - 90
         this.getDirection(this.node, this.anlges);
         this.photon_instance.raiseEvent(Photonevents.Animation, this.anlges, {});
     }
     getDirection(node, angle) {
         // console.log("config");
         //handling animations according to     joystick movement
+        node.getChildByName("arrow").angle = angle - 90
         if (angle > 335 && angle < 359 || angle < 25 && angle > 0) {
             this.playWalkAnmation(node, "East");
         } else if (angle > 25 && angle < 75) {
@@ -229,6 +229,7 @@ export class PlayerMovement extends Component {
         }
     }
     playWalkAnmation(node, walkDirection: String) {
+        // node.getChildByName("arrow").angle = this.anlges - 90
         switch (walkDirection) {
             case "North":
                 {
@@ -473,7 +474,6 @@ export class PlayerMovement extends Component {
 
 
         this.node.parent.children.forEach((e) => {
-
             e.updateWorldTransform()
             if (e.getComponent(Sprite).color.toRGBValue() != Color.GREEN.toRGBValue() && !e.getComponent(Sprite).grayscale && e.name != "player" && e.name != "chest" && e.name[1] != "k" && e.name != "bullet") {
                 e.updateWorldTransform()
@@ -496,8 +496,6 @@ export class PlayerMovement extends Component {
             }
         })
     }
-
-
 }
 
 

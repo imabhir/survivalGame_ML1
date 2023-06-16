@@ -8,8 +8,7 @@
       "__id__": 1
     },
     "optimizationPolicy": 0,
-    "persistent": false,
-    "asyncLoadAssets": false
+    "persistent": false
   },
   {
     "__type__": "cc.Node",
@@ -36,8 +35,8 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -872.577,
-      "y": 237.367,
+      "x": -825.498,
+      "y": 361.252,
       "z": 0
     },
     "_lrot": {
@@ -49,10 +48,11 @@
     },
     "_lscale": {
       "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
+      "x": 1.2,
+      "y": 1.2,
       "z": 1
     },
+    "_mobility": 0,
     "_layer": 33554432,
     "_euler": {
       "__type__": "cc.Vec3",
@@ -101,6 +101,7 @@
       "y": 1,
       "z": 1
     },
+    "_mobility": 0,
     "_layer": 33554432,
     "_euler": {
       "__type__": "cc.Vec3",
@@ -123,7 +124,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 144.53,
+      "width": 114.84,
       "height": 75.6
     },
     "_anchorPoint": {
@@ -153,9 +154,9 @@
     "_dstBlendFactor": 4,
     "_color": {
       "__type__": "cc.Color",
-      "r": 17,
-      "g": 1,
-      "b": 1,
+      "r": 255,
+      "g": 0,
+      "b": 0,
       "a": 255
     },
     "_string": "Account",
@@ -167,8 +168,11 @@
     "_lineHeight": 60,
     "_overflow": 0,
     "_enableWrapText": true,
-    "_font": null,
-    "_isSystemFontUsed": true,
+    "_font": {
+      "__uuid__": "9121abfb-67fc-4eef-aa77-982d3d4b39ca",
+      "__expectedType__": "cc.TTFFont"
+    },
+    "_isSystemFontUsed": false,
     "_spacingX": 0,
     "_isItalic": false,
     "_isBold": false,
@@ -189,7 +193,10 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "b1DCqpGP1Mhoe4CfYpiR4u"
+    "fileId": "b1DCqpGP1Mhoe4CfYpiR4u",
+    "instance": null,
+    "targetOverrides": null,
+    "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.UITransform",
@@ -234,13 +241,13 @@
     "_dstBlendFactor": 4,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 177
     },
     "_spriteFrame": {
-      "__uuid__": "c91849bd-9600-4c45-9afb-469b11c48a66@f9941",
+      "__uuid__": "39131358-1cd3-4c65-b54c-0af1d0fc0ea5@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_type": 0,
@@ -270,6 +277,8 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "17p71Y7BxPZqQm7KIHZVfR"
+    "fileId": "17p71Y7BxPZqQm7KIHZVfR",
+    "instance": null,
+    "targetOverrides": null
   }
 ]

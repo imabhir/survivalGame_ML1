@@ -8,8 +8,7 @@
       "__id__": 1
     },
     "optimizationPolicy": 0,
-    "persistent": false,
-    "asyncLoadAssets": false
+    "persistent": false
   },
   {
     "__type__": "cc.Node",
@@ -32,8 +31,8 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 22.487,
-      "y": -78.503,
+      "x": 0,
+      "y": -51,
       "z": 0
     },
     "_lrot": {
@@ -49,6 +48,7 @@
       "y": 1,
       "z": 1
     },
+    "_mobility": 0,
     "_layer": 33554432,
     "_euler": {
       "__type__": "cc.Vec3",
@@ -71,8 +71,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 770,
-      "height": 900
+      "width": 720,
+      "height": 820
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -137,6 +137,8 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "90/EQrmkVHBYlwLZni6hoD"
+    "fileId": "90/EQrmkVHBYlwLZni6hoD",
+    "instance": null,
+    "targetOverrides": null
   }
 ]

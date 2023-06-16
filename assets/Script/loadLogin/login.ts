@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, director, EditBox, Input, instantiate, Label, Color, tween } from 'cc';
+import { _decorator, Component, Node, director, EditBox, Input, instantiate, Label, Color, tween, log, Vec3 } from 'cc';
 import { gameData } from '../singleton/gameData';
 import { resourceManager } from '../singleton/resourceManager';
 // import { persistNode } from '../../persistNode';
@@ -159,6 +159,16 @@ export class load extends Component {
     }
 
 
+
+    close() {
+        console.log("closed");
+
+        this.node.parent.getChildByName("login").active = true
+        tween(this.node).to(0.2, { scale: new Vec3(0, 0, 0) })
+            .call(() => {
+                this.node.destroy();
+            }).start()
+    }
     start() {
 
     }

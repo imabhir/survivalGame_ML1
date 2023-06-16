@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, PageView, Input, SpriteFrame, Sprite, UIOpacity, Vec3, Prefab, instantiate, UITransform, Label, JsonAsset, director, tween, Toggle } from 'cc';
+import { _decorator, Component, Node, PageView, Input, SpriteFrame, Sprite, UIOpacity, Vec3, Prefab, instantiate, UITransform, Label, JsonAsset, director, tween, Toggle, log } from 'cc';
 import { audioManager } from '../audio/scripts/audioManager';
 // import { gameData } from '../../gameData';
 // import { players } from '../playersLobby/scripts/players';
@@ -176,6 +176,8 @@ export class modes extends Component {
         this.node.getComponent(PageView).content.children.forEach((element) => {
             if (event.target != element && element.children.length == elementChildrenLength) {
                 setTimeout(() => {
+                    console.log(element);
+
                     element.getChildByName("goldenBorder").destroy()
                     element.getChildByName("Toggle").active = false;
                 });
