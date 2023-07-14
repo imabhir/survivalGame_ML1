@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Prefab, instantiate, UITransform, Input, director, SpriteFrame, Sprite } from 'cc';
+import { _decorator, Component, Node, Prefab, instantiate, UITransform, Input, director, SpriteFrame, Sprite, log } from 'cc';
 import { gameData } from '../singleton/gameData';
 // import { gameData } from '../../gameData';
 const { ccclass, property } = _decorator;
@@ -62,7 +62,6 @@ export class map extends Component {
                 mapWithMaxVotes = key;
             }
         }
-
         this.findMapNode(mapWithMaxVotes);
     }
 
@@ -73,18 +72,9 @@ export class map extends Component {
             }
         })
         console.log("Target Map", this.TargetMapWithMaxVotes);
-
         let node = instantiate(this.TargetMapWithMaxVotes);
         // console.log("Node", node);
         this.gameDataInstance.initMapWithMaxVotes(node)
-
-
-
-
-
-
-
-
         this.node.destroy()
     }
 

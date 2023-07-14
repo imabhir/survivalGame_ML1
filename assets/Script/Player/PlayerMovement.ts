@@ -49,7 +49,7 @@ export class PlayerMovement extends Component {
     canMovePlayer: boolean = false;
     collided: boolean = false;
     collisionangle: number = null
-    playerSpeed: number = 1
+    playerSpeed: number = 0.1
     touchenabled: boolean = true;
     count: number = 0;
     anlges: number = 0
@@ -66,7 +66,6 @@ export class PlayerMovement extends Component {
         this.startPos = this.joyStickBall.getPosition();
         this.photon_instance = photonmanager.getInstance().photon_instance;
         this.photon_instance.player_movements = this;
-        console.log("jdkbak");
 
 
     }

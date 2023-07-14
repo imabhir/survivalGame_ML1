@@ -28,6 +28,8 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
     message: Message = null;
     wall: walls = null;
     totalmessages: any = [];
+
+    maps = { "map0": 0, "map1": 0, "map2": 0, "map3": 0 }
     constructor() {
         super(photonWss ? 1 : 0, photonAppId, photonAppVersion);
         this.logger.info("Photon Version: " + Photon.Version + (Photon.IsEmscriptenBuild ? "-em" : ""));
@@ -106,7 +108,8 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
                 director.loadScene("gameplay", () => {
                     photonmanager.getInstance().photon.myRoom().isOpen = false; photonmanager.getInstance().gamestarted = true;
                     this.myRoom().setIsOpen(false);
-                    this.myRoom().setIsVisible(false); photonmanager.getInstance().photon.CloseAvailableRoom; photonmanager.getInstance().photon.joined = true; photonmanager.getInstance().gamestarted = true; photonmanager.getInstance().photon.raiseEvent(Photonevents.Startgame, {}, {});
+                    this.myRoom().setIsVisible(false);
+                    photonmanager.getInstance().photon.CloseAvailableRoom; photonmanager.getInstance().photon.joined = true; photonmanager.getInstance().gamestarted = true; photonmanager.getInstance().photon.raiseEvent(Photonevents.Startgame, {}, {});
                 })
         } else if (Event == Photonevents.Killotheractor) {
             this.player_movement.kill_otheractor(null, content)
@@ -163,6 +166,29 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
             console.log("killed");
 
             this.wall.zombie_actor(content)
+        }
+        else if (Event = 2000) {
+            this.maps[content.name] = this.maps[content.name] + 1;
+
+
+
+
+            console.log(content.name);
+
+            let max = 0;
+            let maxKey = "";
+
+            for (let char in this.maps) {
+                console.log(char);
+
+                if (this.maps[char] >= max) {
+                    max = this.maps[char];
+                    maxKey = char
+                }
+            }
+
+            console.log(maxKey, this.maps);
+
         }
 
 

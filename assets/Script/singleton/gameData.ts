@@ -1,4 +1,5 @@
-import { _decorator, Component, Node } from 'cc';
+import { _decorator, Component, log, Node } from 'cc';
+import { photonmanager } from '../photon/photonmanager';
 const { ccclass, property } = _decorator;
 
 @ccclass('gameData')
@@ -41,8 +42,11 @@ export class gameData {
 
     initMapWithMaxVotes(targetMapWithMaxVotes) {
         // console.log("Got map", targetMapWithMaxVotes);
-
+        console.log(targetMapWithMaxVotes);
+        photonmanager.getInstance().photon_instance.maps[targetMapWithMaxVotes.name] = photonmanager.getInstance().photon_instance.maps[targetMapWithMaxVotes.name] + 1;
+        photonmanager.getInstance().photon_instance.raiseEvent(2000, { name: targetMapWithMaxVotes.name })
         this.targetMapNode = targetMapWithMaxVotes
+
     }
 
     getMapWithMaxVotes() {

@@ -277,7 +277,7 @@
       "__id__": 3
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 7
@@ -4742,7 +4742,9 @@
   },
   {
     "__type__": "cc.ClickEvent",
-    "target": null,
+    "target": {
+      "__id__": 70
+    },
     "component": "",
     "_componentId": "d3775wJ6V1KJLXCiC+qFw5R",
     "handler": "kill_otheractor",
@@ -4880,7 +4882,9 @@
   },
   {
     "__type__": "cc.ClickEvent",
-    "target": null,
+    "target": {
+      "__id__": 70
+    },
     "component": "",
     "_componentId": "d3775wJ6V1KJLXCiC+qFw5R",
     "handler": "zombie_otheractor",
