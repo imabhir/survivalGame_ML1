@@ -1,38 +1,23 @@
-import { _decorator, Component, instantiate, Node, Prefab, Tween, tween, Vec3 } from 'cc';
+import { _decorator, Component, instantiate, Node, Prefab, Tween, tween, Vec3 } from "cc";
 const { ccclass, property } = _decorator;
 
-@ccclass('loginscreen')
+@ccclass("loginscreen")
 export class loginscreen extends Component {
-
-
-
     @property({ type: Prefab })
-
-
     form: Prefab;
 
     @property({ type: Node })
-
-
     button: Node;
-    start() {
-
-    }
+    start() {}
     login() {
-
-        let forms = instantiate(this.form)
-
-
-
+        let forms = instantiate(this.form);
 
         this.node.addChild(forms);
-        this.button.active = false
+        this.button.active = false;
 
-        tween(forms).to(0.2, { scale: new Vec3(1, 1, 1), angle: 360 * 2 })
-            .start()
+        tween(forms)
+            .to(0.2, { scale: new Vec3(1, 1, 1), angle: 360 * 2 })
+            .start();
     }
-    update(deltaTime: number) {
-
-    }
+    update(deltaTime: number) {}
 }
-
