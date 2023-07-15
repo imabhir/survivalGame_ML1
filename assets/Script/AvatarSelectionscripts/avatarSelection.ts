@@ -1,13 +1,33 @@
-import { _decorator, Component, Node, Prefab, instantiate, PageView, Input, Label, AudioClip, director, tween, Vec3, Slider, sys, NodePool, UITransform, randomRangeInt } from 'cc';
-import { audioManager } from '../audio/scripts/audioManager';
+import {
+    _decorator,
+    Component,
+    Node,
+    Prefab,
+    instantiate,
+    PageView,
+    Input,
+    Label,
+    AudioClip,
+    director,
+    tween,
+    Vec3,
+    Slider,
+    sys,
+    NodePool,
+    UITransform,
+    randomRangeInt,
+} from "cc";
+import { audioManager } from "../audio/scripts/audioManager";
 // import { audioManager } from '../../audio/scripts/audioManager';
-import { resourceManager } from '../singleton/resourceManager';
+import { resourceManager } from "../singleton/resourceManager";
 // import { resourceManager } from '../../singleton/resourceManager';
 // import { resourceManager } from '../../resourceManager';
 const { ccclass, property } = _decorator;
-import { photonmanager } from '../../Script/photon/photonmanager';
+import { photonmanager } from "../../Script/photon/photonmanager";
+import { DataHandler } from "../singleton/DataHandler";
+import { loginscreen } from "../loadLogin/loginscreen";
 
-@ccclass('avatarSelection')
+@ccclass("avatarSelection")
 export class avatarSelection extends Component {
     @property({ type: Prefab })
     avatar: Prefab = null;
@@ -47,9 +67,8 @@ export class avatarSelection extends Component {
         // console.log("PersistNode Avatar", director.getScene().getChildByName("PersistNode"));
         // director.getScene().getChildByName("PersistNode").active = false;
 
-        this.BackgroundHeight = this.node.getComponent(UITransform).height
+        this.BackgroundHeight = this.node.getComponent(UITransform).height;
         this.BackgroundWidth = this.node.getComponent(UITransform).width;
-
 
         // this.resourceInstance.loadPrefabs()
         // .then(() => {
@@ -65,51 +84,50 @@ export class avatarSelection extends Component {
         //     this.MusicClip = this.resourceInstance.getMusicFile("AvatarChanging")
         // });
 
-
         this.addSettings();
-        this.addAccountButton()
+        this.addAccountButton();
         this.addAvatar();
 
-        this.startButton.on(Input.EventType.TOUCH_START, this.goToModes)
+        this.startButton.on(Input.EventType.TOUCH_START, this.goToModes);
 
         this.AddItemsInPool();
 
         this.schedule(() => {
             this.GetItemFromPool();
-        }, 0.6)
+        }, 0.6);
         this.b = photonmanager.getInstance().photon_instance;
         this.b.start();
 
-        this.applyMusic()
+        this.applyMusic();
     }
 
     AddItemsInPool() {
         for (let i = 0; i <= 5; i++) {
-            const avatar = instantiate(this.avatar)
+            const avatar = instantiate(this.avatar);
             avatar.getComponent(UITransform).height = 100;
             avatar.getComponent(UITransform).width = 100;
-            this.pool1.put(avatar)
-            avatar.on(Input.EventType.TOUCH_START, this.randomMovement, this)
+            this.pool1.put(avatar);
+            avatar.on(Input.EventType.TOUCH_START, this.randomMovement, this);
         }
     }
 
     randomMovement(event) {
-        const randomPosX = randomRangeInt((-1) * this.BackgroundWidth / 2, this.BackgroundWidth / 2)
-        const randomPosY = randomRangeInt((-1) * this.BackgroundHeight / 2, this.BackgroundHeight / 2)
+        const randomPosX = randomRangeInt((-1 * this.BackgroundWidth) / 2, this.BackgroundWidth / 2);
+        const randomPosY = randomRangeInt((-1 * this.BackgroundHeight) / 2, this.BackgroundHeight / 2);
         tween(event.target)
             .to(4, { position: new Vec3(randomPosX, randomPosY), angle: 360 })
-            .start()
+            .start();
     }
 
     angle;
     GetItemFromPool() {
         if (this.pool1.size()) {
-            const player = this.pool1.get()
-            const playerHeight = player.getComponent(UITransform).height
-            const randomPosX = randomRangeInt((-1) * this.BackgroundWidth / 2, this.BackgroundWidth / 2)
-            const randomPosY = randomRangeInt((-1) * this.BackgroundHeight / 2, this.BackgroundHeight / 2)
+            const player = this.pool1.get();
+            const playerHeight = player.getComponent(UITransform).height;
+            const randomPosX = randomRangeInt((-1 * this.BackgroundWidth) / 2, this.BackgroundWidth / 2);
+            const randomPosY = randomRangeInt((-1 * this.BackgroundHeight) / 2, this.BackgroundHeight / 2);
 
-            player.setPosition(randomPosX, randomPosY)
+            player.setPosition(randomPosX, randomPosY);
 
             this.cnt++;
 
@@ -119,9 +137,8 @@ export class avatarSelection extends Component {
                 this.angle = -360;
             }
 
-
-            this.animatePlayer(player, this.angle)
-            this.playerAnimation.addChild(player)
+            this.animatePlayer(player, this.angle);
+            this.playerAnimation.addChild(player);
         }
     }
 
@@ -131,49 +148,47 @@ export class avatarSelection extends Component {
 
     checkPlayerPos(pool1, deltaTime) {
         this.playerAnimation.children.forEach((element, index) => {
-            const BackgroundHeight = this.node.getComponent(UITransform).height
-            const playerHeight = element.getComponent(UITransform).height
+            const BackgroundHeight = this.node.getComponent(UITransform).height;
+            const playerHeight = element.getComponent(UITransform).height;
             const PlayerPos = element.getPosition();
 
             if (index & 1) {
                 PlayerPos.x += 5 * deltaTime;
             } else {
-                PlayerPos.y -= 5 * deltaTime
+                PlayerPos.y -= 5 * deltaTime;
             }
 
+            element.setPosition(PlayerPos.x, PlayerPos.y);
 
-            element.setPosition(PlayerPos.x, PlayerPos.y)
-
-            if (PlayerPos.y < (-1) * (BackgroundHeight * 0.5)) {
-                this.pool1.put(element)
+            if (PlayerPos.y < -1 * (BackgroundHeight * 0.5)) {
+                this.pool1.put(element);
             }
-        })
+        });
     }
-
 
     addAccountButton = () => {
-        const account = instantiate(this.resourceInstance.GetPrefab("Account"))
-        account.on(Input.EventType.TOUCH_START, this.openAccountInfo)
-        this.node.addChild(account)
-    }
+        const account = instantiate(this.resourceInstance.GetPrefab("Account"));
+        account.on(Input.EventType.TOUCH_START, this.openAccountInfo);
+        this.node.addChild(account);
+    };
 
     openAccountInfo = () => {
         if (this.AccountNode.children.length == 0) {
-            const AccountInfo = instantiate(this.resourceInstance.GetPrefab("AccountSettings"))
-            this.AccountNode.addChild(AccountInfo)
-            AccountInfo.parent.setSiblingIndex(this.node.children.length)
+            const AccountInfo = instantiate(this.resourceInstance.GetPrefab("AccountSettings"));
+            this.AccountNode.addChild(AccountInfo);
+            AccountInfo.parent.setSiblingIndex(this.node.children.length);
         }
-    }
+    };
 
     /**
      * Adding settings icon to avatar selection scene
      */
 
     addSettings = () => {
-        const setting = instantiate(this.resourceInstance.GetPrefab("Settings"))
-        setting.on(Input.EventType.TOUCH_START, this.openSettings)
-        this.node.addChild(setting)
-    }
+        const setting = instantiate(this.resourceInstance.GetPrefab("Settings"));
+        setting.on(Input.EventType.TOUCH_START, this.openSettings);
+        this.node.addChild(setting);
+    };
 
     /**
      * Opening of settings
@@ -181,12 +196,11 @@ export class avatarSelection extends Component {
 
     openSettings = () => {
         if (this.SettingsNode.children.length == 0) {
-            let settingsControls = instantiate(this.resourceInstance.GetPrefab("SettingsControls"))
-            this.SettingsNode.addChild(settingsControls)
-            settingsControls.parent.setSiblingIndex(this.node.children.length)
+            let settingsControls = instantiate(this.resourceInstance.GetPrefab("SettingsControls"));
+            this.SettingsNode.addChild(settingsControls);
+            settingsControls.parent.setSiblingIndex(this.node.children.length);
         }
-    }
-
+    };
 
     /**
      * This functions applies the audio to the scene
@@ -195,16 +209,15 @@ export class avatarSelection extends Component {
     applyMusic = () => {
         console.log("Prefab arrr...................", this.resourceInstance.PrefabArr);
 
-        const music = instantiate(this.resourceInstance.GetPrefab("Music"))
-        this.node.addChild(music)
+        const music = instantiate(this.resourceInstance.GetPrefab("Music"));
+        this.node.addChild(music);
         console.log("Music", music);
 
-
         // this.scheduleOnce(() => {
-        const clip = this.resourceInstance.getMusicFile("audio1")
-        this.audioInstance.playMusicClip(clip, true)
+        const clip = this.resourceInstance.getMusicFile("audio1");
+        this.audioInstance.playMusicClip(clip, true);
         // }, 0.7)
-    }
+    };
 
     /**
      * This function is used for adding avatars
@@ -215,17 +228,17 @@ export class avatarSelection extends Component {
             this.pageView.content.addChild(avatar);
             // avatar.getChildByName("Name").getComponent(Label).string = this.names[i]
         }
-    }
+    };
 
     /**
      * This function is used for sliding the avatar forward. Button click event is applied on button.
      */
     changeAvatarForward() {
         let currentIndex = this.pageView.getCurrentPageIndex();
-        this.pageView.setCurrentPageIndex(currentIndex + 1)
+        this.pageView.setCurrentPageIndex(currentIndex + 1);
 
-        const clip = this.resourceInstance.getMusicFile("AvatarChanging")
-        this.audioInstance.playSoundEffect(clip)
+        const clip = this.resourceInstance.getMusicFile("AvatarChanging");
+        this.audioInstance.playSoundEffect(clip);
     }
 
     /**
@@ -233,47 +246,41 @@ export class avatarSelection extends Component {
      */
     changeAvatarBackWard() {
         let currentIndex = this.pageView.getCurrentPageIndex();
-        this.pageView.setCurrentPageIndex(currentIndex - 1)
+        this.pageView.setCurrentPageIndex(currentIndex - 1);
 
-        const clip = this.resourceInstance.getMusicFile("AvatarChanging")
-        this.audioInstance.playSoundEffect(clip)
+        const clip = this.resourceInstance.getMusicFile("AvatarChanging");
+        this.audioInstance.playSoundEffect(clip);
     }
 
     /**
      * Changing the scene
      */
     goToModes = () => {
-        director.loadScene("Modes")
-    }
+        DataHandler.Instance.loginScreen.getComponent(loginscreen).selectMode();
+        // director.loadScene("Modes");
+    };
 
     start() {
         // async fetchResource(){
         //     this.spriteArr = await singletonInstance.resourceLoad();
         //     this.fetchBackground();
         // }
-
         // /**
         //  * This function is setting the background image
         //  */
-
         // fetchBackground(){
         //     let backgroundImage = this.spriteArr[singletonInstance.indexAsset("bg")];
         //     this.background.getComponent(Sprite).spriteFrame = backgroundImage;
-
-
         //     tween(this.loader).by(4, {angle: -360}).repeatForever().start();
-
         //     setTimeout(() => {
         //         this.node.getChildByName("loading icon").active = false;
         //         this.node.getChildByName("loader").active = false;
         //         this.fetchLogo();
         //     }, 2000)
-
         // }
     }
 
     update(deltaTime: number) {
-        this.checkPlayerPos(this.pool1, deltaTime)
+        this.checkPlayerPos(this.pool1, deltaTime);
     }
 }
-

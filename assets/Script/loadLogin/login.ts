@@ -1,10 +1,12 @@
-import { _decorator, Component, Node, director, EditBox, Input, instantiate, Label, Color, tween, log, Vec3 } from 'cc';
-import { gameData } from '../singleton/gameData';
-import { resourceManager } from '../singleton/resourceManager';
+import { _decorator, Component, Node, director, EditBox, Input, instantiate, Label, Color, tween, log, Vec3 } from "cc";
+import { gameData } from "../singleton/gameData";
+import { resourceManager } from "../singleton/resourceManager";
+import { DataHandler } from "../singleton/DataHandler";
+import { loginscreen } from "./loginscreen";
 // import { persistNode } from '../../persistNode';
 const { ccclass, property } = _decorator;
 
-@ccclass('login')
+@ccclass("login")
 export class load extends Component {
     @property({ type: EditBox })
     username: EditBox = null;
@@ -17,13 +19,15 @@ export class load extends Component {
 
     // UserName and Password Format
     obj = {
-        "UserNameFormat": "⚫   The number of characters must be between 5 and 15. \n ⚫  The string should only contain alphanumeric characters and/or underscores (_). \n ⚫  The first character of the string should be alphabetic.",
+        UserNameFormat:
+            "⚫   The number of characters must be between 5 and 15. \n ⚫  The string should only contain alphanumeric characters and/or underscores (_). \n ⚫  The first character of the string should be alphabetic.",
 
-        "PasswordFormat": "⚫  At least one digit, one lowercase letter must be there. \n ⚫  At least one uppercase letter and one special character must be there. \n ⚫  It must be at least 8 characters long."
-    }
+        PasswordFormat:
+            "⚫  At least one digit, one lowercase letter must be there. \n ⚫  At least one uppercase letter and one special character must be there. \n ⚫  It must be at least 8 characters long.",
+    };
 
-    resourceInstance = resourceManager.getInstance()
-    gameDataInstance = gameData.getInstance()
+    resourceInstance = resourceManager.getInstance();
+    gameDataInstance = gameData.getInstance();
     PopUp;
     persistNode;
     onLoad() {
@@ -32,13 +36,12 @@ export class load extends Component {
         // this.persistNode = director.getScene().getChildByName("PersistNode")
         // this.persistNode.active = false;
 
-
         // this.resourceInstance.loadPrefabs()
         // .then((prefab) => {
 
-        this.PopUp = instantiate(this.resourceInstance.GetPrefab("PopUp"))
+        this.PopUp = instantiate(this.resourceInstance.GetPrefab("PopUp"));
 
-        this.node.addChild(this.PopUp)
+        this.node.addChild(this.PopUp);
         // })
 
         // this.scheduleOnce(() => {
@@ -48,19 +51,18 @@ export class load extends Component {
         // this.node.addChild(this.PopUp)
         // }, 0.8)
 
-
         // this.persistNode = director.getScene().getChildByName("PersistNode");
         // this.persistNode.active = false;
     }
 
     // Show UserName Format on click
     ShowUserNameFormat() {
-        const pos = this.username.node.getPosition()
+        const pos = this.username.node.getPosition();
         if (this.username.getComponent(EditBox).string == "") {
             console.log(this.PopUp);
             if (this.PopUp != null) {
-                this.PopUp.setPosition(pos.x, pos.y - 80)
-                this.PopUp.getComponent(Label).color = Color.WHITE
+                this.PopUp.setPosition(pos.x, pos.y - 80);
+                this.PopUp.getComponent(Label).color = Color.WHITE;
                 this.PopUp.getComponent(Label).string = this.obj.UserNameFormat;
             }
         }
@@ -68,11 +70,11 @@ export class load extends Component {
 
     // Show Password Format
     ShowPasswordFormat() {
-        const pos = this.password.node.getPosition()
+        const pos = this.password.node.getPosition();
         if (this.password.getComponent(EditBox).string == "") {
             // if(this.PopUp != null){
-            this.PopUp.setPosition(pos.x, pos.y - 80)
-            this.PopUp.getComponent(Label).color = Color.WHITE
+            this.PopUp.setPosition(pos.x, pos.y - 80);
+            this.PopUp.getComponent(Label).color = Color.WHITE;
             this.PopUp.getComponent(Label).string = this.obj.PasswordFormat;
             // }
         }
@@ -83,97 +85,95 @@ export class load extends Component {
         // tween(this.LoadingIcon).to(2, {angle: -360}).repeatForever().start()
 
         setTimeout(() => {
-            director.loadScene("Avatar")
+            // director.loadScene("Avatar");
+            DataHandler.Instance.loginScreen.getComponent(loginscreen).selectAvatar();
+            this.node.active = false;
         }, 1000);
     }
 
     Validate() {
-        let UserNameCheck = this.ValidateUserName()
-        let PasswordCheck = this.ValidatePassword()
+        let UserNameCheck = this.ValidateUserName();
+        let PasswordCheck = this.ValidatePassword();
 
         if (UserNameCheck && PasswordCheck) {
             const UserName = this.username.getComponent(EditBox).string;
             // Setting username on login
             // this.gameDataInstance.SetUserName(UserName)
-            this.gameDataInstance.SetSaveUserName(UserName)
+            this.gameDataInstance.SetSaveUserName(UserName);
 
-            this.changeScene()
+            this.changeScene();
             // director.loadScene("Avatar")
         } else {
             if (!UserNameCheck) {
-                const pos = this.username.node.getPosition()
+                const pos = this.username.node.getPosition();
                 if (this.PopUp != null) {
-                    this.PopUp.setPosition(pos.x, pos.y - 60)
+                    this.PopUp.setPosition(pos.x, pos.y - 60);
 
-                    this.PopUp.getComponent(Label).string = "Please Enter a valid email to continue"
-                    this.PopUp.getComponent(Label).color = Color.RED
+                    this.PopUp.getComponent(Label).string = "Please Enter a valid email to continue";
+                    this.PopUp.getComponent(Label).color = Color.RED;
                 }
             } else {
-                const pos = this.password.node.getPosition()
+                const pos = this.password.node.getPosition();
                 if (this.PopUp != null) {
-                    this.PopUp.setPosition(pos.x, pos.y - 60)
+                    this.PopUp.setPosition(pos.x, pos.y - 60);
 
-                    this.PopUp.getComponent(Label).string = "Please Enter a valid Password"
-                    this.PopUp.getComponent(Label).color = Color.RED
+                    this.PopUp.getComponent(Label).string = "Please Enter a valid Password";
+                    this.PopUp.getComponent(Label).color = Color.RED;
                 }
             }
         }
     }
 
     ValidateUserName() {
-        const UserNameRegex = new RegExp('^[A-Za-z]\\w{4,14}$')
-        const UserNameString = this.username.getComponent(EditBox).string
-        let EditBoxPosition = this.username.node.getPosition()
+        const UserNameRegex = new RegExp("^[A-Za-z]\\w{4,14}$");
+        const UserNameString = this.username.getComponent(EditBox).string;
+        let EditBoxPosition = this.username.node.getPosition();
         if (this.PopUp != null) {
-            this.PopUp.setPosition(EditBoxPosition.x, EditBoxPosition.y - 60)
+            this.PopUp.setPosition(EditBoxPosition.x, EditBoxPosition.y - 60);
         }
 
         if (UserNameRegex.test(UserNameString) || 1) {
-            this.PopUp.getComponent(Label).string = "Valid"
-            this.PopUp.getComponent(Label).color = Color.GREEN
-            return true
+            this.PopUp.getComponent(Label).string = "Valid";
+            this.PopUp.getComponent(Label).color = Color.GREEN;
+            return true;
         } else {
-            this.PopUp.getComponent(Label).string = "Please Enter a valid UserName to continue"
-            this.PopUp.getComponent(Label).color = Color.RED
+            this.PopUp.getComponent(Label).string = "Please Enter a valid UserName to continue";
+            this.PopUp.getComponent(Label).color = Color.RED;
             return false;
         }
     }
 
     ValidatePassword() {
-        const PasswordRegex = new RegExp("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,}$")
-        const PasswordString = this.password.getComponent(EditBox).string
-        let EditBoxPosition = this.password.node.getPosition()
+        const PasswordRegex = new RegExp("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,}$");
+        const PasswordString = this.password.getComponent(EditBox).string;
+        let EditBoxPosition = this.password.node.getPosition();
         if (this.PopUp != null) {
-            this.PopUp.setPosition(EditBoxPosition.x, EditBoxPosition.y - 60)
+            this.PopUp.setPosition(EditBoxPosition.x, EditBoxPosition.y - 60);
         }
 
         if (PasswordRegex.test(PasswordString) || 1) {
-            this.PopUp.getComponent(Label).string = "Valid"
-            this.PopUp.getComponent(Label).color = Color.GREEN
-            return true
+            this.PopUp.getComponent(Label).string = "Valid";
+            this.PopUp.getComponent(Label).color = Color.GREEN;
+            return true;
         } else {
-            this.PopUp.getComponent(Label).string = "Please Enter a valid Password"
-            this.PopUp.getComponent(Label).color = Color.RED
+            this.PopUp.getComponent(Label).string = "Please Enter a valid Password";
+            this.PopUp.getComponent(Label).color = Color.RED;
             return false;
         }
     }
 
-
-
     close() {
         console.log("closed");
 
-        this.node.parent.getChildByName("login").active = true
-        tween(this.node).to(0.2, { scale: new Vec3(0, 0, 0) })
+        // this.node.parent.getChildByName("login").active = true
+        tween(this.node)
+            .to(0.2, { scale: new Vec3(0, 0, 0) })
             .call(() => {
                 this.node.destroy();
-            }).start()
+            })
+            .start();
     }
-    start() {
+    start() {}
 
-    }
-
-    update(deltaTime: number) {
-
-    }
-}   
+    update(deltaTime: number) {}
+}

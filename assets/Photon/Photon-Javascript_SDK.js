@@ -198,7 +198,7 @@ var Exitgames;
                                 logMethod = console["log"];
                             }
                             if (logMethod) {
-                                logMethod.apply(console, [this.prefix, msg].concat(optionalParams));
+                                // logMethod.apply(console, [this.prefix, msg].concat(optionalParams));
                             }
                         }
                         catch (error) {

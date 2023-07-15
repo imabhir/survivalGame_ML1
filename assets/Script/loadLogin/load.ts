@@ -1,8 +1,8 @@
-import { _decorator, Component, Node, tween, director, ProgressBar, Label } from 'cc';
-import { resourceManager } from '../singleton/resourceManager';
+import { _decorator, Component, Node, tween, director, ProgressBar, Label } from "cc";
+import { resourceManager } from "../singleton/resourceManager";
 const { ccclass, property } = _decorator;
 
-@ccclass('load')
+@ccclass("load")
 export class login extends Component {
     @property(ProgressBar)
     Progressbar: ProgressBar = null;
@@ -10,24 +10,20 @@ export class login extends Component {
     @property(Label)
     loadMessage: Label = null;
 
-    resourceInstance = resourceManager.getInstance()
+    resourceInstance = resourceManager.getInstance();
     flag = true;
 
-    onLoad() {
-
-    }
+    onLoad() {}
 
     start() {
         setTimeout(() => {
             this.resourceInstance.loadMusic().then((audios) => {
                 console.log("Music Loaded", audios);
-
-            })
+            });
 
             this.resourceInstance.loadPrefabs().then((prefabs) => {
                 console.log("Prefabs Loaded", prefabs);
-
-            })
+            });
             // this.resourceInstance.GetTotalItems();
             // console.log("total cnt: " + this.resourceInstance.TotalCount);
             // this.resourceInstance.GetTotalItems()
@@ -42,13 +38,10 @@ export class login extends Component {
             this.flag = false;
             console.log("Change Scene To Login");
 
-            director.loadScene("Login")
+            director.loadScene("Login");
         }
-
 
         // this.loadMessage.string = this.resourceInstance.loadingMessage;
         this.Progressbar.getComponent(ProgressBar).progress = percentage / 100;
-
     }
 }
-
