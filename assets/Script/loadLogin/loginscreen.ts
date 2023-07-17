@@ -1,7 +1,6 @@
 import { _decorator, Component, instantiate, Label, log, Node, Prefab, ProgressBar, Tween, tween, Vec3 } from "cc";
 import { resourceManager } from "../singleton/resourceManager";
 import { DataHandler } from "../singleton/DataHandler";
-import { avatarSelection } from "../AvatarSelectionscripts/avatarSelection";
 const { ccclass, property } = _decorator;
 
 @ccclass("loginscreen")
@@ -26,8 +25,15 @@ export class loginscreen extends Component {
     flag = true;
     avatarSelectionNode: Node = null;
     modeSelectionNode: Node = null;
-    start() {
+
+    protected onLoad(): void {
         DataHandler.Instance.loginScreen = this.node;
+
+    }
+    start() {
+        console.log("start call ");
+
+
         setTimeout(() => {
             this.resourceInstance.loadMusic().then((audios) => {
                 console.log("Music Loaded", audios);
@@ -77,5 +83,5 @@ export class loginscreen extends Component {
         this.avatarSelectionNode.active = true;
         this.modeSelectionNode.destroy();
     };
-    update(deltaTime: number) {}
+    update(deltaTime: number) { }
 }

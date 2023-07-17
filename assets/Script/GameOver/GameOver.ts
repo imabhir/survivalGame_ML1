@@ -2,6 +2,8 @@ import { Director, color, director, log } from 'cc';
 import { Color } from 'cc';
 import { UITransform } from 'cc';
 import { _decorator, Component, instantiate, Node, Prefab, Sprite, tween, Vec3 } from 'cc';
+import { DataHandler } from '../singleton/DataHandler';
+import { loginscreen } from '../loadLogin/loginscreen';
 const { ccclass, property } = _decorator;
 
 @ccclass('GameOver')
@@ -97,7 +99,10 @@ export class GameOver extends Component {
     tolobby() {
 
 
-        director.loadScene("Avatar")
+        director.loadScene("Login", () => {
+            console.log("Logged", DataHandler.Instance.loginScreen);
+            DataHandler.Instance.loginScreen.getComponent(loginscreen).selectAvatar();
+        })
     }
     update(deltaTime: number) {
 

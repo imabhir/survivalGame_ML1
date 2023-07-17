@@ -125,8 +125,8 @@ export class walls extends Component {
     intervaloffire: number = 0;
     rateoffire: number = 10;
     Timer: Node;
-    Min: number = 5;
-    Sec: number = 0;
+    Min: number = 0;
+    Sec: number = 4;
     collided: boolean = false;
     onLoad() {
         PhysicsSystem2D.instance.enable = true;
@@ -191,7 +191,7 @@ export class walls extends Component {
                 }
             });
     }
-    setUpConnection() {}
+    setUpConnection() { }
     touchEventsFunc() {
         //touch events handler
         this.joyStickBall.on(Node.EventType.TOUCH_START, this.touchStart, this);
@@ -516,11 +516,11 @@ export class walls extends Component {
         let position = this.node.getComponent(UITransform).convertToNodeSpaceAR(this.player.getPosition());
         this.player_bb = new Rect(
             position.x +
-                this.node.getComponent(UITransform).width * 0.5 -
-                this.player.getComponent(UITransform).width * 0.5,
+            this.node.getComponent(UITransform).width * 0.5 -
+            this.player.getComponent(UITransform).width * 0.5,
             position.y +
-                this.node.getComponent(UITransform).height * 0.5 -
-                this.player.getComponent(UITransform).height * 0.5,
+            this.node.getComponent(UITransform).height * 0.5 -
+            this.player.getComponent(UITransform).height * 0.5,
             this.player.getComponent(UITransform).width,
             this.player.getComponent(UITransform).height
         );
