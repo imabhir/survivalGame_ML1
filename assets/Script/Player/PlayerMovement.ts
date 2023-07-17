@@ -1,15 +1,48 @@
-import { _decorator, Component, Node, UITransform, Vec3, Vec2, Animation, ImageAsset, SpriteFrame, Sprite, PhysicsSystem, PhysicsSystem2D, AudioClip, AudioSourceComponent, Collider2D, Contact2DType, IPhysics2DContact, Camera, log, EPhysics2DDrawFlags, TiledMap, instantiate, Prefab, randomRangeInt, RigidBody, RigidBody2D, BoxCollider2D, CircleCollider2D, v3, math, Color, Label, Rect, Button } from "cc";
+import {
+    _decorator,
+    Component,
+    Node,
+    UITransform,
+    Vec3,
+    Vec2,
+    Animation,
+    ImageAsset,
+    SpriteFrame,
+    Sprite,
+    PhysicsSystem,
+    PhysicsSystem2D,
+    AudioClip,
+    AudioSourceComponent,
+    Collider2D,
+    Contact2DType,
+    IPhysics2DContact,
+    Camera,
+    log,
+    EPhysics2DDrawFlags,
+    TiledMap,
+    instantiate,
+    Prefab,
+    randomRangeInt,
+    RigidBody,
+    RigidBody2D,
+    BoxCollider2D,
+    CircleCollider2D,
+    v3,
+    math,
+    Color,
+    Label,
+    Rect,
+    Button,
+    ERigidBody2DType,
+} from "cc";
 import { Room } from "../../../extensions/colyseus-sdk/runtime/colyseus";
-import { Event } from "../photon/photonconstants"
+import { Event } from "../photon/photonconstants";
 import { walls } from "../wallscollisions";
 import { photonmanager } from "../photon/photonmanager";
 import photon from "../photon/photon";
 import { Photonevents } from "../photon/cloud-app-info";
 import { color } from "cc";
 const { ccclass, property } = _decorator;
-
-
-
 
 @ccclass("PlayerMovement")
 export class PlayerMovement extends Component {
@@ -30,7 +63,7 @@ export class PlayerMovement extends Component {
     @property({ type: Node })
     map: Node = null;
     @property({ type: Prefab })
-    player_prefab: Prefab = null
+    player_prefab: Prefab = null;
     @property({ type: Node })
     notification: Node = null;
     @property({ type: Node })
@@ -41,6 +74,10 @@ export class PlayerMovement extends Component {
     zombieskillbutton: Node = null;
     @property({ type: Node })
     zombiesmakebutton: Node = null;
+    @property({ type: Node })
+    tiledMapNode: Node = null;
+    @property({ type: Node })
+    intrectibleNode: Node = null;
     pos: Vec2 = null;
     startPos: Vec3 = null;
     intialPos: Vec3 = null;
@@ -48,13 +85,13 @@ export class PlayerMovement extends Component {
     finalPos: Vec3 = null;
     canMovePlayer: boolean = false;
     collided: boolean = false;
-    collisionangle: number = null
-    playerSpeed: number = 0.1
+    collisionangle: number = null;
+    playerSpeed: number = 0.1;
     touchenabled: boolean = true;
     count: number = 0;
-    anlges: number = 0
+    anlges: number = 0;
     actors: any;
-    photon_instance
+    photon_instance;
     health: any = 10;
     killed_actor: Node;
     kill_button_checker: number = 0;
@@ -66,83 +103,142 @@ export class PlayerMovement extends Component {
         this.startPos = this.joyStickBall.getPosition();
         this.photon_instance = photonmanager.getInstance().photon_instance;
         this.photon_instance.player_movements = this;
-
-
+        // this.addRigidBody();
     }
+    addRigidBody() {
+        console.log("add rigid body ");
 
+        this.tiledMapNode
+            .getComponent(TiledMap)
+            .getObjectGroup("interactables")
+            .getObjects()
+            .forEach((e) => {
+                console.log("e loaction ", e.x, e.y, e.height, e.width, e);
+
+                var node = new Node();
+                this.intrectibleNode.addChild(node);
+                // node.setPosition(e.x, e.y);
+
+                var position: Vec3 = this.node.parent
+                    .getComponent(UITransform)
+                    .convertToNodeSpaceAR(new Vec3(e.x, e.y, 0));
+                console.log("postion ", position);
+
+                node.setPosition(position);
+                node.name = "game1";
+                node.addComponent(UITransform);
+                node.getComponent(UITransform).height = e.height;
+                node.getComponent(UITransform).width = e.width;
+                node.addComponent(RigidBody2D);
+                node.getComponent(RigidBody2D).type = ERigidBody2DType.Static;
+                node.getComponent(RigidBody2D).allowSleep = false;
+                node.getComponent(RigidBody2D).awakeOnLoad = true;
+                node.getComponent(RigidBody2D).gravityScale = 0;
+                node.getComponent(RigidBody2D).allowSleep = true;
+                let collider = node.addComponent(BoxCollider2D);
+                // collider.size=
+                // let collider = tile.addComponent(BoxCollider2D);
+                // collider.size = tilesize;
+                collider.density = 1000;
+                collider.restitution = 0;
+                collider.offset = new Vec2(0, 0);
+                collider.apply();
+                console.log("new Node component  ", node);
+            });
+    }
     start() {
         console.log("jdkbak");
 
         this.touchEventsFunc();
         PhysicsSystem2D.instance.enable = true;
-        if (PhysicsSystem2D.instance) {//physics handler to check for collsions
+        // PhysicsSystem2D.instance.debugDrawFlags = EPhysics2DDrawFlags.All;
+        if (PhysicsSystem2D.instance) {
+            //physics handler to check for collsions
             PhysicsSystem2D.instance.on(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this);
-            PhysicsSystem2D.instance.on(Contact2DType.END_CONTACT, () => { this.collided = false; }, this);
+            PhysicsSystem2D.instance.on(
+                Contact2DType.END_CONTACT,
+                () => {
+                    this.collided = false;
+                },
+                this
+            );
         }
         this.photon_instance.myActor().setCustomProperty("health", this.health);
         // this.photon_instance.myActor().setCustomProperty("zombie", false);
 
         if (this.photon_instance.myActor().getCustomProperty("zombie")) {
-
             this.node.getComponent(Sprite).color = Color.GREEN;
             this.node.getComponent(CircleCollider2D).group = 1 << 2;
             this.node.getComponent(RigidBody2D).group = 1 << 2;
-            this.playershud.active = false
-            this.zombieshud.active = true
-            this.zombiesmakebutton.getComponent(Button).interactable = false
-            this.zombieskillbutton.getComponent(Button).interactable = false
-            var zombielocations = this.map.getComponent(TiledMap).getObjectGroup("zombielocation").getObjects()
-            let locations = this.node.getComponent(UITransform).convertToWorldSpaceAR(new Vec3(zombielocations[0].x, zombielocations[0].y, 0))
-            locations = this.node.getComponent(UITransform).convertToNodeSpaceAR(locations)
+            this.playershud.active = false;
+            this.zombieshud.active = true;
+            this.zombiesmakebutton.getComponent(Button).interactable = false;
+            this.zombieskillbutton.getComponent(Button).interactable = false;
+            var zombielocations = this.map.getComponent(TiledMap).getObjectGroup("zombielocation").getObjects();
+            let locations = this.node
+                .getComponent(UITransform)
+                .convertToWorldSpaceAR(new Vec3(zombielocations[0].x, zombielocations[0].y, 0));
+            locations = this.node.getComponent(UITransform).convertToNodeSpaceAR(locations);
             locations.x = locations.x - this.map.getComponent(UITransform).width * 0.5;
             locations.y = locations.y - this.map.getComponent(UITransform).height * 0.5;
-            this.node.setPosition(locations)
-
-        }
-        else {
-            this.zombieshud.active = false
-            var playerlocations = this.map.getComponent(TiledMap).getObjectGroup("playerlocation").getObjects()
-            let location = this.node.getComponent(UITransform).convertToWorldSpaceAR(new Vec3(playerlocations[0].x, playerlocations[0].y, 0))
-            location = this.node.getComponent(UITransform).convertToNodeSpaceAR(location)
+            this.node.setPosition(locations);
+        } else {
+            this.zombieshud.active = false;
+            var playerlocations = this.map.getComponent(TiledMap).getObjectGroup("playerlocation").getObjects();
+            let location = this.node
+                .getComponent(UITransform)
+                .convertToWorldSpaceAR(new Vec3(playerlocations[0].x, playerlocations[0].y, 0));
+            location = this.node.getComponent(UITransform).convertToNodeSpaceAR(location);
             location.x = location.x - this.map.getComponent(UITransform).width * 0.5;
             location.y = location.y - this.map.getComponent(UITransform).height * 0.5;
-            this.node.setPosition(location)
+            this.node.setPosition(location);
         }
         this.addedactor(this.photon_instance.myActor());
-
-
     }
-    onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {//collsion callback functions
+    onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
+        //collsion callback functions
+        console.log("game 1 collider ", otherCollider.node.name);
+        if (otherCollider.name == "game1") {
+            console.log("game 1 collider ");
+        }
         if (otherCollider.node.name == "bullet") {
-            otherCollider.node.destroy()
+            otherCollider.node.destroy();
             if (selfCollider.node.name[0] != "N" && selfCollider.node.name[1] != "K") {
-                this.photon_instance.raiseEvent(Photonevents.Killotheractor, { name: selfCollider.node.name, position: selfCollider.node.getPosition() });
+                this.photon_instance.raiseEvent(Photonevents.Killotheractor, {
+                    name: selfCollider.node.name,
+                    position: selfCollider.node.getPosition(),
+                });
             }
         }
         if (otherCollider.node.name.slice(1) == "bullet" && selfCollider.node.name[0] != otherCollider.node.name[0]) {
             otherCollider.node.destroy();
-        }
-        else if (otherCollider.node.name == "player" && selfCollider.node.name[0] == otherCollider.node.name[0]) {
+        } else if (otherCollider.node.name == "player" && selfCollider.node.name[0] == otherCollider.node.name[0]) {
             this.node.getComponent(RigidBody2D).linearVelocity = new Vec2(0, 0);
             selfCollider.restitution = 0;
             otherCollider.restitution = 0;
             otherCollider.node.getComponent(Animation).pause();
+        } else if (
+            otherCollider.node.name == "player" &&
+            selfCollider.node.name[0] != otherCollider.node.name[0] &&
+            selfCollider.node.name.slice(1) == "bullet"
+        ) {
+            selfCollider.node.destroy();
         }
-        else if (otherCollider.node.name == "player" && selfCollider.node.name[0] != otherCollider.node.name[0] && selfCollider.node.name.slice(1) == "bullet") {
-            selfCollider.node.destroy()
-        }
-
     }
-    touchEventsFunc() {//touch events handler
+    touchEventsFunc() {
+        //touch events handler
         this.joyStickBall.on(Node.EventType.TOUCH_START, this.touchStart, this);
-        this.joyStickBall.on(Node.EventType.TOUCH_MOVE, (e) => {
-            if (this.touchenabled) {
-                this.touchMove(e)
-            }
-            else {
-                this.touchEnd();
-            }
-        }, this);
+        this.joyStickBall.on(
+            Node.EventType.TOUCH_MOVE,
+            (e) => {
+                if (this.touchenabled) {
+                    this.touchMove(e);
+                } else {
+                    this.touchEnd();
+                }
+            },
+            this
+        );
 
         this.joyStickBall.on(Node.EventType.TOUCH_END, this.touchEnd, this);
         this.joyStickBall.on(Node.EventType.TOUCH_CANCEL, this.touchEnd, this);
@@ -152,8 +248,8 @@ export class PlayerMovement extends Component {
         this.joyStickBall.setPosition(0, 0, 0);
         this.photon_instance.myActor().setCustomProperty("angle", null);
         this.node.getComponent(Animation)?.pause();
-        this.node.getComponent(RigidBody2D).linearVelocity = new Vec2(0, 0)
-        this.intialPos = new Vec3(0, 0, 0)
+        this.node.getComponent(RigidBody2D).linearVelocity = new Vec2(0, 0);
+        this.intialPos = new Vec3(0, 0, 0);
     }
     touchStart() {
         this.joyStickBall.setPosition(0, 0, 0);
@@ -169,11 +265,19 @@ export class PlayerMovement extends Component {
     // }
     touchMove(e) {
         //functionality to check if the touch is wihtin the limit for the joystick to be enabled
-        let first_touch = this.controller.getComponent(UITransform).convertToNodeSpaceAR(new Vec3(e.getUILocation().x, e.getUILocation().y, e.getUILocation().z))
-        let final_touch = new Vec2(this.startPos.x - first_touch.x, this.startPos.y - first_touch.y)
-        let width_check = new Vec3(this.controller.parent.getComponent(UITransform).width / 2 - this.controller.getComponent(UITransform).width / 2, this.controller.parent.getComponent(UITransform).height / 2 - this.controller.getComponent(UITransform).width / 2, 0)
+        let first_touch = this.controller
+            .getComponent(UITransform)
+            .convertToNodeSpaceAR(new Vec3(e.getUILocation().x, e.getUILocation().y, e.getUILocation().z));
+        let final_touch = new Vec2(this.startPos.x - first_touch.x, this.startPos.y - first_touch.y);
+        let width_check = new Vec3(
+            this.controller.parent.getComponent(UITransform).width / 2 -
+                this.controller.getComponent(UITransform).width / 2,
+            this.controller.parent.getComponent(UITransform).height / 2 -
+                this.controller.getComponent(UITransform).width / 2,
+            0
+        );
         if (final_touch.length() > width_check.length()) {
-            this.touchenabled = false
+            this.touchenabled = false;
             this.touchEnd();
         }
         let y = e.touch.getUILocationY();
@@ -186,7 +290,7 @@ export class PlayerMovement extends Component {
         let thumbnailPosition = v3();
         let lens = localPosition.length();
         localPosition.normalize();
-        let radius = this.intialPos.x * joyStickBallBaseWidth / len;
+        let radius = (this.intialPos.x * joyStickBallBaseWidth) / len;
         Vec3.scaleAndAdd(thumbnailPosition, v3(), localPosition, math.clamp(lens, 0, 60));
         var dy = thumbnailPosition.y;
         var dx = thumbnailPosition.x;
@@ -194,11 +298,10 @@ export class PlayerMovement extends Component {
         var angleRad = Math.atan2(dy, dx);
         var angleDeg = (angleRad * 180) / Math.PI;
         this.joyStickBall.setPosition(thumbnailPosition);
-        this.intialPos = thumbnailPosition
+        this.intialPos = thumbnailPosition;
         if (angleDeg < 0) {
-            this.anlges = angleDeg + 360;//convert angle to positive
-        }
-        else {
+            this.anlges = angleDeg + 360; //convert angle to positive
+        } else {
             this.anlges = angleDeg;
         }
         this.getDirection(this.node, this.anlges);
@@ -207,8 +310,8 @@ export class PlayerMovement extends Component {
     getDirection(node, angle) {
         // console.log("config");
         //handling animations according to     joystick movement
-        node.getChildByName("arrow").angle = angle - 90
-        if (angle > 335 && angle < 359 || angle < 25 && angle > 0) {
+        node.getChildByName("arrow").angle = angle - 90;
+        if ((angle > 335 && angle < 359) || (angle < 25 && angle > 0)) {
             this.playWalkAnmation(node, "East");
         } else if (angle > 25 && angle < 75) {
             this.playWalkAnmation(node, "North_East");
@@ -222,8 +325,7 @@ export class PlayerMovement extends Component {
             this.playWalkAnmation(node, "South_West");
         } else if (angle > 245 && angle < 315) {
             this.playWalkAnmation(node, "South");
-        }
-        else {
+        } else {
             this.playWalkAnmation(node, "South_East");
         }
     }
@@ -275,21 +377,25 @@ export class PlayerMovement extends Component {
     addedactor(actor: any) {
         console.log("jfdkl");
 
-        var actors = Object.keys(this.photon_instance.myRoomActors()).map(key => {
+        var actors = Object.keys(this.photon_instance.myRoomActors()).map((key) => {
             return this.photon_instance.myRoomActors()[key];
-        })
-        var playerlocations = this.map.getComponent(TiledMap).getObjectGroup("playerlocation").getObjects()
-        let location = this.node.getComponent(UITransform).convertToWorldSpaceAR(new Vec3(playerlocations[0].x, playerlocations[0].y, 0))
-        location = this.node.getComponent(UITransform).convertToNodeSpaceAR(location)
+        });
+        var playerlocations = this.map.getComponent(TiledMap).getObjectGroup("playerlocation").getObjects();
+        let location = this.node
+            .getComponent(UITransform)
+            .convertToWorldSpaceAR(new Vec3(playerlocations[0].x, playerlocations[0].y, 0));
+        location = this.node.getComponent(UITransform).convertToNodeSpaceAR(location);
         console.log("jfdkl");
 
         location.x = location.x - this.map.getComponent(UITransform).width * 0.5;
         location.y = location.y - this.map.getComponent(UITransform).height * 0.5;
-        var zombielocations = this.map.getComponent(TiledMap).getObjectGroup("zombielocation").getObjects()
+        var zombielocations = this.map.getComponent(TiledMap).getObjectGroup("zombielocation").getObjects();
         console.log("jfdkl");
 
-        let locations = this.node.getComponent(UITransform).convertToWorldSpaceAR(new Vec3(zombielocations[0].x, zombielocations[0].y, 0))
-        locations = this.node.getComponent(UITransform).convertToNodeSpaceAR(locations)
+        let locations = this.node
+            .getComponent(UITransform)
+            .convertToWorldSpaceAR(new Vec3(zombielocations[0].x, zombielocations[0].y, 0));
+        locations = this.node.getComponent(UITransform).convertToNodeSpaceAR(locations);
         console.log("jfdkl");
 
         locations.x = locations.x - this.map.getComponent(UITransform).width * 0.5;
@@ -297,31 +403,31 @@ export class PlayerMovement extends Component {
         console.log(playerlocations);
 
         actors.forEach((actor) => {
-            if (actor.actorNr != this.photon_instance.myActor().actorNr && !this.node.parent.getChildByName(actor.actorNr.toString())) {
+            if (
+                actor.actorNr != this.photon_instance.myActor().actorNr &&
+                !this.node.parent.getChildByName(actor.actorNr.toString())
+            ) {
                 // console.log(actor.actorNr);
-                let player = instantiate(this.player_prefab)
-                player.setPosition(location)
+                let player = instantiate(this.player_prefab);
+                player.setPosition(location);
                 if (actor.getCustomProperty("zombie")) {
-                    player.getComponent(Sprite).color = Color.GREEN
+                    player.getComponent(Sprite).color = Color.GREEN;
                     player.getComponent(BoxCollider2D).group = 1 << 2;
                     player.getComponent(RigidBody2D).group = 1 << 2;
-                    player.setPosition(locations)
+                    player.setPosition(locations);
                 }
 
-
-
-                player.name = actor.actorNr.toString()
+                player.name = actor.actorNr.toString();
                 this.node.parent.addChild(player);
             }
-        })
+        });
         // console.log(this.photon_instance.myRoomActors());
-
     }
     move_actor(actor: any) {
         if (this.node.parent.getChildByName(actor.actorNr.toString()) != null) {
             if (actor.actorNr != this.photon_instance.myActor().actorNr) {
-                var child = this.node.parent.getChildByName(actor.actorNr.toString())
-                child.setPosition(actor.position)
+                var child = this.node.parent.getChildByName(actor.actorNr.toString());
+                child.setPosition(actor.position);
             }
         }
     }
@@ -330,173 +436,185 @@ export class PlayerMovement extends Component {
         if (actor.name != this.photon_instance.myActor().actorNr.toString()) {
             console.log(actor);
             if (e != null)
-                this.photon_instance.raiseEvent(Photonevents.Killotheractors, { name: actor.name, position: actor.position });
+                this.photon_instance.raiseEvent(Photonevents.Killotheractors, {
+                    name: actor.name,
+                    position: actor.position,
+                });
             // console.log("kill");
-        }
-        else {
-
+        } else {
             this.health--;
             this.photon_instance.myActor().setCustomProperty("health", this.health);
             if (this.node.getComponent(Sprite).color.toRGBValue() != Color.GREEN.toRGBValue()) {
-
-
-
-
-
                 this.health--;
-
             }
 
             console.log(actor.name);
             if (this.health == 0) {
-                if (this.node.parent.getChildByName(actor.name + "killedplayer"
-                ) == null) {
+                if (this.node.parent.getChildByName(actor.name + "killedplayer") == null) {
                     if (this.node.getComponent(Sprite).color.toRGBValue() != Color.GREEN.toRGBValue()) {
-
-
-
-
-
-
                         let killed_sprites = instantiate(this.player_prefab);
-                        killed_sprites.name = actor.name + "killedplayer"
-                        killed_sprites.setPosition(new Vec3(actor.position.x, actor.position.y, 0))
+                        killed_sprites.name = actor.name + "killedplayer";
+                        killed_sprites.setPosition(new Vec3(actor.position.x, actor.position.y, 0));
                         console.log(new Vec3(actor.position.x, actor.position.y, 0));
                         console.log(killed_sprites);
-                        killed_sprites.getComponent(RigidBody2D).enabled = false
+                        killed_sprites.getComponent(RigidBody2D).enabled = false;
 
-
-                        killed_sprites.getComponent(BoxCollider2D).enabled = false
+                        killed_sprites.getComponent(BoxCollider2D).enabled = false;
                         // killed_sprites.getComponent(RigidBody2D).enabled=false
                         killed_sprites.getComponent(Sprite).spriteFrame = this.killed_player_image;
                         // killed_sprites.setScale(new Vec3(0.2, 0.3, 0.5));
                         console.log(killed_sprites.getPosition());
 
                         this.node.parent.addChild(killed_sprites);
-                        this.node.getComponent(Sprite).grayscale = true
+                        this.node.getComponent(Sprite).grayscale = true;
                         if (this.node.getChildByName("gun").children.length != 0)
                             this.node.getChildByName("gun").children[0].destroy();
 
-                        this.playershud.active = false
+                        this.playershud.active = false;
                         this.camera.getComponent(Camera).visibility = 3;
                         this.node.getComponent(CircleCollider2D).enabled = false;
-                        let currentliveplayers = Number(this.photon_instance.myRoom().getCustomProperty("liveplayers")) + 1;
+                        let currentliveplayers =
+                            Number(this.photon_instance.myRoom().getCustomProperty("liveplayers")) + 1;
                         this.photon_instance.myRoom().setCustomProperty("liveplayers", currentliveplayers);
                         console.log(this.photon_instance.myRoom().getCustomProperty("liveplayers"));
 
-                        this.photon_instance.raiseEvent(Photonevents.Killactor, { name: actor.name, position: this.node.getPosition() });
-
-                    }
-                    else {
+                        this.photon_instance.raiseEvent(Photonevents.Killactor, {
+                            name: actor.name,
+                            position: this.node.getPosition(),
+                        });
+                    } else {
                         this.node.active = false;
                         this.joystick.active = false;
-                        setTimeout(() => { this.node.active = true; this.joystick.active = true; this.health = 10; }, 5000)
-                        this.photon_instance.raiseEvent(Photonevents.Killactor, { name: actor.name, position: this.node.getPosition() });
-
+                        setTimeout(() => {
+                            this.node.active = true;
+                            this.joystick.active = true;
+                            this.health = 10;
+                        }, 5000);
+                        this.photon_instance.raiseEvent(Photonevents.Killactor, {
+                            name: actor.name,
+                            position: this.node.getPosition(),
+                        });
                     }
-
                 }
             }
         }
     }
     zombie_otheractor(e, actor: any = { name: this.killed_actor.name }) {
-
-
         console.log(actor);
         if (actor.name != this.photon_instance.myActor().actorNr.toString()) {
-            if (e != null)
-                this.photon_instance.raiseEvent(Photonevents.Zombieotheractor, { name: actor.name });
+            if (e != null) this.photon_instance.raiseEvent(Photonevents.Zombieotheractor, { name: actor.name });
             console.log("kill");
-        }
-        else {
+        } else {
             console.log(actor.name);
-            if (this.node.parent.getChildByName(actor.name + "killedplayer"
-            ) == null && this.node.getComponent(Sprite).color != Color.GREEN) {
+            if (
+                this.node.parent.getChildByName(actor.name + "killedplayer") == null &&
+                this.node.getComponent(Sprite).color != Color.GREEN
+            ) {
                 console.log(this.photon_instance.myRoom().getCustomProperty("totalzombies"));
 
                 if (this.photon_instance.myRoom().getCustomProperty("totalzombies") < 1) {
                     setTimeout(() => {
-                        this.node.getComponent(Sprite).color = Color.GREEN; console.log(actor);
+                        this.node.getComponent(Sprite).color = Color.GREEN;
+                        console.log(actor);
                         this.photon_instance.raiseEvent(Photonevents.Zombieactor, { name: actor.name });
-                    }, randomRangeInt(0, 5) * 1000)
-                    this.playershud.active = false
-                    this.zombieshud.active = true
+                    }, randomRangeInt(0, 5) * 1000);
+                    this.playershud.active = false;
+                    this.zombieshud.active = true;
                     this.node.getComponent(CircleCollider2D).group = 1 << 2;
                     this.node.getComponent(RigidBody2D).group = 1 << 2;
                     let totalzombies = Number(this.photon_instance.myRoom().getCustomProperty("totalzombies")) + 1;
-                    this.photon_instance.myRoom().setCustomProperty("totalzombies", totalzombies)
+                    this.photon_instance.myRoom().setCustomProperty("totalzombies", totalzombies);
                     console.log(this.photon_instance.myRoom().getCustomProperty("totalzombies"));
                     let currentliveplayers = Number(this.photon_instance.myRoom().getCustomProperty("liveplayers")) + 1;
                     this.photon_instance.myRoom().setCustomProperty("liveplayers", currentliveplayers);
                 }
-
-
             }
-
         }
     }
     enableanimation(actorNr: number, content: any) {
         if (this.node.parent.getChildByName(actorNr.toString()) != null) {
-            var child = this.node.parent.getChildByName(actorNr.toString())
-            this.getDirection(child, content)
+            var child = this.node.parent.getChildByName(actorNr.toString());
+            this.getDirection(child, content);
         }
     }
     destroycharacter(actor: Photon.LoadBalancing.Actor) {
         if (this.node.parent.getChildByName(actor.actorNr.toString()) != null) {
-            var child = this.node.parent.getChildByName(actor.actorNr.toString())
+            var child = this.node.parent.getChildByName(actor.actorNr.toString());
             child.destroy();
         }
     }
     update(deltaTime: number) {
         if (this.canMovePlayer) {
-            // this.node.getComponent(RigidBody2D).linearVelocity = new Vec2(0, 0)
-            this.node.getComponent(RigidBody2D).linearVelocity = new Vec2(this.intialPos.x * this.playerSpeed, this.intialPos.y * this.playerSpeed)
+            // console.log("player movement ", this.intialPos.x * this.playerSpeed, this.intialPos.y * this.playerSpeed);
+
+            this.node.getComponent(RigidBody2D).linearVelocity = new Vec2(
+                this.intialPos.x * this.playerSpeed,
+                this.intialPos.y * this.playerSpeed
+            );
             // this.photon_instance.myActor().setCustomProperty("position", this.node.getPosition());
-            this.photon_instance.raiseEvent(Photonevents.Move, { actorNr: this.photon_instance.myActor().actorNr, position: this.node.getPosition() })
+            this.photon_instance.raiseEvent(Photonevents.Move, {
+                actorNr: this.photon_instance.myActor().actorNr,
+                position: this.node.getPosition(),
+            });
         }
         let playerPosition = new Vec3();
         playerPosition = this.node.getPosition();
         this.node.angle = 0;
-        this.node.getComponent(RigidBody2D).angularVelocity = 0
-        this.camera.setPosition(playerPosition.x + this.camera.parent.getComponent(UITransform).width * 0.1, playerPosition.y + this.camera.parent.getComponent(UITransform).height * 0.3);//code for camera movements
-        this.camera000.setPosition(playerPosition.x + this.camera.parent.getComponent(UITransform).width * 0.1, playerPosition.y + this.camera.parent.getComponent(UITransform).height * 0.3);//code for camera movements
+        this.node.getComponent(RigidBody2D).angularVelocity = 0;
+        this.camera.setPosition(
+            playerPosition.x + this.camera.parent.getComponent(UITransform).width * 0.1,
+            playerPosition.y + this.camera.parent.getComponent(UITransform).height * 0.3
+        ); //code for camera movements
+        this.camera000.setPosition(
+            playerPosition.x + this.camera.parent.getComponent(UITransform).width * 0.1,
+            playerPosition.y + this.camera.parent.getComponent(UITransform).height * 0.3
+        ); //code for camera movements
 
         if (this.photon_instance.totalmessages.length == 0) {
-            this.notification.getComponent(Label).string = ""
+            this.notification.getComponent(Label).string = "";
             this.notification.parent.active = false;
-        }
-        else {
+        } else {
             this.notification.parent.active = true;
-            this.notification.getComponent(Label).string = this.photon_instance.totalmessages.length
+            this.notification.getComponent(Label).string = this.photon_instance.totalmessages.length;
         }
-
-
 
         this.node.parent.children.forEach((e) => {
-            e.updateWorldTransform()
-            if (e.getComponent(Sprite).color.toRGBValue() != Color.GREEN.toRGBValue() && !e.getComponent(Sprite).grayscale && e.name != "player" && e.name != "chest" && e.name[1] != "k" && e.name != "bullet") {
-                e.updateWorldTransform()
+            e.updateWorldTransform();
+            if (
+                e.getComponent(Sprite).color.toRGBValue() != Color.GREEN.toRGBValue() &&
+                !e.getComponent(Sprite).grayscale &&
+                e.name != "player" &&
+                e.name != "chest" &&
+                e.name[1] != "k" &&
+                e.name != "bullet"
+            ) {
+                e.updateWorldTransform();
                 let position = e.getWorldPosition();
-                let otherplayer = new Rect(position.x, position.y, e.getComponent(UITransform).width, e.getComponent(UITransform).height)
-                this.node.updateWorldTransform()
-                let myplayer = new Rect(this.node.getWorldPosition().x, this.node.getWorldPosition().y, this.node.getComponent(UITransform).width, this.node.getComponent(UITransform).height)
+                let otherplayer = new Rect(
+                    position.x,
+                    position.y,
+                    e.getComponent(UITransform).width,
+                    e.getComponent(UITransform).height
+                );
+                this.node.updateWorldTransform();
+                let myplayer = new Rect(
+                    this.node.getWorldPosition().x,
+                    this.node.getWorldPosition().y,
+                    this.node.getComponent(UITransform).width,
+                    this.node.getComponent(UITransform).height
+                );
                 if (myplayer.intersects(otherplayer)) {
                     this.zombieskillbutton.getComponent(Button).interactable = true;
                     this.zombiesmakebutton.getComponent(Button).interactable = true;
-                    this.killed_actor = e
+                    this.killed_actor = e;
                     this.kill_button_checker = 1;
-                }
-                else if (this.kill_button_checker == 1) {
+                } else if (this.kill_button_checker == 1) {
                     if (this.killed_actor.name == e.name) {
-                        this.zombieskillbutton.getComponent(Button).interactable = false
-                        this.zombiesmakebutton.getComponent(Button).interactable = false
+                        this.zombieskillbutton.getComponent(Button).interactable = false;
+                        this.zombiesmakebutton.getComponent(Button).interactable = false;
                     }
                 }
             }
-        })
+        });
     }
 }
-
-
-
-

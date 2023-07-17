@@ -198,7 +198,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 758,
+      "width": 745,
       "height": 60
     },
     "_anchorPoint": {
@@ -366,7 +366,7 @@
       "b": 187,
       "a": 255
     },
-    "_string": "Enter text here...",
+    "_string": "Enter text here..",
     "_horizontalAlign": 0,
     "_verticalAlign": 1,
     "_actualFontSize": 20,
@@ -519,6 +519,8 @@
       "__id__": 0
     },
     "fileId": "9amgyNpDlLeJ558+JcSuDR",
+    "instance": null,
+    "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
