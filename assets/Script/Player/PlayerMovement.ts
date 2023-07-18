@@ -34,6 +34,7 @@ import {
     Rect,
     Button,
     ERigidBody2DType,
+    ProgressBar,
 } from "cc";
 import { Room } from "../../../extensions/colyseus-sdk/runtime/colyseus";
 import { Event } from "../photon/photonconstants";
@@ -78,6 +79,8 @@ export class PlayerMovement extends Component {
     tiledMapNode: Node = null;
     @property({ type: Node })
     intrectibleNode: Node = null;
+    @property({ type: ProgressBar })
+    healthBar: ProgressBar = null;
     pos: Vec2 = null;
     startPos: Vec3 = null;
     intialPos: Vec3 = null;
@@ -92,7 +95,7 @@ export class PlayerMovement extends Component {
     anlges: number = 0;
     actors: any;
     photon_instance;
-    health: any = 10;
+    health: number = 10;
     killed_actor: Node;
     kill_button_checker: number = 0;
 
@@ -105,47 +108,10 @@ export class PlayerMovement extends Component {
         this.photon_instance.player_movements = this;
         // this.addRigidBody();
     }
-    addRigidBody() {
-        console.log("add rigid body ");
-
-        this.tiledMapNode
-            .getComponent(TiledMap)
-            .getObjectGroup("interactables")
-            .getObjects()
-            .forEach((e) => {
-                console.log("e loaction ", e.x, e.y, e.height, e.width, e);
-
-                var node = new Node();
-                this.intrectibleNode.addChild(node);
-                // node.setPosition(e.x, e.y);
-
-                var position: Vec3 = this.node.parent
-                    .getComponent(UITransform)
-                    .convertToNodeSpaceAR(new Vec3(e.x, e.y, 0));
-                console.log("postion ", position);
-
-                node.setPosition(position);
-                node.name = "game1";
-                node.addComponent(UITransform);
-                node.getComponent(UITransform).height = e.height;
-                node.getComponent(UITransform).width = e.width;
-                node.addComponent(RigidBody2D);
-                node.getComponent(RigidBody2D).type = ERigidBody2DType.Static;
-                node.getComponent(RigidBody2D).allowSleep = false;
-                node.getComponent(RigidBody2D).awakeOnLoad = true;
-                node.getComponent(RigidBody2D).gravityScale = 0;
-                node.getComponent(RigidBody2D).allowSleep = true;
-                let collider = node.addComponent(BoxCollider2D);
-                // collider.size=
-                // let collider = tile.addComponent(BoxCollider2D);
-                // collider.size = tilesize;
-                collider.density = 1000;
-                collider.restitution = 0;
-                collider.offset = new Vec2(0, 0);
-                collider.apply();
-                console.log("new Node component  ", node);
-            });
+    updateHealth() {
+        this.healthBar.progress = this.health / 10;
     }
+
     start() {
         console.log("jdkbak");
 
@@ -447,7 +413,7 @@ export class PlayerMovement extends Component {
             if (this.node.getComponent(Sprite).color.toRGBValue() != Color.GREEN.toRGBValue()) {
                 this.health--;
             }
-
+            this.updateHealth();
             console.log(actor.name);
             if (this.health == 0) {
                 if (this.node.parent.getChildByName(actor.name + "killedplayer") == null) {

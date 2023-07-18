@@ -64,6 +64,7 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
                 this.connectToRegionMaster(photonRegion || "in");
             }
             else {
+                
                 this.connectToRegionMaster(photonRegion || "in");
 
                 //config.connectToNameServer({ region: "EU", lobbyType: Photon.LoadBalancing.Constants.LobbyType.Default });

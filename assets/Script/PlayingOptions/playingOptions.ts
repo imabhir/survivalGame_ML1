@@ -37,6 +37,7 @@ export class playingOptions extends Component {
 
     @property({ type: Node })
     quickplay: Node = null;
+    a;
     @property({ type: Prefab })
     RoomDetails: Prefab = null;
 
@@ -154,33 +155,33 @@ export class playingOptions extends Component {
 
     AddSettings = () => {
         // this.scheduleOnce(() => {
-        const SettingButton = instantiate(this.resourceInstance.GetPrefab("Settings"));
-        SettingButton.on(Input.EventType.TOUCH_START, this.OpenSettingsControls);
-        this.node.addChild(SettingButton);
+        const SettingButton = instantiate(this.resourceInstance.GetPrefab("SettingsControls"));
+        // SettingButton.on(Input.EventType.TOUCH_START, this.OpenSettingsControls);
+        this.SettingsNode.addChild(SettingButton);
         // }, 1)
     };
 
-    OpenSettingsControls = () => {
-        if (this.SettingsNode.children.length == 0) {
-            const SettingsControls = instantiate(this.resourceInstance.GetPrefab("SettingsControls"));
-            this.SettingsNode.addChild(SettingsControls);
-            SettingsControls.parent.setSiblingIndex(this.node.children.length);
-        }
-    };
+    // OpenSettingsControls = () => {
+    //     if (this.SettingsNode.children.length == 0) {
+    //         const SettingsControls = instantiate(this.resourceInstance.GetPrefab("SettingsControls"));
+    //         this.SettingsNode.addChild(SettingsControls);
+    //         SettingsControls.parent.setSiblingIndex(this.node.children.length);
+    //     }
+    // };
 
     AddAccountButton = () => {
         // this.scheduleOnce(() => {
-        const AccountButton = instantiate(this.resourceInstance.GetPrefab("Account"));
-        AccountButton.on(Input.EventType.TOUCH_START, this.OpenAccountControls);
-        this.node.addChild(AccountButton);
+        const AccountButton = instantiate(this.resourceInstance.GetPrefab("AccountSettings"));
+        // AccountButton.on(Input.EventType.TOUCH_START, this.OpenAccountControls);
+        this.AccountNode.addChild(AccountButton);
         // }, 0.7)
     };
-    OpenAccountControls = () => {
-        // this.scheduleOnce(() => {
-        const AccountSettings = instantiate(this.resourceInstance.GetPrefab("AccountSettings"));
-        this.node.addChild(AccountSettings);
-        // }, 1)
-    };
+    // OpenAccountControls = () => {
+    //     // this.scheduleOnce(() => {
+    //     const AccountSettings = instantiate(this.resourceInstance.GetPrefab("AccountSettings"));
+    //     this.node.addChild(AccountSettings);
+    //     // }, 1)
+    // };
     backToModeSelection() {
         this.node.parent.getComponent(modes).applyMusic();
         this.node.destroy();

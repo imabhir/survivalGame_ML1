@@ -101,8 +101,7 @@ export class MiniGame2 extends Component {
             this.newGear.setPosition(this.startPos);
             this.node.addChild(this.newGear);
         } else {
-            console.log("Entered");
-
+            this.newGear = null;
             event.target.off(Input.EventType.TOUCH_START);
             event.target.off(Input.EventType.TOUCH_MOVE);
             event.target.off(Input.EventType.TOUCH_END);
@@ -116,8 +115,6 @@ export class MiniGame2 extends Component {
      * This function sets the position as the gear is dragged
      */
     drag = (event) => {
-        console.log("Dragged", this.newGear, event);
-
         if (this.newGear.name != "") {
             this.newGear.setWorldPosition(event.getUILocation().x, event.getUILocation().y, 0);
         }
@@ -128,10 +125,14 @@ export class MiniGame2 extends Component {
      */
     dragToStart = () => {
         tween(this.newGear)
-            .to(0.95, { position: new Vec3(this.startPos.x, this.startPos.y, this.startPos.z) })
+            .to(0.95, {
+                position: new Vec3(this.startPos.x, this.startPos.y, this.startPos.z),
+            })
             .call(() => {
-                setTimeout(() => {
-                    this.newGear.destroy();
+                this.node.children.filter((element) => {
+                    if (element.name == "gearImage") {
+                        element.destroy();
+                    }
                 });
             })
             .start();
@@ -141,12 +142,11 @@ export class MiniGame2 extends Component {
      * This function rotates all the gears when the game is finished at end
      */
     rotateSprites = () => {
-        // this.NormalGears.children.forEach((element) => {
-        //     tween(element).by(2, { angle: -360 }).repeatForever().start();
-        // });
-
-        this.node.children.forEach((element, index) => {
-            if (index != 0 && index != 1) {
+        this.NormalGears.children.forEach((element) => {
+            tween(element).by(2, { angle: -360 }).repeatForever().start();
+        });
+        this.node.parent.children.filter((element) => {
+            if (element.name == "gearImage") {
                 tween(element).by(2, { angle: -360 }).repeatForever().start();
             }
         });
@@ -157,22 +157,25 @@ export class MiniGame2 extends Component {
      * @param event is the event which is passed as touch cancel occurs
      */
     checkIfValid = (event) => {
-        // console.log(this.newGear.getPosition());
+        if (event.type == "touch-end") {
+            this.node.children.filter((element) => {
+                if (element.name == "gearImage") {
+                    element.destroy();
+                }
+            });
+        }
         let flag = true;
-        if (this.newGear) {
+        if (this.newGear.name != "" && this.newGear != null) {
             this.transparentGears.children.forEach((element) => {
                 if (flag) {
                     const elementPosition = element.getWorldPosition();
                     const targetPosition = event.getUILocation();
 
-                    // const targetHeight = this.newGear.getComponent(UITransform).height;
-                    // const targetWidth = this.newGear.getComponent(UITransform).width;
-                    let targetHeight, targetWidth;
+                    let targetHeight: number, targetWidth: number;
                     if (this.newGear.name != "" && this.newGear != null) {
                         targetHeight = this.newGear.getComponent(UITransform).height;
                         targetWidth = this.newGear.getComponent(UITransform).width;
                     }
-
                     // When element Bounding Box contains the current point then we check if the given position is correct by checking height and width of dragged item
                     const elementBoundingBox = element.getComponent(UITransform).getBoundingBoxToWorld();
                     if (elementBoundingBox.contains(targetPosition)) {
@@ -180,9 +183,14 @@ export class MiniGame2 extends Component {
                             targetHeight == element.getComponent(UITransform).height &&
                             targetWidth == element.getComponent(UITransform).width
                         ) {
+                            if (element.active == false) {
+                                return;
+                            }
                             element.active = false;
+                            this.newGear.removeFromParent();
+                            this.node.parent.addChild(this.newGear);
                             this.taskOver.active = true;
-                            // Setting the new gear postion to element's position if it is valid
+                            // Setting the new gear position to element's position if it is valid
                             this.newGear.setWorldPosition(
                                 new Vec3(elementPosition.x, elementPosition.y, elementPosition.z)
                             );
@@ -226,30 +234,7 @@ export class MiniGame2 extends Component {
         }
     };
 
-    start() {
-        // if(this.check(elementPosition, targetPosition)){
-        //     if(targetHeight == element.getComponent(UITransform).height && targetWidth == element.getComponent(UITransform).width){
-        //         console.log("Completed");
-        //         this.newGear.setWorldPosition(new Vec3(targetPosition.x, targetPosition.y))
-        //         flag = false;
-        //     }else{
-        //         this.newGear.setWorldPosition(this.startPos)
-        //         flag = false;
-        //     }
-        // }
-        // check = (elementPosition, targetPosition) => {
-        //     if((Math.floor(elementPosition.x) == Math.floor(targetPosition.x)  || Math.floor(elementPosition.x) + 1 == Math.floor(targetPosition.x)) && (Math.floor(elementPosition.y) == Math.floor(targetPosition.y)  || Math.floor(elementPosition.y) + 1 == Math.floor(targetPosition.x) )){
-        //         return true;
-        //     }
-        //     else if((Math.floor(elementPosition.x) == Math.floor(targetPosition.x)  || Math.floor(elementPosition.x) == Math.floor(targetPosition.x) + 1) && (Math.floor(elementPosition.y) == Math.floor(targetPosition.y)  || Math.floor(elementPosition.y) == Math.floor(targetPosition.x) + 1 )){
-        //         return true;
-        //     }
-        //     else if((Math.floor(elementPosition.x) == Math.floor(targetPosition.x)  || Math.floor(elementPosition.x) == Math.floor(targetPosition.x) - 1) && (Math.floor(elementPosition.y) == Math.floor(targetPosition.y)  || Math.floor(elementPosition.y) == Math.floor(targetPosition.x) - 1 )){
-        //         return true
-        //     }
-        //     return false;
-        // }
-    }
+    start() {}
 
     update(deltaTime: number) {}
 }
