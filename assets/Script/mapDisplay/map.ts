@@ -32,6 +32,7 @@ export class map extends Component {
   gameDataInstance;
   TargetMapWithMaxVotes: Node = null;
   selected: boolean = false;
+  selectedMap: any;
   onLoad() {
     this.gameDataInstance = gameData.getInstance();
     // this.backButton.on(Input.EventType.TOUCH_START, () => {
@@ -45,8 +46,11 @@ export class map extends Component {
   }
   submitButtonPressed() {
     if (this.selected) {
+      this.object[this.selectedMap.target.name] += 1;
+
       console.log("Submit Pressed");
-      this.findMapNode(this.mapWithMaxVotes);
+      this.check();
+      //   this.findMapNode(this.mapWithMaxVotes);
       this.node.active = false;
     }
   }
@@ -75,6 +79,7 @@ export class map extends Component {
     // clickMode = (element, toggleButton, event) => {
     // let Border = null;
     // this.Border;
+    this.selectedMap = event;
     this.Border.removeFromParent();
     this.Border.getComponent(UITransform).height = event.target.height;
     this.Border.getComponent(UITransform).width = event.target.width;
@@ -92,8 +97,8 @@ export class map extends Component {
     // if (this.object[event.target.name] > 0) {
     //   console.log("Map Inc", this.object[event.target.name]);
     // } else {
-    this.object[event.target.name] += 1;
-    let selectedObj = this.object[event.target.name];
+    // this.object[event.target.name] += 1;
+    // let selectedObj = this.object[event.target.name];
     // for (const key in this.object) {
     //   // console.log("Check Method in Map.ts", this.object[key]);
     //   if (this.object[key] == selectedObj) {
@@ -108,8 +113,6 @@ export class map extends Component {
     // }
     // }
     console.log("Map Count", this.object);
-
-    this.check();
   };
 
   check = () => {
@@ -122,7 +125,7 @@ export class map extends Component {
         this.mapWithMaxVotes = key;
       }
     }
-    // this.findMapNode(mapWithMaxVotes);
+    this.findMapNode(this.mapWithMaxVotes);
   };
 
   findMapNode = (mapWithMaxVotes) => {
