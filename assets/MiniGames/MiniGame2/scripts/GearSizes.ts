@@ -101,7 +101,12 @@ export class MiniGame2 extends Component {
             this.newGear.setPosition(this.startPos);
             this.node.addChild(this.newGear);
         } else {
-            this.newGear = null;
+            console.log("Entered");
+
+            event.target.off(Input.EventType.TOUCH_START);
+            event.target.off(Input.EventType.TOUCH_MOVE);
+            event.target.off(Input.EventType.TOUCH_END);
+            event.target.off(Input.EventType.TOUCH_CANCEL);
         }
     };
 
@@ -111,9 +116,9 @@ export class MiniGame2 extends Component {
      * This function sets the position as the gear is dragged
      */
     drag = (event) => {
-        console.log("Dragged");
+        console.log("Dragged", this.newGear, event);
 
-        if (this.newGear) {
+        if (this.newGear.name != "") {
             this.newGear.setWorldPosition(event.getUILocation().x, event.getUILocation().y, 0);
         }
     };
@@ -136,9 +141,9 @@ export class MiniGame2 extends Component {
      * This function rotates all the gears when the game is finished at end
      */
     rotateSprites = () => {
-        this.NormalGears.children.forEach((element) => {
-            tween(element).by(2, { angle: -360 }).repeatForever().start();
-        });
+        // this.NormalGears.children.forEach((element) => {
+        //     tween(element).by(2, { angle: -360 }).repeatForever().start();
+        // });
 
         this.node.children.forEach((element, index) => {
             if (index != 0 && index != 1) {
@@ -160,8 +165,13 @@ export class MiniGame2 extends Component {
                     const elementPosition = element.getWorldPosition();
                     const targetPosition = event.getUILocation();
 
-                    const targetHeight = this.newGear.getComponent(UITransform).height;
-                    const targetWidth = this.newGear.getComponent(UITransform).width;
+                    // const targetHeight = this.newGear.getComponent(UITransform).height;
+                    // const targetWidth = this.newGear.getComponent(UITransform).width;
+                    let targetHeight, targetWidth;
+                    if (this.newGear.name != "" && this.newGear != null) {
+                        targetHeight = this.newGear.getComponent(UITransform).height;
+                        targetWidth = this.newGear.getComponent(UITransform).width;
+                    }
 
                     // When element Bounding Box contains the current point then we check if the given position is correct by checking height and width of dragged item
                     const elementBoundingBox = element.getComponent(UITransform).getBoundingBoxToWorld();

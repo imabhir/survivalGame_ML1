@@ -125,8 +125,8 @@ export class walls extends Component {
     intervaloffire: number = 0;
     rateoffire: number = 10;
     Timer: Node;
-    Min: number = 5;
-    Sec: number = 0;
+    Min: number = 0;
+    Sec: number = 5;
     collided: boolean = false;
     onLoad() {
         PhysicsSystem2D.instance.enable = true;

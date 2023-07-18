@@ -26,8 +26,10 @@ export class loginscreen extends Component {
     flag = true;
     avatarSelectionNode: Node = null;
     modeSelectionNode: Node = null;
-    start() {
+    protected onLoad(): void {
         DataHandler.Instance.loginScreen = this.node;
+    }
+    start() {
         setTimeout(() => {
             this.resourceInstance.loadMusic().then((audios) => {
                 console.log("Music Loaded", audios);
