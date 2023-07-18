@@ -10,44 +10,42 @@ export class login extends Component {
     @property(Label)
     loadMessage: Label = null;
 
-    resourceInstance = resourceManager.getInstance()
+    resourceInstance ;
     flag = true;
     
     onLoad() {
-        
+       this.resourceInstance = resourceManager.getInstance()
+       this.resourceInstance.progressbarnode=this.Progressbar;
     }
 
     start() {
         setTimeout(() => {
             this.resourceInstance.loadMusic().then((audios) => {
                 console.log("Music Loaded", audios);
-                
             })
 
             this.resourceInstance.loadPrefabs().then((prefabs) => {
-                console.log("Prefabs Loaded", prefabs);
-                
+                console.log("Prefabs Loaded", prefabs); 
             })
-            // this.resourceInstance.GetTotalItems();
-            // console.log("total cnt: " + this.resourceInstance.TotalCount);
-            // this.resourceInstance.GetTotalItems()
+            
             console.log("Scene Loaded");
+
         }, 2000);
     }
 
     update(deltaTime: number) {
-        let percentage = (this.resourceInstance.loadPercentage / this.resourceInstance.totalItems) * 100;
-        console.log("this is", percentage);
-        if(percentage == 100 && this.flag){
-            this.flag = false;
-            console.log("Change Scene To Login");
+        // let percentage = (this.resourceInstance.loadPercentage / this.resourceInstance.totalItems) * 100;
+        // console.log("this is", percentage);
+        // if(percentage == 100 && this.flag){
+        //     this.flag = false;
+        //     console.log("Change Scene To Login");
             
-            director.loadScene("Login")
-        }
+        //     director.loadScene("Login")
+        // }
         
         
-        this.loadMessage.string = this.resourceInstance.loadingMessage;
-        this.Progressbar.getComponent(ProgressBar).progress = percentage / 100;
+        // this.loadMessage.string = this.resourceInstance.loadingMessage;
+        // this.Progressbar.getComponent(ProgressBar).progress = percentage / 100;
         
     }
 }

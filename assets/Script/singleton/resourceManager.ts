@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, resources, AudioClip, Prefab, instantiate } from 'cc';
+import { _decorator, Component, Node, resources, AudioClip, Prefab, instantiate, director, ProgressBar } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('resourceManager')
@@ -11,8 +11,9 @@ export class resourceManager {
     public loadPercentage: number = 0;
     public totalItems: number = 0;
     public loadingMessage: string = "";
-    // public TotalCount: number = 0;
-    
+    public progressbarnode:Node;
+
+   
     private static _instance: resourceManager = null;
 
     /**
@@ -31,12 +32,14 @@ export class resourceManager {
     loadPrefabs = async () => {
         return await new Promise((resolve, reject) => {
             resources.loadDir("prefabs", (finishedprefab, totalprefab) => {
-                //on progress
-                // console.log("Total Prefabs", totalprefab);
+                // on progress
                 
                 this.loadingMessage = "Loading Prefabs..."
                 this.loadPercentage = finishedprefab;
                 this.totalItems = totalprefab;
+                this.progressbarnode.getComponent(ProgressBar).progress=finishedprefab/totalprefab;
+                console.log("Progess value",this.progressbarnode.getComponent(ProgressBar).progress)
+
                 
                 // if("prefabs" in this.MainObj){
                 //     console.log("Yes");
@@ -50,6 +53,15 @@ export class resourceManager {
                     
                 // }
                 // console.log("LoadBLIA % : " + (this.loadPercentage / this.totalItems) * 100);
+
+                
+                // console.log("this is", percentage);
+                // if(percentage == 100 && this.flag){
+                //     this.flag = false;
+                //     console.log("Change Scene To Login");
+                //     director.loadScene("Login");
+                // }
+        
             },
                 (error, Prefabs) => {
                     //on complete
@@ -92,6 +104,8 @@ export class resourceManager {
                 //     this.MainObj["audios"] = totalclip;
                 // }
                 // console.log("LoadBLIA % : " + (this.loadPercentage / this.totalItems) * 100);
+
+                let percentage = (this.loadPercentage / this.totalItems) * 100;
             },
                 (error, audios) => {
                     //on complete
