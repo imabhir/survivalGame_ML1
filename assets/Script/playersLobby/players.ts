@@ -45,8 +45,8 @@ export class playerslobby extends Component {
 
   targetMapNode;
   allNums: number[];
-  Min: number = 5;
-  Sec: number = 0;
+  Min: number = 0;
+  Sec: number = 15;
   Timer: any;
   start() {
     this.photon.player_lobbys = this;
@@ -55,7 +55,7 @@ export class playerslobby extends Component {
     this.gameDataInstance = gameData.getInstance();
     this.instantiatePlayers();
     this.selectMapButton.on(Input.EventType.TOUCH_START, this.SelectMap);
-
+    photonmanager.getInstance().playerScriptRef = this;
     console.log("Target Map Node", this.targetMapNode);
 
     this.photon = photonmanager.getInstance().photon_instance;
@@ -205,9 +205,15 @@ export class playerslobby extends Component {
     let timer = instantiate(this.timer);
     this.node.addChild(timer);
     this.Timer = this.node.getChildByName("Timer");
-    this.schedule(this.timerworking, 1);
-    if (this.Min == 0 && this.Sec == 0) {
-      this.unschedule(this.timerworking);
+    photonmanager.getInstance().photon_instance.myRoom().setCustomProperty("timer", 40);
+    if (
+      photonmanager.getInstance().photon_instance.myActor().actorNr ==
+      photonmanager.getInstance().photon_instance.myRoomMasterActorNr()
+    ) {
+      this.schedule(this.timerworking, 1);
+      if (this.Min == 0 && this.Sec == 0) {
+        this.unschedule(this.timerworking);
+      }
     }
   }
   /**
@@ -222,12 +228,29 @@ export class playerslobby extends Component {
           this.Min = 60;
         }
       }
-      this.Sec--;
+      let date = new Date();
+      let time = date.getSeconds();
+      let timeProperty = photonmanager.getInstance().photon_instance.myRoom().getCustomProperty("timer");
+
+      console.log("Timer Property", timeProperty--);
+      photonmanager.getInstance().photon_instance.myRoom().setCustomProperty("timer", timeProperty);
+      console.log("TIMER", time);
+      // this.Sec = -(this.Sec-time);
+      console.log("GETTING PROPERTY", photonmanager.getInstance().photon_instance.myRoom().getCustomProperty("timer"));
+      this.Sec = photonmanager.getInstance().photon_instance.myRoom().getCustomProperty("timer");
       let m = this.Min < 10 ? "0" + this.Min : this.Min;
       let s = this.Sec < 10 ? "0" + this.Sec : this.Sec;
       this.Timer.getComponent(Label).string = m.toString() + ":" + s.toString();
     }
   }
+
+  updatePlayer() {
+    this.Sec = photonmanager.getInstance().photon_instance.myRoom().getCustomProperty("timer");
+    let m = this.Min < 10 ? "0" + this.Min : this.Min;
+    let s = this.Sec < 10 ? "0" + this.Sec : this.Sec;
+    this.Timer.getComponent(Label).string = m.toString() + ":" + s.toString();
+  }
+
   starts = true;
   counterstarted = true;
   //maximum number of player in room

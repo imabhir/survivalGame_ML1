@@ -190,6 +190,7 @@ export class walls extends Component {
       });
   }
   setUpConnection() {}
+  // setRoomProperties() {}
   touchEventsFunc() {
     //touch events handler
     this.joyStickBall.on(Node.EventType.TOUCH_START, this.touchStart, this);
