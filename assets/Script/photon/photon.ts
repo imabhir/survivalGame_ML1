@@ -190,10 +190,13 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
     console.log("gaya");
     if (!photonmanager.getInstance().gamestarted && this.isJoinedToRoom()) this.player_lobby.leaveplayerinlobby(actor);
   }
+
   onMyRoomPropertiesChange(): void {
     console.log("Timer Updated");
-    photonmanager.getInstance().playerScriptRef.updatePlayer();
+    // photonmanager.getInstance().playerScriptRef?.updateOtherPlayerTimer();
+    photonmanager.getInstance().wallCollisionRef?.updateOtherPlayerTimer();
   }
+
   onStateChange(state: number): void {
     console.log(state);
     // this.check();

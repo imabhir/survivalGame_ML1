@@ -128,9 +128,12 @@ export class walls extends Component {
   Min: number = 2;
   Sec: number = 5;
   collided: boolean = false;
+  totalSec: number = null;
   onLoad() {
+    this.totalSec = this.Min * 60 + this.Sec;
     PhysicsSystem2D.instance.enable = true;
     // PhysicsSystem2D.instance.debugDrawFlags = EPhysics2DDrawFlags.All;
+    photonmanager.getInstance().wallCollisionRef = this;
     this.map = this.node.getComponent(TiledMap);
     // //console.log(this.node.getComponent(TiledMap).getObjectGroups())
     this.camera.setPosition(this.maincamera.getPosition());
@@ -429,16 +432,41 @@ export class walls extends Component {
       this.player.parent.getChildByName(actorNr).updateWorldTransform(); // 4
     }
   }
+  convertSecToMin() {
+    let timeProperty = photonmanager.getInstance().photon_instance.myRoom().getCustomProperty("timer");
+    let convert = (timeProperty / 60).toString();
+    console.log("Minutes Convertion", convert);
+    let con = convert.split(".");
+    con[1] = "0." + con[1];
+    let tomin: number = Number(con[0]);
+    let toSec: number = Math.floor(Number(con[1]) * 60);
+    if (Number.isNaN(toSec)) {
+      toSec = 0;
+    }
+    console.log("Minutes Convertion", tomin, "    ", toSec);
+    this.Min = tomin;
+    this.Sec = toSec;
+  }
   stopwatchTimer() {
+    this.totalSec = this.Min * 60 + this.Sec;
     let timer = instantiate(this.timer);
+    photonmanager.getInstance().photon_instance.myRoom().setCustomProperty("timer", this.totalSec);
+
+    //*****Converting Minutes into Seconds */
+    this.convertSecToMin();
     let position = timer.getPosition();
     position.y = -440;
     timer.setPosition(position);
     this.node.parent.addChild(timer);
     this.Timer = this.node.parent.getChildByName("Timer");
-    this.schedule(this.timerworking, 1);
-    if (this.Min == 0 && this.Sec == 0) {
-      this.unschedule(this.timerworking);
+    if (
+      photonmanager.getInstance().photon_instance.myActor().actorNr ==
+      photonmanager.getInstance().photon_instance.myRoomMasterActorNr()
+    ) {
+      this.schedule(this.timerworking, 1);
+      if (this.Min == 0 && this.Sec == 0) {
+        this.unschedule(this.timerworking);
+      }
     }
   }
   /**
@@ -453,9 +481,27 @@ export class walls extends Component {
           this.Min = 60;
         }
       }
-      this.Sec--;
+      let timeProperty = photonmanager.getInstance().photon_instance.myRoom().getCustomProperty("timer");
+
+      console.log("Timer Property", timeProperty--);
+      photonmanager.getInstance().photon_instance.myRoom().setCustomProperty("timer", timeProperty);
+      this.convertSecToMin();
+      // console.log("TIMER", time);
+      // this.Sec = -(this.Sec-time);
+      console.log("GETTING PROPERTY", photonmanager.getInstance().photon_instance.myRoom().getCustomProperty("timer"));
+      // this.Sec = photonmanager.getInstance().photon_instance.myRoom().getCustomProperty("timer");
+
+      // this.Sec--;
       let m = this.Min < 10 ? "0" + this.Min : this.Min;
       let s = this.Sec < 10 ? "0" + this.Sec : this.Sec;
+      this.Timer.getComponent(Label).string = m.toString() + ":" + s.toString();
+    }
+  }
+  updateOtherPlayerTimer() {
+    this.convertSecToMin();
+    let m = this.Min < 10 ? "0" + this.Min : this.Min;
+    let s = this.Sec < 10 ? "0" + this.Sec : this.Sec;
+    if (this.Timer.getComponent(Label)) {
       this.Timer.getComponent(Label).string = m.toString() + ":" + s.toString();
     }
   }

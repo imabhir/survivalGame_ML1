@@ -205,7 +205,7 @@ export class playerslobby extends Component {
     let timer = instantiate(this.timer);
     this.node.addChild(timer);
     this.Timer = this.node.getChildByName("Timer");
-    photonmanager.getInstance().photon_instance.myRoom().setCustomProperty("timer", 40);
+    photonmanager.getInstance().photon_instance.myRoom().setCustomProperty("timer", 5);
     if (
       photonmanager.getInstance().photon_instance.myActor().actorNr ==
       photonmanager.getInstance().photon_instance.myRoomMasterActorNr()
@@ -244,11 +244,13 @@ export class playerslobby extends Component {
     }
   }
 
-  updatePlayer() {
+  updateOtherPlayerTimer() {
     this.Sec = photonmanager.getInstance().photon_instance.myRoom().getCustomProperty("timer");
     let m = this.Min < 10 ? "0" + this.Min : this.Min;
     let s = this.Sec < 10 ? "0" + this.Sec : this.Sec;
-    this.Timer.getComponent(Label).string = m.toString() + ":" + s.toString();
+    if (this.Timer.getComponent(Label) != null) {
+      this.Timer.getComponent(Label).string = m.toString() + ":" + s.toString();
+    }
   }
 
   starts = true;

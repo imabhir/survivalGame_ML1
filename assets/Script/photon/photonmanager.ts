@@ -12,6 +12,7 @@ export class photonmanager {
   public roomname;
   public gamestarted = false;
   playerScriptRef: any = null;
+  wallCollisionRef: any = null;
   private constructor() {}
   public static getInstance() {
     if (this.instance == null) {
