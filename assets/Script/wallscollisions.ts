@@ -46,7 +46,7 @@ import {
   Director,
   Label,
 } from "cc";
-import { photonmanager } from "./photon/photonmanager";
+import { PhotonManager } from "./photon/photonmanager";
 import { Photonevents } from "./photon/cloud-app-info";
 const { ccclass, property } = _decorator;
 import { PlayerMovement } from "./Player/PlayerMovement";
@@ -139,7 +139,7 @@ export class walls extends Component {
     this.kill_button.getComponent(Button).interactable = false;
     this.chest_button.getComponent(Button).interactable = false;
 
-    this.photon_instance = photonmanager.getInstance().photon_instance;
+    this.photon_instance = PhotonManager.Instance.Photon;
 
     this.photon_instance.wallclass = this;
     this.finalPosBall = new Vec3(1, 1, 0);
@@ -176,8 +176,12 @@ export class walls extends Component {
       .forEach((e) => {
         if (e!.prefab_type == "chest") {
           let chest = instantiate(this.chest_prefab);
-          let worldposition = this.player.parent.getComponent(UITransform).convertToWorldSpaceAR(new Vec3(e.x, e.y, 0));
-          let position = this.player.parent.getComponent(UITransform).convertToNodeSpaceAR(worldposition);
+          let worldposition = this.player.parent
+            .getComponent(UITransform)
+            .convertToWorldSpaceAR(new Vec3(e.x, e.y, 0));
+          let position = this.player.parent
+            .getComponent(UITransform)
+            .convertToNodeSpaceAR(worldposition);
           //console.log(position, e.x * 0.5);
           chest.setPosition(
             position.x - this.node.getComponent(UITransform).width * 0.5,
@@ -216,9 +220,12 @@ export class walls extends Component {
   touchMove(e) {
     this.intialPos = this.controller
       .getComponent(UITransform)
-      .convertToNodeSpaceAR(new Vec3(e.getUILocation().x, e.getUILocation().y, e.getUILocation().z)); //controller node is passed as an property to get its height and width such that the cameras motion doesnt effect the position
+      .convertToNodeSpaceAR(
+        new Vec3(e.getUILocation().x, e.getUILocation().y, e.getUILocation().z)
+      ); //controller node is passed as an property to get its height and width such that the cameras motion doesnt effect the position
     var len = this.intialPos.length();
-    var joyStickBallBaseWidth = this.controller.getComponent(UITransform).getBoundingBox().width / 2;
+    var joyStickBallBaseWidth =
+      this.controller.getComponent(UITransform).getBoundingBox().width / 2;
     if (len > joyStickBallBaseWidth) {
       //to check if the joystickball is within the length of the joystick
       this.intialPos.x = (this.intialPos.x * joyStickBallBaseWidth) / len;
@@ -306,7 +313,8 @@ export class walls extends Component {
     var child = this.player.parent.getChildByName(actor.toString());
     let gun = instantiate(this.gun);
     // //console.log(child);
-    if (this.player.parent.getChildByName(actor.toString()) != null) child.getChildByName("gun").addChild(gun);
+    if (this.player.parent.getChildByName(actor.toString()) != null)
+      child.getChildByName("gun").addChild(gun);
 
     // let Skeleton = child.getComponent(sp.Skeleton
     // )
@@ -332,7 +340,10 @@ export class walls extends Component {
     // if (this.player.parent.getChildByName(this.killed_actor.name + "killedplayer"
     // ) == null) {
     let position = this.player.getChildByName("gun").getPosition();
-    const WorldSpace = this.player.getChildByName("gun").getComponent(UITransform).convertToWorldSpaceAR(position); // 2
+    const WorldSpace = this.player
+      .getChildByName("gun")
+      .getComponent(UITransform)
+      .convertToWorldSpaceAR(position); // 2
     const Position = this.player.getComponent(UITransform).convertToNodeSpaceAR(WorldSpace); // 3
     // //console.log(Position, position);
     this.createBullet(new Vec2(position.x, position.y), 10, angle); // 4
@@ -366,7 +377,8 @@ export class walls extends Component {
           this.kill_button_checker = 0;
           //console.log(this.killed_actor.layer);
           child.layer = 2;
-          if (child.getChildByName("gun").children.length != 0) child.getChildByName("gun").children[0].destroy();
+          if (child.getChildByName("gun").children.length != 0)
+            child.getChildByName("gun").children[0].destroy();
           //console.log(this.killed_actor.layer);
           // let currentliveplayers = this.photon_instance.myRoom().getCustomProperty("killedplayers") + 1;
           // this.photon_instance.myRoom().setCustomProperty("liveplayers", currentliveplayers);
@@ -501,7 +513,11 @@ export class walls extends Component {
         console.log("new Node component  ", node);
       });
   }
-  onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
+  onBeginContact(
+    selfCollider: Collider2D,
+    otherCollider: Collider2D,
+    contact: IPhysics2DContact | null
+  ) {
     //collsion callback functions
     console.log("game 1 collider ", otherCollider.name, selfCollider.name);
     if (otherCollider.name == "game1") {
@@ -510,9 +526,13 @@ export class walls extends Component {
   }
   update(deltaTime: number) {
     //functionality to check if the bounding box of player collides with an particular bounding box given in tilemap object groups
-    let position = this.node.getComponent(UITransform).convertToNodeSpaceAR(this.player.getPosition());
+    let position = this.node
+      .getComponent(UITransform)
+      .convertToNodeSpaceAR(this.player.getPosition());
     this.player_bb = new Rect(
-      position.x + this.node.getComponent(UITransform).width * 0.5 - this.player.getComponent(UITransform).width * 0.5,
+      position.x +
+        this.node.getComponent(UITransform).width * 0.5 -
+        this.player.getComponent(UITransform).width * 0.5,
       position.y +
         this.node.getComponent(UITransform).height * 0.5 -
         this.player.getComponent(UITransform).height * 0.5,
@@ -575,7 +595,11 @@ export class walls extends Component {
             this.use_button_checker = 1;
           }
         } else if (this.use_button_checker == 1) {
-          if (!this.chest && e!.prefab_type != "chest" && this.minigame.name == this.minigames[e!.prefab_name]!.name) {
+          if (
+            !this.chest &&
+            e!.prefab_type != "chest" &&
+            this.minigame.name == this.minigames[e!.prefab_name]!.name
+          ) {
             this.use_button.getComponent(Button).interactable = false;
             //console.log("sajkfhdkslj");
           }
@@ -627,7 +651,10 @@ export class walls extends Component {
       this.intervaloffire++;
     }
     //console.log(this.photon_instance.myRoom().getCustomProperty("liveplayers"));
-    if ((this.Min == 0 && this.Sec == 0) || this.photon_instance.myRoom().getCustomProperty("liveplayers") == 4) {
+    if (
+      (this.Min == 0 && this.Sec == 0) ||
+      this.photon_instance.myRoom().getCustomProperty("liveplayers") == 4
+    ) {
       let gameover = instantiate(this.gameovernode);
       if (this.node.parent.getChildByName(gameover.name) == null) {
         this.node.parent.addChild(gameover);

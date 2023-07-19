@@ -95,8 +95,9 @@ export class avatarSelection extends Component {
     this.schedule(() => {
       this.GetItemFromPool();
     }, 0.6);
-    this.b = photonmanager.getInstance().photon_instance;
-    this.b.start();
+    Photo
+    // this.b = photonmanager.getInstance().photon_instance;
+    // this.b.start();
 
     this.applyMusic();
   }
