@@ -163,6 +163,7 @@ export class walls extends Component {
         Contact2DType.END_CONTACT,
         () => {
           this.collided = false;
+          
         },
         this
       );
