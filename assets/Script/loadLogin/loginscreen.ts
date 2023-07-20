@@ -1,4 +1,17 @@
-import { _decorator, Component, instantiate, Label, log, Node, Prefab, ProgressBar, Tween, tween, Vec3 } from "cc";
+import {
+    _decorator,
+    Button,
+    Component,
+    instantiate,
+    Label,
+    log,
+    Node,
+    Prefab,
+    ProgressBar,
+    Tween,
+    tween,
+    Vec3,
+} from "cc";
 import { resourceManager } from "../singleton/resourceManager";
 import { DataHandler } from "../singleton/DataHandler";
 import { avatarSelection } from "../AvatarSelectionscripts/avatarSelection";
@@ -56,7 +69,11 @@ export class loginscreen extends Component {
         // this.loadMessage.string = this.resourceInstance.loadingMessage;
         this.Progressbar.getComponent(ProgressBar).progress = percentage / 100;
     }
+    btnInteractableChange() {
+        this.loginBtn.getComponent(Button).interactable = !this.loginBtn.getComponent(Button).interactable;
+    }
     login() {
+        this.btnInteractableChange();
         let forms = instantiate(this.form);
         this.node.addChild(forms);
 

@@ -11,18 +11,13 @@ import {
     director,
     tween,
     Vec3,
-    Slider,
-    sys,
     NodePool,
     UITransform,
     randomRangeInt,
     log,
 } from "cc";
 import { audioManager } from "../audio/scripts/audioManager";
-// import { audioManager } from '../../audio/scripts/audioManager';
 import { resourceManager } from "../singleton/resourceManager";
-// import { resourceManager } from '../../singleton/resourceManager';
-// import { resourceManager } from '../../resourceManager';
 const { ccclass, property } = _decorator;
 import { photonmanager } from "../../Script/photon/photonmanager";
 import { DataHandler } from "../singleton/DataHandler";
@@ -48,7 +43,6 @@ export class avatarSelection extends Component {
     @property({ type: Node })
     playerAnimation: Node = null;
 
-    // names = ["Jack","Tim","John","Cook"]
     resourceInstance = resourceManager.getInstance();
     audioInstance = audioManager.getInstance();
 
@@ -58,33 +52,10 @@ export class avatarSelection extends Component {
     photonInstance: any = null;
     BackgroundHeight;
     BackgroundWidth;
-    // Account
-    // AccountSettings
-    // Settings
-    // SettingsControls
-    // Music;
-    // MusicClip;
+    angle;
     onLoad() {
-        // console.log("PersistNode Avatar", director.getScene().getChildByName("PersistNode"));
-        // director.getScene().getChildByName("PersistNode").active = false;
-
         this.BackgroundHeight = this.node.getComponent(UITransform).height;
         this.BackgroundWidth = this.node.getComponent(UITransform).width;
-
-        // this.resourceInstance.loadPrefabs()
-        // .then(() => {
-        //     this.Account = this.resourceInstance.GetPrefab("Account")
-        //     this.AccountSettings = this.resourceInstance.GetPrefab("AccountSettings")
-        //     this.Settings = this.resourceInstance.GetPrefab("Settings")
-        //     this.SettingsControls = this.resourceInstance.GetPrefab("SettingsControls")
-        //     this.Music = this.resourceInstance.GetPrefab("Music")
-        // })
-
-        // this.resourceInstance.loadMusic()
-        // .then(() => {
-        //     this.MusicClip = this.resourceInstance.getMusicFile("AvatarChanging")
-        // });
-
         this.addSettings();
         this.addAccountButton();
         this.addAvatar();
@@ -121,7 +92,6 @@ export class avatarSelection extends Component {
             .start();
     }
 
-    angle;
     GetItemFromPool() {
         if (this.pool1.size()) {
             const player = this.pool1.get();
@@ -175,36 +145,18 @@ export class avatarSelection extends Component {
         account.parent.setSiblingIndex(this.node.children.length);
     };
 
-    //   openAccountInfo = () => {
-    //     if (this.AccountNode.children.length == 0) {
-    //       const AccountInfo = instantiate(this.resourceInstance.GetPrefab("AccountSettings"));
-    //       this.AccountNode.addChild(AccountInfo);
-    //       AccountInfo.parent.setSiblingIndex(this.node.children.length);
-    //     }
-    //   };
-
     /**
      * Adding settings icon to avatar selection scene
      */
 
     addSettings = () => {
         const setting = instantiate(this.resourceInstance.GetPrefab("SettingsControls"));
-        // setting.on(Input.EventType.TOUCH_START, this.openSettings);
-        this.AccountNode.addChild(setting);
-        setting.parent.setSiblingIndex(this.node.children.length);
+        this.SettingsNode.addChild(setting);
     };
 
     /**
      * Opening of settings
      */
-
-    //   openSettings = () => {
-    //     if (this.SettingsNode.children.length == 0) {
-    //       let settingsControls = instantiate(this.resourceInstance.GetPrefab("SettingsControls"));
-    //       this.SettingsNode.addChild(settingsControls);
-    //       settingsControls.parent.setSiblingIndex(this.node.children.length);
-    //     }
-    //   };
 
     /**
      * This functions applies the audio to the scene
@@ -216,11 +168,8 @@ export class avatarSelection extends Component {
         const music = instantiate(this.resourceInstance.GetPrefab("Music"));
         this.node.addChild(music);
         console.log("Music", music);
-
-        // this.scheduleOnce(() => {
         const clip = this.resourceInstance.getMusicFile("audio1");
         this.audioInstance.playMusicClip(clip, true);
-        // }, 0.7)
     };
 
     /**
@@ -230,7 +179,6 @@ export class avatarSelection extends Component {
         for (let i = 0; i < 4; i++) {
             const avatar = instantiate(this.avatar);
             this.pageView.content.addChild(avatar);
-            // avatar.getChildByName("Name").getComponent(Label).string = this.names[i]
         }
     };
 
@@ -266,25 +214,7 @@ export class avatarSelection extends Component {
         // director.loadScene("Modes");
     }
 
-    start() {
-        // async fetchResource(){
-        //     this.spriteArr = await singletonInstance.resourceLoad();
-        //     this.fetchBackground();
-        // }
-        // /**
-        //  * This function is setting the background image
-        //  */
-        // fetchBackground(){
-        //     let backgroundImage = this.spriteArr[singletonInstance.indexAsset("bg")];
-        //     this.background.getComponent(Sprite).spriteFrame = backgroundImage;
-        //     tween(this.loader).by(4, {angle: -360}).repeatForever().start();
-        //     setTimeout(() => {
-        //         this.node.getChildByName("loading icon").active = false;
-        //         this.node.getChildByName("loader").active = false;
-        //         this.fetchLogo();
-        //     }, 2000)
-        // }
-    }
+    start() {}
 
     update(deltaTime: number) {
         this.checkPlayerPos(this.pool1, deltaTime);

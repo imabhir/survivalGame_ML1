@@ -1944,8 +1944,6 @@
       "__id__": 0
     },
     "fileId": "74qY2MqfpBIYYYhwz4uX/s",
-    "instance": null,
-    "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
@@ -2116,8 +2114,6 @@
       "__id__": 0
     },
     "fileId": "d8txJbd+xH1LzBc6CKI9rk",
-    "instance": null,
-    "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
@@ -2567,6 +2563,10 @@
       "__uuid__": "e25aabe0-7643-4daa-be0f-968871401bc1",
       "__expectedType__": "cc.Prefab"
     },
+    "playerLobbyPrefab": {
+      "__uuid__": "f59c1845-7cae-40f7-908b-519287426047",
+      "__expectedType__": "cc.Prefab"
+    },
     "SettingsNode": {
       "__id__": 87
     },
@@ -2605,7 +2605,6 @@
       "__id__": 0
     },
     "fileId": "635Gi1MPFBfIdGZ/A5JGTE",
-    "instance": null,
-    "targetOverrides": null
+    "instance": null
   }
 ]

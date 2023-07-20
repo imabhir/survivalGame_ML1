@@ -187,6 +187,7 @@ export class load extends Component {
                 this.node.destroy();
             })
             .start();
+        DataHandler.Instance.loginScreen.getComponent(loginscreen).btnInteractableChange();
     }
     start() {}
 

@@ -12,6 +12,7 @@ import {
     NodePool,
     log,
     Label,
+    SpriteFrame,
 } from "cc";
 // import { gameData } from '../../gameData';
 // import { modes } from '../Modes/scripts/modes';
@@ -46,8 +47,11 @@ export class playerslobby extends Component {
     targetMapNode;
     allNums: number[];
     Min: number = 0;
-    Sec: number = 15;
+    Sec: number = 20;
     Timer: any;
+    selectedMap: Node = null;
+    TargetMapNodeSpriteFrame: SpriteFrame = null;
+    emptySprite: SpriteFrame = null;
     start() {
         this.photon.player_lobbys = this;
     }
@@ -109,8 +113,16 @@ export class playerslobby extends Component {
             this.node.addChild(player);
         }
     };
+    protected onEnable(): void {
+        this.selectedMap = null;
+        this.MostVotedMap.getComponent(Sprite).spriteFrame = null;
+        this.gameDataInstance.targetMapNode = null;
 
+        this.TargetMapNodeSpriteFrame = null;
+    }
     addplayerinlobby() {
+        console.log("Player.ts  Inside addPlayerinLobby");
+
         let actorcount = this.photon.myRoomActorCount();
         var actors = Object.keys(this.photon.myRoomActors()).map((key) => {
             return this.photon.myRoomActors()[key];
@@ -159,8 +171,9 @@ export class playerslobby extends Component {
      */
     SelectMap = (event) => {
         this.selectMapButton.active = false;
-        let map = instantiate(this.map);
-        this.node.parent.addChild(map);
+
+        this.selectedMap = instantiate(this.map);
+        this.node.parent.addChild(this.selectedMap);
         // director.loadScene("map")
     };
 
@@ -168,8 +181,8 @@ export class playerslobby extends Component {
         // console.log("Entered");
         // console.log(targetMapNode);
 
-        let TargetMapNodeSpriteFrame = targetMapNode.getComponent(Sprite).spriteFrame;
-        this.MostVotedMap.getComponent(Sprite).spriteFrame = TargetMapNodeSpriteFrame;
+        this.TargetMapNodeSpriteFrame = targetMapNode.getComponent(Sprite).spriteFrame;
+        this.MostVotedMap.getComponent(Sprite).spriteFrame = this.TargetMapNodeSpriteFrame;
     };
     StartGame() {
         console.log(photonmanager.getInstance().gamestarted);
@@ -206,7 +219,7 @@ export class playerslobby extends Component {
         let timer = instantiate(this.timer);
         this.node.addChild(timer);
         this.Timer = this.node.getChildByName("Timer");
-        photonmanager.getInstance().photon_instance.myRoom().setCustomProperty("timer", 5);
+        photonmanager.getInstance().photon_instance.myRoom().setCustomProperty("timer", this.Sec);
         if (
             photonmanager.getInstance().photon_instance.myActor().actorNr ==
             photonmanager.getInstance().photon_instance.myRoomMasterActorNr()

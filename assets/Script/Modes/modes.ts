@@ -18,6 +18,7 @@ import {
     Toggle,
     log,
     PlaceMethod,
+    Button,
 } from "cc";
 import { audioManager } from "../audio/scripts/audioManager";
 // import { gameData } from '../../gameData';
@@ -82,7 +83,7 @@ export class modes extends Component {
         this.applyMusic();
         // this.resourceInstance.loadPrefabs();
         // this.resourceInstance.loadMusic();
-
+        this.btnInteractableChange();
         this.slideWithButtons();
         this.selectMode();
         this.backButton.on(Input.EventType.TOUCH_START, () => {
@@ -91,6 +92,7 @@ export class modes extends Component {
         });
     }
     backFromRoomSelection() {
+        this.btnInteractableChange();
         this.loadingIcon.active = false;
         this.rotater.active = false;
     }
@@ -176,7 +178,9 @@ export class modes extends Component {
             element.addChild(toggleButton);
         });
     };
-
+    btnInteractableChange() {
+        this.EnterButton.getComponent(Button).interactable = !this.EnterButton.getComponent(Button).interactable;
+    }
     clickMode = (element, toggleButton, event) => {
         let Border = null;
         if (element.getChildByName("goldenBorder") == null) {
@@ -186,10 +190,10 @@ export class modes extends Component {
 
         // toggleButton.getComponent(Toggle).isChecked = true;
         toggleButton.active = true;
-        this.EnterButton.on(Input.EventType.TOUCH_START, () => {
-            this.enterMode(element);
-        });
-
+        // this.EnterButton.on(Input.EventType.TOUCH_START, () => {
+        //     this.enterMode(element);
+        // });
+        this.EnterButton.getComponent(Button).interactable = true;
         this.checkIfOtherModeSelected(event, toggleButton);
     };
 
@@ -220,13 +224,15 @@ export class modes extends Component {
      * This function is used for loading the specific mode i.e. Primary, Secondary or Tertiary
      */
 
-    enterMode = (element) => {
+    enterMode() {
+        console.log("enter btn click ");
+        this.btnInteractableChange();
         const clip = this.resourceInstance.getMusicFile("AvatarChanging");
         this.audioInstance.playSoundEffect(clip);
 
         this.loadingIcon.active = true;
         this.rotater.active = true;
-        this.modeIndex = element.getComponent(ModeEnum).ModeName;
+        // this.modeIndex = element.getComponent(ModeEnum).ModeName;
 
         console.log(this.modeIndex);
 
@@ -247,7 +253,7 @@ export class modes extends Component {
 
         this.gameDataInstance.initMode(this.modeIndex);
         // this.node.active = false;
-    };
+    }
 
     /**
      *
