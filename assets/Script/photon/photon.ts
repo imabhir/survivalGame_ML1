@@ -192,9 +192,21 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
   }
 
   onMyRoomPropertiesChange(): void {
-    console.log("Timer Updated");
-    // photonmanager.getInstance().playerScriptRef?.updateOtherPlayerTimer();
-    photonmanager.getInstance().wallCollisionRef?.updateOtherPlayerTimer();
+    // console.log("Timer Updated");
+    if (!photonmanager.getInstance().gamestarted) {
+      console.log("Timer in Photon", photonmanager.getInstance().photon_instance.myRoom().getCustomProperty("timer"));
+      if (
+        photonmanager.getInstance().photon_instance.myRoom().getCustomProperty("timer") >= 0 &&
+        photonmanager.getInstance().photon_instance.myRoom().getCustomProperty("timer") < 50
+      ) {
+        console.log("Inside If condition");
+        photonmanager.getInstance().playerScriptRef?.updateOtherPlayerTimer();
+      } else {
+      }
+    } else {
+      console.log("Inside else block");
+      photonmanager.getInstance().wallCollisionRef?.updateOtherPlayerTimer();
+    }
   }
 
   onStateChange(state: number): void {
