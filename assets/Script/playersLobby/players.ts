@@ -43,20 +43,20 @@ export class playerslobby extends Component {
     gameDataInstance;
     photon: any;
 
-  targetMapNode;
-  allNums: number[];
-  Min: number = 0;
-  Sec: number = 15;
-  Timer: any;
-  start() {
-    this.photon.player_lobbys = this;
-  }
-  onLoad() {
-    this.gameDataInstance = gameData.getInstance();
-    this.instantiatePlayers();
-    this.selectMapButton.on(Input.EventType.TOUCH_START, this.SelectMap);
-    photonmanager.getInstance().playerScriptRef = this;
-    console.log("Target Map Node", this.targetMapNode);
+    targetMapNode;
+    allNums: number[];
+    Min: number = 0;
+    Sec: number = 15;
+    Timer: any;
+    start() {
+        this.photon.player_lobbys = this;
+    }
+    onLoad() {
+        this.gameDataInstance = gameData.getInstance();
+        this.instantiatePlayers();
+        this.selectMapButton.on(Input.EventType.TOUCH_START, this.SelectMap);
+        photonmanager.getInstance().playerScriptRef = this;
+        console.log("Target Map Node", this.targetMapNode);
 
         this.photon = photonmanager.getInstance().photon_instance;
         console.log("photon data", this.photon);
@@ -202,93 +202,96 @@ export class playerslobby extends Component {
             });
     }
 
-  stopwatchTimer() {
-    let timer = instantiate(this.timer);
-    this.node.addChild(timer);
-    this.Timer = this.node.getChildByName("Timer");
-    photonmanager.getInstance().photon_instance.myRoom().setCustomProperty("timer", 5);
-    if (
-      photonmanager.getInstance().photon_instance.myActor().actorNr ==
-      photonmanager.getInstance().photon_instance.myRoomMasterActorNr()
-    ) {
-      this.schedule(this.timerworking, 1);
-      if (this.Min == 0 && this.Sec == 0) {
-        this.unschedule(this.timerworking);
-      }
-    }
-  }
-  /**
-   * @description Callback Function Scheduled after every Sec until reaches 00:00
-   */
-  timerworking() {
-    if (this.Min > 0 || this.Sec > 0) {
-      if (this.Sec == 0) {
-        this.Sec = 60;
-        this.Min--;
-        if (this.Min == 0 && this.Sec == 0) {
-          this.Min = 60;
+    stopwatchTimer() {
+        let timer = instantiate(this.timer);
+        this.node.addChild(timer);
+        this.Timer = this.node.getChildByName("Timer");
+        photonmanager.getInstance().photon_instance.myRoom().setCustomProperty("timer", 5);
+        if (
+            photonmanager.getInstance().photon_instance.myActor().actorNr ==
+            photonmanager.getInstance().photon_instance.myRoomMasterActorNr()
+        ) {
+            this.schedule(this.timerworking, 1);
+            if (this.Min == 0 && this.Sec == 0) {
+                this.unschedule(this.timerworking);
+            }
         }
-      }
-      let date = new Date();
-      let time = date.getSeconds();
-      let timeProperty = photonmanager.getInstance().photon_instance.myRoom().getCustomProperty("timer");
+    }
+    /**
+     * @description Callback Function Scheduled after every Sec until reaches 00:00
+     */
+    timerworking() {
+        if (this.Min > 0 || this.Sec > 0) {
+            if (this.Sec == 0) {
+                this.Sec = 60;
+                this.Min--;
+                if (this.Min == 0 && this.Sec == 0) {
+                    this.Min = 60;
+                }
+            }
+            let date = new Date();
+            let time = date.getSeconds();
+            let timeProperty = photonmanager.getInstance().photon_instance.myRoom().getCustomProperty("timer");
 
-      console.log("Timer Property", timeProperty--);
-      photonmanager.getInstance().photon_instance.myRoom().setCustomProperty("timer", timeProperty);
-      console.log("TIMER", time);
-      // this.Sec = -(this.Sec-time);
-      console.log("GETTING PROPERTY", photonmanager.getInstance().photon_instance.myRoom().getCustomProperty("timer"));
-      this.Sec = photonmanager.getInstance().photon_instance.myRoom().getCustomProperty("timer");
-      let m = this.Min < 10 ? "0" + this.Min : this.Min;
-      let s = this.Sec < 10 ? "0" + this.Sec : this.Sec;
-      this.Timer.getComponent(Label).string = m.toString() + ":" + s.toString();
+            console.log("Timer Property", timeProperty--);
+            photonmanager.getInstance().photon_instance.myRoom().setCustomProperty("timer", timeProperty);
+            console.log("TIMER", time);
+            // this.Sec = -(this.Sec-time);
+            console.log(
+                "GETTING PROPERTY",
+                photonmanager.getInstance().photon_instance.myRoom().getCustomProperty("timer")
+            );
+            this.Sec = photonmanager.getInstance().photon_instance.myRoom().getCustomProperty("timer");
+            let m = this.Min < 10 ? "0" + this.Min : this.Min;
+            let s = this.Sec < 10 ? "0" + this.Sec : this.Sec;
+            this.Timer.getComponent(Label).string = m.toString() + ":" + s.toString();
+        }
     }
-  }
 
-  updateOtherPlayerTimer() {
-    this.Sec = photonmanager.getInstance().photon_instance.myRoom().getCustomProperty("timer");
-    let m = this.Min < 10 ? "0" + this.Min : this.Min;
-    let s = this.Sec < 10 ? "0" + this.Sec : this.Sec;
-    if (this.Timer.getComponent(Label) != null) {
-      this.Timer.getComponent(Label).string = m.toString() + ":" + s.toString();
+    updateOtherPlayerTimer() {
+        this.Sec = photonmanager.getInstance().photon_instance.myRoom().getCustomProperty("timer");
+        let m = this.Min < 10 ? "0" + this.Min : this.Min;
+        let s = this.Sec < 10 ? "0" + this.Sec : this.Sec;
+        if (this.Timer.getComponent(Label) != null) {
+            this.Timer.getComponent(Label).string = m.toString() + ":" + s.toString();
+        }
     }
-  }
 
-  starts = true;
-  counterstarted = true;
-  //maximum number of player in room
-  playertostartgame = 2;
-  update(deltaTime: number) {
-    this.targetMapNode = this.gameDataInstance.getMapWithMaxVotes();
-    if (this.targetMapNode != null) {
-      this.showMapWithMaxVotes(this.targetMapNode);
-    }
-    if (photonmanager.getInstance().photon.myRoomActorCount() == this.playertostartgame && this.counterstarted) {
-      this.stopwatchTimer();
-      this.counterstarted = false;
-    } else if (
-      this.counterstarted == false &&
-      photonmanager.getInstance().photon.myRoomActorCount() < this.playertostartgame
-    ) {
-      console.log("bbbb");
-      this.Min = 0;
+    starts = true;
+    counterstarted = true;
+    //maximum number of player in room
+    playertostartgame = 5;
+    update(deltaTime: number) {
+        this.targetMapNode = this.gameDataInstance.getMapWithMaxVotes();
+        if (this.targetMapNode != null) {
+            this.showMapWithMaxVotes(this.targetMapNode);
+        }
+        if (photonmanager.getInstance().photon.myRoomActorCount() == this.playertostartgame && this.counterstarted) {
+            this.stopwatchTimer();
+            this.counterstarted = false;
+        } else if (
+            this.counterstarted == false &&
+            photonmanager.getInstance().photon.myRoomActorCount() < this.playertostartgame
+        ) {
+            console.log("bbbb");
+            this.Min = 0;
 
-      this.Sec = 0;
-      this.node.getChildByName("Timer").destroy();
-      this.counterstarted = true;
+            this.Sec = 0;
+            this.node.getChildByName("Timer").destroy();
+            this.counterstarted = true;
+        }
+        if (
+            photonmanager.getInstance().photon.myRoomActorCount() == this.playertostartgame &&
+            this.starts &&
+            photonmanager.getInstance().photon_instance.myActor().actorNr ==
+                photonmanager.getInstance().photon_instance.myRoomMasterActorNr() &&
+            !photonmanager.getInstance().photon.gamestarted
+        ) {
+            if (this.Min == 0 && this.Sec == 0) {
+                this.StartGame();
+                photonmanager.getInstance().photon_instance.myRoom().setCustomProperty("gamestarted", true);
+                this.starts = false;
+            }
+        }
     }
-    if (
-      photonmanager.getInstance().photon.myRoomActorCount() == this.playertostartgame &&
-      this.starts &&
-      photonmanager.getInstance().photon_instance.myActor().actorNr ==
-        photonmanager.getInstance().photon_instance.myRoomMasterActorNr() &&
-      !photonmanager.getInstance().photon.gamestarted
-    ) {
-      if (this.Min == 0 && this.Sec == 0) {
-        this.StartGame();
-        photonmanager.getInstance().photon_instance.myRoom().setCustomProperty("gamestarted", true);
-        this.starts = false;
-      }
-    }
-  }
 }

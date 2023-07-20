@@ -15,6 +15,7 @@ import {
     Input,
     tween,
     Vec2,
+    log,
 } from "cc";
 const { ccclass, property } = _decorator;
 
@@ -231,9 +232,16 @@ export class MiniGame2 extends Component {
             this.rotateSprites();
             this.taskOver.active = true;
             this.taskCompleted = true;
+            setTimeout(() => {
+                this.node.parent.destroy();
+            }, 1000);
         }
     };
+    closeBtn() {
+        console.log("close btn call ");
 
+        this.node.parent.destroy();
+    }
     start() {}
 
     update(deltaTime: number) {}

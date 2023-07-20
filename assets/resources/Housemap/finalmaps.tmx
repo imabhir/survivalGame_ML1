@@ -55,19 +55,19 @@
  </objectgroup>
  <objectgroup id="5" name="player"/>
  <objectgroup id="4" name="playerlocation">
-  <object id="1" x="2205.92" y="1064.03">
+  <object id="1" x="1877.92" y="888.03">
    <point/>
   </object>
-  <object id="3" x="2143.94" y="1022.72">
+  <object id="3" x="2181.94" y="1034.72">
    <point/>
   </object>
-  <object id="4" x="2040.05" y="974.538">
+  <object id="4" x="1736.05" y="894.538">
    <point/>
   </object>
-  <object id="6" x="2236.3" y="1202.6">
+  <object id="6" x="2038.3" y="900.6">
    <point/>
   </object>
-  <object id="9" x="2156.24" y="997.183">
+  <object id="9" x="2132.24" y="909.183">
    <point/>
   </object>
  </objectgroup>
