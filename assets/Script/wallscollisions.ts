@@ -557,6 +557,7 @@ export class walls extends Component {
   }
   update(deltaTime: number) {
     //functionality to check if the bounding box of player collides with an particular bounding box given in tilemap object groups
+    console.log("MASTER NAME : ", this.photon_instance.myRoomMasterActorNr());
     let position = this.node.getComponent(UITransform).convertToNodeSpaceAR(this.player.getPosition());
     this.player_bb = new Rect(
       position.x + this.node.getComponent(UITransform).width * 0.5 - this.player.getComponent(UITransform).width * 0.5,

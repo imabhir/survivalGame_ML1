@@ -183,6 +183,12 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
     //     this.player_movement.move_actor(actor)
   }
   onActorLeave(actor: Photon.LoadBalancing.Actor, cleanup: boolean): void {
+    if (
+      photonmanager.getInstance().photon_instance.myActor().actorNr ==
+      photonmanager.getInstance().photon_instance.myRoomMasterActorNr()
+    ) {
+      this.wall.stopwatchTimer();
+    }
     if (this.joined && photonmanager.getInstance().gamestarted) {
       this.player_movement.destroycharacter(actor);
       console.log("a");
@@ -192,7 +198,7 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
   }
 
   onMyRoomPropertiesChange(): void {
-    // console.log("Timer Updated");
+    console.log("Timer Updated");
     if (!photonmanager.getInstance().gamestarted) {
       console.log("Timer in Photon", photonmanager.getInstance().photon_instance.myRoom().getCustomProperty("timer"));
       if (
