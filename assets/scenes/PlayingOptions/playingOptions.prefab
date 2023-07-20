@@ -2567,6 +2567,10 @@
       "__uuid__": "e25aabe0-7643-4daa-be0f-968871401bc1",
       "__expectedType__": "cc.Prefab"
     },
+    "playerLobbyPrefab": {
+      "__uuid__": "f59c1845-7cae-40f7-908b-519287426047",
+      "__expectedType__": "cc.Prefab"
+    },
     "SettingsNode": {
       "__id__": 87
     },
