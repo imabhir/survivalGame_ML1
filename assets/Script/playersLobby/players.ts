@@ -272,6 +272,7 @@ export class playerslobby extends Component {
     ) {
       console.log("bbbb");
       this.Min = 0;
+
       this.Sec = 0;
       this.node.getChildByName("Timer").destroy();
       this.counterstarted = true;
