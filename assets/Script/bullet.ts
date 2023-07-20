@@ -1,19 +1,17 @@
-import { _decorator, Component, isValid, Node } from 'cc';
+import { _decorator, Component, isValid, Node } from "cc";
 const { ccclass, property } = _decorator;
 
-@ccclass('bullet')
+@ccclass("bullet")
 export class bullet extends Component {
-    start() {
+  start() {}
+  timeToLive = 5000;
 
-    }
-    timeToLive = 5000
+  timeAlive = 0;
 
-    timeAlive = 0
+  update(dt) {
+    if (!isValid(this.node)) return;
 
-    update(dt) {
-        if (!isValid(this.node)) return
-
-        this.timeAlive += dt * 1000
-        if (this.timeAlive >= this.timeToLive) this.node.destroy()
-    }
+    this.timeAlive += dt * 1000;
+    if (this.timeAlive >= this.timeToLive) this.node.destroy();
+  }
 }
