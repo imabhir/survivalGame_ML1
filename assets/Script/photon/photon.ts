@@ -56,20 +56,26 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
     start() {
         if (this.ConnectOnStart) {
             if (photonMasterServer) {
+                console.log("photon server connect to master server ");
+
                 this.setMasterServerAddress(photonMasterServer);
                 this.connect();
             }
             if (photonNameServer) {
+                console.log("photon server connect to name server ");
                 this.setNameServerAddress(photonNameServer);
                 this.connectToRegionMaster(photonRegion || "in");
             } else {
+                console.log("photon server connect to region server ");
                 this.connectToRegionMaster(photonRegion || "in");
 
                 //config.connectToNameServer({ region: "EU", lobbyType: Photon.LoadBalancing.Constants.LobbyType.Default });
             }
         }
     }
-
+    rejoinCallBak() {
+        this.rejoinCallBak;
+    }
     joined = false;
     onJoinRoom(createdByMe: boolean): void {
         console.log(this.myRoom());
@@ -88,7 +94,28 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
             console.log("logged");
         }
     }
+    // attemptReconnect() {
+    //     if (this.isInRoom() && this.myActor().isInactive) {
+    //         // Here, you should have a mechanism to fetch the player's data from the server using a reconnection token.
+    //         // The reconnection token can be stored on the server when the player first connects and is used to identify the player.
+    //         // Fetch player data using the reconnection token and restore their state in the game.
+    //         // For simplicity, we assume the player's data is stored in a variable called 'playerData'.
+    //         const playerData = getStoredPlayerData(); // Implement this function to fetch player data from the server.
 
+    //         // Ensure the player data is valid and related to the current player attempting to reconnect.
+    //         if (playerData && playerData.playerId === this.myActor().actorNr) {
+    //             // Restore the player's state, position, health, etc.
+    //             // For example, you could call functions like 'restorePlayerPosition(playerData.position)' and 'restorePlayerHealth(playerData.health)'.
+    //             // You should also handle other relevant aspects of the player's state here.
+    //             console.log("Player reconnected successfully!");
+    //             this.myActor().isInactive = false;
+    //         } else {
+    //             // The reconnection token is invalid or not related to the current player.
+    //             console.log("Failed to reconnect the player. Invalid reconnection token.");
+    //             // You may want to disconnect the player or handle this case differently.
+    //         }
+    //     }
+    // }
     onEvent(Event: number, content: any, actorNr: number): void {
         // console.log(Event);
         // this.raiseEvent

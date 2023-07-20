@@ -58,26 +58,34 @@ export class loginscreen extends Component {
     }
     login() {
         let forms = instantiate(this.form);
-
         this.node.addChild(forms);
-        // this.button.active = false;
 
         tween(forms)
             .to(0.2, { scale: new Vec3(1, 1, 1), angle: 360 * 2 })
             .start();
     }
     selectAvatar = () => {
-        this.avatarSelectionNode = instantiate(this.avatarSelection);
-        this.node.addChild(this.avatarSelectionNode);
+        if (!this.avatarSelectionNode) {
+            this.avatarSelectionNode = instantiate(this.avatarSelection);
+            this.node.addChild(this.avatarSelectionNode);
+        } else {
+            this.avatarSelectionNode.active = true;
+        }
     };
     selectMode = () => {
+        console.log("inside select mode ");
+
+        if (!this.modeSelectionNode) {
+            this.modeSelectionNode = instantiate(this.modeSelction);
+            this.node.addChild(this.modeSelectionNode);
+        } else {
+            this.modeSelectionNode.active = true;
+        }
         this.avatarSelectionNode.active = false;
-        this.modeSelectionNode = instantiate(this.modeSelction);
-        this.node.addChild(this.modeSelectionNode);
     };
     backFromModeSelection = () => {
         this.avatarSelectionNode.active = true;
-        this.modeSelectionNode.destroy();
+        this.modeSelectionNode.active = false;
     };
     update(deltaTime: number) {}
 }

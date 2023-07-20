@@ -17,6 +17,7 @@ import {
     tween,
     Toggle,
     log,
+    PlaceMethod,
 } from "cc";
 import { audioManager } from "../audio/scripts/audioManager";
 // import { gameData } from '../../gameData';
@@ -27,6 +28,7 @@ import { resourceManager } from "../singleton/resourceManager";
 import { ModeEnum, MODE_NAME } from "./ModeEnum";
 import { DataHandler } from "../singleton/DataHandler";
 import { loginscreen } from "../loadLogin/loginscreen";
+import { playingOptions } from "../PlayingOptions/playingOptions";
 const { ccclass, property } = _decorator;
 
 @ccclass("modes")
@@ -65,6 +67,7 @@ export class modes extends Component {
     backButton: Node = null;
     @property({ type: Prefab })
     playingOption: Prefab = null;
+    playingOptionNode: Node = null;
     // It is used to store the modeInformation which is used to check which mode we are entering in
     modeIndex;
     gameDataInstance = gameData.getInstance();
@@ -87,14 +90,17 @@ export class modes extends Component {
             // director.loadScene("Avatar");
         });
     }
-
+    backFromRoomSelection() {
+        this.loadingIcon.active = false;
+        this.rotater.active = false;
+    }
     /**
      * This function is used to apply background music
      */
 
     applyMusic = () => {
-        this.loadingIcon.active = false;
-        this.rotater.active = false;
+        // this.loadingIcon.active = false;
+        // this.rotater.active = false;
         // this.scheduleOnce(() => {
         const music = instantiate(this.resourceInstance.GetPrefab("Music"));
         this.node.addChild(music);
@@ -229,11 +235,18 @@ export class modes extends Component {
 
         setTimeout(() => {
             // director.loadScene("PlayingOptions");
-            let playingOption = instantiate(this.playingOption);
-            this.node.addChild(playingOption);
+
+            if (!this.playingOptionNode) {
+                this.playingOptionNode = instantiate(this.playingOption);
+                this.node.addChild(this.playingOptionNode);
+            } else {
+                this.playingOptionNode.active = true;
+                this.playingOptionNode.getComponent(playingOptions).showMode();
+            }
         }, 3000);
 
         this.gameDataInstance.initMode(this.modeIndex);
+        // this.node.active = false;
     };
 
     /**

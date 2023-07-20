@@ -1,4 +1,18 @@
-import { _decorator, Component, Node, director, EditBox, Input, instantiate, Label, Color, tween, log, Vec3 } from "cc";
+import {
+    _decorator,
+    Component,
+    Node,
+    director,
+    EditBox,
+    Input,
+    instantiate,
+    Label,
+    Color,
+    tween,
+    log,
+    Vec3,
+    Prefab,
+} from "cc";
 import { gameData } from "../singleton/gameData";
 import { resourceManager } from "../singleton/resourceManager";
 import { DataHandler } from "../singleton/DataHandler";
@@ -16,7 +30,8 @@ export class load extends Component {
 
     @property({ type: Node })
     LoginButton: Node = null;
-
+    @property({ type: Prefab })
+    forgetPasswordPanel: Prefab = null;
     // UserName and Password Format
     obj = {
         UserNameFormat:
