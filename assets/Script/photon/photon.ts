@@ -192,26 +192,23 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
             this.player_lobby.leaveplayerinlobby(actor);
     }
 
-    onMyRoomPropertiesChange(): void {
-        // console.log("Timer Updated");
-        if (!photonmanager.getInstance().gamestarted) {
-            console.log(
-                "Timer in Photon",
-                photonmanager.getInstance().photon_instance.myRoom().getCustomProperty("timer")
-            );
-            if (
-                photonmanager.getInstance().photon_instance.myRoom().getCustomProperty("timer") >= 0 &&
-                photonmanager.getInstance().photon_instance.myRoom().getCustomProperty("timer") < 50
-            ) {
-                console.log("Inside If condition");
-                photonmanager.getInstance().playerScriptRef?.updateOtherPlayerTimer();
-            } else {
-            }
-        } else {
-            console.log("Inside else block");
-            photonmanager.getInstance().wallCollisionRef?.updateOtherPlayerTimer();
-        }
+  onMyRoomPropertiesChange(): void {
+    // console.log("Timer Updated");
+    if (!photonmanager.getInstance().gamestarted) {
+      console.log("Timer in Photon", photonmanager.getInstance().photon_instance.myRoom().getCustomProperty("timer"));
+      if (
+        photonmanager.getInstance().photon_instance.myRoom().getCustomProperty("timer") >= 0 &&
+        photonmanager.getInstance().photon_instance.myRoom().getCustomProperty("timer") < 50
+      ) {
+        console.log("Inside If condition");
+        photonmanager.getInstance().playerScriptRef?.updateOtherPlayerTimer();
+      } else {
+      }
+    } else {
+      console.log("Inside else block");
+      photonmanager.getInstance().wallCollisionRef?.updateOtherPlayerTimer();
     }
+  }
 
     onStateChange(state: number): void {
         console.log(state);

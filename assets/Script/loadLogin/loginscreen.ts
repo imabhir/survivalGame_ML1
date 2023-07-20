@@ -15,6 +15,7 @@ import {
 import { resourceManager } from "../singleton/resourceManager";
 import { DataHandler } from "../singleton/DataHandler";
 import { avatarSelection } from "../AvatarSelectionscripts/avatarSelection";
+import { login } from "./load";
 const { ccclass, property } = _decorator;
 
 @ccclass("loginscreen")
@@ -27,8 +28,8 @@ export class loginscreen extends Component {
     Progressbar: ProgressBar = null;
     @property(Label)
     loadMessage: Label = null;
-    @property({ type: Node })
-    loginBtn: Node = null;
+    @property({ type: Button })
+    loginBtn: Button = null;
     @property({ type: Node })
     loadingNode: Node = null;
     @property({ type: Prefab })
@@ -61,7 +62,8 @@ export class loginscreen extends Component {
             this.flag = false;
             console.log("Change Scene To Login");
             this.loadingNode.active = false;
-            this.loginBtn.active = true;
+            this.loginBtn.node.active = true;
+
             this.unschedule(this.updateProgress);
             // director.loadScene("Login");
         }
@@ -69,14 +71,11 @@ export class loginscreen extends Component {
         // this.loadMessage.string = this.resourceInstance.loadingMessage;
         this.Progressbar.getComponent(ProgressBar).progress = percentage / 100;
     }
-    btnInteractableChange() {
-        this.loginBtn.getComponent(Button).interactable = !this.loginBtn.getComponent(Button).interactable;
-    }
     login() {
-        this.btnInteractableChange();
+        this.loginBtn.interactable = false;
         let forms = instantiate(this.form);
         this.node.addChild(forms);
-
+        forms.getComponent(login);
         tween(forms)
             .to(0.2, { scale: new Vec3(1, 1, 1), angle: 360 * 2 })
             .start();
@@ -104,5 +103,8 @@ export class loginscreen extends Component {
         this.avatarSelectionNode.active = true;
         this.modeSelectionNode.active = false;
     };
+    activeLoginBtn() {
+        this.loginBtn.interactable = true;
+    }
     update(deltaTime: number) {}
 }

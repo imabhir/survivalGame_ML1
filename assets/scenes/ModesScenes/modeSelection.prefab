@@ -1863,7 +1863,7 @@
       }
     ],
     "_interactable": true,
-    "_transition": 3,
+    "_transition": 0,
     "_normalColor": {
       "__type__": "cc.Color",
       "r": 255,
@@ -1906,7 +1906,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "11FLe0vNFMOK63Uf+Wc5bR"
+    "fileId": "a3PRPkqdVEWaVycD0VmXA2"
   },
   {
     "__type__": "cc.ClickEvent",
@@ -1915,7 +1915,7 @@
     },
     "component": "",
     "_componentId": "4bb79nJHGNN55/mICTD0nI/",
-    "handler": "enterMode",
+    "handler": "enterButtonClicked",
     "customEventData": ""
   },
   {
@@ -2894,7 +2894,7 @@
       "__expectedType__": "cc.Prefab"
     },
     "EnterButton": {
-      "__id__": 76
+      "__id__": 87
     },
     "backButton": {
       "__id__": 91
