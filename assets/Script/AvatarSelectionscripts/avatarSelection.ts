@@ -22,9 +22,12 @@ const { ccclass, property } = _decorator;
 import { photonmanager } from "../../Script/photon/photonmanager";
 import { DataHandler } from "../singleton/DataHandler";
 import { loginscreen } from "../loadLogin/loginscreen";
+import { PopupManager } from "../PopUpHandler/PopupManager";
+import { POPUPS } from "../constants/Popup";
+import PopupBase from "../PopUpHandler/PopupBase";
 
 @ccclass("avatarSelection")
-export class avatarSelection extends Component {
+export class avatarSelection extends PopupBase {
     @property({ type: Prefab })
     avatar: Prefab = null;
 
@@ -35,17 +38,11 @@ export class avatarSelection extends Component {
     startButton: Node = null;
 
     @property({ type: Node })
-    SettingsNode: Node = null;
-
-    @property({ type: Node })
-    AccountNode: Node = null;
-
-    @property({ type: Node })
     playerAnimation: Node = null;
 
     resourceInstance = resourceManager.getInstance();
     audioInstance = audioManager.getInstance();
-
+    newFlag: string = "";
     pool1 = new NodePool();
 
     cnt = 0;
@@ -56,8 +53,8 @@ export class avatarSelection extends Component {
     onLoad() {
         this.BackgroundHeight = this.node.getComponent(UITransform).height;
         this.BackgroundWidth = this.node.getComponent(UITransform).width;
-        this.addSettings();
-        this.addAccountButton();
+        // this.addSettings();
+        // this.addAccountButton();
         this.addAvatar();
 
         this.startButton.on(Input.EventType.TOUCH_START, this.goToModes);
@@ -138,21 +135,19 @@ export class avatarSelection extends Component {
         });
     }
 
-    addAccountButton = () => {
-        const account = instantiate(this.resourceInstance.GetPrefab("AccountSettings"));
-        // account.on(Input.EventType.TOUCH_START, this.openAccountInfo);
-        this.AccountNode.addChild(account);
-        account.parent.setSiblingIndex(this.node.children.length);
-    };
+    addAccountButton() {
+        this.newFlag = "Immediately open";
+        PopupManager.show(POPUPS.ACCOUNT, this.newFlag);
+    }
 
     /**
      * Adding settings icon to avatar selection scene
      */
 
-    addSettings = () => {
-        const setting = instantiate(this.resourceInstance.GetPrefab("SettingsControls"));
-        this.SettingsNode.addChild(setting);
-    };
+    addSettings() {
+        this.newFlag = "Immediately open";
+        PopupManager.show(POPUPS.SETTINGS, this.newFlag);
+    }
 
     /**
      * Opening of settings

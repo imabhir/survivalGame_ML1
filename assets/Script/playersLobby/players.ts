@@ -273,7 +273,7 @@ export class playerslobby extends Component {
     starts = true;
     counterstarted = true;
     //maximum number of player in room
-    playertostartgame = 5;
+    playertostartgame = 3;
     update(deltaTime: number) {
         this.targetMapNode = this.gameDataInstance.getMapWithMaxVotes();
         if (this.targetMapNode != null) {

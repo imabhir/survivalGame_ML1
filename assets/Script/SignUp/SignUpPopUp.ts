@@ -1,9 +1,9 @@
 import { _decorator, Button, Color, Component, EditBox, log, Node, Sprite } from "cc";
 import { loginscreen } from "../loadLogin/loginscreen";
 import { DataHandler } from "../singleton/DataHandler";
-import { FieldValidator } from "./FieldValidator";
-import { API_END_POINTS, REQUEST_TYPE } from "./Network/NetworkConfig";
-import { NetworkManager } from "./Network/NetworkManager";
+import { FieldValidator } from "../Common/FieldValidator";
+import { API_END_POINTS, REQUEST_TYPE } from "../Common/Network/NetworkConfig";
+import { NetworkManager } from "../Common/Network/NetworkManager";
 
 const { ccclass, property } = _decorator;
 
@@ -14,9 +14,7 @@ export class SignUpPopUp extends Component {
     @property({ type: EditBox, displayName: "Password Editbox" }) passwordEb = new EditBox();
     @property({ type: Node })
     signUpPanel: Node = null;
-    @property({ type: Node })
-    otpPanel: Node = null;
-    @property({ type: EditBox, displayName: "Otp EditBox" }) otpEd = new EditBox();
+
     start() {}
     checkValidation() {
         let isUserNameValid = this.usernameEb.getComponent(FieldValidator)!.doValidation(this.usernameEb.string.trim());
@@ -28,23 +26,16 @@ export class SignUpPopUp extends Component {
 
         if (isEmailValid.isValid || isPasswordValid.isValid || isUserNameValid.isValid) {
             console.log("form data is valid ");
-            this.openOtpPanel();
+            DataHandler.Instance.loginScreen.getComponent(loginscreen).otpCheckNode();
             // this.node.active = false;
             // DataHandler.Instance.loginScreen.getComponent(loginscreen).selectAvatar();
         }
     }
-    backBtn() {
-        this.signUpPanel.active = true;
-        this.otpPanel.active = false;
-    }
+
     signUpBTnCLick() {
         // if()
     }
-    openOtpPanel() {
-        this.otpEd.string = "";
-        this.signUpPanel.active = false;
-        this.otpPanel.active = true;
-    }
+
     continueBtnClick() {
         this.node.active = false;
         DataHandler.Instance.loginScreen.getComponent(loginscreen).selectAvatar();

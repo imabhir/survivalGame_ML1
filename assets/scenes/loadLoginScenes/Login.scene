@@ -173,7 +173,7 @@
     "_priority": 1073741824,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 540,
+    "_orthoHeight": 597.7859778597787,
     "_near": 0,
     "_far": 2000,
     "_color": {
@@ -1957,6 +1957,14 @@
     },
     "modeSelction": {
       "__uuid__": "969ee59a-058c-4a83-ab54-8707dcaf54b0",
+      "__expectedType__": "cc.Prefab"
+    },
+    "signUpPanel": {
+      "__uuid__": "1494ad3e-9d51-4ef3-991d-b470dcec504c",
+      "__expectedType__": "cc.Prefab"
+    },
+    "otpPanel": {
+      "__uuid__": "815eefbe-2589-478c-a34b-5ec7ed5bd493",
       "__expectedType__": "cc.Prefab"
     },
     "_id": "14sCel4zFF5oo0rgt2IMuL"

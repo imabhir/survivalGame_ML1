@@ -16,6 +16,7 @@ import { resourceManager } from "../singleton/resourceManager";
 import { DataHandler } from "../singleton/DataHandler";
 import { avatarSelection } from "../AvatarSelectionscripts/avatarSelection";
 import { login } from "./load";
+import { LocAndSessStoreManager } from "../Common/managers/LocAndSessStoreManager";
 const { ccclass, property } = _decorator;
 
 @ccclass("loginscreen")
@@ -36,10 +37,17 @@ export class loginscreen extends Component {
     avatarSelection: Prefab = null;
     @property({ type: Prefab })
     modeSelction: Prefab = null;
+    @property({ type: Prefab })
+    signUpPanel: Prefab = null;
+    @property({ type: Prefab })
+    otpPanel: Prefab = null;
     resourceInstance = resourceManager.getInstance();
     flag = true;
     avatarSelectionNode: Node = null;
     modeSelectionNode: Node = null;
+    signUpPanelNode: Node = null;
+    otpPanelNode: Node = null;
+    loginNode: Node = null;
     protected onLoad(): void {
         DataHandler.Instance.loginScreen = this.node;
     }
@@ -72,14 +80,52 @@ export class loginscreen extends Component {
         this.Progressbar.getComponent(ProgressBar).progress = percentage / 100;
     }
     login() {
-        this.loginBtn.interactable = false;
-        let forms = instantiate(this.form);
-        this.node.addChild(forms);
-        forms.getComponent(login);
-        tween(forms)
+        if (LocAndSessStoreManager.Instance.getData("login") == "") {
+            this.loginBtn.interactable = false;
+            // if (LocAndSessStoreManager.Instance.getData("token")) {
+
+            // let forms = instantiate(this.form);
+            // this.node.addChild(forms);
+            // // forms.getComponent(login);
+            // tween(forms)
+            //     .to(0.2, { scale: new Vec3(1, 1, 1), angle: 360 * 2 })
+            //     .start();
+            // } else {
+            //     console.log("signUp");
+            this.signUpPanelNode = instantiate(this.signUpPanel);
+            this.node.addChild(this.signUpPanelNode);
+            tween(this.signUpPanelNode)
+                .to(0.2, { scale: new Vec3(1, 1, 1), angle: 360 * 2 })
+                .start();
+            // }
+        } else {
+            this.selectAvatar();
+        }
+    }
+    loginPanel() {
+        this.loginNode = instantiate(this.form);
+        this.node.addChild(this.loginNode);
+        // forms.getComponent(login);
+        tween(this.loginNode)
             .to(0.2, { scale: new Vec3(1, 1, 1), angle: 360 * 2 })
             .start();
     }
+    otpCheckNode() {
+        this.signUpPanelNode.active = false;
+        if (this.otpPanelNode) {
+            this.otpPanelNode.active = true;
+        } else {
+            this.otpPanelNode = instantiate(this.otpPanel);
+            this.node.addChild(this.otpPanelNode);
+        }
+    }
+    backFromOtpPanel() {
+        console.log("loginscreen function call ");
+
+        this.otpPanelNode.active = false;
+        this.signUpPanelNode.active = true;
+    }
+
     selectAvatar = () => {
         if (!this.avatarSelectionNode) {
             this.avatarSelectionNode = instantiate(this.avatarSelection);
