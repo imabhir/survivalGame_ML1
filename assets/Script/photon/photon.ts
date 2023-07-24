@@ -182,6 +182,7 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
     // if (this.joined && photonmanager.getInstance().gamestarted)
     //     this.player_movement.move_actor(actor)
   }
+
   onActorLeave(actor: Photon.LoadBalancing.Actor, cleanup: boolean): void {
     if (
       photonmanager.getInstance().photon_instance.myActor().actorNr ==
@@ -191,14 +192,13 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
     }
     if (this.joined && photonmanager.getInstance().gamestarted) {
       this.player_movement.destroycharacter(actor);
-      console.log("a");
     }
-    console.log("gaya");
+    console.log("player leave");
     if (!photonmanager.getInstance().gamestarted && this.isJoinedToRoom()) this.player_lobby.leaveplayerinlobby(actor);
   }
 
   onMyRoomPropertiesChange(): void {
-    console.log("Timer Updated");
+    // console.log("Timer Updated");
     if (!photonmanager.getInstance().gamestarted) {
       console.log("Timer in Photon", photonmanager.getInstance().photon_instance.myRoom().getCustomProperty("timer"));
       if (

@@ -34,12 +34,12 @@ export class login extends Component {
     update(deltaTime: number) {
         let percentage = (this.resourceInstance.loadPercentage / this.resourceInstance.totalItems) * 100;
         console.log("this is", percentage);
-        if (percentage == 100 && this.flag) {
-            this.flag = false;
-            console.log("Change Scene To Login");
+        // if (percentage == 100 && this.flag) {
+        //     this.flag = false;
+        //     console.log("Change Scene To Login");
 
-            director.loadScene("Login");
-        }
+        //     director.loadScene("Login");
+        // }
 
         // this.loadMessage.string = this.resourceInstance.loadingMessage;
         this.Progressbar.getComponent(ProgressBar).progress = percentage / 100;
