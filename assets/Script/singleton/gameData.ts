@@ -8,9 +8,6 @@ export class gameData {
   private modeIndex: gameData = null;
   private targetMapNode: Node = null;
   private SaveUser: string = "";
-  // private UserName: string = "";
-  private gameData() {}
-
   /**
    *
    * @returns instance of the class
@@ -45,9 +42,9 @@ export class gameData {
     // if (this.object[event.target.name] > 0) {
     //   console.log("Map Inc", this.object[event.target.name]);
     // } else {
-    photonmanager.getInstance().photon_instance.maps[targetMapWithMaxVotes.name] += 1;
+    photonmanager.Instance.photon_instance.maps[targetMapWithMaxVotes.name] += 1;
     //   this.object[event.target.name] = 1;
-    let selectedObj = photonmanager.getInstance().photon_instance.maps[targetMapWithMaxVotes.name];
+    let selectedObj = photonmanager.Instance.photon_instance.maps[targetMapWithMaxVotes.name];
     // for (const key in photonmanager.getInstance().photon_instance.maps) {
     //   //   // console.log("Check Method in Map.ts", this.object[key]);
     //   if (photonmanager.getInstance().photon_instance.maps[key] == selectedObj) {
@@ -61,27 +58,21 @@ export class gameData {
     //   //   }
     // }
 
-    photonmanager.getInstance().photon_instance.raiseEvent(2000, { name: targetMapWithMaxVotes.name });
+    photonmanager.Instance.photon_instance.raiseEvent(2000, { name: targetMapWithMaxVotes.name });
     this.targetMapNode = targetMapWithMaxVotes;
   }
-
-  getMapWithMaxVotes() {
+  setmapWithMaxVotes(targetMapNode: Node) {
+    this.targetMapNode = targetMapNode;
+  }
+  getMapWithMaxVotes(): Node {
     return this.targetMapNode;
   }
 
-  // SetUserName(UserName){
-  //     this.UserName = UserName
-  // }
-
-  // GetUserName(){
-  //     return this.UserName
-  // }
-
-  SetSaveUserName(UserName) {
+  SetSaveUserName(UserName: string) {
     this.SaveUser = UserName;
   }
 
-  GetSaveUserName() {
+  GetSaveUserName(): string {
     return this.SaveUser;
   }
 }

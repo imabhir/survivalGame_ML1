@@ -1,248 +1,239 @@
 import {
-    _decorator,
-    Component,
-    Node,
-    Prefab,
-    instantiate,
-    UITransform,
-    Vec3,
-    Size,
-    randomRangeInt,
-    Sprite,
-    random,
-    JsonAsset,
-    Label,
-    Input,
-    tween,
-    Vec2,
-    log,
+  _decorator,
+  Component,
+  Node,
+  Prefab,
+  instantiate,
+  UITransform,
+  Vec3,
+  Size,
+  randomRangeInt,
+  Sprite,
+  random,
+  JsonAsset,
+  Label,
+  Input,
+  tween,
+  Vec2,
+  log,
 } from "cc";
 const { ccclass, property } = _decorator;
 
 @ccclass("MiniGame2")
 export class MiniGame2 extends Component {
-    @property({ type: Prefab })
-    gears: Prefab = null;
+  @property({ type: Prefab })
+  gears: Prefab = null;
 
-    @property({ type: JsonAsset })
-    GearSize: JsonAsset = null;
+  @property({ type: JsonAsset })
+  GearSize: JsonAsset = null;
 
-    @property({ type: Prefab })
-    gearImage: Prefab = null;
+  @property({ type: Prefab })
+  gearImage: Prefab = null;
 
-    @property({ type: Node })
-    transparentGears: Node = null;
+  @property({ type: Node })
+  transparentGears: Node = null;
 
-    @property({ type: Node })
-    NormalGears: Node = null;
+  @property({ type: Node })
+  NormalGears: Node = null;
 
-    @property({ type: Node })
-    taskOver: Node = null;
+  @property({ type: Node })
+  taskOver: Node = null;
+  @property({ type: Node })
+  gearSizeNode: Node = null;
+  // Used for holding starting position of draggable item
+  startPos: Vec3;
 
-    // Used for holding starting position of draggable item
-    startPos: Vec3;
+  // Used for holding new instance
+  newGear;
 
-    // Used for holding new instance
-    newGear;
+  // Used for storing total gear counts
+  totalCount = 0;
 
-    // Used for storing total gear counts
-    totalCount = 0;
+  // Used for checking if all the gears are complete
+  checkCount = 0;
+  taskCompleted: Boolean = false;
+  onLoad() {
+    this.taskOver.active = false;
+    this.setGearSizes();
+  }
 
-    // Used for checking if all the gears are complete
-    checkCount = 0;
-    taskCompleted: Boolean = false;
-    onLoad() {
-        this.node.parent.getChildByName("taskCompleted").active = false;
-        this.setGearSizes();
+  /**
+   * This function is used for setting gears of different sizes which can be dragged and can be put in correct place
+   */
+  setGearSizes = () => {
+    this.GearSize.json.forEach((element, index) => {
+      const gear = instantiate(this.gears);
+      const gearSprite = gear.getChildByName("Sprite");
+
+      // Touch Event on gears
+      gear.on(Input.EventType.TOUCH_START, this.createImage);
+      gear.on(Input.EventType.TOUCH_MOVE, this.drag);
+      gear.on(Input.EventType.TOUCH_CANCEL, this.checkIfValid);
+      gear.on(Input.EventType.TOUCH_END, this.checkIfValid);
+
+      const gearHeight = gear.getComponent(UITransform).height + 10;
+      const pos = gear.getPosition();
+      gear.setPosition(new Vec3(pos.x, pos.y - gearHeight * index));
+      gear.getChildByName("Sprite").getComponent(UITransform).height = element.size.height;
+      gear.getChildByName("Sprite").getComponent(UITransform).width = element.size.width;
+      gear.getChildByName("Label").getComponent(Label).string = `${element.count}`;
+
+      // Regular expression for fetching numbers from a string expression
+      this.totalCount += Number(element.count.replace(/\D/g, ""));
+      this.gearSizeNode.addChild(gear);
+    });
+  };
+
+  /**
+   *
+   * @param event This is the event which is passed as touch start occurs
+   * This function instantiates a new gear which can be dragged
+   */
+  createImage = (event) => {
+    this.startPos = event.target.getPosition();
+    if (event.target.getChildByName("Label").getComponent(Label).string != "X 0") {
+      this.newGear = instantiate(this.gearImage);
+      this.newGear.getComponent(UITransform).height = event.target
+        .getChildByName("Sprite")
+        .getComponent(UITransform).height;
+      this.newGear.getComponent(UITransform).width = event.target
+        .getChildByName("Sprite")
+        .getComponent(UITransform).width;
+
+      this.newGear.setPosition(this.startPos);
+      this.node.addChild(this.newGear);
+    } else {
+      this.newGear = null;
+      event.target.off(Input.EventType.TOUCH_START);
+      event.target.off(Input.EventType.TOUCH_MOVE);
+      event.target.off(Input.EventType.TOUCH_END);
+      event.target.off(Input.EventType.TOUCH_CANCEL);
     }
+  };
 
-    /**
-     * This function is used for setting gears of different sizes which can be dragged and can be put in correct place
-     */
-    setGearSizes = () => {
-        this.GearSize.json.forEach((element, index) => {
-            const gear = instantiate(this.gears);
-            const gearSprite = gear.getChildByName("Sprite");
+  /**
+   *
+   * @param event This is the event which is passed as touch move occurs
+   * This function sets the position as the gear is dragged
+   */
+  drag = (event) => {
+    if (this.newGear.name != "") {
+      this.newGear.setWorldPosition(event.getUILocation().x, event.getUILocation().y, 0);
+    }
+  };
 
-            // Touch Event on gears
-            gear.on(Input.EventType.TOUCH_START, this.createImage);
-            gear.on(Input.EventType.TOUCH_MOVE, this.drag);
-            gear.on(Input.EventType.TOUCH_CANCEL, this.checkIfValid);
-            gear.on(Input.EventType.TOUCH_END, this.checkIfValid);
-
-            const gearHeight = gear.getComponent(UITransform).height + 10;
-            const pos = gear.getPosition();
-            gear.setPosition(new Vec3(pos.x, pos.y - gearHeight * index));
-            gear.getChildByName("Sprite").getComponent(UITransform).height = element.size.height;
-            gear.getChildByName("Sprite").getComponent(UITransform).width = element.size.width;
-            gear.getChildByName("Label").getComponent(Label).string = `${element.count}`;
-
-            // Regular expression for fetching numbers from a string expression
-            this.totalCount += Number(element.count.replace(/\D/g, ""));
-            this.node.getChildByName("GearSizes").addChild(gear);
+  /**
+   * This is the function which is executed when item is placed at invalid place
+   */
+  dragToStart = () => {
+    tween(this.newGear)
+      .to(0.95, {
+        position: new Vec3(this.startPos.x, this.startPos.y, this.startPos.z),
+      })
+      .call(() => {
+        this.node.children.filter((element) => {
+          if (element.name == "gearImage") {
+            element.destroy();
+          }
         });
-    };
+      })
+      .start();
+  };
 
-    /**
-     *
-     * @param event This is the event which is passed as touch start occurs
-     * This function instantiates a new gear which can be dragged
-     */
-    createImage = (event) => {
-        this.startPos = event.target.getPosition();
-        if (event.target.getChildByName("Label").getComponent(Label).string != "X 0") {
-            this.newGear = instantiate(this.gearImage);
-            this.newGear.getComponent(UITransform).height = event.target
-                .getChildByName("Sprite")
-                .getComponent(UITransform).height;
-            this.newGear.getComponent(UITransform).width = event.target
-                .getChildByName("Sprite")
-                .getComponent(UITransform).width;
+  /**
+   * This function rotates all the gears when the game is finished at end
+   */
+  rotateSprites = () => {
+    this.NormalGears.children.forEach((element) => {
+      tween(element).by(2, { angle: -360 }).repeatForever().start();
+    });
+    this.node.parent.children.filter((element) => {
+      if (element.name == "gearImage") {
+        tween(element).by(2, { angle: -360 }).repeatForever().start();
+      }
+    });
+  };
 
-            this.newGear.setPosition(this.startPos);
-            this.node.addChild(this.newGear);
-        } else {
-            this.newGear = null;
-            event.target.off(Input.EventType.TOUCH_START);
-            event.target.off(Input.EventType.TOUCH_MOVE);
-            event.target.off(Input.EventType.TOUCH_END);
-            event.target.off(Input.EventType.TOUCH_CANCEL);
+  /**
+   *
+   * @param event is the event which is passed as touch cancel occurs
+   */
+  checkIfValid = (event) => {
+    if (event.type == "touch-end") {
+      this.node.children.filter((element) => {
+        if (element.name == "gearImage") {
+          element.destroy();
         }
-    };
+      });
+    }
+    let flag = true;
+    if (this.newGear.name != "" && this.newGear != null) {
+      this.transparentGears.children.forEach((element) => {
+        if (flag) {
+          const elementPosition = element.getWorldPosition();
+          const targetPosition = event.getUILocation();
 
-    /**
-     *
-     * @param event This is the event which is passed as touch move occurs
-     * This function sets the position as the gear is dragged
-     */
-    drag = (event) => {
-        if (this.newGear.name != "") {
-            this.newGear.setWorldPosition(event.getUILocation().x, event.getUILocation().y, 0);
-        }
-    };
+          let targetHeight: number, targetWidth: number;
+          if (this.newGear.name != "" && this.newGear != null) {
+            targetHeight = this.newGear.getComponent(UITransform).height;
+            targetWidth = this.newGear.getComponent(UITransform).width;
+          }
+          // When element Bounding Box contains the current point then we check if the given position is correct by checking height and width of dragged item
+          const elementBoundingBox = element.getComponent(UITransform).getBoundingBoxToWorld();
+          if (elementBoundingBox.contains(targetPosition)) {
+            if (
+              targetHeight == element.getComponent(UITransform).height &&
+              targetWidth == element.getComponent(UITransform).width
+            ) {
+              if (element.active == false) {
+                return;
+              }
+              element.active = false;
+              this.newGear.removeFromParent();
+              this.node.parent.addChild(this.newGear);
+              this.taskOver.active = true;
+              // Setting the new gear position to element's position if it is valid
+              this.newGear.setWorldPosition(new Vec3(elementPosition.x, elementPosition.y, elementPosition.z));
 
-    /**
-     * This is the function which is executed when item is placed at invalid place
-     */
-    dragToStart = () => {
-        tween(this.newGear)
-            .to(0.95, {
-                position: new Vec3(this.startPos.x, this.startPos.y, this.startPos.z),
-            })
-            .call(() => {
-                this.node.children.filter((element) => {
-                    if (element.name == "gearImage") {
-                        element.destroy();
-                    }
-                });
-            })
-            .start();
-    };
-
-    /**
-     * This function rotates all the gears when the game is finished at end
-     */
-    rotateSprites = () => {
-        this.NormalGears.children.forEach((element) => {
-            tween(element).by(2, { angle: -360 }).repeatForever().start();
-        });
-        this.node.parent.children.filter((element) => {
-            if (element.name == "gearImage") {
-                tween(element).by(2, { angle: -360 }).repeatForever().start();
+              let currentCount = event.target.getChildByName("Label").getComponent(Label).string.replace(/\D/g, "");
+              event.target.getChildByName("Label").getComponent(Label).string = `X ${Number(currentCount) - 1}`;
+              this.checkCount++;
+              this.checkIfOver();
+              // Making correct mark disappear after 1 second if an item is placed at correct position
+              if (!this.taskCompleted) {
+                setTimeout(() => {
+                  this.taskOver.active = false;
+                }, 1000);
+              }
             }
-        });
-    };
-
-    /**
-     *
-     * @param event is the event which is passed as touch cancel occurs
-     */
-    checkIfValid = (event) => {
-        if (event.type == "touch-end") {
-            this.node.children.filter((element) => {
-                if (element.name == "gearImage") {
-                    element.destroy();
-                }
-            });
-        }
-        let flag = true;
-        if (this.newGear.name != "" && this.newGear != null) {
-            this.transparentGears.children.forEach((element) => {
-                if (flag) {
-                    const elementPosition = element.getWorldPosition();
-                    const targetPosition = event.getUILocation();
-
-                    let targetHeight: number, targetWidth: number;
-                    if (this.newGear.name != "" && this.newGear != null) {
-                        targetHeight = this.newGear.getComponent(UITransform).height;
-                        targetWidth = this.newGear.getComponent(UITransform).width;
-                    }
-                    // When element Bounding Box contains the current point then we check if the given position is correct by checking height and width of dragged item
-                    const elementBoundingBox = element.getComponent(UITransform).getBoundingBoxToWorld();
-                    if (elementBoundingBox.contains(targetPosition)) {
-                        if (
-                            targetHeight == element.getComponent(UITransform).height &&
-                            targetWidth == element.getComponent(UITransform).width
-                        ) {
-                            if (element.active == false) {
-                                return;
-                            }
-                            element.active = false;
-                            this.newGear.removeFromParent();
-                            this.node.parent.addChild(this.newGear);
-                            this.taskOver.active = true;
-                            // Setting the new gear position to element's position if it is valid
-                            this.newGear.setWorldPosition(
-                                new Vec3(elementPosition.x, elementPosition.y, elementPosition.z)
-                            );
-
-                            let currentCount = event.target
-                                .getChildByName("Label")
-                                .getComponent(Label)
-                                .string.replace(/\D/g, "");
-                            event.target.getChildByName("Label").getComponent(Label).string = `X ${
-                                Number(currentCount) - 1
-                            }`;
-                            this.checkCount++;
-                            this.checkIfOver();
-
-                            // Making correct mark disappear after 1 second if an item is placed at correct position
-                            if (!this.taskCompleted) {
-                                setTimeout(() => {
-                                    this.taskOver.active = false;
-                                }, 1000);
-                            }
-                        }
-                        // When an item is placed at invalid position
-                        else {
-                            this.dragToStart();
-                        }
-                        flag = false;
-                    }
-                }
-            });
-            if (flag) {
-                this.dragToStart();
+            // When an item is placed at invalid position
+            else {
+              this.dragToStart();
             }
+            flag = false;
+          }
         }
-    };
+      });
+      if (flag) {
+        this.dragToStart();
+      }
+    }
+  };
 
-    checkIfOver = () => {
-        if (this.checkCount == this.totalCount && !this.taskCompleted) {
-            this.rotateSprites();
-            this.taskOver.active = true;
-            this.taskCompleted = true;
-            setTimeout(() => {
-                this.node.parent.destroy();
-            }, 1000);
-        }
-    };
-    closeBtn() {
-        console.log("close btn call ");
-
+  checkIfOver = () => {
+    if (this.checkCount == this.totalCount && !this.taskCompleted) {
+      this.rotateSprites();
+      this.taskOver.active = true;
+      this.taskCompleted = true;
+      setTimeout(() => {
         this.node.parent.destroy();
+      }, 1000);
     }
-    start() {}
+  };
+  closeBtn() {
+    this.node.parent.destroy();
+  }
+  start() {}
 
-    update(deltaTime: number) {}
+  update(deltaTime: number) {}
 }

@@ -46,7 +46,7 @@ export class AvailableRooms extends Component {
   photon_instance: any;
 
   onLoad() {
-    this.photon_instance = photonmanager.getInstance().photon_instance;
+    this.photon_instance = photonmanager.Instance.photon_instance;
   }
   LoadRoom(arrOfObj, playerLobby: Node) {
     arrOfObj.forEach((element) => {
@@ -61,12 +61,6 @@ export class AvailableRooms extends Component {
       NewNode.on(Input.EventType.TOUCH_START, (en) => {
         this.photon_instance.roomname = element.name.toString();
         this.callPhotonInstance(playerLobby);
-        // director.loadScene("playersLobby", () => {
-        //     // let photon_instance = photonmanager.getInstance().photon_instance;
-        //     // if (photon_instance.isInLobby()) {
-        //     //     photon_instance.joinRoom(photon_instance.roomname);
-        //     // }
-        // })
       });
       this.node.getComponent(ScrollView).content.addChild(NewNode);
     });
@@ -74,7 +68,7 @@ export class AvailableRooms extends Component {
   callPhotonInstance(playerLobby: Node) {
     this.node.active = false;
     playerLobby.active = true;
-    let photon_instance = photonmanager.getInstance().photon_instance;
+    let photon_instance = photonmanager.Instance.photon_instance;
     if (photon_instance.isInLobby()) {
       photon_instance.joinRoom(photon_instance.roomname);
     }

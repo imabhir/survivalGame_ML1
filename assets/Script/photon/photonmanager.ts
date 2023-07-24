@@ -1,29 +1,57 @@
-import { _decorator, Component, Node, resources, SpriteFrame, Sprite, Prefab, instantiate, AudioClip, Vec3 } from "cc";
+import { _decorator, AudioClip } from "cc";
 const { ccclass, property } = _decorator;
 
 @ccclass("photonmanager")
 export class photonmanager {
-  public static instance: photonmanager;
-  public countofactors: any;
-  public prefabs: any;
-  public audioClip: AudioClip;
-  inlobby: boolean;
-  public photon: any;
-  public roomname;
-  public gamestarted = false;
-  playerScriptRef: any = null;
-  wallCollisionRef: any = null;
+  // private countofactors: any;
+  // private prefabs: any;
+  // private audioClip: AudioClip;
+  // private inlobby: boolean;
+  // private roomname;
+  private photon: any;
+  private gamestarted: boolean = false;
+  private playerScriptRef: any = null;
+  private wallCollisionRef: any = null;
+  private static _instance: photonmanager;
   private constructor() {}
-  public static getInstance() {
-    if (this.instance == null) {
-      this.instance = new photonmanager();
+
+  static get Instance(): photonmanager {
+    if (!photonmanager._instance) {
+      photonmanager._instance = new photonmanager();
     }
-    return this.instance;
+    return this._instance;
   }
+
   set photon_instance(instance: any) {
     this.photon = instance;
   }
   get photon_instance() {
     return this.photon;
+  }
+
+  set GameStartStatus(gamestarted: boolean) {
+    this.gamestarted = gamestarted;
+  }
+  get GameStartStatus(): boolean {
+    return this.gamestarted;
+  }
+  set PhotonRef(photon: any) {
+    this.photon = photon;
+  }
+  get PhotonRef(): any {
+    return this.photon;
+  }
+  set PlayerScriptRef(playerScriptRef: any) {
+    this.playerScriptRef = playerScriptRef;
+  }
+  get PlayerScriptRef(): any {
+    return this.playerScriptRef;
+  }
+
+  set WallCollisionRef(wallCollisionRef: any) {
+    this.wallCollisionRef = wallCollisionRef;
+  }
+  get WallCollisionRef(): any {
+    return this.wallCollisionRef;
   }
 }

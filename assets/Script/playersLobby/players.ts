@@ -41,17 +41,21 @@ export class playerslobby extends Component {
   @property({ type: Prefab })
   timer: Prefab = null;
 
-  gameDataInstance;
+  gameDataInstance: gameData;
   photon: any;
 
-  targetMapNode;
+  targetMapNode: Node = null;
   allNums: number[];
   Min: number = 0;
   Sec: number = 20;
-  Timer: any;
+  Timer: Node = null;
   selectedMap: Node = null;
   TargetMapNodeSpriteFrame: SpriteFrame = null;
   emptySprite: SpriteFrame = null;
+  starts: boolean = true;
+  counterstarted: boolean = true;
+  //maximum number of player in room
+  playertostartgame: number = 1;
   start() {
     this.photon.player_lobbys = this;
   }
@@ -59,14 +63,10 @@ export class playerslobby extends Component {
     this.gameDataInstance = gameData.getInstance();
     this.instantiatePlayers();
     this.selectMapButton.on(Input.EventType.TOUCH_START, this.SelectMap);
-    photonmanager.getInstance().playerScriptRef = this;
-    console.log("Target Map Node", this.targetMapNode);
-
-    this.photon = photonmanager.getInstance().photon_instance;
-    console.log("photon data", this.photon);
-
+    photonmanager.Instance.PlayerScriptRef = this;
+    this.photon = photonmanager.Instance.photon_instance;
     this.photon.myRoom().setCustomProperty("totalzombies", 0);
-    photonmanager.getInstance().photon_instance.myRoom().setCustomProperty("gamestarted", false);
+    photonmanager.Instance.photon_instance.myRoom().setCustomProperty("gamestarted", false);
   }
 
   /**
@@ -116,13 +116,10 @@ export class playerslobby extends Component {
   protected onEnable(): void {
     this.selectedMap = null;
     this.MostVotedMap.getComponent(Sprite).spriteFrame = null;
-    this.gameDataInstance.targetMapNode = null;
-
+    this.gameDataInstance.setmapWithMaxVotes = null;
     this.TargetMapNodeSpriteFrame = null;
   }
   addplayerinlobby() {
-    console.log("Player.ts  Inside addPlayerinLobby");
-
     let actorcount = this.photon.myRoomActorCount();
     var actors = Object.keys(this.photon.myRoomActors()).map((key) => {
       return this.photon.myRoomActors()[key];
@@ -130,15 +127,10 @@ export class playerslobby extends Component {
 
     let place = 0;
     actors.forEach((actor) => {
-      console.log(this.node.getChildByName((actorcount - 1).toString()).children.length);
-
       if (this.node.getChildByName(place.toString()).children.length == 0) {
-        console.log(this.player);
-
         const player = instantiate(this.player);
         player.name = actor.actorNr.toString();
         this.node.getChildByName(place.toString()).addChild(player);
-        console.log(player);
       }
 
       place++;
@@ -155,7 +147,6 @@ export class playerslobby extends Component {
       for (let i = 0; i < 6; i++) {
         if (i < 5)
           if (this.node.getChildByName(i.toString()).children.length != 0 && i < 5) {
-            console.log(a.actorNr);
             destroy.put(this.node.getChildByName(i.toString()).children[0]);
           }
         if (i == 5) {
@@ -171,47 +162,37 @@ export class playerslobby extends Component {
    */
   SelectMap = (event) => {
     this.selectMapButton.active = false;
-
     this.selectedMap = instantiate(this.map);
     this.node.parent.addChild(this.selectedMap);
-    // director.loadScene("map")
   };
 
   showMapWithMaxVotes = (targetMapNode: Node) => {
-    // console.log("Entered");
-    // console.log(targetMapNode);
-
     this.TargetMapNodeSpriteFrame = targetMapNode.getComponent(Sprite).spriteFrame;
     this.MostVotedMap.getComponent(Sprite).spriteFrame = this.TargetMapNodeSpriteFrame;
   };
   StartGame() {
-    console.log(photonmanager.getInstance().gamestarted);
-
-    if (!photonmanager.getInstance().gamestarted)
+    if (!photonmanager.Instance.GameStartStatus)
       director.loadScene("gameplay", () => {
-        photonmanager.getInstance().photon.myRoom().setIsOpen(false);
-        photonmanager.getInstance().photon.myRoom().setIsVisible(false);
-        console.log(photonmanager.getInstance().photon.myRoom().isOpen);
+        photonmanager.Instance.PhotonRef.myRoom().setIsOpen(false);
+        photonmanager.Instance.PhotonRef.myRoom().setIsVisible(false);
         this.allNums = Array.from({ length: 5 - 1 + 1 }, (_, i) => i + 1);
         for (let i = this.allNums.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
           [this.allNums[i], this.allNums[j]] = [this.allNums[j], this.allNums[i]];
         }
-        var actors = Object.keys(photonmanager.getInstance().photon.myRoomActors()).map((key) => {
-          return photonmanager.getInstance().photon.myRoomActors()[key];
+        var actors = Object.keys(photonmanager.Instance.PhotonRef.myRoomActors()).map((key) => {
+          return photonmanager.Instance.PhotonRef.myRoomActors()[key];
         });
-        console.log(this.allNums);
-
         actors.forEach((player, i) => {
           if (i + 1 == this.allNums[0]) {
             player.setCustomProperty("zombie", true);
           }
         });
 
-        photonmanager.getInstance().photon.myRoom().setCustomProperty("liveplayers", 0);
-        photonmanager.getInstance().photon.joined = true;
-        photonmanager.getInstance().gamestarted = true;
-        photonmanager.getInstance().photon.raiseEvent(Photonevents.Startgame, {}, {});
+        photonmanager.Instance.PhotonRef.myRoom().setCustomProperty("liveplayers", 0);
+        photonmanager.Instance.PhotonRef.joined = true;
+        photonmanager.Instance.GameStartStatus = true;
+        photonmanager.Instance.PhotonRef.raiseEvent(Photonevents.Startgame, {}, {});
       });
   }
 
@@ -219,10 +200,10 @@ export class playerslobby extends Component {
     let timer = instantiate(this.timer);
     this.node.addChild(timer);
     this.Timer = this.node.getChildByName("Timer");
-    photonmanager.getInstance().photon_instance.myRoom().setCustomProperty("timer", this.Sec);
+    photonmanager.Instance.photon_instance.myRoom().setCustomProperty("timer", this.Sec);
     if (
-      photonmanager.getInstance().photon_instance.myActor().actorNr ==
-      photonmanager.getInstance().photon_instance.myRoomMasterActorNr()
+      photonmanager.Instance.photon_instance.myActor().actorNr ==
+      photonmanager.Instance.photon_instance.myRoomMasterActorNr()
     ) {
       this.schedule(this.timerworking, 1);
       if (this.Min == 0 && this.Sec == 0) {
@@ -242,16 +223,9 @@ export class playerslobby extends Component {
           this.Min = 60;
         }
       }
-      let date = new Date();
-      let time = date.getSeconds();
-      let timeProperty = photonmanager.getInstance().photon_instance.myRoom().getCustomProperty("timer");
-
-      console.log("Timer Property", timeProperty--);
-      photonmanager.getInstance().photon_instance.myRoom().setCustomProperty("timer", timeProperty);
-      console.log("TIMER", time);
-      // this.Sec = -(this.Sec-time);
-      console.log("GETTING PROPERTY", photonmanager.getInstance().photon_instance.myRoom().getCustomProperty("timer"));
-      this.Sec = photonmanager.getInstance().photon_instance.myRoom().getCustomProperty("timer");
+      let timeProperty = photonmanager.Instance.photon_instance.myRoom().getCustomProperty("timer");
+      photonmanager.Instance.photon_instance.myRoom().setCustomProperty("timer", timeProperty);
+      this.Sec = photonmanager.Instance.photon_instance.myRoom().getCustomProperty("timer");
       let m = this.Min < 10 ? "0" + this.Min : this.Min;
       let s = this.Sec < 10 ? "0" + this.Sec : this.Sec;
       this.Timer.getComponent(Label).string = m.toString() + ":" + s.toString();
@@ -259,7 +233,7 @@ export class playerslobby extends Component {
   }
 
   updateOtherPlayerTimer() {
-    this.Sec = photonmanager.getInstance().photon_instance.myRoom().getCustomProperty("timer");
+    this.Sec = photonmanager.Instance.photon_instance.myRoom().getCustomProperty("timer");
     let m = this.Min < 10 ? "0" + this.Min : this.Min;
     let s = this.Sec < 10 ? "0" + this.Sec : this.Sec;
     if (this.Timer.getComponent(Label) != null) {
@@ -267,39 +241,33 @@ export class playerslobby extends Component {
     }
   }
 
-  starts = true;
-  counterstarted = true;
-  //maximum number of player in room
-  playertostartgame = 3;
   update(deltaTime: number) {
     this.targetMapNode = this.gameDataInstance.getMapWithMaxVotes();
     if (this.targetMapNode != null) {
       this.showMapWithMaxVotes(this.targetMapNode);
     }
-    if (photonmanager.getInstance().photon.myRoomActorCount() == this.playertostartgame && this.counterstarted) {
+    if (photonmanager.Instance.PhotonRef.myRoomActorCount() == this.playertostartgame && this.counterstarted) {
       this.stopwatchTimer();
       this.counterstarted = false;
     } else if (
       this.counterstarted == false &&
-      photonmanager.getInstance().photon.myRoomActorCount() < this.playertostartgame
+      photonmanager.Instance.PhotonRef.myRoomActorCount() < this.playertostartgame
     ) {
-      console.log("bbbb");
       this.Min = 0;
-
       this.Sec = 0;
       this.node.getChildByName("Timer").destroy();
       this.counterstarted = true;
     }
     if (
-      photonmanager.getInstance().photon.myRoomActorCount() == this.playertostartgame &&
+      photonmanager.Instance.PhotonRef.myRoomActorCount() == this.playertostartgame &&
       this.starts &&
-      photonmanager.getInstance().photon_instance.myActor().actorNr ==
-        photonmanager.getInstance().photon_instance.myRoomMasterActorNr() &&
-      !photonmanager.getInstance().photon.gamestarted
+      photonmanager.Instance.photon_instance.myActor().actorNr ==
+        photonmanager.Instance.photon_instance.myRoomMasterActorNr() &&
+      !photonmanager.Instance.GameStartStatus
     ) {
       if (this.Min == 0 && this.Sec == 0) {
         this.StartGame();
-        photonmanager.getInstance().photon_instance.myRoom().setCustomProperty("gamestarted", true);
+        photonmanager.Instance.photon_instance.myRoom().setCustomProperty("gamestarted", true);
         this.starts = false;
       }
     }

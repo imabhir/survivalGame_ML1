@@ -1,12 +1,10 @@
 import { PlayerMovement } from "../Player/PlayerMovement";
 import config, { Photonevents } from "./cloud-app-info";
-import { Event } from "../photon/photonconstants";
 import { photonmanager } from "./photonmanager";
 import { Color, director, log } from "cc";
 import { playerslobby } from "../playersLobby/players";
 import { Message } from "../ChatScript/Message";
 import { walls } from "../wallscollisions";
-var photon_instance;
 var photonWss = config && config.Wss;
 var photonAppId = config && config.AppId ? config.AppId : "a36f3ed3-e604-4772-9b98-985d37c5f6ac";
 var photonAppVersion = config && config.AppVersion ? config.AppVersion : "1.0";
@@ -21,24 +19,21 @@ var DemoFbAppId = config && config.FbAppId;
  **/
 export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
   logger = new Exitgames.Common.Logger("Zombieamongus:");
-  checker = 1;
+  checker: number = 1;
   player_movement: PlayerMovement;
   player_lobby: playerslobby;
-  ConnectOnStart = true;
+  ConnectOnStart: boolean = true;
   message: Message = null;
   wall: walls = null;
   totalmessages: any = [];
-
+  joined: boolean = false;
   maps = { map0: 0, map1: 0, map2: 0, map3: 0 };
+
   constructor() {
     super(photonWss ? 1 : 0, photonAppId, photonAppVersion);
     this.logger.info("Photon Version: " + Photon.Version + (Photon.IsEmscriptenBuild ? "-em" : ""));
-    // uncomment to use Custom Authentication
-    // config.setCustomAuthentication("username=" + "yes" + "&token=" + "yes");
     this.logger.info("Init", this.getNameServerAddress(), photonAppId, photonAppVersion);
     this.setLogLevel(Exitgames.Common.Logger.Level.INFO);
-    // this.data = data_manager.getInstance()
-    // this.player_movement = new PlayerMovement;
   }
 
   set player_movements(value: PlayerMovement) {
@@ -53,6 +48,9 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
   set wallclass(value: walls) {
     this.wall = value;
   }
+  // onLoad() {
+  //   photonmanager.Instance.photon_instance = this;
+  // }
   start() {
     if (this.ConnectOnStart) {
       if (photonMasterServer) {
@@ -64,52 +62,35 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
         this.connectToRegionMaster(photonRegion || "in");
       } else {
         this.connectToRegionMaster(photonRegion || "in");
-
-        //config.connectToNameServer({ region: "EU", lobbyType: Photon.LoadBalancing.Constants.LobbyType.Default });
       }
     }
   }
 
-  joined = false;
-  onJoinRoom(createdByMe: boolean): void {
-    console.log(this.myRoom());
-  }
+  onJoinRoom(createdByMe: boolean): void {}
   onActorJoin(actor: Photon.LoadBalancing.Actor): void {
-    console.log(actor);
-    console.log(photonmanager.getInstance().photon.myRoom());
-    console.log(this.myRoomActorCount());
-    if (!photonmanager.getInstance().photon.joined) this.player_lobby.addplayerinlobby();
-    // this.addedactor
-    // this.data.countofactors = this.myRoomActorCount();
-    //this.player.addplayer();
+    if (!photonmanager.Instance.PhotonRef.joined) this.player_lobby.addplayerinlobby();
     if (this.joined) {
       this.player_movement.addedactor(actor);
-
-      console.log("logged");
     }
   }
 
   onEvent(Event: number, content: any, actorNr: number): void {
-    // console.log(Event);
-    // this.raiseEvent
     if (Event == Photonevents.Startgame) {
       this.joined = true;
-      if (!photonmanager.getInstance().gamestarted)
+      if (!photonmanager.Instance.GameStartStatus)
         director.loadScene("gameplay", () => {
-          photonmanager.getInstance().photon.myRoom().isOpen = false;
-          photonmanager.getInstance().gamestarted = true;
+          photonmanager.Instance.PhotonRef.myRoom().isOpen = false;
+          photonmanager.Instance.GameStartStatus = true;
           this.myRoom().setIsOpen(false);
           this.myRoom().setIsVisible(false);
-          photonmanager.getInstance().photon.CloseAvailableRoom;
-          photonmanager.getInstance().photon.joined = true;
-          photonmanager.getInstance().gamestarted = true;
-          photonmanager.getInstance().photon.raiseEvent(Photonevents.Startgame, {}, {});
+          photonmanager.Instance.PhotonRef.CloseAvailableRoom;
+          photonmanager.Instance.PhotonRef.joined = true;
+          photonmanager.Instance.GameStartStatus = true;
+          photonmanager.Instance.PhotonRef.raiseEvent(Photonevents.Startgame, {}, {});
         });
     } else if (Event == Photonevents.Killotheractor) {
       this.player_movement.kill_otheractor(null, content);
     } else if (Event == Photonevents.Killotheractors) {
-      console.log("killed");
-
       this.player_movement.kill_otheractor(null, content);
     } else if (Event == Photonevents.Setroomproperties) {
     } else if (Photonevents.Openchest == Event) {
@@ -120,7 +101,7 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
       } else {
         this.totalmessages.push({ reqMessage: content.ReqMessage, color: content.color });
       }
-    } else if (this.joined && Event == Photonevents.Animation && photonmanager.getInstance().gamestarted) {
+    } else if (this.joined && Event == Photonevents.Animation && photonmanager.Instance.GameStartStatus) {
       console.log("enable");
       if (this.player_movement != null) this.player_movement.enableanimation(actorNr, content);
     } else if (Event == Photonevents.Fireatotheractors) {
@@ -132,7 +113,7 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
         this.wall.kill_actor(content);
       }
     } else if (Event == Photonevents.Move) {
-      if (this.joined && photonmanager.getInstance().gamestarted)
+      if (this.joined && photonmanager.Instance.GameStartStatus)
         if (this.player_movement != null) this.player_movement.move_actor(content);
     } else if (Event == Photonevents.Zombieotheractor) {
       console.log("killed");
@@ -178,40 +159,36 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
       console.log(maxKey, this.maps);
     }
   }
-  onActorPropertiesChange(actor: Photon.LoadBalancing.Actor): void {
-    // if (this.joined && photonmanager.getInstance().gamestarted)
-    //     this.player_movement.move_actor(actor)
-  }
+  onActorPropertiesChange(actor: Photon.LoadBalancing.Actor): void {}
 
   onActorLeave(actor: Photon.LoadBalancing.Actor, cleanup: boolean): void {
     if (
-      photonmanager.getInstance().photon_instance.myActor().actorNr ==
-      photonmanager.getInstance().photon_instance.myRoomMasterActorNr()
+      photonmanager.Instance.photon_instance.myActor().actorNr ==
+      photonmanager.Instance.photon_instance.myRoomMasterActorNr()
     ) {
       this.wall.stopwatchTimer();
     }
-    if (this.joined && photonmanager.getInstance().gamestarted) {
+    if (this.joined && photonmanager.Instance.GameStartStatus) {
       this.player_movement.destroycharacter(actor);
     }
-    console.log("player leave");
-    if (!photonmanager.getInstance().gamestarted && this.isJoinedToRoom()) this.player_lobby.leaveplayerinlobby(actor);
+    if (!photonmanager.Instance.GameStartStatus && this.isJoinedToRoom()) this.player_lobby.leaveplayerinlobby(actor);
   }
 
   onMyRoomPropertiesChange(): void {
     // console.log("Timer Updated");
-    if (!photonmanager.getInstance().gamestarted) {
-      console.log("Timer in Photon", photonmanager.getInstance().photon_instance.myRoom().getCustomProperty("timer"));
+    if (!photonmanager.Instance.GameStartStatus) {
+      console.log("Timer in Photon", photonmanager.Instance.photon_instance.myRoom().getCustomProperty("timer"));
       if (
-        photonmanager.getInstance().photon_instance.myRoom().getCustomProperty("timer") >= 0 &&
-        photonmanager.getInstance().photon_instance.myRoom().getCustomProperty("timer") < 50
+        photonmanager.Instance.photon_instance.myRoom().getCustomProperty("timer") >= 0 &&
+        photonmanager.Instance.photon_instance.myRoom().getCustomProperty("timer") < 50
       ) {
         console.log("Inside If condition");
-        photonmanager.getInstance().playerScriptRef?.updateOtherPlayerTimer();
+        photonmanager.Instance.PlayerScriptRef?.updateOtherPlayerTimer();
       } else {
       }
     } else {
       console.log("Inside else block");
-      photonmanager.getInstance().wallCollisionRef?.updateOtherPlayerTimer();
+      photonmanager.Instance.WallCollisionRef?.updateOtherPlayerTimer();
     }
   }
 
@@ -233,5 +210,4 @@ export default class photon extends Photon.LoadBalancing.LoadBalancingClient {
     }
   }
 }
-
-photonmanager.getInstance().photon_instance = new photon();
+photonmanager.Instance.photon_instance = new photon();

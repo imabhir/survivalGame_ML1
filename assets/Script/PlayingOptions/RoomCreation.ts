@@ -9,7 +9,7 @@ export class RoomCreation extends Component {
   photon_instance;
   playerLobby: Node = null;
   onLoad() {
-    this.photon_instance = photonmanager.getInstance().photon_instance;
+    this.photon_instance = photonmanager.Instance.photon_instance;
   }
 
   CloseCreateRoom() {
@@ -30,7 +30,7 @@ export class RoomCreation extends Component {
   }
   callback() {
     // this.playerLobby = playerLobby;
-    let photon_instance = photonmanager.getInstance().photon_instance;
+    let photon_instance = photonmanager.Instance.photon_instance;
     if (photon_instance.isInLobby()) {
       console.log(photon_instance.roomname);
 
