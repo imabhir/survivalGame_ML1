@@ -404,6 +404,7 @@ export class walls extends Component {
         }
       }
       let timeProperty = photonmanager.Instance.photon_instance.myRoom().getCustomProperty("timer");
+      timeProperty--;
       photonmanager.Instance.photon_instance.myRoom().setCustomProperty("timer", timeProperty);
       this.convertSecToMin();
       let m = this.Min < 10 ? "0" + this.Min : this.Min;

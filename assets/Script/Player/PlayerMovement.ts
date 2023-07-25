@@ -36,68 +36,48 @@ import {
   ERigidBody2DType,
   ProgressBar,
 } from "cc";
-// import { Room } from "../../../extensions/colyseus-sdk/runtime/colyseus";
-import { Event } from "../photon/photonconstants";
-import { walls } from "../wallscollisions";
 import { photonmanager } from "../photon/photonmanager";
-import photon from "../photon/photon";
 import { Photonevents } from "../photon/cloud-app-info";
-import { color } from "cc";
 const { ccclass, property } = _decorator;
 
 @ccclass("PlayerMovement")
 export class PlayerMovement extends Component {
-  @property({ type: SpriteFrame })
-  playerImage: SpriteFrame = null;
-  @property({ type: SpriteFrame })
-  killed_player_image: SpriteFrame = null;
-  @property({ type: Node })
-  joystick: Node = null;
-  @property({ type: Node })
-  joyStickBall: Node = null;
-  @property({ type: Node })
-  camera: Node = null;
-  @property({ type: Node })
-  camera000: Node = null;
-  @property({ type: Node })
-  controller: Node = null;
-  @property({ type: Node })
-  map: Node = null;
-  @property({ type: Prefab })
-  player_prefab: Prefab = null;
-  @property({ type: Node })
-  notification: Node = null;
-  @property({ type: Node })
-  playershud: Node = null;
-  @property({ type: Node })
-  zombieshud: Node = null;
-  @property({ type: Node })
-  zombieskillbutton: Node = null;
-  @property({ type: Node })
-  zombiesmakebutton: Node = null;
-  @property({ type: Node })
-  tiledMapNode: Node = null;
-  @property({ type: Node })
-  intrectibleNode: Node = null;
-  @property({ type: ProgressBar })
-  healthBar: ProgressBar = null;
+  @property({ type: SpriteFrame }) playerImage: SpriteFrame = null;
+  @property({ type: SpriteFrame }) killed_player_image: SpriteFrame = null;
+  @property({ type: Node }) joystick: Node = null;
+  @property({ type: Node }) joyStickBall: Node = null;
+  @property({ type: Node }) camera: Node = null;
+  @property({ type: Node }) camera000: Node = null;
+  @property({ type: Node }) controller: Node = null;
+  @property({ type: Node }) map: Node = null;
+  @property({ type: Node }) notification: Node = null;
+  @property({ type: Node }) playershud: Node = null;
+  @property({ type: Node }) zombieshud: Node = null;
+  @property({ type: Node }) zombieskillbutton: Node = null;
+  @property({ type: Node }) zombiesmakebutton: Node = null;
+  @property({ type: Node }) tiledMapNode: Node = null;
+  @property({ type: Node }) intrectibleNode: Node = null;
+  @property({ type: Node }) playerListNode: Node = null;
+  @property({ type: Prefab }) player_prefab: Prefab = null;
+  @property({ type: ProgressBar }) healthBar: ProgressBar = null;
+
   pos: Vec2 = null;
   startPos: Vec3 = null;
+  finalPos: Vec3 = null;
   intialPos: Vec3 = null;
   finalPosBall: Vec3 = null;
-  finalPos: Vec3 = null;
-  canMovePlayer: boolean = false;
   collided: boolean = false;
-  collisionangle: number = null;
-  playerSpeed: number = 0.1;
   touchenabled: boolean = true;
+  canMovePlayer: boolean = false;
   count: number = 0;
   anlges: number = 0;
+  health: number = 10;
+  playerSpeed: number = 0.1;
+  collisionangle: number = null;
+  kill_button_checker: number = 0;
   actors: any;
   photon_instance;
-  health: number = 10;
   killed_actor: Node;
-  kill_button_checker: number = 0;
 
   onLoad() {
     this.finalPosBall = new Vec3(1, 1, 0);
@@ -113,8 +93,6 @@ export class PlayerMovement extends Component {
   }
 
   start() {
-    console.log("jdkbak");
-
     this.touchEventsFunc();
     PhysicsSystem2D.instance.enable = true;
     // PhysicsSystem2D.instance.debugDrawFlags = EPhysics2DDrawFlags.All;
@@ -163,9 +141,7 @@ export class PlayerMovement extends Component {
   }
   onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
     //collsion callback functions
-    console.log("game 1 collider ", otherCollider.node.name);
     if (otherCollider.name == "game1") {
-      console.log("game 1 collider ");
     }
     if (otherCollider.node.name == "bullet") {
       otherCollider.node.destroy();
@@ -223,7 +199,7 @@ export class PlayerMovement extends Component {
     this.canMovePlayer = true;
   }
   // checkperspective() {
-  //     this.node.parent.children.forEach((e) => {
+  //     this.playerListNode.children.forEach((e) => {
   //         if (this.node.getPosition().y > e.getPosition().y) {
   //             this.node.setSiblingIndex(0);
   //         }
@@ -339,8 +315,6 @@ export class PlayerMovement extends Component {
     }
   }
   addedactor(actor: any) {
-    console.log("jfdkl");
-
     var actors = Object.keys(this.photon_instance.myRoomActors()).map((key) => {
       return this.photon_instance.myRoomActors()[key];
     });
@@ -349,27 +323,19 @@ export class PlayerMovement extends Component {
       .getComponent(UITransform)
       .convertToWorldSpaceAR(new Vec3(playerlocations[0].x, playerlocations[0].y, 0));
     location = this.node.getComponent(UITransform).convertToNodeSpaceAR(location);
-    console.log("jfdkl");
-
     location.x = location.x - this.map.getComponent(UITransform).width * 0.5;
     location.y = location.y - this.map.getComponent(UITransform).height * 0.5;
     var zombielocations = this.map.getComponent(TiledMap).getObjectGroup("zombielocation").getObjects();
-    console.log("jfdkl");
-
     let locations = this.node
       .getComponent(UITransform)
       .convertToWorldSpaceAR(new Vec3(zombielocations[0].x, zombielocations[0].y, 0));
     locations = this.node.getComponent(UITransform).convertToNodeSpaceAR(locations);
-    console.log("jfdkl");
-
     locations.x = locations.x - this.map.getComponent(UITransform).width * 0.5;
     locations.y = locations.y - this.map.getComponent(UITransform).height * 0.5;
-    console.log(playerlocations);
-
     actors.forEach((actor) => {
       if (
         actor.actorNr != this.photon_instance.myActor().actorNr &&
-        !this.node.parent.getChildByName(actor.actorNr.toString())
+        !this.playerListNode.getChildByName(actor.actorNr.toString())
       ) {
         // console.log(actor.actorNr);
         let player = instantiate(this.player_prefab);
@@ -382,29 +348,26 @@ export class PlayerMovement extends Component {
         }
 
         player.name = actor.actorNr.toString();
-        this.node.parent.addChild(player);
+        this.playerListNode.addChild(player);
       }
     });
     // console.log(this.photon_instance.myRoomActors());
   }
   move_actor(actor: any) {
-    if (this.node.parent.getChildByName(actor.actorNr.toString()) != null) {
+    if (this.playerListNode.getChildByName(actor.actorNr.toString()) != null) {
       if (actor.actorNr != this.photon_instance.myActor().actorNr) {
-        var child = this.node.parent.getChildByName(actor.actorNr.toString());
+        var child = this.playerListNode.getChildByName(actor.actorNr.toString());
         child.setPosition(actor.position);
       }
     }
   }
   kill_otheractor(e, actor: any = { name: this.killed_actor.name, position: this.killed_actor.getPosition() }) {
-    console.log(actor);
     if (actor.name != this.photon_instance.myActor().actorNr.toString()) {
-      console.log(actor);
       if (e != null)
         this.photon_instance.raiseEvent(Photonevents.Killotheractors, {
           name: actor.name,
           position: actor.position,
         });
-      // console.log("kill");
     } else {
       this.health--;
       this.photon_instance.myActor().setCustomProperty("health", this.health);
@@ -412,34 +375,25 @@ export class PlayerMovement extends Component {
         this.health--;
       }
       this.updateHealth();
-      console.log(actor.name);
       if (this.health == 0) {
-        if (this.node.parent.getChildByName(actor.name + "killedplayer") == null) {
+        if (this.playerListNode.getChildByName(actor.name + "killedplayer") == null) {
           if (this.node.getComponent(Sprite).color.toRGBValue() != Color.GREEN.toRGBValue()) {
             let killed_sprites = instantiate(this.player_prefab);
             killed_sprites.name = actor.name + "killedplayer";
             killed_sprites.setPosition(new Vec3(actor.position.x, actor.position.y, 0));
-            console.log(new Vec3(actor.position.x, actor.position.y, 0));
-            console.log(killed_sprites);
             killed_sprites.getComponent(RigidBody2D).enabled = false;
-
             killed_sprites.getComponent(BoxCollider2D).enabled = false;
             // killed_sprites.getComponent(RigidBody2D).enabled=false
             killed_sprites.getComponent(Sprite).spriteFrame = this.killed_player_image;
-            // killed_sprites.setScale(new Vec3(0.2, 0.3, 0.5));
-            console.log(killed_sprites.getPosition());
-
-            this.node.parent.addChild(killed_sprites);
+            this.playerListNode.addChild(killed_sprites);
             this.node.getComponent(Sprite).grayscale = true;
             if (this.node.getChildByName("gun").children.length != 0)
               this.node.getChildByName("gun").children[0].destroy();
-
             this.playershud.active = false;
             this.camera.getComponent(Camera).visibility = 3;
             this.node.getComponent(CircleCollider2D).enabled = false;
             let currentliveplayers = Number(this.photon_instance.myRoom().getCustomProperty("liveplayers")) + 1;
             this.photon_instance.myRoom().setCustomProperty("liveplayers", currentliveplayers);
-            console.log(this.photon_instance.myRoom().getCustomProperty("liveplayers"));
 
             this.photon_instance.raiseEvent(Photonevents.Killactor, {
               name: actor.name,
@@ -463,22 +417,16 @@ export class PlayerMovement extends Component {
     }
   }
   zombie_otheractor(e, actor: any = { name: this.killed_actor.name }) {
-    console.log(actor);
     if (actor.name != this.photon_instance.myActor().actorNr.toString()) {
       if (e != null) this.photon_instance.raiseEvent(Photonevents.Zombieotheractor, { name: actor.name });
-      console.log("kill");
     } else {
-      console.log(actor.name);
       if (
-        this.node.parent.getChildByName(actor.name + "killedplayer") == null &&
+        this.playerListNode.getChildByName(actor.name + "killedplayer") == null &&
         this.node.getComponent(Sprite).color != Color.GREEN
       ) {
-        console.log(this.photon_instance.myRoom().getCustomProperty("totalzombies"));
-
         if (this.photon_instance.myRoom().getCustomProperty("totalzombies") < 1) {
           setTimeout(() => {
             this.node.getComponent(Sprite).color = Color.GREEN;
-            console.log(actor);
             this.photon_instance.raiseEvent(Photonevents.Zombieactor, { name: actor.name });
           }, randomRangeInt(0, 5) * 1000);
           this.playershud.active = false;
@@ -487,7 +435,6 @@ export class PlayerMovement extends Component {
           this.node.getComponent(RigidBody2D).group = 1 << 2;
           let totalzombies = Number(this.photon_instance.myRoom().getCustomProperty("totalzombies")) + 1;
           this.photon_instance.myRoom().setCustomProperty("totalzombies", totalzombies);
-          console.log(this.photon_instance.myRoom().getCustomProperty("totalzombies"));
           let currentliveplayers = Number(this.photon_instance.myRoom().getCustomProperty("liveplayers")) + 1;
           this.photon_instance.myRoom().setCustomProperty("liveplayers", currentliveplayers);
         }
@@ -495,26 +442,23 @@ export class PlayerMovement extends Component {
     }
   }
   enableanimation(actorNr: number, content: any) {
-    if (this.node.parent.getChildByName(actorNr.toString()) != null) {
-      var child = this.node.parent.getChildByName(actorNr.toString());
+    if (this.playerListNode.getChildByName(actorNr.toString()) != null) {
+      var child = this.playerListNode.getChildByName(actorNr.toString());
       this.getDirection(child, content);
     }
   }
   destroycharacter(actor: Photon.LoadBalancing.Actor) {
-    if (this.node.parent.getChildByName(actor.actorNr.toString()) != null) {
-      var child = this.node.parent.getChildByName(actor.actorNr.toString());
+    if (this.playerListNode.getChildByName(actor.actorNr.toString()) != null) {
+      var child = this.playerListNode.getChildByName(actor.actorNr.toString());
       child.destroy();
     }
   }
   update(deltaTime: number) {
     if (this.canMovePlayer) {
-      // console.log("player movement ", this.intialPos.x * this.playerSpeed, this.intialPos.y * this.playerSpeed);
-
       this.node.getComponent(RigidBody2D).linearVelocity = new Vec2(
         this.intialPos.x * this.playerSpeed,
         this.intialPos.y * this.playerSpeed
       );
-      // this.photon_instance.myActor().setCustomProperty("position", this.node.getPosition());
       this.photon_instance.raiseEvent(Photonevents.Move, {
         actorNr: this.photon_instance.myActor().actorNr,
         position: this.node.getPosition(),
@@ -541,7 +485,7 @@ export class PlayerMovement extends Component {
       this.notification.getComponent(Label).string = this.photon_instance.totalmessages.length;
     }
 
-    this.node.parent.children.forEach((e) => {
+    this.playerListNode.children.forEach((e) => {
       e.updateWorldTransform();
       if (
         e.getComponent(Sprite).color.toRGBValue() != Color.GREEN.toRGBValue() &&

@@ -3,14 +3,10 @@ const { ccclass, property } = _decorator;
 
 @ccclass("DISPLAYMAPS")
 export class DISPLAYMAPS extends Component {
-  @property({ type: Camera })
-  camera: Camera = null;
-  @property({ type: Node })
-  center: Node = null;
-  @property({ type: Node })
-  backGroundNode: Node = null;
-  @property({ type: Node })
-  closeButton: Node = null;
+  @property({ type: Camera }) camera: Camera = null;
+  @property({ type: Node }) center: Node = null;
+  @property({ type: Node }) backGroundNode: Node = null;
+  @property({ type: Node }) closeButton: Node = null;
 
   positions: Vec3 = null;
   positionofcamera: Vec3 = null;

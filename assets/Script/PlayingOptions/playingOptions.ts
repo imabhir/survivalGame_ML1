@@ -45,13 +45,14 @@ export class playingOptions extends Component {
 
   @property({ type: Prefab })
   playerLobbyPrefab: Prefab = null;
+
   resourceInstance = resourceManager.getInstance();
   audioInstance = audioManager.getInstance();
   photon_instance: any;
   playerLobby: Node = null;
   newFlag: string = "";
   onLoad() {
-    console.log("on load call ");
+    // console.log("on load call ");
     this.showMode();
     this.applyMusic();
 
@@ -82,7 +83,7 @@ export class playingOptions extends Component {
     });
   }
   showMode() {
-    console.log("show mode function call ");
+    // console.log("show mode function call ");
 
     let array = ["CREATE ROOM", "QUICK PLAY", "JOIN ROOM"];
     let check1 = {};
@@ -120,7 +121,7 @@ export class playingOptions extends Component {
             ) {
               this.JoinRoom.children[0].getComponent(Label).string += array[2][Math.round(ratio * 10)];
               check3[Math.round(ratio * 10)] = Math.round(ratio * 10);
-              console.log("logged", current, start, end, ratio);
+              // console.log("logged", current, start, end, ratio);
             }
 
             return 0;
@@ -128,7 +129,7 @@ export class playingOptions extends Component {
         }
       )
       .call(() => {
-        console.log("logged");
+        // console.log("logged");
       })
       .start();
   }

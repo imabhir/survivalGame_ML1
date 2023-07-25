@@ -755,6 +755,9 @@
     "closeButton": {
       "__id__": 40
     },
+    "parentNode": {
+      "__id__": 1
+    },
     "_id": ""
   },
   {

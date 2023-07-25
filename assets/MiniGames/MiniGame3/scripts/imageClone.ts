@@ -19,23 +19,13 @@ const { ccclass, property } = _decorator;
 
 @ccclass("imageClone")
 export class imageClone extends Component {
-  @property({ type: Prefab })
-  whiteSquare: Prefab = null;
-
-  @property({ type: Node })
-  colorPallete: Node = null;
-
-  @property({ type: Node })
-  imageBackground: Node = null;
-
-  @property({ type: Node })
-  taskCompleted: Node = null;
-
-  @property({ type: SpriteFrame })
-  Incorrect: SpriteFrame = null;
-
-  @property({ type: Node })
-  closeButton: Node = null;
+  @property({ type: Prefab }) whiteSquare: Prefab = null;
+  @property({ type: Node }) colorPallete: Node = null;
+  @property({ type: Node }) imageBackground: Node = null;
+  @property({ type: Node }) taskCompleted: Node = null;
+  @property({ type: SpriteFrame }) Incorrect: SpriteFrame = null;
+  @property({ type: Node }) closeButton: Node = null;
+  @property({ type: Node }) parentNode: Node = null;
 
   defaultColor: Color = Color.WHITE;
   // Variable for checking if all the colors are filled in white squares
@@ -45,7 +35,8 @@ export class imageClone extends Component {
   onLoad() {
     this.taskCompleted.active = false;
     this.closeButton.on(Input.EventType.TOUCH_START, () => {
-      this.node.parent.parent.destroy();
+      this.parentNode.destroy();
+
       this.closeButton.destroy();
     });
     this.generateImageClone();
@@ -103,13 +94,13 @@ export class imageClone extends Component {
       setTimeout(() => {
         photonmanager.Instance.photon_instance.myRoom().setCustomProperty("Minigame3", true);
 
-        this.node.parent.parent.destroy();
+        this.parentNode.destroy();
       }, 1000);
       this.taskCompleted.active = true;
     } else {
       this.taskCompleted.active = true;
       setTimeout(() => {
-        this.node.parent.parent.destroy();
+        this.parentNode.destroy();
       }, 1000);
       this.taskCompleted.getComponent(Sprite).spriteFrame = this.Incorrect;
     }

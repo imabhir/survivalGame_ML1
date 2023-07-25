@@ -14,8 +14,6 @@ import {
   Label,
   SpriteFrame,
 } from "cc";
-// import { gameData } from '../../gameData';
-// import { modes } from '../Modes/scripts/modes';
 import { photonmanager } from "../../Script/photon/photonmanager";
 import { gameData } from "../singleton/gameData";
 import { Photonevents } from "../photon/cloud-app-info";
@@ -23,27 +21,16 @@ const { ccclass, property } = _decorator;
 
 @ccclass("playerslobby")
 export class playerslobby extends Component {
-  @property({ type: Prefab })
-  players: Prefab = null;
-  @property({ type: Prefab })
-  player: Prefab = null;
-  @property({ type: Prefab })
-  map: Prefab = null;
-
-  @property({ type: JsonAsset })
-  playerCountInfo: JsonAsset = null;
-
-  @property({ type: Node })
-  selectMapButton: Node = null;
-
-  @property({ type: Node })
-  MostVotedMap: Node = null;
-  @property({ type: Prefab })
-  timer: Prefab = null;
+  @property({ type: Prefab }) players: Prefab = null;
+  @property({ type: Prefab }) player: Prefab = null;
+  @property({ type: Prefab }) map: Prefab = null;
+  @property({ type: JsonAsset }) playerCountInfo: JsonAsset = null;
+  @property({ type: Node }) selectMapButton: Node = null;
+  @property({ type: Node }) MostVotedMap: Node = null;
+  @property({ type: Prefab }) timer: Prefab = null;
 
   gameDataInstance: gameData;
   photon: any;
-
   targetMapNode: Node = null;
   allNums: number[];
   Min: number = 0;
@@ -224,6 +211,7 @@ export class playerslobby extends Component {
         }
       }
       let timeProperty = photonmanager.Instance.photon_instance.myRoom().getCustomProperty("timer");
+      timeProperty--;
       photonmanager.Instance.photon_instance.myRoom().setCustomProperty("timer", timeProperty);
       this.Sec = photonmanager.Instance.photon_instance.myRoom().getCustomProperty("timer");
       let m = this.Min < 10 ? "0" + this.Min : this.Min;

@@ -18,10 +18,9 @@ export class RoomCreation extends Component {
     });
   }
   createroom() {
-    console.log(this.RoomName.getComponent(EditBox).string);
+    // console.log(this.RoomName.getComponent(EditBox).string);
     this.photon_instance.roomname = this.RoomName.getComponent(EditBox).string;
     this.node.active = false;
-    // director.loadScene("playersLobby", this.callback)
     this.playerLobby.active = true;
     this.callback();
   }
@@ -29,7 +28,6 @@ export class RoomCreation extends Component {
     this.playerLobby = playerLobby;
   }
   callback() {
-    // this.playerLobby = playerLobby;
     let photon_instance = photonmanager.Instance.photon_instance;
     if (photon_instance.isInLobby()) {
       console.log(photon_instance.roomname);
